@@ -24,8 +24,13 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "Math.h"
+#include "Stage.h"
+#include "StageWall.h"
 
 USING_NS_CC;
+#define STAGE_SIZE_X (700)
+#define STAGE_SIZE_Y (500)
 
 Scene* HelloWorld::createScene()
 {
@@ -103,6 +108,7 @@ bool HelloWorld::init()
 
     // add "HelloWorld" splash screen"
     auto sprite = Sprite::create("HelloWorld.png");
+	
     if (sprite == nullptr)
     {
         problemLoading("'HelloWorld.png'");
@@ -113,8 +119,65 @@ bool HelloWorld::init()
         sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
         // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
+        this->addChild(sprite, 0,"Hello");
     }
+
+	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
+	auto stageLayer = Layer::create();
+	stageLayer->setName("StageLayer");
+	stageLayer->setAnchorPoint({ 0, 0 });
+	auto a = stageLayer->getPosition();
+	this->addChild(stageLayer);
+
+	
+	float maxDepth = 1000;
+	int divisionCnt = 50;
+	float magnification = maxDepth / (divisionCnt * divisionCnt);
+
+	// 奥行
+	for (float z = divisionCnt; z >0; z --)
+	{
+		float zz = z * z * magnification;
+		zz = maxDepth - zz;
+		zdepth.emplace_back(zz);
+	}
+
+	// ﾌｨｰﾙﾄﾞの基本サイズ
+	Point rect = { 700,500 };
+	// color用ｶｳﾝﾄ
+	int cnt = 0;
+	// ﾌｨｰﾙﾄﾞ用ｽﾌﾟﾗｲﾄの作成
+	for (int k = 0; k < zdepth.size(); k++)
+	{
+		auto color = new Color3B(
+			255 - (255 * (zdepth[k] / 1000)),
+			255 - (255 * (zdepth[k] / 1000)),
+			255 - (255 * (zdepth[k] / 1000)));
+		auto stageWall = new StageWall( visibleSize / 2, zdepth[k], color);
+		stageLayer->addChild(stageWall);
+
+	}
+
+
+	//// ｽﾌﾟﾗｲﾄ生成
+	//auto square = Sprite::create();
+
+	//Rect deformationRect = { 0,0,700,500 };
+	//// 矩形のｽﾌﾟﾗｲﾄ縮小によって黒色に近づく
+	//square->setTextureRect(deformationRect);
+	//// 画面中央に表示
+	//square->setPosition(visibleSize / 2);
+
+	//auto a = square->getTexture();
+	//stageLayer->addChild(square);
+
+
+	//auto d = new Stage();
+	//stageLayer->addChild(d);
+	//this->addChild(stageLayer);
+
+	this->scheduleUpdate();
+
     return true;
 }
 
@@ -129,5 +192,29 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
+
+}
+
+void HelloWorld::update(float dt)
+{
+
+	// auto visibleSize = Director::getInstance()->getVisibleSize();
+	//// 上下左右順
+	//std::array<Vec2, 2> _square;
+	//_square = { Vec2{-300,-250},Vec2{300,250} };
+	//float nomalSize = abs(_square[0].x) + abs(_square[1].x);
+
+
+	//for (float z = 0; z <= 2000; z += 200)
+	//{
+	//	auto a = DrawNode::create();
+	//	float w = nomalSize + ((2000 - nomalSize) * (z / nomalSize));
+	//	float scale = nomalSize / w;
+	//	Vec2 startPos = { _square[0].x * scale,_square[0].y * scale };
+	//	Vec2 endPos = { _square[1].x * scale ,_square[1].y * scale };
+	//	a->drawRect(startPos, endPos, Color4F::GREEN);
+	//	a->setPosition(visibleSize / 2);
+	//	this->addChild(a);
+	//};
 
 }

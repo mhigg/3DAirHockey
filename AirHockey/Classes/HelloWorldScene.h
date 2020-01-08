@@ -27,6 +27,8 @@
 
 #include "cocos2d.h"
 
+#include <vector>
+
 class HelloWorld : public cocos2d::Scene
 {
 public:
@@ -39,6 +41,11 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+
+
+	void update(float dt);
+
+	std::vector<float> zdepth;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
