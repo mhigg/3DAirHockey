@@ -28,6 +28,8 @@
 #include "Stage.h"
 #include "StageWall.h"
 
+#include "player.h"
+
 USING_NS_CC;
 #define STAGE_SIZE_X (700)
 #define STAGE_SIZE_Y (500)
@@ -127,7 +129,7 @@ bool HelloWorld::init()
 	stageLayer->setName("StageLayer");
 	stageLayer->setAnchorPoint({ 0, 0 });
 	auto a = stageLayer->getPosition();
-	this->addChild(stageLayer);
+	this->addChild(stageLayer, static_cast<int>(LayerNum::STAGE));
 
 	
 	float maxDepth = 1000;
@@ -153,6 +155,8 @@ bool HelloWorld::init()
 			255 - (255 * (zdepth[k] / 1000)),
 			255 - (255 * (zdepth[k] / 1000)),
 			255 - (255 * (zdepth[k] / 1000)));
+
+		//// 未解決の外部シンボルエラーが出ていたので、コメントアウトをしている　◆
 		auto stageWall = new StageWall( visibleSize / 2, zdepth[k], color);
 		stageLayer->addChild(stageWall);
 
@@ -175,6 +179,12 @@ bool HelloWorld::init()
 	//auto d = new Stage();
 	//stageLayer->addChild(d);
 	//this->addChild(stageLayer);
+	
+	/// プレイヤーの生成
+	auto charLayer = Layer::create();
+	auto player = Player::createPlayer();
+	charLayer->addChild(player);
+	this->addChild(charLayer, static_cast<int>(LayerNum::PLAYER));
 
 	this->scheduleUpdate();
 

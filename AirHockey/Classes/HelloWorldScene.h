@@ -29,6 +29,16 @@
 
 #include <vector>
 
+// ÉåÉCÉÑÅ[ÇÃZOrderóp
+enum class LayerNum
+{
+	STAGE,
+	BALL,
+	PLAYER,
+	EFFECT,
+	FRONT,
+};
+
 class HelloWorld : public cocos2d::Scene
 {
 public:
@@ -41,7 +51,6 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
-
 
 	void update(float dt);
 
