@@ -25,9 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Math.h"
-#include "Stage.h"
 #include "StageWall.h"
-
+#include "Ball.h"
 #include "player.h"
 
 USING_NS_CC;
@@ -127,27 +126,24 @@ bool HelloWorld::init()
 	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
 	auto stageLayer = Layer::create();
 	stageLayer->setName("StageLayer");
-	stageLayer->setAnchorPoint({ 0, 0 });
-	auto a = stageLayer->getPosition();
-	this->addChild(stageLayer, static_cast<int>(LayerNum::STAGE));
+	this->addChild(stageLayer);
 
-	
+	// ｽﾃｰｼﾞの壁作成
+	// 奥行の最大値
 	float maxDepth = 1000;
-	int divisionCnt = 50;
-	float magnification = maxDepth / (divisionCnt * divisionCnt);
-
-	// 奥行
-	for (float z = divisionCnt; z >0; z --)
+	// 壁の最大数
+	int wallMaxNum = 30;
+	// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成
+	float magnification = maxDepth / (wallMaxNum * wallMaxNum);
+	// 奥行の作成
+	for (float x = wallMaxNum; x > 0; x--)
 	{
-		float zz = z * z * magnification;
-		zz = maxDepth - zz;
-		zdepth.emplace_back(zz);
+		float depth = x * x * magnification;
+		depth = maxDepth - depth;
+		zdepth.emplace_back(depth);
 	}
-
 	// ﾌｨｰﾙﾄﾞの基本サイズ
-	Point rect = { 700,500 };
-	// color用ｶｳﾝﾄ
-	int cnt = 0;
+	Point wallSize = { 700,500 };
 	// ﾌｨｰﾙﾄﾞ用ｽﾌﾟﾗｲﾄの作成
 	for (int k = 0; k < zdepth.size(); k++)
 	{
@@ -155,30 +151,20 @@ bool HelloWorld::init()
 			255 - (255 * (zdepth[k] / 1000)),
 			255 - (255 * (zdepth[k] / 1000)),
 			255 - (255 * (zdepth[k] / 1000)));
-
-		//// 未解決の外部シンボルエラーが出ていたので、コメントアウトをしている　◆
-		auto stageWall = new StageWall( visibleSize / 2, zdepth[k], color);
+		auto stageWall = new StageWall({ 0, 0 }, zdepth[k], wallSize, color);
+		// ｽﾃｰｼﾞﾚｲﾔｰに追加
 		stageLayer->addChild(stageWall);
-
 	}
 
-
-	//// ｽﾌﾟﾗｲﾄ生成
-	//auto square = Sprite::create();
-
-	//Rect deformationRect = { 0,0,700,500 };
-	//// 矩形のｽﾌﾟﾗｲﾄ縮小によって黒色に近づく
-	//square->setTextureRect(deformationRect);
-	//// 画面中央に表示
-	//square->setPosition(visibleSize / 2);
-
-	//auto a = square->getTexture();
-	//stageLayer->addChild(square);
+	// ﾎﾞｰﾙ用ﾚｲﾔｰ
+	auto ballLayer = Layer::create();
+	ballLayer->setName("BallLayer");
+	this->addChild(ballLayer);
+	// ﾎﾞｰﾙ作成
+	auto ball = new Ball(zdepth);
+	ballLayer->addChild(ball);
 
 
-	//auto d = new Stage();
-	//stageLayer->addChild(d);
-	//this->addChild(stageLayer);
 	
 	/// プレイヤーの生成
 	auto charLayer = Layer::create();

@@ -1,5 +1,7 @@
 #include "PointWithDepth.h"
 
+std::unique_ptr<PointWithDepth, PointWithDepth::PointWithDepthDeleter> PointWithDepth::s_Instance(new PointWithDepth());	// ｲﾝｽﾀﾝｽ用ﾕﾆｰｸﾎﾟｲﾝﾀｰ
+
 #define Z_START_POINT	(0)		// Z(奥行の始点)
 #define Z_END_POINT		(1200)	// Z(奥行の終点)
 #define X_MAGNIFICATION (3.0f)		// Xの消失点を動かす倍率
@@ -12,7 +14,7 @@ PointWithDepth::PointWithDepth()
 
 	// 消失点の設定(とりあえずで画面中央に設定)
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-	_firstVanishingPoint = { visibleSize.width / 2, visibleSize.height / 2 };
+	_firstVanishingPoint = { 1024 / 2, 576 / 2 };
 	_nowVanishingPoint = _firstVanishingPoint;
 
 	// 消失点を動かす倍率
@@ -27,20 +29,31 @@ PointWithDepth::~PointWithDepth()
 {
 }
 
-void PointWithDepth::SetWorldPosition(float local_x, float local_y, float local_z)
+cocos2d::Point PointWithDepth::SetWorldPosition(cocos2d::Vec3 localPos)
 {
-	// ｽﾌﾟﾗｲﾄの大きさの設定(1～0)まで
-	_scale = (local_z - _zDepth.second) / (_zDepth.first - _zDepth.second);
+	// ｽﾌﾟﾗｲﾄの大きさの設定
+	GetScale(localPos.z);
 
 	// XとYの座標計算
 	PointNormalize(_nowVanishingPoint);
-	this->x = _firstVanishingPoint.x + (_scale - 1) * ((local_x + _nowVanishingPoint.x * _magnification.x) * _normalizePoint.x);
-	this->y = _firstVanishingPoint.y + (_scale - 1) * ((local_y + _nowVanishingPoint.y * _magnification.y) * _normalizePoint.y);
+
+	cocos2d::Point pos;
+
+	// 奥行の式
+	pos.x = _firstVanishingPoint.x + (_scale - 1) * (_nowVanishingPoint.x * _magnification.x * _normalizePoint.x);
+	pos.y = _firstVanishingPoint.y + (_scale - 1) * (_nowVanishingPoint.y * _magnification.y * _normalizePoint.y);
+
+	// 座標の更新
+	pos.x += (_scale) * (localPos.x /** _magnification.x * _normalizePoint.x*/);
+	pos.y += (_scale) * (localPos.y/* * _magnification.y * _normalizePoint.y*/);
+
+	return pos;
 }
 
-float PointWithDepth::GetScale(void)
+float PointWithDepth::GetScale(float local_z)
 {
-	return _scale;
+	// ｽﾌﾟﾗｲﾄの大きさの設定(1～0)まで
+	return _scale = (local_z - _zDepth.second) / (_zDepth.first - _zDepth.second);;
 }
 
 void PointWithDepth::SetVanishingPoint(cocos2d::Point pos)
