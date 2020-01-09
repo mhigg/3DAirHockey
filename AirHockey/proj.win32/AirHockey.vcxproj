@@ -164,6 +164,7 @@
     <ClCompile Include="..\Classes\Player.cpp" />
     <ClCompile Include="..\Classes\PointWithDepth.cpp" />
     <ClCompile Include="..\Classes\StageWall.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +178,7 @@
     <ClInclude Include="..\Classes\Player.h" />
     <ClInclude Include="..\Classes\PointWithDepth.h" />
     <ClInclude Include="..\Classes\StageWall.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
