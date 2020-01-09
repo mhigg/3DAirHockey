@@ -155,16 +155,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\Ball.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\MouseCtl.cpp" />
+    <ClCompile Include="..\Classes\Obj.cpp" />
+    <ClCompile Include="..\Classes\OPRT_Key.cpp" />
+    <ClCompile Include="..\Classes\OPRT_State.cpp" />
     <ClCompile Include="..\Classes\Player.cpp" />
+    <ClCompile Include="..\Classes\PointWithDepth.cpp" />
+    <ClCompile Include="..\Classes\StageWall.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\Ball.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\MouseCtl.h" />
+    <ClInclude Include="..\Classes\Obj.h" />
+    <ClInclude Include="..\Classes\OPRT_Key.h" />
+    <ClInclude Include="..\Classes\OPRT_State.h" />
     <ClInclude Include="..\Classes\Player.h" />
+    <ClInclude Include="..\Classes\PointWithDepth.h" />
+    <ClInclude Include="..\Classes\StageWall.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

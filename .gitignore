@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+/AirHockey/proj.win32/Debug.win32/AirHockey.Build.CppClean.log
+/AirHockey/proj.win32/Debug.win32/AirHockey.log
+/AirHockey/proj.win32/Debug.win32/AirHockey.Build.CppClean.log
+/AirHockey/proj.win32/Debug.win32/AirHockey.log
+/AirHockey/proj.win32/Debug.win32/AirHockey.pdb
+/AirHockey/proj.win32/Debug.win32/libcocos2d.pdb
+/AirHockey/proj.win32/Debug.win32/vc141.pdb
+/AirHockey/proj.win32/Debug.win32/vc141.idb
+/AirHockey/proj.win32/Debug.win32
+/AirHockey/proj.win32/.vs
+/AirHockey/proj.win32/Debug.win32
