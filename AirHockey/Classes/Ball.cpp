@@ -97,7 +97,7 @@ void Ball::update(float dt)
 		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ +1, 0 });
 	}
 
-	lpEffectMng.PlayEffect("Ball", lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
+//	lpEffectMng.PlayEffect("Ball", lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
 }
 
 bool Ball::Init(void)
