@@ -22,6 +22,12 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{0db9ac4b-024e-4675-94c6-a44f8d02e121}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{dfd6866a-2ffe-4894-8fd7-7c504840d596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effecseer">
+      <UniqueIdentifier>{df93dd45-a596-4ce7-af01-3d3e04c1d32c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -57,7 +63,22 @@
     <ClCompile Include="..\Classes\Obj.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Collision.cpp" />
+    <ClCompile Include="..\Classes\EffectMng.cpp">
+      <Filter>Effecseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer.cpp">
+      <Filter>Effecseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\EffekseerNative.cpp">
+      <Filter>Effecseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\EffekseerRendererNative.cpp">
+      <Filter>Effecseer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -93,7 +114,22 @@
     <ClInclude Include="..\Classes\Obj.h">
       <Filter>Obj</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h" />
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Collision.h" />
+    <ClInclude Include="..\Classes\EffectMng.h">
+      <Filter>Effecseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer.h">
+      <Filter>Effecseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\EffekseerNative.h">
+      <Filter>Effecseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\EffekseerRendererNative.h">
+      <Filter>Effecseer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

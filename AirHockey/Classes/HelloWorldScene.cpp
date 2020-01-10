@@ -30,8 +30,6 @@
 #include "player.h"
 
 USING_NS_CC;
-#define STAGE_SIZE_X (700)
-#define STAGE_SIZE_Y (500)
 
 Scene* HelloWorld::createScene()
 {
@@ -168,7 +166,7 @@ bool HelloWorld::init()
 	
 	/// ƒvƒŒƒCƒ„[‚Ì¶¬
 	auto charLayer = Layer::create();
-	auto player = Player::createPlayer();
+	auto player = Player::createPlayer(0);
 	charLayer->addChild(player);
 	this->addChild(charLayer, static_cast<int>(LayerNum::PLAYER));
 

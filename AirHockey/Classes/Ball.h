@@ -2,6 +2,7 @@
 #include "Obj.h"
 #include <vector>
 #include "OPRT_State.h"
+#include "EffectMng.h"
 
 class Ball :
 	public Obj
@@ -14,13 +15,12 @@ private:
 	bool Init(void);
 	void update(float dt) override;
 
-	std::vector<float> _wallDepth;// •Ç‚Ì‰œs
-	float _radius;	// ‹Ê‚Ì”¼Œa
+	std::vector<float> _wallDepth;	// •Ç‚Ì‰œs
+	float _radius;					// ‹Ê‚Ì”¼Œa
 	
 	bool xReverse = false;
 	bool yReverse = false;
 	bool zReverse = false;
 	
-
 	OPRT_State* _state;
 };

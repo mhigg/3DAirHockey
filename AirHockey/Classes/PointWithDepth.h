@@ -15,7 +15,7 @@ class PointWithDepth
 public:
 	static PointWithDepth& GetInstance()	// ｱﾄﾞﾚｽが欲しいためﾎﾟｲﾝﾀｰか参照で
 	{
-		return (*s_Instance);		// *で中身(ｸﾗｽの実体)を返す
+		return (*s_Instance);				// *で中身(ｸﾗｽの実体)を返す
 	}
 
 	cocos2d::Point SetWorldPosition(cocos2d::Vec3 localPos);	// scaleと座標を1点透視図法で計算する
@@ -45,5 +45,5 @@ private:
 	cocos2d::Point _normalizePoint;			// 
 	cocos2d::Point _magnification;			// 消失点を動かす倍率()
 
-	float _scale;														// ｽﾌﾟﾗｲﾄの大きさ
+	float _scale;							// ｽﾌﾟﾗｲﾄの大きさ
 };

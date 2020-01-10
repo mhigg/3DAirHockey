@@ -26,7 +26,7 @@ Player::~Player()
 
 Player * Player::createPlayer(const float& depth)
 {
-	_depth = depth;
+	//_depth = depth;
 	return Player::create();
 }
 

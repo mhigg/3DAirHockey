@@ -97,14 +97,15 @@ void Ball::update(float dt)
 		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ +1, 0 });
 	}
 
-
+	lpEffectMng.PlayEffect("Ball", lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
 }
 
 bool Ball::Init(void)
 {
 	// ‰ŠúÀ•W
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-	_localPos = { 0,0,_wallDepth[0]};
+	_localPos = { 0,0,_wallDepth[0] };
+
 	// Ã¸½Á¬°
 	setTexture("ball.png");
 	// ”¼Œa(‰æ‘œ‚Ì‘å‚«‚³/2)

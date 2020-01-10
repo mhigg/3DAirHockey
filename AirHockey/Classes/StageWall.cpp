@@ -19,7 +19,6 @@ StageWall::StageWall(cocos2d::Vec2 pos, float zDepth, cocos2d::Point size, cocos
 	// ˆê“_“§‹}–@‚É‚µ‚½‚Ì‰æ‘œ‚Ì»²½Şİ’è
 	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
 
-
 	// 1ÌÚ°Ñ‚²‚Æ‚Éupdate‚ğ
 	cocos2d::Node::scheduleUpdate();
 
