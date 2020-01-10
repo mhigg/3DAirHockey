@@ -79,6 +79,9 @@
     <ClCompile Include="..\Classes\EffekseerRendererNative.cpp">
       <Filter>Effecseer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GameManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -129,6 +132,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\EffekseerRendererNative.h">
       <Filter>Effecseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameManager.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -30,6 +30,8 @@
 #include "Player.h"
 #include "EffectMng.h"
 
+#include "GameManager.h"
+
 USING_NS_CC;
 
 GameScene::~GameScene()
@@ -122,6 +124,13 @@ bool GameScene::init()
 	auto player = Player::createPlayer(0);
 	charLayer->addChild(player);
 	this->addChild(charLayer, static_cast<int>(LayerNum::PLAYER));
+
+	/// ƒQ[ƒ€ŠÇ—ŽÒ‚Ì¶¬
+	/*auto gameLayer = Layer::create();
+	auto gameMng   = GameManager::createGameMng();
+	gameLayer->addChild(gameMng);
+	this->addChild(gameLayer, static_cast<int>(LayerNum::STAGE));
+*/
 	
 	// 1ÌÚ°Ñ‚²‚Æ‚Éupdate‚ð
 	this->scheduleUpdate();

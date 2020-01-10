@@ -53,7 +53,7 @@ public:
     CREATE_FUNC(HelloWorld);
 
 	void update(float dt);
-
+private:
 	std::vector<float> zdepth;
 };
 
