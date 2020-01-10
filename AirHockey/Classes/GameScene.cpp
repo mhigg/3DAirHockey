@@ -110,27 +110,27 @@ bool GameScene::init()
 		stageLayer->addChild(stageWall);
 	}
 
-	// ﾎﾞｰﾙ用ﾚｲﾔｰ
-	auto ballLayer = Layer::create();
-	ballLayer->setName("BallLayer");
-	this->addChild(ballLayer);
-	// ﾎﾞｰﾙ作成
-	auto ball = new Ball(zdepth);
-	ballLayer->addChild(ball);
-	ballLayer->addChild(lpEffectMng.EffectInit("effect/Ball.efk", "Ball", 100.0f, 1.0f), 0);
+	//// ﾎﾞｰﾙ用ﾚｲﾔｰ
+	//auto ballLayer = Layer::create();
+	//ballLayer->setName("BallLayer");
+	//this->addChild(ballLayer);
+	//// ﾎﾞｰﾙ作成
+	//auto ball = new Ball(zdepth);
+	//ballLayer->addChild(ball);
+	////ballLayer->addChild(lpEffectMng.EffectInit("effect/Ball.efk", "Ball", 100.0f, 1.0f), 0);
 
-	/// プレイヤーの生成
-	auto charLayer = Layer::create();
-	auto player = Player::createPlayer(0);
-	charLayer->addChild(player);
-	this->addChild(charLayer, static_cast<int>(LayerNum::PLAYER));
+	///// プレイヤーの生成
+	//auto charLayer = Layer::create();
+	//auto player = Player::createPlayer(0);
+	//charLayer->addChild(player);
+	//this->addChild(charLayer, static_cast<int>(LayerNum::PLAYER));
 
 	/// ゲーム管理者の生成
-	/*auto gameLayer = Layer::create();
+	auto gameLayer = Layer::create();
 	auto gameMng   = GameManager::createGameMng();
 	gameLayer->addChild(gameMng);
-	this->addChild(gameLayer, static_cast<int>(LayerNum::STAGE));
-*/
+	this->addChild(gameLayer, static_cast<int>(LayerNum::GAME));
+
 	
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
@@ -154,14 +154,14 @@ void GameScene::update(float dt)
 	}
 }
 
-void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parentTransform, uint32_t parentFlags)
-{
-	// Effekseerの描画設定
-	for (auto data : lpEffectMng.GetManager())
-	{
-		data.second->begin(renderer, _globalZOrder);
-		cocos2d::Scene::visit(renderer, parentTransform, parentFlags);
-		data.second->end(renderer, _globalZOrder);
-	}
-}
+//void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parentTransform, uint32_t parentFlags)
+//{
+//	//// Effekseerの描画設定
+//	//for (auto data : lpEffectMng.GetManager())
+//	//{
+//	//	data.second->begin(renderer, _globalZOrder);
+//	//	cocos2d::Scene::visit(renderer, parentTransform, parentFlags);
+//	//	data.second->end(renderer, _globalZOrder);
+//	//}
+//}
 

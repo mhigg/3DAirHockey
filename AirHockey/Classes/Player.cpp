@@ -5,9 +5,12 @@ USING_NS_CC;
 
 Player::Player()
 {
-	/// 仮の画像を追加している
+	/// 仮の画像を追加している　◆
 	auto sprite = Sprite::create("player.png");
 	this->addChild(sprite);
+
+	/// プレイヤーのタグ名を設定している(仮)　◆
+	this->setName("player");
 
 	this->setPosition(Vec2::ZERO);
 	/// 仮のマウス設定
