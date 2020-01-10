@@ -1,0 +1,1 @@
+ninja: Entering directory `C:\Users\kurok\Desktop\AirHockeyProject\3DAirHockey\AirHockey\proj.android\app\.cxx\cmake\debug\armeabi-v7a'

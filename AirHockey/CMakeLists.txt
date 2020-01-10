@@ -50,10 +50,46 @@ endif()
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/HelloWorldScene.cpp
+     Classes/GameScene.cpp
+     Classes/Ball.cpp
+     Classes/Collision.cpp
+     Classes/OPRT_State.cpp
+     Classes/OPRT_Key.cpp
+     Classes/OPRT_Touch.cpp
+     Classes/Input_Touch.cpp
+     Classes/MouseCtl.cpp
+     Classes/Obj.cpp
+     Classes/Player.cpp
+     Classes/EffectMng.cpp
+     Classes/Effekseer.cpp
+     Classes/EffekseerNative.cpp
+     Classes/EffekseerRendererNative.cpp
+     Classes/GameManager.cpp
+     Classes/PointWithDepth.cpp
+     Classes/Stage.cpp
+     Classes/StageWall.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/HelloWorldScene.h
+     Classes/GameScene.h
+     Classes/Ball.h
+     Classes/Collision.h
+     Classes/OPRT_State.h
+     Classes/OPRT_Key.h
+     Classes/OPRT_Touch.h
+     Classes/Input_Touch.h
+     Classes/MouseCtl.h
+     Classes/Obj.h
+     Classes/Player.h
+     Classes/EffectMng.h
+     Classes/Effekseer.h
+     Classes/EffekseerNative.h
+     Classes/EffekseerRendererNative.h
+     Classes/GameManager.h
+     Classes/PointWithDepth.h
+     Classes/Stage.h
+     Classes/StageWall.h
      )
 
 if(ANDROID)
