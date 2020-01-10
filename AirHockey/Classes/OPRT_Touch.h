@@ -12,7 +12,7 @@ public:
 
 private:
 	void Update(void);			// 状態更新用
-
+	cocos2d::Vec2 GetPoint(void);
 	void Init();				// ﾎﾞﾀﾝ登録用
 	bool initOnceFlag = false;	// Initを一回だけ通すためのﾌﾗｸﾞ
 	

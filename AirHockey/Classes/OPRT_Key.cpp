@@ -139,4 +139,10 @@ void OPRT_Key::Update()
 	}
 }
 
+cocos2d::Vec2 OPRT_Key::GetPoint(void)
+{
+	return cocos2d::Vec2();
+
+}
+
 

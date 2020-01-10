@@ -12,6 +12,7 @@ public:
 
 private:
 	void Update(void);		// ó‘ÔXV
+	cocos2d::Vec2 GetPoint(void);
 };
 
 

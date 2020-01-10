@@ -50,6 +50,7 @@ public:
 	~OPRT_State();
 
 	virtual void Update(void) = 0;
+	virtual cocos2d::Vec2 GetPoint(void) = 0;
 
 	TRIGGER_STATE GetState(INPUT_ID inputId);	// Žw’è‚³‚ê‚½·°‚ÌŽæ“¾
 private:

@@ -62,6 +62,11 @@ void OPRT_Touch::Update(void)
 	}
 }
 
+cocos2d::Vec2 OPRT_Touch::GetPoint(void)
+{
+	return cocos2d::Vec2();
+}
+
 void OPRT_Touch::Init()
 {
 	// ‰æ–Ê‰ð‘œ“x‚ÌŽæ“¾
