@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "MouseCtl.h"
+#include "Input_Touch.h"
 
 USING_NS_CC;
 
@@ -17,7 +18,7 @@ Player::Player()
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_mouse.reset(new MouseCtl(this));
 #else
-	_oprtState.reset(new OPRT_Touch());
+	_oprtState.reset(new Input_Touch(this));
 #endif
 
 	this->scheduleUpdate();
@@ -39,6 +40,6 @@ void Player::update(float dt)
 	/// 座標の更新を行っている
 	this->setPosition(_mouse->GetPos());
 #else
-
+	this->setPosition(_oprtState->GetPos());
 #endif
 }

@@ -2,9 +2,9 @@
 
 #include <memory>
 #include "cocos2d.h"
+#include "OPRT_State.h"
 
 class MouseCtl;
-class OPRT_State;
 
 class Player : 
 	public cocos2d::Sprite
@@ -19,7 +19,7 @@ private:
 	CREATE_FUNC(Player);
 	std::unique_ptr<MouseCtl> _mouse;
 
-	//std::unique_ptr<OPRT_State> _oprtState;
+	std::unique_ptr<OPRT_State> _oprtState;
 
 	cocos2d::Size _size;
 	//static float _depth;			// 深度値 (createPlayerがstaticのため、staticを付けているが修正を考える) ◆
