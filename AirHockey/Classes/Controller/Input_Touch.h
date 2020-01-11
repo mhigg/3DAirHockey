@@ -9,9 +9,9 @@ public:
 	Input_Touch(cocos2d::Node* sprite);
 	~Input_Touch();
 
+	cocos2d::Vec2 GetPoint(void) const;
 private:
 	void Update(void);		// 状態更新
-	cocos2d::Vec2 GetPoint(void);
 	// タッチ座標
 	cocos2d::Vec2 _point;
 };

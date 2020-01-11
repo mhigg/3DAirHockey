@@ -52,9 +52,6 @@
     <ClCompile Include="..\Classes\Controller\OPRT_State.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Controller\OPRT_Touch.cpp">
-      <Filter>Controller</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Effekseer\EffectMng.cpp">
       <Filter>Effekseer</Filter>
     </ClCompile>
@@ -97,9 +94,6 @@
     <ClInclude Include="..\Classes\Collision.h" />
     <ClInclude Include="..\Classes\Character\Player.h">
       <Filter>Character</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Controller\OPRT_Touch.h">
-      <Filter>Controller</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Controller\Input_Touch.h">
       <Filter>Controller</Filter>

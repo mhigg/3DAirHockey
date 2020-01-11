@@ -32,11 +32,11 @@ Input_Touch::~Input_Touch()
 {
 }
 
-void Input_Touch::Update(void)
-{
-}
-
-cocos2d::Vec2 Input_Touch::GetPoint(void)
+cocos2d::Vec2 Input_Touch::GetPoint(void) const
 {
 	return _point;
+}
+
+void Input_Touch::Update(void)
+{
 }

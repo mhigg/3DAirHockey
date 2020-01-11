@@ -50,12 +50,12 @@ public:
 	~OPRT_State();
 
 	virtual void Update(void) = 0;
-	virtual cocos2d::Vec2 GetPoint(void) = 0;
+	virtual cocos2d::Vec2 GetPoint(void) const = 0;
 
 	TRIGGER_STATE GetState(INPUT_ID inputId);	// w’è‚³‚ê‚½·°‚Ìæ“¾
 private:
 	
 protected:
 	KeyMap state;	// ·°‚Æ“ü—Íó‘Ô‚ğ“ü‚ê‚éMAP
-
+	cocos2d::Vec2 _point;
 };

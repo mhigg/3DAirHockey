@@ -1,10 +1,7 @@
 #include "OPRT_Key.h"
 
-
-
 OPRT_Key::OPRT_Key()
 {
-
 }
 
 OPRT_Key::OPRT_Key(cocos2d::Node * sprite)
@@ -139,10 +136,9 @@ void OPRT_Key::Update()
 	}
 }
 
-cocos2d::Vec2 OPRT_Key::GetPoint(void)
+cocos2d::Vec2 OPRT_Key::GetPoint(void) const
 {
-	return cocos2d::Vec2();
-
+	return _point;
 }
 
 

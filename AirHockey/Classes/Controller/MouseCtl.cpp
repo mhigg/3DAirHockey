@@ -11,7 +11,7 @@ MouseCtl::MouseCtl(cocos2d::Node* node)
 		/// マウスの情報を取得している
 		auto mouse = ((EventMouse*)event);
 		/// 移動対象に対して、マウスの座標を渡している
-		_mPos = (Vec2(mouse->getCursorX(), mouse->getCursorY()));
+		_point = (Vec2(mouse->getCursorX(), mouse->getCursorY()));
 	};
 
 	/// マウス操作の登録を行っている(nodeの登録が必要ない場合、消す)
@@ -23,7 +23,11 @@ MouseCtl::~MouseCtl()
 {
 }
 
-cocos2d::Vec2 MouseCtl::GetPos() const
+void MouseCtl::Update()
 {
-	return _mPos;
+}
+
+cocos2d::Vec2 MouseCtl::GetPoint() const
+{
+	return _point;
 }

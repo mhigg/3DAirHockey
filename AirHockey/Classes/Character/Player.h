@@ -4,8 +4,6 @@
 #include "cocos2d.h"
 #include "Controller/OPRT_State.h"
 
-class MouseCtl;
-
 class Player : 
 	public cocos2d::Sprite
 {
@@ -18,7 +16,6 @@ public:
 private:
 	void update(float dt);
 	CREATE_FUNC(Player);
-	std::unique_ptr<MouseCtl> _mouse;
 
 	std::unique_ptr<OPRT_State> _oprtState;
 
