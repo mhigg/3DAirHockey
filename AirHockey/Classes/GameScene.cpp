@@ -128,6 +128,7 @@ bool GameScene::init()
 	/// ƒQ[ƒ€ŠÇ—ŽÒ‚Ì¶¬
 	auto gameLayer = Layer::create();
 	auto gameMng   = GameManager::createGameMng();
+	gameLayer->setName("gameLayer");
 	gameLayer->addChild(gameMng);
 	this->addChild(gameLayer, static_cast<int>(LayerNum::GAME));
 

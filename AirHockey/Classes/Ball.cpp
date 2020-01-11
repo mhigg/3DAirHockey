@@ -1,5 +1,9 @@
 #include "Ball.h"
 #include "OPRT_Key.h"
+#include "Player.h"
+#include "Collision.h"
+
+USING_NS_CC;
 
 Ball::Ball(std::vector<float> depth)
 {
@@ -18,14 +22,27 @@ Ball::~Ball()
 
 void Ball::update(float dt)
 {
+	/// ゲームマネージャーの取得はできている
+	auto gameManager = Director::getInstance()->getRunningScene()->getChildByName("gameLayer")->getChildByName("gameManager");
+	/// 
+	auto player = (Player*)gameManager->getChildByName("player");
+	auto d = player->getContentSize();
 	if (_localPos.z > _wallDepth[29])
 	{
 		zReverse = true;
 	}
-	else if (_localPos.z < _wallDepth[0])
+	else if (_localPos.z < player->getDepth())
 	{
-		zReverse = false;
+		/// プレイヤーの当たり判定()
+		/// 当たり判定は取れた
+		auto col = Collision::GetInstance().HitCollision2D(this->getPosition(), this->getContentSize(),
+														   player->getPosition(), player->getContentSize());
+		if (col)
+		{
+			zReverse = false;
+		}
 	}
+	else{}
 
 	if (!zReverse)
 	{
@@ -44,6 +61,7 @@ void Ball::update(float dt)
 	{
 		xReverse = true;
 	}
+	else{}
 
 	if (!xReverse)
 	{
@@ -62,6 +80,7 @@ void Ball::update(float dt)
 	{
 		yReverse = true;
 	}
+	else{}
 
 	if (!yReverse)
 	{

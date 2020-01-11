@@ -7,12 +7,10 @@ USING_NS_CC;
 
 GameManager::GameManager()
 {
-	int debug;
 	/// プレイヤーの追加
 	this->addChild(Player::createPlayer(1.0));
 	/// ボールの追加
 	ballCreate();
-
 	this->setName("gameManager");
 
 	this->scheduleUpdate();

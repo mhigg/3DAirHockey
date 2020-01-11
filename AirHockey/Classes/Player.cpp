@@ -8,6 +8,9 @@ Player::Player()
 {
 	/// 仮の画像を追加している　◆
 	auto sprite = Sprite::create("player.png");
+	setTexture("player.png");
+	auto d = this->getContentSize();
+
 	this->addChild(sprite);
 
 	/// プレイヤーのタグ名を設定している(仮)　◆
@@ -32,6 +35,11 @@ Player * Player::createPlayer(const float& depth)
 {
 	//_depth = depth;
 	return Player::create();
+}
+
+float Player::getDepth() const
+{
+	return debug;
 }
 
 void Player::update(float dt)

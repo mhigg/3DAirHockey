@@ -19,8 +19,5 @@ private:
 
 	void ballCreate();
 	void update(float dt);
-
-	std::unique_ptr<Player> _player;		// プレイヤー(後で二人プレイ用に修正する)　◆
-	std::unique_ptr<Ball> _ball;
 };
 
