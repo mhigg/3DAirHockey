@@ -1,5 +1,5 @@
-#include "Player.h"
-#include "Ball.h"
+#include "../Character/Player.h"
+#include "../Obj/Ball.h"
 #include "GameManager.h"
 
 /* ヘッダーなどをフォルダー指定する予定なので、後でパス修正を行う　◆ */

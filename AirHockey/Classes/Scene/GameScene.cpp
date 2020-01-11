@@ -25,12 +25,12 @@
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
 #include "Math.h"
-#include "StageWall.h"
-#include "Ball.h"
-#include "Player.h"
-#include "EffectMng.h"
+#include "../Obj/StageWall.h"
+#include "../Obj/Ball.h"
+#include "../Character/Player.h"
+#include "../Effekseer/EffectMng.h"
 
-#include "GameManager.h"
+#include "../Manager/GameManager.h"
 
 USING_NS_CC;
 

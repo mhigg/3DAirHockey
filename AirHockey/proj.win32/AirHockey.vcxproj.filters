@@ -25,7 +25,7 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{dfd6866a-2ffe-4894-8fd7-7c504840d596}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Effecseer">
+    <Filter Include="Effekseer">
       <UniqueIdentifier>{df93dd45-a596-4ce7-af01-3d3e04c1d32c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -36,52 +36,56 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Player.cpp">
+    <ClCompile Include="..\Classes\Collision.cpp" />
+    <ClCompile Include="..\Classes\Character\Player.cpp">
       <Filter>Character</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\MouseCtl.cpp">
+    <ClCompile Include="..\Classes\Controller\Input_Touch.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\OPRT_Key.cpp">
+    <ClCompile Include="..\Classes\Controller\MouseCtl.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\OPRT_State.cpp">
+    <ClCompile Include="..\Classes\Controller\OPRT_Key.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\StageWall.cpp">
-      <Filter>Obj</Filter>
+    <ClCompile Include="..\Classes\Controller\OPRT_State.cpp">
+      <Filter>Controller</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\PointWithDepth.cpp">
+    <ClCompile Include="..\Classes\Controller\OPRT_Touch.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\EffectMng.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\Effekseer.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\EffekseerNative.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\EffekseerRendererNative.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Manager\GameManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Ball.cpp">
+    <ClCompile Include="..\Classes\Manager\PointWithDepth.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\Ball.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Obj.cpp">
+    <ClCompile Include="..\Classes\Obj\Obj.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GameScene.cpp">
+    <ClCompile Include="..\Classes\Obj\StageWall.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\GameScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Collision.cpp" />
-    <ClCompile Include="..\Classes\EffectMng.cpp">
-      <Filter>Effecseer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Effekseer.cpp">
-      <Filter>Effecseer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\EffekseerNative.cpp">
-      <Filter>Effecseer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\EffekseerRendererNative.cpp">
-      <Filter>Effecseer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GameManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\HelloWorldScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -90,52 +94,56 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Player.h">
+    <ClInclude Include="..\Classes\Collision.h" />
+    <ClInclude Include="..\Classes\Character\Player.h">
       <Filter>Character</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\MouseCtl.h">
+    <ClInclude Include="..\Classes\Controller\OPRT_Touch.h">
       <Filter>Controller</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\OPRT_Key.h">
+    <ClInclude Include="..\Classes\Controller\Input_Touch.h">
       <Filter>Controller</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\OPRT_State.h">
+    <ClInclude Include="..\Classes\Controller\MouseCtl.h">
       <Filter>Controller</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\StageWall.h">
-      <Filter>Obj</Filter>
+    <ClInclude Include="..\Classes\Controller\OPRT_Key.h">
+      <Filter>Controller</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\PointWithDepth.h">
+    <ClInclude Include="..\Classes\Controller\OPRT_State.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\EffectMng.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\Effekseer.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\EffekseerNative.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\EffekseerRendererNative.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\GameManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Ball.h">
+    <ClInclude Include="..\Classes\Manager\PointWithDepth.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\Ball.h">
       <Filter>Obj</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Obj.h">
+    <ClInclude Include="..\Classes\Obj\Obj.h">
       <Filter>Obj</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameScene.h">
+    <ClInclude Include="..\Classes\Obj\StageWall.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\GameScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Collision.h" />
-    <ClInclude Include="..\Classes\EffectMng.h">
-      <Filter>Effecseer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Effekseer.h">
-      <Filter>Effecseer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\EffekseerNative.h">
-      <Filter>Effecseer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\EffekseerRendererNative.h">
-      <Filter>Effecseer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GameManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\HelloWorldScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

@@ -1,6 +1,6 @@
 #pragma once
 #include "cocos2d.h"
-#include "PointWithDepth.h"
+#include "../Manager/PointWithDepth.h"
 
 class Obj :
 	public cocos2d::Sprite

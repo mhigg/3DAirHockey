@@ -1,6 +1,6 @@
 #include "Ball.h"
-#include "OPRT_Key.h"
-#include "Player.h"
+#include "../Controller/OPRT_Key.h"
+#include "../Character/Player.h"
 #include "Collision.h"
 
 USING_NS_CC;

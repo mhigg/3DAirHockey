@@ -14,8 +14,6 @@ public:
 	// •¨‘Ì“¯Žm‚Ì“–‚½‚è”»’è(2D)
 	bool HitCollision2D(const cocos2d::Vec2& aPos, const cocos2d::Size& aSize,
 						const cocos2d::Vec2& bPos, const cocos2d::Size& bSize) const;
-
-
 private:
 	Collision();
 	~Collision();
@@ -27,8 +25,6 @@ private:
 			delete pointer;
 		}
 	};
-
-
 	static std::unique_ptr<Collision, ColDeleter> s_Instance;
 };
 

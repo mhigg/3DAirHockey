@@ -25,11 +25,10 @@
 #ifndef __GAME_SCENE_H__
 #define __GAME_SCENE_H__
 
+#include <vector>
 #include "cocos2d.h"
 
-#include <vector>
-
- // レイヤーのZOrder用
+// レイヤーのZOrder用
 enum class LayerNum
 {
 	STAGE,
@@ -56,9 +55,7 @@ public:
 
 private:
 	//void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags);	// Effecseerで使用
-
 	std::vector<float> zdepth;	// 奥行
-
 };
 
 #endif // __GameScene_H__

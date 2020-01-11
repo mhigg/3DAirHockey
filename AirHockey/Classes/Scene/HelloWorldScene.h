@@ -29,21 +29,10 @@
 
 #include <vector>
 
-// ÉåÉCÉÑÅ[ÇÃZOrderóp
-enum class LayerNum
-{
-	STAGE,
-	BALL,
-	PLAYER,
-	EFFECT,
-	FRONT,
-};
-
 class HelloWorld : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
-
     virtual bool init();
     
     // a selector callback
@@ -53,8 +42,6 @@ public:
     CREATE_FUNC(HelloWorld);
 
 	void update(float dt);
-private:
-	std::vector<float> zdepth;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

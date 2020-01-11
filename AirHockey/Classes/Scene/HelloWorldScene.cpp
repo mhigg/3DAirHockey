@@ -25,9 +25,9 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Math.h"
-#include "Obj/StageWall.h"
-#include "Obj/Ball.h"
-#include "Character/Player.h"
+#include "../Obj/StageWall.h"
+#include "../Obj/Ball.h"
+#include "../Character/Player.h"
 
 USING_NS_CC;
 
@@ -120,55 +120,6 @@ bool HelloWorld::init()
         // add the sprite as a child to this layer
         this->addChild(sprite, 0,"Hello");
     }
-
-	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
-	auto stageLayer = Layer::create();
-	stageLayer->setName("StageLayer");
-	this->addChild(stageLayer);
-
-	// ｽﾃｰｼﾞの壁作成
-	// 奥行の最大値
-	float maxDepth = 1000;
-	// 壁の最大数
-	int wallMaxNum = 30;
-	// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成
-	float magnification = maxDepth / (wallMaxNum * wallMaxNum);
-	// 奥行の作成
-	for (float x = wallMaxNum; x > 0; x--)
-	{
-		float depth = x * x * magnification;
-		depth = maxDepth - depth;
-		zdepth.emplace_back(depth);
-	}
-	// ﾌｨｰﾙﾄﾞの基本サイズ
-	Point wallSize = { 700,500 };
-	// ﾌｨｰﾙﾄﾞ用ｽﾌﾟﾗｲﾄの作成
-	for (int k = 0; k < zdepth.size(); k++)
-	{
-		auto color = new Color3B(
-			255 - (255 * (zdepth[k] / 1000)),
-			255 - (255 * (zdepth[k] / 1000)),
-			255 - (255 * (zdepth[k] / 1000)));
-		auto stageWall = new StageWall({ 0, 0 }, zdepth[k], wallSize, color);
-		// ｽﾃｰｼﾞﾚｲﾔｰに追加
-		stageLayer->addChild(stageWall);
-	}
-
-	// ﾎﾞｰﾙ用ﾚｲﾔｰ
-	auto ballLayer = Layer::create();
-	ballLayer->setName("BallLayer");
-	this->addChild(ballLayer);
-	// ﾎﾞｰﾙ作成
-	auto ball = new Ball(zdepth);
-	ballLayer->addChild(ball);
-
-
-	
-	/// プレイヤーの生成
-	auto charLayer = Layer::create();
-	auto player = Player::createPlayer(0);
-	charLayer->addChild(player);
-	this->addChild(charLayer, static_cast<int>(LayerNum::PLAYER));
 
 	this->scheduleUpdate();
 

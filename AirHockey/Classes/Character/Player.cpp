@@ -1,6 +1,6 @@
 #include "Player.h"
-#include "MouseCtl.h"
-#include "Input_Touch.h"
+#include "../Controller/MouseCtl.h"
+#include "../Controller/Input_Touch.h"
 
 USING_NS_CC;
 
