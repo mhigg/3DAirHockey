@@ -19,8 +19,9 @@ private:
 
 	void ballCreate();
 	void update(float dt);
+	void Init();
 
 	const float _maxDepth;		// ‰œs‚ÌÅ‘å’l
-	const int _wallMaxNum;		// •Ç‚ÌÅ‘å”
+	const int _wallMax;		// •Ç‚ÌÅ‘å”
 };
 

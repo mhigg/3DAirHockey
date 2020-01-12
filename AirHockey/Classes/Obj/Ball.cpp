@@ -22,16 +22,15 @@ Ball::~Ball()
 
 void Ball::update(float dt)
 {
-	/// ゲームマネージャーの取得はできている
+	/// ゲームマネージャーの取得をしている
 	auto gameManager = Director::getInstance()->getRunningScene()->getChildByName("gameLayer")->getChildByName("gameManager");
-	/// 
+	/// プレイヤーの取得をしている
 	auto player = (Player*)gameManager->getChildByName("player");
-	auto d = player->getContentSize();
 	if (_localPos.z > _wallDepth[29])
 	{
 		zReverse = true;
 	}
-	else if (_localPos.z < player->getDepth())
+	else if (_localPos.z < player->GetDepth())
 	{
 		/// プレイヤーの当たり判定()
 		/// 当たり判定は取れた

@@ -4,12 +4,9 @@
 
 USING_NS_CC;
 
-GameManager::GameManager() : _maxDepth(1000.f), _wallMaxNum(30)
+GameManager::GameManager() : _maxDepth(1000.f), _wallMax(30)
 {
-	/// プレイヤーの追加
-	this->addChild(Player::createPlayer(1.0));
-	/// ボールの追加
-	ballCreate();
+	Init();
 	this->setName("gameManager");
 	this->scheduleUpdate();
 }
@@ -23,25 +20,29 @@ GameManager * GameManager::createGameMng()
 	return GameManager::create();
 }
 
-void GameManager::ballCreate()
+void GameManager::Init()
 {
+	/// ボールの生成
 	std::vector<float> zdepth;
-	// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成
-	float magnification = _maxDepth / (_wallMaxNum * _wallMaxNum);
-	// 深度値保存用の一次変数
+
+	/// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成
+	float mag = _maxDepth / (_wallMax * _wallMax);
+
+	/// 深度値保存用の一次変数
 	float depth;
-	for (int x = _wallMaxNum; x > 0; x--)
+
+	for (int x = _wallMax; x > 0; x--)
 	{
-		depth = x * x * magnification;
+		depth = x * x * mag;
 		depth = _maxDepth - depth;
 		zdepth.emplace_back(depth);
 	}
-	// ﾌｨｰﾙﾄﾞの基本サイズ
-	Point wallSize = { 700,500 };
-
 	auto ball = new Ball(zdepth);
 	ball->setName("ball");
 	this->addChild(ball);
+
+	/// プレイヤーの生成
+	this->addChild(Player::createPlayer(zdepth[0]));
 }
 
 void GameManager::update(float dt)
