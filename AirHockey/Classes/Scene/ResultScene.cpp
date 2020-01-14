@@ -1,4 +1,5 @@
 #include "ResultScene.h"
+#include "TitleScene.h"
 
 USING_NS_CC;
 
@@ -10,6 +11,14 @@ cocos2d::Scene * ResultScene::createScene()
 {
 	return ResultScene::create();
 }
+
+// Print useful error message instead of segfaulting when files are not there.
+static void problemLoading(const char* filename)
+{
+	printf("Error while loading: %s\n", filename);
+	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+}
+
 
 bool ResultScene::init()
 {
@@ -37,13 +46,33 @@ bool ResultScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu);
 
+	/// シーン遷移用のボタンの作成
+	auto sceneItem = MenuItemImage::create(
+		"button.png",
+		"button2.png",
+		CC_CALLBACK_1(ResultScene::ChangeScene, this));
+	auto sceneItemVec = Vec2(origin.x + visibleSize.width - sceneItem->getContentSize().width / 2,
+							 sceneItem->getContentSize().height / 2);
+	sceneItem->setPosition(sceneItemVec);
+	auto sceneMenu = Menu::create(sceneItem, 0);
+	sceneMenu->setName("sceneMenu");
+	sceneMenu->setPosition(Vec2::ZERO);
+	this->addChild(sceneMenu, static_cast<int>(LayerNum::FRONT));
+
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
+
+	this->setName("ResultScene");
 	return true;
 }
 
 void ResultScene::update(float dt)
 {
+}
+
+void ResultScene::ChangeScene(cocos2d::Ref * ref)
+{
+	Director::getInstance()->replaceScene(TransitionFade::create(1.f, TitleScene::createScene(), Color3B::WHITE));
 }
 
 void ResultScene::menuCloseCallback(cocos2d::Ref * pSender)

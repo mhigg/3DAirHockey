@@ -23,7 +23,9 @@
  ****************************************************************************/
 
 #include "AppDelegate.h"
+//#include "Scene/TitleScene.h"
 #include "Scene/GameScene.h"
+//#include "Scene/ResultScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1

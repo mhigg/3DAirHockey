@@ -37,6 +37,7 @@ public:
 	virtual bool init();							// ‰Šú‰»—pŠÖ”
 	void update(float dt);							// ó‘Ô‘JˆÚ—p
 
+	void ChangeScene(cocos2d::Ref* ref);
 	void menuCloseCallback(cocos2d::Ref* pSender);	// ³¨İÄŞ³‚ğ•Â‚¶‚éˆ×‚ÌÎŞÀİ	
 
 	// implement the "static create()" method manually

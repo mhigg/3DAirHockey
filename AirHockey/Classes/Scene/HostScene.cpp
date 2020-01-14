@@ -1,5 +1,5 @@
 #include "HostScene.h"
-
+#include "GameScene.h"
 USING_NS_CC;
 
 HostScene::~HostScene()
@@ -43,6 +43,10 @@ bool HostScene::init()
 }
 
 void HostScene::update(float dt)
+{
+}
+
+void HostScene::ChangeScene(cocos2d::Ref * ref)
 {
 }
 
