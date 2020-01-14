@@ -44,6 +44,6 @@ private:
 	cocos2d::Point _nowVanishingPoint;		// 更新する消失点のXとYの座標
 	cocos2d::Point _normalizePoint;			// 
 	cocos2d::Point _magnification;			// 消失点を動かす倍率()
-
+	cocos2d::Rect  _moveVanishingPoint;		// 消失点を動かせる範囲
 	float _scale;							// ｽﾌﾟﾗｲﾄの大きさ
 };

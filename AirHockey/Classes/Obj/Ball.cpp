@@ -107,21 +107,20 @@ void Ball::update(float dt)
 
 	if (_state->GetState(INPUT_ID::UP) <= TRIGGER_STATE::ON)
 	{
-		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ 0, +1 });
+		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ 0, +3 });
 	}
 	if (_state->GetState(INPUT_ID::DOWN) <= TRIGGER_STATE::ON)
 	{
-		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ 0, -1 });
+		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ 0, -3 });
 	}
 	if (_state->GetState(INPUT_ID::LEFT) <= TRIGGER_STATE::ON)
 	{
-		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ -1, 0 });
+		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ -5, 0 });
 	}
 	if (_state->GetState(INPUT_ID::RIGHT) <= TRIGGER_STATE::ON)
 	{
-		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ +1, 0 });
+		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ +5, 0 });
 	}
-
 //	lpEffectMng.PlayEffect("Ball", lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
 }
 
