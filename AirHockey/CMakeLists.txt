@@ -49,47 +49,43 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
-     Classes/HelloWorldScene.cpp
-     Classes/GameScene.cpp
-     Classes/Ball.cpp
-     Classes/Collision.cpp
-     Classes/OPRT_State.cpp
-     Classes/OPRT_Key.cpp
-     Classes/OPRT_Touch.cpp
-     Classes/Input_Touch.cpp
-     Classes/MouseCtl.cpp
-     Classes/Obj.cpp
-     Classes/Player.cpp
-     Classes/EffectMng.cpp
-     Classes/Effekseer.cpp
-     Classes/EffekseerNative.cpp
-     Classes/EffekseerRendererNative.cpp
-     Classes/GameManager.cpp
-     Classes/PointWithDepth.cpp
+     Classes/Scene/GameScene.cpp
+     Classes/Controller/OPRT_State.cpp
+     Classes/Controller/OPRT_Key.cpp
+     Classes/Controller/Input_Touch.cpp
+     Classes/Controller/MouseCtl.cpp
+     Classes/Obj/Obj.cpp
+     Classes/Obj/Ball.cpp
+     Classes/Obj/StageWall.cpp
+     Classes/Character/Player.cpp
+     Classes/Effekseer/EffectMng.cpp
+     Classes/Effekseer/Effekseer.cpp
+     Classes/Effekseer/EffekseerNative.cpp
+     Classes/Effekseer/EffekseerRendererNative.cpp
+     Classes/Manager/GameManager.cpp
+     Classes/Manager/PointWithDepth.cpp
      Classes/Stage.cpp
-     Classes/StageWall.cpp
+     Classes/Collision.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
-     Classes/HelloWorldScene.h
-     Classes/GameScene.h
-     Classes/Ball.h
-     Classes/Collision.h
-     Classes/OPRT_State.h
-     Classes/OPRT_Key.h
-     Classes/OPRT_Touch.h
-     Classes/Input_Touch.h
-     Classes/MouseCtl.h
-     Classes/Obj.h
-     Classes/Player.h
-     Classes/EffectMng.h
-     Classes/Effekseer.h
-     Classes/EffekseerNative.h
-     Classes/EffekseerRendererNative.h
-     Classes/GameManager.h
-     Classes/PointWithDepth.h
+     Classes/Scene/GameScene.h
+     Classes/Controller/OPRT_State.h
+     Classes/Controller/OPRT_Key.h
+     Classes/Controller/Input_Touch.h
+     Classes/Controller/MouseCtl.h
+     Classes/Obj/Obj.h
+     Classes/Obj/Ball.h
+     Classes/Obj/StageWall.h
+     Classes/Character/Player.h
+     Classes/Effekseer/EffectMng.h
+     Classes/Effekseer/Effekseer.h
+     Classes/Effekseer/EffekseerNative.h
+     Classes/Effekseer/EffekseerRendererNative.h
+     Classes/Manager/GameManager.h
+     Classes/Manager/PointWithDepth.h
      Classes/Stage.h
-     Classes/StageWall.h
+     Classes/Collision.h
      )
 
 if(ANDROID)
