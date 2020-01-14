@@ -17,5 +17,9 @@ bool Obj::Init(void)
 		return false;
 	}
 
+	// ‰Šú‰»
+	_localPos = { 0,0,1 };
+	_localSize = 1;
+
 	return true;
 }

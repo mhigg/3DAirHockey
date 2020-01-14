@@ -13,5 +13,6 @@ private:
 	virtual void update(float dt) = 0;
 
 protected:
-	cocos2d::Vec3 _localPos;
+	cocos2d::Vec3 _localPos;	// ｹﾞｰﾑ上の座標(ｽｸﾘｰﾝに表示される座標とは違う)
+	float _localSize;			// ｹﾞｰﾑ上のｽﾌﾟﾗｲﾄの大きさ(ｽｸﾘｰﾝに表示される大きさとは違う)
 };

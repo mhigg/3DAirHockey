@@ -23,6 +23,7 @@
  ****************************************************************************/
 
 #include "GameScene.h"
+#include "ResultScene.h"
 #include "SimpleAudioEngine.h"
 #include "Math.h"
 #include "../Obj/StageWall.h"
@@ -75,7 +76,12 @@ bool GameScene::init()
 	auto menu = Menu::create(closeItem, NULL);
 	menu->setName("Menu");
 	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu);
+	this->addChild(menu, static_cast<int>(LayerNum::FRONT));
+
+	auto sceneItem = MenuItemImage::create(
+		"button.png",
+		"button2.png",
+		CC_CALLBACK_1(GameScene::ChangeScene, this));
 
 	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
 	auto stageLayer = Layer::create();
@@ -98,14 +104,23 @@ bool GameScene::init()
 		zdepth.emplace_back(depth);
 	}
 	// ﾌｨｰﾙﾄﾞの基本サイズ
-	Point wallSize = { 700,500 };
+	Point wallSize = visibleSize;
 	// ﾌｨｰﾙﾄﾞ用ｽﾌﾟﾗｲﾄの作成
 	for (int k = 0; k < zdepth.size(); k++)
 	{
-		auto color = new Color3B(
-			255 - (255 * (zdepth[k] / 1000)),
-			255 - (255 * (zdepth[k] / 1000)),
-			255 - (255 * (zdepth[k] / 1000)));
+		Color3B *color;
+		if (k != zdepth.size() - 1)
+		{
+			color = new Color3B(
+				255 - (200 * (zdepth[k] / 1000)),
+				255 - (200 * (zdepth[k] / 1000)),
+				255 - (200 * (zdepth[k] / 1000)));
+		}
+		// 最後の一枚は黒で描画
+		else
+		{
+			color = new Color3B(0, 0, 0);
+		}
 		auto stageWall = new StageWall({ 0, 0 }, zdepth[k], wallSize, color);
 		// ｽﾃｰｼﾞﾚｲﾔｰに追加
 		stageLayer->addChild(stageWall);
@@ -124,6 +139,11 @@ bool GameScene::init()
 	return true;
 }
 
+
+void GameScene::ChangeScene(cocos2d::Ref * ref)
+{
+	Director::getInstance()->replaceScene(TransitionFade::create(1.f, ResultScene::createScene(), Color3B::WHITE));
+}
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {
