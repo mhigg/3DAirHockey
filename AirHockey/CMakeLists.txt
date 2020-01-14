@@ -49,7 +49,11 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
+     Classes/Scene/TitleScene.cpp
      Classes/Scene/GameScene.cpp
+     Classes/Scene/HostScene.cpp
+     Classes/Scene/GuestScene.cpp
+     Classes/Scene/ResultScene.cpp
      Classes/Controller/OPRT_State.cpp
      Classes/Controller/OPRT_Key.cpp
      Classes/Controller/Input_Touch.cpp
@@ -69,7 +73,11 @@ list(APPEND GAME_SOURCE
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
+     Classes/Scene/TitleScene.h
      Classes/Scene/GameScene.h
+     Classes/Scene/HostScene.h
+     Classes/Scene/GuestScene.h
+     Classes/Scene/ResultScene.h
      Classes/Controller/OPRT_State.h
      Classes/Controller/OPRT_Key.h
      Classes/Controller/Input_Touch.h
