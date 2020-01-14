@@ -22,10 +22,17 @@ Ball::~Ball()
 
 void Ball::update(float dt)
 {
-	/// ゲームマネージャーの取得をしている
-	auto gameManager = Director::getInstance()->getRunningScene()->getChildByName("gameLayer")->getChildByName("gameManager");
-	/// プレイヤーの取得をしている
-	auto player = (Player*)gameManager->getChildByName("player");
+	/// 現在走っているシーンの取得
+	auto runScene = Director::getInstance()->getRunningScene();
+	/// ゲームシーンが走っている時、処理を行うようにしている
+	if (runScene->getName() != "GameScene")
+	{
+		return;
+	}
+	/// ゲームマネージャーの取得
+	auto gameMng  = runScene->getChildByName("gameLayer")->getChildByName("gameManager");
+	/// プレイヤーの取得
+	auto player = (Player*)gameMng->getChildByName("player");
 	if (_localPos.z > _wallDepth[29])
 	{
 		zReverse = true;

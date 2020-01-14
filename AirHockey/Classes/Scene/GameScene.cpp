@@ -78,10 +78,18 @@ bool GameScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, static_cast<int>(LayerNum::FRONT));
 
+	/// シーン遷移用のボタンの作成
 	auto sceneItem = MenuItemImage::create(
 		"button.png",
 		"button2.png",
 		CC_CALLBACK_1(GameScene::ChangeScene, this));
+	auto sceneItemVec = Vec2(origin.x + visibleSize.width - sceneItem->getContentSize().width / 2, 
+							 sceneItem->getContentSize().height / 2);
+	sceneItem->setPosition(sceneItemVec);
+	auto sceneMenu = Menu::create(sceneItem, 0);
+	sceneMenu->setName("sceneMenu");
+	sceneMenu->setPosition(Vec2::ZERO);
+	this->addChild(sceneMenu, static_cast<int>(LayerNum::FRONT));
 
 	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
 	auto stageLayer = Layer::create();
@@ -135,6 +143,9 @@ bool GameScene::init()
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
+
+	/// シーン名を付けた
+	this->setName("GameScene");
 
 	return true;
 }

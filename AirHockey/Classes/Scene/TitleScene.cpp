@@ -6,6 +6,7 @@ USING_NS_CC;
 
 TitleScene::~TitleScene()
 {
+
 }
 
 cocos2d::Scene * TitleScene::createScene()
@@ -39,6 +40,19 @@ bool TitleScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu);
 
+	/// シーン遷移用のボタンの作成
+	auto sceneItem = MenuItemImage::create(
+		"button.png",
+		"button2.png",
+		CC_CALLBACK_1(TitleScene::ChangeScene, this));
+	auto sceneItemVec = Vec2(origin.x + visibleSize.width - sceneItem->getContentSize().width / 2,
+		sceneItem->getContentSize().height / 2);
+	sceneItem->setPosition(sceneItemVec);
+	auto sceneMenu = Menu::create(sceneItem, 0);
+	sceneMenu->setName("sceneMenu");
+	sceneMenu->setPosition(Vec2::ZERO);
+	this->addChild(sceneMenu, static_cast<int>(LayerNum::FRONT));
+
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
 
@@ -47,15 +61,16 @@ bool TitleScene::init()
 
 void TitleScene::update(float dt)
 {
-	Director::getInstance()->end();
+	
 }
 
 void TitleScene::ChangeScene(cocos2d::Ref * ref)
 {
 	/// ホストシーンへ遷移するようにしている
-	Director::getInstance()->replaceScene(TransitionFade::create(1.f, HostScene::createScene(), Color3B::WHITE));
+	Director::getInstance()->replaceScene(TransitionFade::create(1.f, GuestScene::createScene(), Color3B::WHITE));
 }
 
 void TitleScene::menuCloseCallback(cocos2d::Ref * pSender)
 {
+	Director::getInstance()->end();
 }
