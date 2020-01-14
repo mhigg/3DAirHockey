@@ -21,17 +21,17 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#pragma once
+#ifndef __TITLE_SCENE_H__
+#define __TITLE_SCENE_H__
 
-#ifndef __GAME_SCENE_H__
-#define __GAME_SCENE_H__
-
-#include <vector>
 #include "cocos2d.h"
 
-class GameScene : public cocos2d::Scene
+class TitleScene 
+	: public cocos2d::Scene
 {
 public:
-	~GameScene();
+	~TitleScene();
 	static cocos2d::Scene* createScene();
 
 	virtual bool init();							// 初期化用関数
@@ -40,11 +40,8 @@ public:
 	void menuCloseCallback(cocos2d::Ref* pSender);	// ｳｨﾝﾄﾞｳを閉じる為のﾎﾞﾀﾝ	
 
 	// implement the "static create()" method manually
-	CREATE_FUNC(GameScene);
+	CREATE_FUNC(TitleScene);
 
-private:
-	//void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags);	// Effecseerで使用
-	std::vector<float> zdepth;	// 奥行
 };
 
-#endif // __GameScene_H__
+#endif // __TitleScene_H__

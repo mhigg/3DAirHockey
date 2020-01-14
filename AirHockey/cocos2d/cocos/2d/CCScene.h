@@ -67,6 +67,19 @@ It is a good practice to use a Scene as the parent of all your nodes.
  
 Scene will create a default camera for you.
 */
+
+// ÉåÉCÉÑÅ[ÇÃZOrderóp
+enum class LayerNum
+{
+	STAGE,
+	BALL,
+	PLAYER,
+	GAME,
+	EFFECT,
+	FRONT,
+};
+
+
 class CC_DLL Scene : public Node
 {
 public:
