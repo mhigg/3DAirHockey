@@ -23,6 +23,7 @@
  ****************************************************************************/
 
 #include "GameScene.h"
+#include "ResultScene.h"
 #include "SimpleAudioEngine.h"
 #include "Math.h"
 #include "../Obj/StageWall.h"
@@ -77,6 +78,11 @@ bool GameScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu);
 
+	auto sceneItem = MenuItemImage::create(
+		"button.png",
+		"button2.png",
+		CC_CALLBACK_1(GameScene::ChangeScene, this));
+
 	// Ì¨°ÙÄÞ—pÚ²Ô°
 	auto stageLayer = Layer::create();
 	stageLayer->setName("StageLayer");
@@ -124,6 +130,11 @@ bool GameScene::init()
 	return true;
 }
 
+
+void GameScene::ChangeScene(cocos2d::Ref * ref)
+{
+	Director::getInstance()->replaceScene(TransitionFade::create(1.f, ResultScene::createScene(), Color3B::WHITE));
+}
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {

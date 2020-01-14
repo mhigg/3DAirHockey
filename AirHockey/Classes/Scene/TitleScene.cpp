@@ -1,4 +1,6 @@
 #include "TitleScene.h"
+#include "HostScene.h"
+#include "GuestScene.h"
 
 USING_NS_CC;
 
@@ -46,6 +48,12 @@ bool TitleScene::init()
 void TitleScene::update(float dt)
 {
 	Director::getInstance()->end();
+}
+
+void TitleScene::ChangeScene(cocos2d::Ref * ref)
+{
+	/// ホストシーンへ遷移するようにしている
+	Director::getInstance()->replaceScene(TransitionFade::create(1.f, HostScene::createScene(), Color3B::WHITE));
 }
 
 void TitleScene::menuCloseCallback(cocos2d::Ref * pSender)
