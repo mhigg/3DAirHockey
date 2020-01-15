@@ -22,25 +22,24 @@ Ball::~Ball()
 
 void Ball::update(float dt)
 {
-	/// 現在走っているシーンの取得
-	auto runScene = Director::getInstance()->getRunningScene();
-	/// ゲームシーンが走っている時、処理を行うようにしている
-	if (runScene->getName() != "GameScene")
+	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
 	{
+		/// ゲームシーン以外の時は処理に入らないようにする
 		return;
 	}
 	/// ゲームマネージャーの取得
-	auto gameMng  = runScene->getChildByName("gameLayer")->getChildByName("gameManager");
+	auto gameMng  = Director::getInstance()->getRunningScene()->getChildByName("gameLayer")->getChildByName("gameManager");
 	/// プレイヤーの取得
 	auto player = (Player*)gameMng->getChildByName("player");
+
 	if (_localPos.z > _wallDepth[29])
 	{
 		zReverse = true;
 	}
 	else if (_localPos.z < player->GetDepth())
 	{
-		/// プレイヤーの当たり判定()
-		/// 当たり判定は取れた
+		/// プレイヤーとボールの当たり判定
+		/// (判定を確認するために一次変数に保存している)
 		auto col = Collision::GetInstance().HitCollision2D(this->getPosition(), this->getContentSize(),
 														   player->getPosition(), player->getContentSize());
 		if (col)

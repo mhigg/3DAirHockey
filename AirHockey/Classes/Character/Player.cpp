@@ -2,6 +2,7 @@
 #include "../Controller/MouseCtl.h"
 #include "../Controller/Input_Touch.h"
 #include "Manager/PointWithDepth.h"
+
 USING_NS_CC;
 
 float Player::_depth;
