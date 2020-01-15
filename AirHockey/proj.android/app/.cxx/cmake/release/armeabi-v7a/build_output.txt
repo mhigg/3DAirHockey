@@ -1,0 +1,22 @@
+Check for working C compiler: D:/AndroidSDK/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe
+Check for working C compiler: D:/AndroidSDK/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe -- works
+Detecting C compiler ABI info
+Detecting C compiler ABI info - done
+Detecting C compile features
+Detecting C compile features - done
+Check for working CXX compiler: D:/AndroidSDK/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe
+Check for working CXX compiler: D:/AndroidSDK/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -- works
+Detecting CXX compiler ABI info
+Detecting CXX compiler ABI info - done
+Detecting CXX compile features
+Detecting CXX compile features - done
+using toolchain file:D:/AndroidSDK/Sdk/ndk/20.0.5594570/build/cmake/android.toolchain.cmake
+PROJECT_NAME:AirHockey
+PROJECT_SOURCE_DIR:C:/Users/kurok/Desktop/AirHockeyProject/3DAirHockey/AirHockey
+COCOS2DX_ROOT_PATH:C:/Users/kurok/Desktop/AirHockeyProject/3DAirHockey/AirHockey/cocos2d
+CMAKE_MODULE_PATH:C:/Users/kurok/Desktop/AirHockeyProject/3DAirHockey/AirHockey/cocos2d/cmake/Modules/
+PROJECT_BINARY_DIR:C:/Users/kurok/Desktop/AirHockeyProject/3DAirHockey/AirHockey/proj.android/app/.cxx/cmake/release/armeabi-v7a
+ENGINE_BINARY_PATH:C:/Users/kurok/Desktop/AirHockeyProject/3DAirHockey/AirHockey/proj.android/app/.cxx/cmake/release/armeabi-v7a/engine
+CMAKE_GENERATOR: Ninja
+CMAKE_BUILD_TYPE: Release
+Configuring done

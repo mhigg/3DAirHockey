@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "../Controller/MouseCtl.h"
 #include "../Controller/Input_Touch.h"
-
+#include "Manager/PointWithDepth.h"
 USING_NS_CC;
 
 float Player::_depth;
@@ -44,4 +44,5 @@ void Player::update(float dt)
 {
 	/// 座標の更新を行っている
 	this->setPosition(_oprtState->GetPoint());
+	lpPointWithDepth.GetInstance().SetVanishingPoint(_oprtState->GetPoint() / 100 - cocos2d::Vec2(400,300) / 100);
 }

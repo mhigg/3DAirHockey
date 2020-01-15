@@ -5,43 +5,7 @@
   },
   {
     "level": "INFO",
-    "message": "rebuilding JSON C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\x86\\android_gradle_build.json due to:"
-  },
-  {
-    "level": "INFO",
-    "message": "- expected json C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\x86\\android_gradle_build.json file is not present, will remove stale json folder"
-  },
-  {
-    "level": "INFO",
-    "message": "- missing previous command file C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\x86\\build_command.txt, will remove stale json folder"
-  },
-  {
-    "level": "INFO",
-    "message": "- command changed from previous, will remove stale json folder"
-  },
-  {
-    "level": "INFO",
-    "message": "removing stale contents from \u0027C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\x86\u0027"
-  },
-  {
-    "level": "INFO",
-    "message": "created folder \u0027C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\x86\u0027"
-  },
-  {
-    "level": "INFO",
-    "message": "executing cmake Executable : D:\\AndroidSDK\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe\narguments : \n-HC:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\n-BC:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\x86\n-DANDROID_ABI\u003dx86\n-DANDROID_PLATFORM\u003dandroid-16\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003dC:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\build\\intermediates\\cmake\\debug\\obj\\x86\n-DCMAKE_BUILD_TYPE\u003dDebug\n-DANDROID_NDK\u003dD:\\AndroidSDK\\Sdk\\ndk\\20.0.5594570\n-DCMAKE_CXX_FLAGS\u003d-frtti -fexceptions -fsigned-char\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_ANDROID_ARCH_ABI\u003dx86\n-DCMAKE_SYSTEM_VERSION\u003d16\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_ANDROID_NDK\u003dD:\\AndroidSDK\\Sdk\\ndk\\20.0.5594570\n-DCMAKE_TOOLCHAIN_FILE\u003dD:\\AndroidSDK\\Sdk\\ndk\\20.0.5594570\\build\\cmake\\android.toolchain.cmake\n-G Ninja\n-DCMAKE_MAKE_PROGRAM\u003dD:\\AndroidSDK\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe\n-DCMAKE_FIND_ROOT_PATH\u003d\n-DANDROID_STL\u003dc++_static\n-DANDROID_TOOLCHAIN\u003dclang\n-DANDROID_ARM_NEON\u003dTRUE\njvmArgs : \n\n"
-  },
-  {
-    "level": "INFO",
-    "message": "done executing cmake"
-  },
-  {
-    "level": "INFO",
-    "message": "write build output C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\x86\\build_output.txt"
-  },
-  {
-    "level": "INFO",
-    "message": "write command file C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\x86\\build_command.txt"
+    "message": "JSON \u0027C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\x86\\android_gradle_build.json\u0027 was up-to-date"
   },
   {
     "level": "INFO",

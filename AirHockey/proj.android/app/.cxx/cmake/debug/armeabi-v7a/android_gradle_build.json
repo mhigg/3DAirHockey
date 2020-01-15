@@ -429,203 +429,6 @@
       "headers": [],
       "output": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a\\engine\\cocos\\platform\\libcpp_android_spec.a"
     },
-    "MyGame-Debug-armeabi-v7a": {
-      "buildCommand": "D:\\AndroidSDK\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" MyGame",
-      "buildType": "debug",
-      "toolchain": "2705891776",
-      "abi": "armeabi-v7a",
-      "artifactName": "MyGame",
-      "files": [
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\AppDelegate.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\HelloWorldScene.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\GameScene.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Ball.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Collision.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\OPRT_State.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\OPRT_Key.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\OPRT_Touch.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Input_Touch.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\MouseCtl.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Obj.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Player.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\EffectMng.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Effekseer.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\EffekseerNative.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\EffekseerRendererNative.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\GameManager.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\PointWithDepth.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Stage.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\StageWall.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\jni\\hellocpp\\main.cpp",
-          "flagsOrdinal": 1,
-          "workingDirectoryOrdinal": 0
-        }
-      ],
-      "headers": [
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\AppDelegate.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\HelloWorldScene.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\GameScene.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Ball.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Collision.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\OPRT_State.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\OPRT_Key.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\OPRT_Touch.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Input_Touch.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\MouseCtl.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Obj.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Player.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\EffectMng.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Effekseer.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\EffekseerNative.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\EffekseerRendererNative.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\GameManager.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\PointWithDepth.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Stage.h",
-          "workingDirectoryOrdinal": 0
-        },
-        {
-          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\StageWall.h",
-          "workingDirectoryOrdinal": 0
-        }
-      ],
-      "output": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a\\libMyGame.so"
-    },
     "cocos2d-Debug-armeabi-v7a": {
       "buildCommand": "D:\\AndroidSDK\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" cocos2d",
       "buildType": "debug",
@@ -6516,6 +6319,221 @@
         }
       ],
       "output": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a\\lib\\libcocos2d.a"
+    },
+    "MyGame-Debug-armeabi-v7a": {
+      "buildCommand": "D:\\AndroidSDK\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" MyGame",
+      "buildType": "debug",
+      "toolchain": "2705891776",
+      "abi": "armeabi-v7a",
+      "artifactName": "MyGame",
+      "files": [
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\AppDelegate.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Scene\\TitleScene.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Scene\\GameScene.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Scene\\HostScene.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Scene\\GuestScene.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Scene\\ResultScene.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Controller\\OPRT_State.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Controller\\OPRT_Key.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Controller\\Input_Touch.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Controller\\MouseCtl.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Obj\\Obj.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Obj\\Ball.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Obj\\StageWall.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Character\\Player.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Effekseer\\EffectMng.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Effekseer\\Effekseer.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Effekseer\\EffekseerNative.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Effekseer\\EffekseerRendererNative.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Manager\\GameManager.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Manager\\PointWithDepth.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Stage.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Collision.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\jni\\hellocpp\\main.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\AppDelegate.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Scene\\TitleScene.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Scene\\GameScene.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Scene\\HostScene.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Scene\\GuestScene.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Scene\\ResultScene.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Controller\\OPRT_State.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Controller\\OPRT_Key.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Controller\\Input_Touch.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Controller\\MouseCtl.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Obj\\Obj.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Obj\\Ball.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Obj\\StageWall.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Character\\Player.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Effekseer\\EffectMng.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Effekseer\\Effekseer.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Effekseer\\EffekseerNative.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Effekseer\\EffekseerRendererNative.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Manager\\GameManager.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Manager\\PointWithDepth.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Stage.h",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\Classes\\Collision.h",
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "output": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a\\libMyGame.so"
     },
     "ext_unzip-Debug-armeabi-v7a": {
       "buildCommand": "D:\\AndroidSDK\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" ext_unzip",

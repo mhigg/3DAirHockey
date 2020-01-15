@@ -116,17 +116,17 @@
       "abi": "armeabi-v7a",
       "output": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a\\engine\\cocos\\platform\\libcpp_android_spec.a"
     },
-    "MyGame-Debug-armeabi-v7a": {
-      "artifactName": "MyGame",
-      "buildCommand": "D:\\AndroidSDK\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" MyGame",
-      "abi": "armeabi-v7a",
-      "output": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a\\libMyGame.so"
-    },
     "cocos2d-Debug-armeabi-v7a": {
       "artifactName": "cocos2d",
       "buildCommand": "D:\\AndroidSDK\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" cocos2d",
       "abi": "armeabi-v7a",
       "output": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a\\lib\\libcocos2d.a"
+    },
+    "MyGame-Debug-armeabi-v7a": {
+      "artifactName": "MyGame",
+      "buildCommand": "D:\\AndroidSDK\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" MyGame",
+      "abi": "armeabi-v7a",
+      "output": "C:\\Users\\kurok\\Desktop\\AirHockeyProject\\3DAirHockey\\AirHockey\\proj.android\\app\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a\\libMyGame.so"
     },
     "ext_unzip-Debug-armeabi-v7a": {
       "artifactName": "ext_unzip",
