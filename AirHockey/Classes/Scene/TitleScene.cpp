@@ -40,18 +40,33 @@ bool TitleScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu);
 
-	/// シーン遷移用のボタンの作成
-	auto sceneItem = MenuItemImage::create(
-		"button.png",
-		"button2.png",
-		CC_CALLBACK_1(TitleScene::ChangeScene, this));
-	auto sceneItemVec = Vec2(origin.x + visibleSize.width - sceneItem->getContentSize().width / 2,
-		sceneItem->getContentSize().height / 2);
-	sceneItem->setPosition(sceneItemVec);
-	auto sceneMenu = Menu::create(sceneItem, 0);
-	sceneMenu->setName("sceneMenu");
-	sceneMenu->setPosition(Vec2::ZERO);
-	this->addChild(sceneMenu, static_cast<int>(LayerNum::FRONT));
+	/// ホストシーンのボタン生成(緑ボタン)
+	auto hostItem = MenuItemImage::create("host.png", "host2.png",[&](Ref* ref)
+	{
+		Director::getInstance()->replaceScene(TransitionFade::create(1.f, HostScene::createScene(), Color3B::WHITE));
+	});
+	hostItem->setPosition(origin.x + visibleSize.width / 2,
+						  origin.y + visibleSize.height / 2 + hostItem->getContentSize().height);
+	auto hostMenu = Menu::create(hostItem, 0);
+	hostMenu->setName("hostMenu");
+	hostMenu->setPosition(Vec2::ZERO);
+	this->addChild(hostMenu, static_cast<int>(LayerNum::FRONT));
+
+	/// ゲームシーンのボタン生成(青ボタン)
+	auto guestItem = MenuItemImage::create("guest.png", "guest2.png",[&](Ref* ref)
+	{
+		Director::getInstance()->replaceScene(TransitionFade::create(1.f, GuestScene::createScene(), Color3B::WHITE));
+	});
+	guestItem->setPosition(origin.x + visibleSize.width / 2,
+						   origin.y + visibleSize.height / 2 - hostItem->getContentSize().height);
+	auto guestMenu = Menu::create(guestItem, 0);
+	guestMenu->setName("guestMenu");
+	guestMenu->setPosition(Vec2::ZERO);
+	this->addChild(guestMenu, static_cast<int>(LayerNum::FRONT));
+
+	auto label = Label::create("Title", "Arial", 60);
+	label->setPosition(Vec2::ZERO);
+	this->addChild(label);
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
@@ -62,12 +77,6 @@ bool TitleScene::init()
 void TitleScene::update(float dt)
 {
 	
-}
-
-void TitleScene::ChangeScene(cocos2d::Ref * ref)
-{
-	/// ホストシーンへ遷移するようにしている
-	Director::getInstance()->replaceScene(TransitionFade::create(1.f, GuestScene::createScene(), Color3B::WHITE));
 }
 
 void TitleScene::menuCloseCallback(cocos2d::Ref * pSender)
