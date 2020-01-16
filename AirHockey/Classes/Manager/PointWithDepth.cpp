@@ -67,15 +67,15 @@ void PointWithDepth::SetVanishingPoint(cocos2d::Point pos)
 	{
 		tmpVanishingPoint.x = _moveVanishingPoint.origin.x + 1;
 	}
-	else if (tmpVanishingPoint.x > _moveVanishingPoint.size.width)
+	if (tmpVanishingPoint.x > _moveVanishingPoint.size.width)
 	{
 		tmpVanishingPoint.x = _moveVanishingPoint.size.width;
 	}
-	else if (tmpVanishingPoint.y < _moveVanishingPoint.origin.y + 1)
+	if (tmpVanishingPoint.y < _moveVanishingPoint.origin.y + 1)
 	{
 		tmpVanishingPoint.y = _moveVanishingPoint.origin.y + 1;
 	}
-	else if (tmpVanishingPoint.y > _moveVanishingPoint.size.height)
+	if (tmpVanishingPoint.y > _moveVanishingPoint.size.height)
 	{
 		tmpVanishingPoint.y = _moveVanishingPoint.size.height;
 	}
