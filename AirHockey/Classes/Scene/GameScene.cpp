@@ -116,10 +116,10 @@ bool GameScene::init()
 	// Ì¨°ÙÄŞ—p½Ìß×²Ä‚Ìì¬
 	for (int k = 0; k < zdepth.size(); k++)
 	{
-		Color3B *color;
+		Color3B color;
 		if (k != zdepth.size() - 1)
 		{
-			color = new Color3B(
+			color = Color3B(
 				255 - (200 * (zdepth[k] / 1000)),
 				255 - (200 * (zdepth[k] / 1000)),
 				255 - (200 * (zdepth[k] / 1000)));
@@ -127,11 +127,11 @@ bool GameScene::init()
 		// ÅŒã‚Ìˆê–‡‚Í•‚Å•`‰æ
 		else
 		{
-			color = new Color3B(0, 0, 0);
+			color = Color3B(0, 0, 0);
 		}
 		auto stageWall = new StageWall({ 0, 0 }, zdepth[k], wallSize, color);
 		// ½Ã°¼ŞÚ²Ô°‚É’Ç‰Á
-		stageLayer->addChild(stageWall);
+		stageLayer->addChild(stageWall,0,"Wall" +std::to_string(k));
 	}
 
 	/// ƒQ[ƒ€ŠÇ—Ò‚Ì¶¬

@@ -11,6 +11,8 @@ public:
 	Ball(std::vector<float> depth);
 	Ball();
 	~Ball();
+
+	cocos2d::Vec3 GetLocalPos(void);		// _localPos�̎擾
 private:
 	bool Init(void);
 	void update(float dt) override;
@@ -22,5 +24,4 @@ private:
 	bool yReverse = false;
 	bool zReverse = false;
 	
-	OPRT_State* _state;
 };
