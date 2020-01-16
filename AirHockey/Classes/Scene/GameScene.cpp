@@ -141,6 +141,13 @@ bool GameScene::init()
 	gameLayer->addChild(gameMng);
 	this->addChild(gameLayer, static_cast<int>(LayerNum::GAME));
 
+	/// 現在のシーンを表すテキスト
+	auto label = Label::create("Game", "Arial", 60);
+	label->setPosition(Vec2(label->getContentSize().width / 2,
+							visibleSize.height - label->getContentSize().height / 2));
+	label->setColor(Color3B::BLACK);
+	this->addChild(label);
+
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
 

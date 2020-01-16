@@ -50,6 +50,11 @@ bool HostScene::init()
 	sceneMenu->setPosition(Vec2::ZERO);
 	this->addChild(sceneMenu, static_cast<int>(LayerNum::FRONT));
 
+	/// 現在のシーンを表すテキスト
+	auto label = Label::create("Host", "Arial", 60);
+	label->setPosition(Vec2(label->getContentSize().width / 2,
+							visibleSize.height - label->getContentSize().height / 2));
+	this->addChild(label);
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
