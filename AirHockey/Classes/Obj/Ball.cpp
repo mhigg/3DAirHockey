@@ -1,5 +1,5 @@
 #include "Ball.h"
-#include "../Controller/OPRT_Key.h"
+#include "StageWall.h"
 #include "../Character/Player.h"
 #include "../Manager/GameManager.h"
 #include "../Manager/AnimMng.h"
@@ -21,6 +21,12 @@ Ball::Ball()
 Ball::~Ball()
 {
 }
+
+cocos2d::Vec3 Ball::GetLocalPos(void)
+{
+	return _localPos;
+}
+
 
 void Ball::update(float dt)
 {
@@ -98,6 +104,24 @@ void Ball::update(float dt)
 		_localPos.y -= 2;
 	}
 
+	// 壁の色更新
+	auto director = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
+	for (int k = 0; k < _wallDepth.size(); k++)
+	{
+		auto wall = (StageWall*)director->getChildByName("Wall" + std::to_string(k));
+
+		if (_localPos.z > _wallDepth[k])
+		{
+			// 変更後のｶﾗｰ
+			wall->SetWallColorChangeFlag(true);
+		}
+		else
+		{
+			// 通常時のｶﾗｰ
+			wall->SetWallColorChangeFlag(false);
+		}
+	}
+
 	// 座標の更新
 	// posとｽﾌﾟﾗｲﾄの大きさを一点透視図法に置き換える
 	// 一点透視図法にした時の座標のｾｯﾄ
@@ -106,23 +130,6 @@ void Ball::update(float dt)
 	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
 
 
-	if (_state->GetState(INPUT_ID::UP) <= TRIGGER_STATE::ON)
-	{
-		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ 0, +3 });
-	}
-	if (_state->GetState(INPUT_ID::DOWN) <= TRIGGER_STATE::ON)
-	{
-		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ 0, -3 });
-	}
-	if (_state->GetState(INPUT_ID::LEFT) <= TRIGGER_STATE::ON)
-	{
-		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ -5, 0 });
-	}
-	if (_state->GetState(INPUT_ID::RIGHT) <= TRIGGER_STATE::ON)
-	{
-		lpPointWithDepth.GetInstance().SetVanishingPoint(cocos2d::Vec2{ +5, 0 });
-	}
-//	lpEffectMng.PlayEffect("Ball", lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
 }
 
 bool Ball::Init(void)
@@ -145,8 +152,6 @@ bool Ball::Init(void)
 	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
 	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
-
-	_state = new OPRT_Key(this);
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	cocos2d::Node::scheduleUpdate();
