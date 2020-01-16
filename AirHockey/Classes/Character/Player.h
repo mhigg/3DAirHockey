@@ -14,6 +14,7 @@ public:
 	static Player* createPlayer(const float& depth);
 	float GetDepth() const;
 private:
+	bool IsMoveRange(cocos2d::Vec2& pos);		// ˆÚ“®”ÍˆÍ“à‚©Šm”F‚·‚é‚½‚ß‚ÌŠÖ”
 	void update(float dt);
 	CREATE_FUNC(Player);
 
