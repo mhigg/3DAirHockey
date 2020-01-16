@@ -4,10 +4,10 @@
 
 USING_NS_CC;
 
-GameManager::GameManager() : _maxDepth(1000.f), _wallMax(30)
+GameManager::GameManager() : _maxDepth(1000.f), _wallMax(30), _moveRange(350, 250)
 {
 	Init();
-	this->setName("gameManager");
+	this->setName("GameManager");
 	this->scheduleUpdate();
 }
 
@@ -18,6 +18,11 @@ GameManager::~GameManager()
 GameManager * GameManager::createGameMng()
 {
 	return GameManager::create();
+}
+
+cocos2d::Vec2 GameManager::GetMovingRange() const
+{
+	return _moveRange;
 }
 
 void GameManager::Init()

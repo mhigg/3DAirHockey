@@ -14,6 +14,8 @@ public:
 	~GameManager();
 
 	static GameManager* createGameMng();
+
+	cocos2d::Vec2 GetMovingRange() const;
 private:
 	CREATE_FUNC(GameManager);
 
@@ -21,7 +23,8 @@ private:
 	void update(float dt);
 	void Init();
 
-	const float _maxDepth;		// 奥行の最大値
+	const cocos2d::Vec2 _moveRange;
+	const float _maxDepth;	// 奥行の最大値
 	const int _wallMax;		// 壁の最大数
 };
 

@@ -87,7 +87,7 @@ bool GameScene::init()
 							 sceneItem->getContentSize().height / 2);
 	sceneItem->setPosition(sceneItemVec);
 	auto sceneMenu = Menu::create(sceneItem, 0);
-	sceneMenu->setName("sceneMenu");
+	sceneMenu->setName("SceneMenu");
 	sceneMenu->setPosition(Vec2::ZERO);
 	this->addChild(sceneMenu, static_cast<int>(LayerNum::FRONT));
 
@@ -137,7 +137,7 @@ bool GameScene::init()
 	/// ƒQ[ƒ€ŠÇ—ŽÒ‚Ì¶¬
 	auto gameLayer = Layer::create();
 	auto gameMng   = GameManager::createGameMng();
-	gameLayer->setName("gameLayer");
+	gameLayer->setName("GameLayer");
 	gameLayer->addChild(gameMng);
 	this->addChild(gameLayer, static_cast<int>(LayerNum::GAME));
 

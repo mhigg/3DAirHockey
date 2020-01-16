@@ -1,6 +1,7 @@
 #include "Ball.h"
 #include "../Controller/OPRT_Key.h"
 #include "../Character/Player.h"
+#include "../Manager/GameManager.h"
 #include "Collision.h"
 
 USING_NS_CC;
@@ -28,7 +29,7 @@ void Ball::update(float dt)
 		return;
 	}
 	/// ゲームマネージャーの取得
-	auto gameMng  = Director::getInstance()->getRunningScene()->getChildByName("gameLayer")->getChildByName("gameManager");
+	auto gameMng  = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
 	/// プレイヤーの取得
 	auto player = (Player*)gameMng->getChildByName("player");
 
@@ -58,11 +59,11 @@ void Ball::update(float dt)
 		_localPos.z-=3;
 	}
 	
-	if (_localPos.x - _radius < -350)
+	if (_localPos.x - _radius < -gameMng->GetMovingRange().x)
 	{
 		xReverse = false;
 	}
-	else if (_localPos.x + _radius > +350)
+	else if (_localPos.x + _radius > gameMng->GetMovingRange().x)
 	{
 		xReverse = true;
 	}
@@ -76,12 +77,12 @@ void Ball::update(float dt)
 	{
 		_localPos.x -= 2;
 	}
-	
-	if (_localPos.y - _radius < -250)
+	auto debug = gameMng->GetMovingRange();
+	if (_localPos.y - _radius < -gameMng->GetMovingRange().y)
 	{
 		yReverse = false;
 	}
-	else if (_localPos.y + _radius > +250)
+	else if (_localPos.y + _radius > gameMng->GetMovingRange().y)
 	{
 		yReverse = true;
 	}
