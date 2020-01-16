@@ -4,7 +4,7 @@
 
 USING_NS_CC;
 
-GameManager::GameManager() : _maxDepth(1000.f), _wallMax(30), _moveRange(350, 250)
+GameManager::GameManager() : _maxDepth(1000.f), _wallMax(30), _moveRange(1024 / 2, 576 / 2)
 {
 	Init();
 	this->setName("GameManager");

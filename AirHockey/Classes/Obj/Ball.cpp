@@ -2,6 +2,7 @@
 #include "../Controller/OPRT_Key.h"
 #include "../Character/Player.h"
 #include "../Manager/GameManager.h"
+#include "../Manager/AnimMng.h"
 #include "Collision.h"
 
 USING_NS_CC;
@@ -130,10 +131,14 @@ bool Ball::Init(void)
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	_localPos = { 0,0,_wallDepth[0] };
 
-	// ﾃｸｽﾁｬｰ
-	setTexture("ball.png");
-	// 半径(画像の大きさ/2)
-	_radius = getContentSize().width / 2;
+	// ﾎﾞｰﾙのｱﾆﾒｰｼｮﾝ登録
+	lpAnimMng.AddAnimCache("ball", "ball", 15, 0.03f, false);
+
+	// 初期ｱﾆﾒｰｼｮﾝ
+	lpAnimMng.SetAnim(this, "ball", false);
+
+	// 半径(画像の大きさ/2 - 余白)
+	_radius = 192 / 2 - 32;
 
 	// posとｽﾌﾟﾗｲﾄの大きさを一点透視図法に置き換える
 	// 一点透視図法にした時の座標のｾｯﾄ
