@@ -193,6 +193,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClInclude Include="..\Classes\Manager\AnimMng.h" />
     <ClInclude Include="..\Classes\Manager\GameManager.h" />
     <ClInclude Include="..\Classes\Manager\PointWithDepth.h" />
+    <ClInclude Include="..\Classes\Module\Shoot\Curve.h" />
+    <ClInclude Include="..\Classes\Module\Shoot\Normal.h" />
+    <ClInclude Include="..\Classes\Module\Shoot\Shoot.h" />
     <ClInclude Include="..\Classes\Obj\Ball.h" />
     <ClInclude Include="..\Classes\Obj\Obj.h" />
     <ClInclude Include="..\Classes\Obj\StageWall.h" />

@@ -28,6 +28,9 @@
     <Filter Include="Effekseer">
       <UniqueIdentifier>{df93dd45-a596-4ce7-af01-3d3e04c1d32c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Module">
+      <UniqueIdentifier>{9deffcf7-291c-4af0-9876-f36cabd8a363}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -165,6 +168,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Manager\AnimMng.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\Shoot\Shoot.h">
+      <Filter>Module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\Shoot\Curve.h">
+      <Filter>Module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\Shoot\Normal.h">
+      <Filter>Module</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

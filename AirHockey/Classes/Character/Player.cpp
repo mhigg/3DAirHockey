@@ -12,7 +12,8 @@ Player::Player()
 {
 	/// 仮の画像を追加している　◆
 	auto sprite = Sprite::create("player.png");
-	setTexture("player.png");
+	sprite->setName("image");
+	this->setContentSize(sprite->getContentSize());
 	/// プレイヤーのタグ名を設定している(仮)　◆
 	this->setName("player");
 	this->addChild(sprite);
@@ -43,35 +44,33 @@ float Player::GetDepth() const
 	return _depth;
 }
 
-bool Player::IsMoveRange(cocos2d::Vec2& pos)
+void Player::MoveUpdate()
 {
-	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
+	/// 画面サイズの取得
+	auto scrSize = Director::getInstance()->sharedDirector()->getOpenGLView()->getFrameSize();
+	auto pos	 = _oprtState->GetPoint();
+	auto size	 = this->getChildByName("image")->getContentSize();
 
-	return ((pos.x - this->getContentSize().width / 2 < gameMng->GetMovingRange().x * 2) &&
-		    (pos.x + this->getContentSize().width / 2 > 0) &&
-		    (pos.y - this->getContentSize().height / 2 < gameMng->GetMovingRange().y * 2) &&
-		    (pos.y + this->getContentSize().height / 2 > 0)); 
+	/// X軸の移動範囲チェック
+	if ((pos.x + size.width / 2 < scrSize.width) &&
+		(pos.x - size.width / 2 > 0))
+	{
+		this->setPositionX(pos.x);
+	}
+
+	/// Y軸の移動範囲チェック
+	if ((pos.y + size.height / 2 < scrSize.height) &&
+		(pos.y - size.height / 2 > 0))
+	{
+		this->setPositionY(pos.y);
+	}
 }
 
 void Player::update(float dt)
 {
-	/*if (Director::getInstance()->getRunningScene()->getName() == "GameScene")
-	{
-		if (IsMoveRange(_oprtState->GetPoint()))
-		{
-			/// 座標の更新を行っている
-			this->setPosition(_oprtState->GetPoint());
-		}
-	}*/
-
-	/// 座標の更新を行っている
-	this->setPosition(_oprtState->GetPoint());
-
-	/// 座標の更新を行っている
-	// this->setPosition(_oprtState->GetPoint());
-
-	//setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(Vec3(_oprtState->GetPoint().x, _oprtState->GetPoint().y, _depth)));
-	// 一点透視図法にした時の画像のｻｲｽﾞ設定
+	MoveUpdate();
+	
+	// 奥行きの深さによって、プレイヤーのサイズを変更するようにしている
 	setScale(lpPointWithDepth.GetInstance().GetScale(_depth));
 	
 	lpPointWithDepth.GetInstance().SetVanishingPoint(_oprtState->GetPoint() / 100 - cocos2d::Vec2(400,300) / 100);
