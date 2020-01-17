@@ -24,6 +24,8 @@ private:
 	std::vector<float> _wallDepth;	// 壁の奥行
 	float _radius;					// 玉の半径
 
+	bool _isCurve = false;		// ベジェの端点生成用フラグ(デバッグ)
+
 	/// マジックナンバーの指定は後で修正しよう！　◆
 	std::tuple<bool, bool, bool> _isReverse;		// 速度反転用のフラグ(0 : X, 1 : Y, 2 : Z)
 };
