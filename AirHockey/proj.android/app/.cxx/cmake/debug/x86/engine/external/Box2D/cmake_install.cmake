@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/kurok/Desktop/AirHockeyProject/3DAirHockey/AirHockey/cocos2d/external/Box2D
+# Install script for directory: D:/Android/3DAirHockey/AirHockey/cocos2d/external/Box2D
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

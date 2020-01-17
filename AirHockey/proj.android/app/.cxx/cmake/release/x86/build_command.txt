@@ -1,21 +1,21 @@
-Executable : D:\AndroidSDK\Sdk\cmake\3.10.2.4988404\bin\cmake.exe
+Executable : D:\Android\android-sdk\cmake\3.10.2.4988404\bin\cmake.exe
 arguments : 
--HC:\Users\kurok\Desktop\AirHockeyProject\3DAirHockey\AirHockey
--BC:\Users\kurok\Desktop\AirHockeyProject\3DAirHockey\AirHockey\proj.android\app\.cxx\cmake\release\x86
+-HD:\Android\3DAirHockey\AirHockey
+-BD:\Android\3DAirHockey\AirHockey\proj.android\app\.cxx\cmake\release\x86
 -DANDROID_ABI=x86
 -DANDROID_PLATFORM=android-16
--DCMAKE_LIBRARY_OUTPUT_DIRECTORY=C:\Users\kurok\Desktop\AirHockeyProject\3DAirHockey\AirHockey\proj.android\app\build\intermediates\cmake\release\obj\x86
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\Android\3DAirHockey\AirHockey\proj.android\app\build\intermediates\cmake\release\obj\x86
 -DCMAKE_BUILD_TYPE=Release
--DANDROID_NDK=D:\AndroidSDK\Sdk\ndk\20.0.5594570
+-DANDROID_NDK=D:\Android\android-ndk\ndk-20.0.5594570
 -DCMAKE_CXX_FLAGS=-frtti -fexceptions -fsigned-char
 -DCMAKE_SYSTEM_NAME=Android
 -DCMAKE_ANDROID_ARCH_ABI=x86
 -DCMAKE_SYSTEM_VERSION=16
 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
--DCMAKE_ANDROID_NDK=D:\AndroidSDK\Sdk\ndk\20.0.5594570
--DCMAKE_TOOLCHAIN_FILE=D:\AndroidSDK\Sdk\ndk\20.0.5594570\build\cmake\android.toolchain.cmake
+-DCMAKE_ANDROID_NDK=D:\Android\android-ndk\ndk-20.0.5594570
+-DCMAKE_TOOLCHAIN_FILE=D:\Android\android-ndk\ndk-20.0.5594570\build\cmake\android.toolchain.cmake
 -G Ninja
--DCMAKE_MAKE_PROGRAM=D:\AndroidSDK\Sdk\cmake\3.10.2.4988404\bin\ninja.exe
+-DCMAKE_MAKE_PROGRAM=D:\Android\android-sdk\cmake\3.10.2.4988404\bin\ninja.exe
 -DCMAKE_FIND_ROOT_PATH=
 -DANDROID_STL=c++_static
 -DANDROID_TOOLCHAIN=clang

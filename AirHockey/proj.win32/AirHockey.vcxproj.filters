@@ -100,6 +100,7 @@
     <ClCompile Include="..\Classes\Manager\AnimMng.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\NetworkLogic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">

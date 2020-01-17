@@ -23,7 +23,7 @@
 # THE SOFTWARE.
 # ****************************************************************************/
 
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.10.2)
 
 set(APP_NAME AirHockey)
 
@@ -66,8 +66,10 @@ list(APPEND GAME_SOURCE
      Classes/Effekseer/Effekseer.cpp
      Classes/Effekseer/EffekseerNative.cpp
      Classes/Effekseer/EffekseerRendererNative.cpp
+     Classes/Manager/AnimMng.cpp
      Classes/Manager/GameManager.cpp
      Classes/Manager/PointWithDepth.cpp
+     Classes/NetworkLogic.cpp
      Classes/Stage.cpp
      Classes/Collision.cpp
      )
@@ -90,8 +92,10 @@ list(APPEND GAME_HEADER
      Classes/Effekseer/Effekseer.h
      Classes/Effekseer/EffekseerNative.h
      Classes/Effekseer/EffekseerRendererNative.h
+     Classes/Manager/AnimMng.h
      Classes/Manager/GameManager.h
      Classes/Manager/PointWithDepth.h
+     Classes/NetworkLogic.h
      Classes/Stage.h
      Classes/Collision.h
      )
@@ -157,14 +161,18 @@ if(NOT ANDROID)
     add_executable(${APP_NAME} ${all_code_files})
 else()
     add_library(${APP_NAME} SHARED ${all_code_files})
+ # add this code
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/AndroidNdkSdk)
     add_subdirectory(${COCOS2DX_ROOT_PATH}/cocos/platform/android ${ENGINE_BINARY_PATH}/cocos/platform)
     target_link_libraries(${APP_NAME} -Wl,--whole-archive cpp_android_spec -Wl,--no-whole-archive)
 endif()
 
 target_link_libraries(${APP_NAME} cocos2d)
+target_link_libraries(${APP_NAME} photon_loadbalancing) #add
 target_include_directories(${APP_NAME}
         PRIVATE Classes
         PRIVATE ${COCOS2DX_ROOT_PATH}/cocos/audio/include/
+        PRIVATE vendor/AndroidNdkSdk/ # add
 )
 
 # mark app resources
