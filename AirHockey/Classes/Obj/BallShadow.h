@@ -17,7 +17,7 @@ class BallShadow :
 	public Obj
 {
 public:
-	BallShadow(cocos2d::Vec3 vec);
+	BallShadow(int num);
 	BallShadow();
 	~BallShadow();
 private:

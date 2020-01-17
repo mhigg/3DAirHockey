@@ -4,16 +4,14 @@
 
 USING_NS_CC;
 
-BallShadow::BallShadow(cocos2d::Vec3 vec)
+BallShadow::BallShadow(int num)
 {
-	_localPos = vec;
-	_shadowPlace = static_cast<SHADOW>(0);
+	_shadowPlace = static_cast<SHADOW>(num);
 	Init();
 }
 
 BallShadow::BallShadow()
 {
-	_shadowPlace = static_cast<SHADOW>(2);
 	Init();
 }
 

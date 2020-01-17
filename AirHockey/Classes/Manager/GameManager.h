@@ -6,6 +6,14 @@
 class Player;
 class Ball;
 
+// ZOrder—p
+enum class SpriteNum
+{
+	SHADOW,
+	BALL,
+	PLAYER,
+};
+
 class GameManager :
 	public cocos2d::Node
 {

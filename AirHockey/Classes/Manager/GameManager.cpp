@@ -49,14 +49,16 @@ void GameManager::Init()
 	/// ボールの生成
 	auto ball = new Ball(_zdepth);
 	ball->setName("ball");
-	this->addChild(ball);
+	this->addChild(ball, static_cast<int>(SpriteNum::BALL));
 
 	/// ボールの影の生成
-	auto ballShadow = new BallShadow();
-	this->addChild(ballShadow);
-
+	for (int k = 0; k < 4; k++)
+	{
+		auto ballShadow = new BallShadow(k);
+		this->addChild(ballShadow);
+	}
 	/// プレイヤーの生成
-	this->addChild(Player::createPlayer(_zdepth[0]));
+	this->addChild(Player::createPlayer(_zdepth[0]), static_cast<int>(SpriteNum::PLAYER));
 }
 
 void GameManager::update(float dt)
