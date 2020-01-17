@@ -1,20 +1,20 @@
-#include "MouseCtl.h"
+ï»¿#include "MouseCtl.h"
 
 USING_NS_CC;
 
 MouseCtl::MouseCtl(cocos2d::Node* node)
 {
-	/// ƒ}ƒEƒX—p‚ÌƒŠƒXƒi[‚ð¶¬‚µ‚Ä‚¢‚é
+	/// ãƒžã‚¦ã‚¹ç”¨ã®ãƒªã‚¹ãƒŠãƒ¼ã‚’ç”Ÿæˆã—ã¦ã„ã‚‹
 	auto mouseListener = EventListenerMouse::create();
 	mouseListener->onMouseMove = [&](Event* event)
 	{
-		/// ƒ}ƒEƒX‚Ìî•ñ‚ðŽæ“¾‚µ‚Ä‚¢‚é
+		/// ãƒžã‚¦ã‚¹ã®æƒ…å ±ã‚’å–å¾—ã—ã¦ã„ã‚‹
 		auto mouse = ((EventMouse*)event);
-		/// ˆÚ“®‘ÎÛ‚É‘Î‚µ‚ÄAƒ}ƒEƒX‚ÌÀ•W‚ð“n‚µ‚Ä‚¢‚é
+		/// ç§»å‹•å¯¾è±¡ã«å¯¾ã—ã¦ã€ãƒžã‚¦ã‚¹ã®åº§æ¨™ã‚’æ¸¡ã—ã¦ã„ã‚‹
 		_point = (Vec2(mouse->getCursorX(), mouse->getCursorY()));
 	};
 
-	/// ƒ}ƒEƒX‘€ì‚Ì“o˜^‚ðs‚Á‚Ä‚¢‚é(node‚Ì“o˜^‚ª•K—v‚È‚¢ê‡AÁ‚·)
+	/// ãƒžã‚¦ã‚¹æ“ä½œã®ç™»éŒ²ã‚’è¡Œã£ã¦ã„ã‚‹(nodeã®ç™»éŒ²ãŒå¿…è¦ãªã„å ´åˆã€æ¶ˆã™)
 	auto eventDisPatcher = Director::getInstance()->getEventDispatcher();
 	eventDisPatcher->addEventListenerWithSceneGraphPriority(mouseListener, node);
 }

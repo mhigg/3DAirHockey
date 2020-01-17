@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <memory>
 #include "cocos2d.h"
@@ -6,7 +6,7 @@
 class Player;
 class Ball;
 
-// ZOrder—p
+// ZOrderç”¨
 enum class SpriteNum
 {
 	SHADOW,
@@ -31,10 +31,10 @@ private:
 	void update(float dt);
 	void Init();
 
-	std::vector<float> _zdepth;		// [“x’l‚ğ•Û‘¶‚·‚é‚à‚Ì
+	std::vector<float> _zdepth;		// æ·±åº¦å€¤ã‚’ä¿å­˜ã™ã‚‹ã‚‚ã®
 
 	const cocos2d::Vec2 _moveRange;
-	const float _maxDepth;	// ‰œs‚ÌÅ‘å’l
-	const int _wallMax;		// •Ç‚ÌÅ‘å”
+	const float _maxDepth;	// å¥¥è¡Œã®æœ€å¤§å€¤
+	const int _wallMax;		// å£ã®æœ€å¤§æ•°
 };
 

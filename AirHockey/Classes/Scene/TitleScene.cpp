@@ -1,4 +1,4 @@
-#include "TitleScene.h"
+ï»¿#include "TitleScene.h"
 #include "HostScene.h"
 #include "GuestScene.h"
 
@@ -21,12 +21,12 @@ bool TitleScene::init()
 		return false;
 	}
 
-	// ‰æ–Ê‰ð‘œ“x‚ÌŽæ“¾
+	// ç”»é¢è§£åƒåº¦ã®å–å¾—
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	// À•W‚ÌŽæ“¾
+	// åº§æ¨™ã®å–å¾—
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	// ‰Eã‚Ì¼¬¯ÄÀÞ³ÝÎÞÀÝ‚Ìì¬
+	// å³ä¸Šã®ï½¼ï½¬ï½¯ï¾„ï¾€ï¾žï½³ï¾ï¾Žï¾žï¾€ï¾ã®ä½œæˆ
 	auto closeItem = MenuItemImage::create(
 		"CloseNormal.png",
 		"CloseSelected.png",
@@ -40,7 +40,7 @@ bool TitleScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu);
 
-	/// ƒzƒXƒgƒV[ƒ“‚Ìƒ{ƒ^ƒ“¶¬(—Îƒ{ƒ^ƒ“)
+	/// ãƒ›ã‚¹ãƒˆã‚·ãƒ¼ãƒ³ã®ãƒœã‚¿ãƒ³ç”Ÿæˆ(ç·‘ãƒœã‚¿ãƒ³)
 	auto hostItem = MenuItemImage::create("host.png", "host2.png",[&](Ref* ref)
 	{
 		Director::getInstance()->replaceScene(TransitionFade::create(1.f, HostScene::createScene(), Color3B::WHITE));
@@ -51,7 +51,7 @@ bool TitleScene::init()
 	hostMenu->setName("hostMenu");
 	hostMenu->setPosition(Vec2::ZERO);
 
-	/// ƒ{ƒ^ƒ“ƒeƒLƒXƒg‚Ì¶¬
+	/// ãƒœã‚¿ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã®ç”Ÿæˆ
 	auto hostLabel = Label::create("Host", "Arial", 50);
 	hostLabel->setColor(Color3B::BLACK);
 	hostLabel->setPosition(origin.x + visibleSize.width / 2,
@@ -59,7 +59,7 @@ bool TitleScene::init()
 	this->addChild(hostMenu, static_cast<int>(LayerNum::FRONT));
 	this->addChild(hostLabel, static_cast<int>(LayerNum::FRONT));
 
-	/// ƒQƒXƒgƒV[ƒ“‚Ìƒ{ƒ^ƒ“¶¬
+	/// ã‚²ã‚¹ãƒˆã‚·ãƒ¼ãƒ³ã®ãƒœã‚¿ãƒ³ç”Ÿæˆ
 	auto guestItem = MenuItemImage::create("guest.png", "guest2.png",[&](Ref* ref)
 	{
 		Director::getInstance()->replaceScene(TransitionFade::create(1.f, GuestScene::createScene(), Color3B::WHITE));
@@ -69,17 +69,17 @@ bool TitleScene::init()
 	auto guestMenu = Menu::create(guestItem, 0);
 	guestMenu->setName("guestMenu");
 	guestMenu->setPosition(Vec2::ZERO);
-	/// ƒ{ƒ^ƒ“ƒeƒLƒXƒg‚Ì¶¬
+	/// ãƒœã‚¿ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã®ç”Ÿæˆ
 	auto guestLabel = Label::create("Guest", "Arial", 50);
 	guestLabel->setColor(Color3B::BLACK);
 	guestLabel->setPosition(origin.x + visibleSize.width / 2,
 							origin.y + visibleSize.height / 2 - guestItem->getContentSize().height);
 
-	/// ƒ{ƒ^ƒ“‚Ì’Ç‰Á
+	/// ãƒœã‚¿ãƒ³ã®è¿½åŠ 
 	this->addChild(guestMenu, static_cast<int>(LayerNum::FRONT));
 	this->addChild(guestLabel, static_cast<int>(LayerNum::FRONT));
 
-	/// Œ»Ý‚ÌƒV[ƒ“‚ð•\‚·ƒeƒLƒXƒg
+	/// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’è¡¨ã™ãƒ†ã‚­ã‚¹ãƒˆ
 	auto label = Label::create("Title", "Arial", 60);
 	label->setPosition(Vec2(label->getContentSize().width / 2, 
 							visibleSize.height - label->getContentSize().height / 2));
@@ -87,7 +87,7 @@ bool TitleScene::init()
 
 	this->setName("TitleScene");
 
-	// 1ÌÚ°Ñ‚²‚Æ‚Éupdate‚ð
+	// 1ï¾Œï¾šï½°ï¾‘ã”ã¨ã«updateã‚’
 	this->scheduleUpdate();
 
 	return true;

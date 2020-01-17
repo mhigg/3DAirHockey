@@ -1,4 +1,4 @@
-#include "../Character/Player.h"
+ï»¿#include "../Character/Player.h"
 #include "../Obj/Ball.h"
 #include "../Obj/BallShadow.h"
 #include "GameManager.h"
@@ -33,10 +33,10 @@ std::vector<float> GameManager::GetDepth() const
 
 void GameManager::Init()
 {
-	/// 2ŸŠÖ”‚Å”z’u‚·‚é‚Ì‚Å¸Ş×Ì‚ÌŠJ‚«‹ï‡‚ğì¬
+	/// 2æ¬¡é–¢æ•°ã§é…ç½®ã™ã‚‹ã®ã§ï½¸ï¾ï¾—ï¾Œã®é–‹ãå…·åˆã‚’ä½œæˆ
 	float mag = _maxDepth / (_wallMax * _wallMax);
 
-	/// [“x’l•Û‘¶—p‚ÌˆêŸ•Ï”(_wallDepth, _zdepth‚Ì0”Ô–Ú‚Í’l‚ª‰ó‚ê‚Ä‚¢‚é‚Ì‚Å0‚Å‚¢‚¢‚©‚à‚µ‚ê‚È‚¢)@Ÿ
+	/// æ·±åº¦å€¤ä¿å­˜ç”¨ã®ä¸€æ¬¡å¤‰æ•°(_wallDepth, _zdepthã®0ç•ªç›®ã¯å€¤ãŒå£Šã‚Œã¦ã„ã‚‹ã®ã§0ã§ã„ã„ã‹ã‚‚ã—ã‚Œãªã„)ã€€â—†
 	float depth;
 
 	for (int x = _wallMax; x > 0; x--)
@@ -45,21 +45,21 @@ void GameManager::Init()
 		depth = _maxDepth - depth;
 		_zdepth.emplace_back(depth);
 	}
-	/// ‰¼‚Ì‰Šú‰» Ÿ
+	/// ä»®ã®åˆæœŸåŒ– â—†
 	_zdepth[0] = 0.f;
 
-	/// ƒ{[ƒ‹‚Ì¶¬
+	/// ãƒœãƒ¼ãƒ«ã®ç”Ÿæˆ
 	auto ball = new Ball(_zdepth);
 	ball->setName("ball");
 	this->addChild(ball, static_cast<int>(SpriteNum::BALL));
 
-	/// ƒ{[ƒ‹‚Ì‰e‚Ì¶¬
+	/// ãƒœãƒ¼ãƒ«ã®å½±ã®ç”Ÿæˆ
 	for (int k = 0; k < 4; k++)
 	{
 		auto ballShadow = new BallShadow(k);
 		this->addChild(ballShadow);
 	}
-	/// ƒvƒŒƒCƒ„[‚Ì¶¬
+	/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç”Ÿæˆ
 	this->addChild(Player::createPlayer(_zdepth[0]), static_cast<int>(SpriteNum::PLAYER));
 }
 

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Obj.h"
 #include <vector>
 #include <tuple>
@@ -13,19 +13,19 @@ public:
 	Ball();
 	~Ball();
 
-	cocos2d::Vec3 GetLocalPos(void) const;		// _localPos‚Ìæ“¾
+	cocos2d::Vec3 GetLocalPos(void) const;		// _localPosã®å–å¾—
 	std::tuple<bool, bool, bool> GetIsReverse() const;
 private:
 	bool Init(void);
-	void ChangeIsReverse();							// ”½“]—pƒtƒ‰ƒO‚ÌXV—p
+	void ChangeIsReverse();							// åè»¢ç”¨ãƒ•ãƒ©ã‚°ã®æ›´æ–°ç”¨
 	void update(float dt) override;
 
-	std::unique_ptr<TrajectControl> _traject;		// ƒ{[ƒ‹‚Ì‹O“¹§Œä—p
-	std::vector<float> _wallDepth;	// •Ç‚Ì‰œs
-	float _radius;					// ‹Ê‚Ì”¼Œa
+	std::unique_ptr<TrajectControl> _traject;		// ãƒœãƒ¼ãƒ«ã®è»Œé“åˆ¶å¾¡ç”¨
+	std::vector<float> _wallDepth;	// å£ã®å¥¥è¡Œ
+	float _radius;					// ç‰ã®åŠå¾„
 
-	bool _isCurve = false;		// ƒxƒWƒF‚Ì’[“_¶¬—pƒtƒ‰ƒO(ƒfƒoƒbƒO)
+	bool _isCurve = false;		// ãƒ™ã‚¸ã‚§ã®ç«¯ç‚¹ç”Ÿæˆç”¨ãƒ•ãƒ©ã‚°(ãƒ‡ãƒãƒƒã‚°)
 
-	/// ƒ}ƒWƒbƒNƒiƒ“ƒo[‚Ìw’è‚ÍŒã‚ÅC³‚µ‚æ‚¤I@Ÿ
-	std::tuple<bool, bool, bool> _isReverse;		// ‘¬“x”½“]—p‚Ìƒtƒ‰ƒO(0 : X, 1 : Y, 2 : Z)
+	/// ãƒã‚¸ãƒƒã‚¯ãƒŠãƒ³ãƒãƒ¼ã®æŒ‡å®šã¯å¾Œã§ä¿®æ­£ã—ã‚ˆã†ï¼ã€€â—†
+	std::tuple<bool, bool, bool> _isReverse;		// é€Ÿåº¦åè»¢ç”¨ã®ãƒ•ãƒ©ã‚°(0 : X, 1 : Y, 2 : Z)
 };

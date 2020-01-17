@@ -1,4 +1,4 @@
-#include <cmath>
+﻿#include <cmath>
 #include "Collision.h"
 
 std::unique_ptr<Collision, Collision::ColDeleter> Collision::s_Instance(new Collision());

@@ -1,4 +1,4 @@
-/****************************************************************************
+ï»¿/****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
@@ -40,7 +40,7 @@ GameScene::~GameScene()
 
 Scene* GameScene::createScene()
 {
-	// ¼°İ‚Ìì¬
+	// ï½¼ï½°ï¾ã®ä½œæˆ
 	return GameScene::create();
 }
 
@@ -58,12 +58,12 @@ bool GameScene::init()
 		return false;
 	}
 
-	// ‰æ–Ê‰ğ‘œ“x‚Ìæ“¾
+	// ç”»é¢è§£åƒåº¦ã®å–å¾—
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	// À•W‚Ìæ“¾
+	// åº§æ¨™ã®å–å¾—
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	// ‰Eã‚Ì¼¬¯ÄÀŞ³İÎŞÀİ‚Ìì¬
+	// å³ä¸Šã®ï½¼ï½¬ï½¯ï¾„ï¾€ï¾ï½³ï¾ï¾ï¾ï¾€ï¾ã®ä½œæˆ
 	auto closeItem = MenuItemImage::create(
 		"CloseNormal.png",
 		"CloseSelected.png",
@@ -77,7 +77,7 @@ bool GameScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, static_cast<int>(LayerNum::FRONT));
 
-	/// ƒV[ƒ“‘JˆÚ—p‚Ìƒ{ƒ^ƒ“‚Ìì¬
+	/// ã‚·ãƒ¼ãƒ³é·ç§»ç”¨ã®ãƒœã‚¿ãƒ³ã®ä½œæˆ
 	auto sceneItem = MenuItemImage::create(
 		"button.png",
 		"button2.png",
@@ -90,29 +90,29 @@ bool GameScene::init()
 	sceneMenu->setPosition(Vec2::ZERO);
 	this->addChild(sceneMenu, static_cast<int>(LayerNum::FRONT));
 
-	// Ì¨°ÙÄŞ—pÚ²Ô°
+	// ï¾Œï½¨ï½°ï¾™ï¾„ï¾ç”¨ï¾šï½²ï¾”ï½°
 	auto stageLayer = Layer::create();
 	stageLayer->setName("StageLayer");
 	this->addChild(stageLayer);
 
-	///// ‚±‚±‚Ì’¼’l‚ğŒã‚Ù‚ÇC³‚µ‚Ä‚¨‚­@Ÿ
-	// ½Ã°¼Ş‚Ì•Çì¬
-	// ‰œs‚ÌÅ‘å’l
+	///// ã“ã“ã®ç›´å€¤ã‚’å¾Œã»ã©ä¿®æ­£ã—ã¦ãŠãã€€â—†
+	// ï½½ï¾ƒï½°ï½¼ï¾ã®å£ä½œæˆ
+	// å¥¥è¡Œã®æœ€å¤§å€¤
 	float maxDepth = 1000;
-	// •Ç‚ÌÅ‘å”
+	// å£ã®æœ€å¤§æ•°
 	int wallMaxNum = 30;
-	// 2ŸŠÖ”‚Å”z’u‚·‚é‚Ì‚Å¸Ş×Ì‚ÌŠJ‚«‹ï‡‚ğì¬
+	// 2æ¬¡é–¢æ•°ã§é…ç½®ã™ã‚‹ã®ã§ï½¸ï¾ï¾—ï¾Œã®é–‹ãå…·åˆã‚’ä½œæˆ
 	float magnification = maxDepth / (wallMaxNum * wallMaxNum);
-	// ‰œs‚Ìì¬
+	// å¥¥è¡Œã®ä½œæˆ
 	for (float x = wallMaxNum; x > 0; x--)
 	{
 		float depth = x * x * magnification;
 		depth = maxDepth - depth;
 		zdepth.emplace_back(depth);
 	}
-	// Ì¨°ÙÄŞ‚ÌŠî–{ƒTƒCƒY
+	// ï¾Œï½¨ï½°ï¾™ï¾„ï¾ã®åŸºæœ¬ã‚µã‚¤ã‚º
 	Point wallSize = visibleSize;
-	// Ì¨°ÙÄŞ—p½Ìß×²Ä‚Ìì¬
+	// ï¾Œï½¨ï½°ï¾™ï¾„ï¾ç”¨ï½½ï¾Œï¾Ÿï¾—ï½²ï¾„ã®ä½œæˆ
 	for (int k = 0; k < zdepth.size(); k++)
 	{
 		Color3B color;
@@ -123,34 +123,34 @@ bool GameScene::init()
 				255 - (200 * (zdepth[k] / 1000)),
 				255 - (200 * (zdepth[k] / 1000)));
 		}
-		// ÅŒã‚Ìˆê–‡‚Í•‚Å•`‰æ
+		// æœ€å¾Œã®ä¸€æšã¯é»’ã§æç”»
 		else
 		{
 			color = Color3B(0, 0, 0);
 		}
 		auto stageWall = new StageWall({ 0, 0 }, zdepth[k], wallSize, color);
-		// ½Ã°¼ŞÚ²Ô°‚É’Ç‰Á
+		// ï½½ï¾ƒï½°ï½¼ï¾ï¾šï½²ï¾”ï½°ã«è¿½åŠ 
 		stageLayer->addChild(stageWall,0,"Wall" +std::to_string(k));
 	}
 
-	/// ƒQ[ƒ€ŠÇ—Ò‚Ì¶¬
+	/// ã‚²ãƒ¼ãƒ ç®¡ç†è€…ã®ç”Ÿæˆ
 	auto gameLayer = Layer::create();
 	auto gameMng   = GameManager::createGameMng();
 	gameLayer->setName("GameLayer");
 	gameLayer->addChild(gameMng);
 	this->addChild(gameLayer, static_cast<int>(LayerNum::GAME));
 
-	/// Œ»İ‚ÌƒV[ƒ“‚ğ•\‚·ƒeƒLƒXƒg
+	/// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’è¡¨ã™ãƒ†ã‚­ã‚¹ãƒˆ
 	auto label = Label::create("Game", "Arial", 60);
 	label->setPosition(Vec2(label->getContentSize().width / 2,
 							visibleSize.height - label->getContentSize().height / 2));
 	label->setColor(Color3B::BLACK);
 	this->addChild(label);
 
-	// 1ÌÚ°Ñ‚²‚Æ‚Éupdate‚ğ
+	// 1ï¾Œï¾šï½°ï¾‘ã”ã¨ã«updateã‚’
 	this->scheduleUpdate();
 
-	/// ƒV[ƒ“–¼‚ğ•t‚¯‚½
+	/// ã‚·ãƒ¼ãƒ³åã‚’ä»˜ã‘ãŸ
 	this->setName("GameScene");
 
 	return true;
@@ -164,7 +164,7 @@ void GameScene::ChangeScene(cocos2d::Ref * ref)
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {
-	// ¼¬¯ÄÀŞ³İÎŞÀİ‚ğ‰Ÿ‚µ‚½‚ç•Â‚¶‚é—p‚É‚·‚é
+	// ï½¼ï½¬ï½¯ï¾„ï¾€ï¾ï½³ï¾ï¾ï¾ï¾€ï¾ã‚’æŠ¼ã—ãŸã‚‰é–‰ã˜ã‚‹ç”¨ã«ã™ã‚‹
 	Director::getInstance()->end();
 }
 
@@ -172,14 +172,14 @@ void GameScene::update(float dt)
 {
 	for (auto data : lpEffectMng.GetManager())
 	{
-		// Effekseer‚ÌXV
+		// Effekseerã®æ›´æ–°
 		data.second->update();
 	}
 }
 
 //void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parentTransform, uint32_t parentFlags)
 //{
-//	//// Effekseer‚Ì•`‰æİ’è
+//	//// Effekseerã®æç”»è¨­å®š
 //	//for (auto data : lpEffectMng.GetManager())
 //	//{
 //	//	data.second->begin(renderer, _globalZOrder);

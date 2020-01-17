@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <array>
 #include "cocos2d.h"
 
-// ƒ{[ƒ‹‚Ì‹O“¹‚Ìó‘Ô
+// ãƒœãƒ¼ãƒ«ã®è»Œé“ã®çŠ¶æ…‹
 enum class State
 {
 	NORMAL,
@@ -10,21 +10,21 @@ enum class State
 	MAX
 };
 
-/// ƒ{[ƒ‹‚Ì‹O“¹§Œä—pƒNƒ‰ƒX
+/// ãƒœãƒ¼ãƒ«ã®è»Œé“åˆ¶å¾¡ç”¨ã‚¯ãƒ©ã‚¹
 class TrajectControl
 {
 public:
 	TrajectControl();
 	~TrajectControl();
 
-	cocos2d::Vec3 GetVel(const State& state);		// ‘¬“xæ“¾—p
+	cocos2d::Vec3 GetVel(const State& state);		// é€Ÿåº¦å–å¾—ç”¨
 	bool CalBezierPoint();				
 private:
 	cocos2d::Vec3 CalNormalVel();
-	cocos2d::Vec3 CalCurveVel();			// ƒJ[ƒu‚·‚é‹O“¹‚Ì‘¬“xŒvZ—p 
+	cocos2d::Vec3 CalCurveVel();			// ã‚«ãƒ¼ãƒ–ã™ã‚‹è»Œé“ã®é€Ÿåº¦è¨ˆç®—ç”¨ 
 
-	std::array<cocos2d::Vec3, 29> _points;	// ‹Èü‚Ì’[“_(‚Æ‚è‚ ‚¦‚¸ŒÅ’è’·) Ÿ
+	std::array<cocos2d::Vec3, 29> _points;	// æ›²ç·šã®ç«¯ç‚¹(ã¨ã‚Šã‚ãˆãšå›ºå®šé•·) â—†
 
-	const cocos2d::Vec3 _speed;				// ƒ{[ƒ‹‚ÌƒXƒs[ƒh
+	const cocos2d::Vec3 _speed;				// ãƒœãƒ¼ãƒ«ã®ã‚¹ãƒ”ãƒ¼ãƒ‰
 };
 

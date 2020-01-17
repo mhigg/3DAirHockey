@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 #include "cocos2d.h"
 
-// ���͒[���̑I��
+// 入力端末の選択
 enum class INPUT_DEVICE
 {
 	KEY,
@@ -9,34 +9,34 @@ enum class INPUT_DEVICE
 	MAX
 };
 
-// �����͗penum
+// ｷｰ入力用enum
 enum class INPUT_ID
 {
-	LEFT,	// ��
-	RIGHT,	// �E
-	UP,		// ��
-	DOWN,	// ��
-	BTN_1,	// ����1
-	BTN_2,	// ����2
-	BTN_ESC,// ESC����
-	ALL_KEY,// �S�Ă̷��̏�Ԏ擾�p
+	LEFT,	// 左
+	RIGHT,	// 右
+	UP,		// 上
+	DOWN,	// 下
+	BTN_1,	// ﾎﾞﾀﾝ1
+	BTN_2,	// ﾎﾞﾀﾝ2
+	BTN_ESC,// ESCﾎﾞﾀﾝ
+	ALL_KEY,// 全てのｷｰの状態取得用
 	MAX
 };
 
-// ���̓��͏��
+// ｷｰの入力状態
 enum class TRIGGER_STATE
 {
-	ON_NON,		// �������u��(1�ڰ�)
-	ON,			// �����Â��Ă���Ƃ�
-	OFF_NON,	// �������u��(1�ڰ�)
-	OFF,		// �����Â��Ă���Ƃ�
+	ON_NON,		// 押した瞬間(1ﾌﾚｰﾑ)
+	ON,			// 押しつづけているとき
+	OFF_NON,	// 離した瞬間(1ﾌﾚｰﾑ)
+	OFF,		// 離しつづけているとき
 	MAX
 };
 
-// using�錾
-using KeyMap = std::map<INPUT_ID, TRIGGER_STATE>;	// ���Ɠ��͏�Ԃ�����MAP
+// using宣言
+using KeyMap = std::map<INPUT_ID, TRIGGER_STATE>;	// ｷｰと入力状態を入れるMAP
 
-// for���p���ڰ���̵��ް۰��
+// for分用ｵﾍﾟﾚｰﾀｰのｵｰﾊﾞｰﾛｰﾄﾞ
 INPUT_ID begin(INPUT_ID);
 INPUT_ID end(INPUT_ID);
 INPUT_ID operator++(INPUT_ID& key);
@@ -52,10 +52,10 @@ public:
 	virtual void Update(void) = 0;
 	virtual cocos2d::Vec2 GetPoint(void) const = 0;
 
-	TRIGGER_STATE GetState(INPUT_ID inputId);	// �w�肳�ꂽ���̎擾
+	TRIGGER_STATE GetState(INPUT_ID inputId);	// 指定されたｷｰの取得
 private:
 	
 protected:
-	KeyMap state;	// ���Ɠ��͏�Ԃ�����MAP
+	KeyMap state;	// ｷｰと入力状態を入れるMAP
 	cocos2d::Vec2 _point;
 };

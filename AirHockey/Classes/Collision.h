@@ -1,7 +1,9 @@
-#pragma once
+﻿#pragma once
 
 #include <memory>
 #include "cocos2d.h"
+
+/// クラスにする必要性がないかもしれない
 
 class Collision
 {
@@ -11,7 +13,7 @@ public:
 	{
 		return *s_Instance;
 	}
-	// ���̓��m�̓����蔻��(2D)
+	// 物体同士の当たり判定(2D)
 	bool HitCollision2D(const cocos2d::Vec2& aPos, const cocos2d::Size& aSize,
 						const cocos2d::Vec2& bPos, const cocos2d::Size& bSize) const;
 private:

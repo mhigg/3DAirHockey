@@ -1,4 +1,4 @@
-#include "TrajectControl.h"
+ï»¿#include "TrajectControl.h"
 #include "../Manager/GameManager.h"
 #include "../Obj/Ball.h"
 #include "../Character/Player.h"
@@ -17,7 +17,7 @@ bool TrajectControl::CalBezierPoint()
 {
 	if (Director::getInstance()->getRunningScene() == nullptr)
 	{
-		/// ƒQ[ƒ€ƒV[ƒ“ˆÈŠO‚Ì‚Íˆ—‚É“ü‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+		/// ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ä»¥å¤–ã®æ™‚ã¯å‡¦ç†ã«å…¥ã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹
 		return false;
 	}
 
@@ -26,28 +26,28 @@ bool TrajectControl::CalBezierPoint()
 		return false;
 	}
 
-	/// ’[“_‚Ì¶¬‚É•K—v‚È‚à‚Ì‚ğæ“¾‚µ‚Ä‚¢‚é
+	/// ç«¯ç‚¹ã®ç”Ÿæˆã«å¿…è¦ãªã‚‚ã®ã‚’å–å¾—ã—ã¦ã„ã‚‹
 	auto runScene	= Director::getInstance()->getRunningScene();
 	auto gameMng	= (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
 	auto player		= (Player*)gameMng->getChildByName("player");
 	auto ball		= (Ball*)gameMng->getChildByName("ball");
 
-	/// ˆêŸƒxƒWƒF‚Ì‹Èü‚ğ¶¬‚·‚é‚½‚ß‚É•K—v‚È‚à‚Ì
+	/// ä¸€æ¬¡ãƒ™ã‚¸ã‚§ã®æ›²ç·šã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã«å¿…è¦ãªã‚‚ã®
 	Vec3 start, mid, end;
 	float a, b;
 
 	start = Vec3(player->getPositionX(), player->getPositionY(), player->GetDepth());
 	mid = Vec3(400, 300, gameMng->GetDepth()[8]);
-	end = Vec3(-500, -250, gameMng->GetDepth()[29]);				/// ‰¼‚Ìİ’è@Ÿ
+	end = Vec3(-500, -250, gameMng->GetDepth()[29]);				/// ä»®ã®è¨­å®šã€€â—†
 
-	/// ƒxƒWƒF‹Èü‚ÌŒvZ‚ğg‚¢A’[“_‚ÌˆÊ’u‚ğ‹‚ß‚Ä‚¢‚é
-	/// [“x’l‚É‚æ‚Á‚ÄA“o˜^‚·‚é‡”Ô‚ğ•Ï‚¦‚È‚¯‚ê‚Î‚È‚ç‚È‚¢@Ÿ
+	/// ãƒ™ã‚¸ã‚§æ›²ç·šã®è¨ˆç®—ã‚’ä½¿ã„ã€ç«¯ç‚¹ã®ä½ç½®ã‚’æ±‚ã‚ã¦ã„ã‚‹
+	/// æ·±åº¦å€¤ã«ã‚ˆã£ã¦ã€ç™»éŒ²ã™ã‚‹é †ç•ªã‚’å¤‰ãˆãªã‘ã‚Œã°ãªã‚‰ãªã„ã€€â—†
 	for (int i = 0; i < _points.size(); ++i)
 	{
 		b = (float)i / _points.size();
 		a = 1.f - b;
 
-		/// ’[“_‚Ì“o˜^‚ğ‚µ‚Ä‚¢‚é
+		/// ç«¯ç‚¹ã®ç™»éŒ²ã‚’ã—ã¦ã„ã‚‹
 		_points[i].x = (a * a * start.x) + (2 * a * b * mid.x) + (b * b * end.x);
 		_points[i].y = (a * a * start.y) + (2 * a * b * mid.y) + (b * b * end.y);
 		_points[i].z = (a * a * start.z) + (2 * a * b * mid.z) + (b * b * end.z);
@@ -60,12 +60,12 @@ cocos2d::Vec3 TrajectControl::GetVel(const State& state)
 {
 	if (state == State::NORMAL)
 	{
-		/// ƒfƒtƒHƒ‹ƒg‚Ì‘¬“x‚ğ•Ô‚·
+		/// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®é€Ÿåº¦ã‚’è¿”ã™
 		return CalNormalVel();
 	}
 	else if (state == State::CURVE)
 	{
-		/// ŒvZ‚µ‚½‘¬“x‚ğ•Ô‚·
+		/// è¨ˆç®—ã—ãŸé€Ÿåº¦ã‚’è¿”ã™
 		return CalCurveVel();
 	}
 	return Vec3::ZERO;
@@ -73,16 +73,16 @@ cocos2d::Vec3 TrajectControl::GetVel(const State& state)
 
 cocos2d::Vec3 TrajectControl::CalNormalVel()
 {
-	/// ƒ{[ƒ‹‚Ìî•ñ‚ğæ“¾‚µ‚Ä‚¢‚é
+	/// ãƒœãƒ¼ãƒ«ã®æƒ…å ±ã‚’å–å¾—ã—ã¦ã„ã‚‹
 	auto runScene	= Director::getInstance()->getRunningScene();
 	auto gameMng	= (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
 	auto ball		= (Ball*)gameMng->getChildByName("ball");
 
-	/// ‘¬“x‚ğ”½“]‚³‚¹‚é‚©‚Ìƒtƒ‰ƒO‚ğæ“¾‚µ‚Ä‚¢‚é
+	/// é€Ÿåº¦ã‚’åè»¢ã•ã›ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã—ã¦ã„ã‚‹
 	auto isReverse	= ball->GetIsReverse();
 	cocos2d::Vec3 vel;
 
-	/// ‘¬“x‚Ìİ’è
+	/// é€Ÿåº¦ã®è¨­å®š
 	vel.x = (!std::get<0>(isReverse) ? _speed.x : -_speed.x);
 	vel.y = (!std::get<1>(isReverse) ? _speed.y : -_speed.y);
 	vel.z = (!std::get<2>(isReverse) ? _speed.z : -_speed.z);
@@ -92,13 +92,13 @@ cocos2d::Vec3 TrajectControl::CalNormalVel()
 
 cocos2d::Vec3 TrajectControl::CalCurveVel()
 {
-	/// ©•ª‚ÌZÀ•W‚ğæ“¾‚µ‚ÄAis•ûŒü‚Ìˆê‚Âæ‚Ì•Ç‚ÌˆÊ’u‚É‚ ‚é§Œä“_‚ÌƒxƒNƒgƒ‹‚ğ
-	/// æ“¾‚µ‚ÄA‘¬“x~ƒxƒNƒgƒ‹‚ÌŒvZŒ‹‰Ê‚ğ•Ô‚·‚æ‚¤‚É‚·‚é
+	/// è‡ªåˆ†ã®Zåº§æ¨™ã‚’å–å¾—ã—ã¦ã€é€²è¡Œæ–¹å‘ã®ä¸€ã¤å…ˆã®å£ã®ä½ç½®ã«ã‚ã‚‹åˆ¶å¾¡ç‚¹ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’
+	/// å–å¾—ã—ã¦ã€é€Ÿåº¦Ã—ãƒ™ã‚¯ãƒˆãƒ«ã®è¨ˆç®—çµæœã‚’è¿”ã™ã‚ˆã†ã«ã™ã‚‹
 	auto runScene = Director::getInstance()->getRunningScene();
 	auto gameMng  = (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
 	auto ball	  = (Ball*)gameMng->getChildByName("ball");
 	
-	// Z²‚Ìis•ûŒü‚ğæ“¾‚µ‚Ä‚¢‚é	Ÿ
+	// Zè»¸ã®é€²è¡Œæ–¹å‘ã‚’å–å¾—ã—ã¦ã„ã‚‹	â—†
 	auto zReverse = std::get<2>(ball->GetIsReverse());
 	Vec3 vec;
 	if (!zReverse)
@@ -107,7 +107,7 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 		{
 			if (_points[i].z > ball->GetLocalPos().z)
 			{
-				/// ³‹K‰»‚µ‚½ƒxƒNƒgƒ‹‚ğæ“¾‚µ‚Ä‚¢‚é
+				/// æ­£è¦åŒ–ã—ãŸãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã—ã¦ã„ã‚‹
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
 				return cocos2d::Vec3(_speed.x * vec.x * 2, _speed.y * vec.y * 2, _speed.z * vec.z * 2);
@@ -120,7 +120,7 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 		{
 			if (_points[i].z < ball->GetLocalPos().z)
 			{
-				/// ³‹K‰»‚µ‚½ƒxƒNƒgƒ‹‚ğæ“¾‚µ‚Ä‚¢‚é
+				/// æ­£è¦åŒ–ã—ãŸãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã—ã¦ã„ã‚‹
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
 				return cocos2d::Vec3(_speed.x * vec.x * 2, _speed.y * vec.y * 2, _speed.z * vec.z * 2);
@@ -128,7 +128,7 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 		}
 	}
 
-	/// ‘¬“x‚ÌC³‚ÍŒã‚Ås‚¤‚æ‚¤‚É‚·‚é
+	/// é€Ÿåº¦ã®ä¿®æ­£ã¯å¾Œã§è¡Œã†ã‚ˆã†ã«ã™ã‚‹
 	float velZ = (!zReverse ? _speed.z : -_speed.z);
 	return cocos2d::Vec3(0, 0, velZ);
 }
