@@ -27,7 +27,6 @@
 #include "SimpleAudioEngine.h"
 #include "Math.h"
 #include "../Obj/StageWall.h"
-#include "../Obj/Ball.h"
 #include "../Character/Player.h"
 #include "../Effekseer/EffectMng.h"
 

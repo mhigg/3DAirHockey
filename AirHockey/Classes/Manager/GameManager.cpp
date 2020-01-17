@@ -1,5 +1,6 @@
 #include "../Character/Player.h"
 #include "../Obj/Ball.h"
+#include "../Obj/BallShadow.h"
 #include "GameManager.h"
 
 USING_NS_CC;
@@ -45,6 +46,10 @@ void GameManager::Init()
 	auto ball = new Ball(zdepth);
 	ball->setName("ball");
 	this->addChild(ball);
+
+	/// ボールの影の生成
+	auto ballShadow = new BallShadow();
+	this->addChild(ballShadow);
 
 	/// プレイヤーの生成
 	this->addChild(Player::createPlayer(zdepth[0]));

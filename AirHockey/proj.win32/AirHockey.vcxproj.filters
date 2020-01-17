@@ -100,6 +100,9 @@
     <ClCompile Include="..\Classes\Manager\AnimMng.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Obj\BallShadow.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -177,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Module\Shoot\Normal.h">
       <Filter>Module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\BallShadow.h">
+      <Filter>Obj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
