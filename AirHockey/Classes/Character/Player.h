@@ -12,7 +12,7 @@ public:
 	~Player();
 	/// 仮で深度値を渡すようにしている
 	static Player* createPlayer(const float& depth);
-	float GetDepth() const;
+	float GetDepth() const;			/// gameManagerの関数名を変更しておく　◆
 private:
 	void MoveUpdate();
 	void update(float dt);

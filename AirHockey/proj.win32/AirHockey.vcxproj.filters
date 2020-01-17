@@ -28,9 +28,6 @@
     <Filter Include="Effekseer">
       <UniqueIdentifier>{df93dd45-a596-4ce7-af01-3d3e04c1d32c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Module">
-      <UniqueIdentifier>{9deffcf7-291c-4af0-9876-f36cabd8a363}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -100,7 +97,12 @@
     <ClCompile Include="..\Classes\Manager\AnimMng.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\NetworkLogic.cpp" />
+    <ClCompile Include="..\Classes\Obj\BallShadow.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\TrajectControl.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -170,14 +172,11 @@
     <ClInclude Include="..\Classes\Manager\AnimMng.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Module\Shoot\Shoot.h">
-      <Filter>Module</Filter>
+    <ClInclude Include="..\Classes\Obj\BallShadow.h">
+      <Filter>Obj</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Module\Shoot\Curve.h">
-      <Filter>Module</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Module\Shoot\Normal.h">
-      <Filter>Module</Filter>
+    <ClInclude Include="..\Classes\Obj\TrajectControl.h">
+      <Filter>Obj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

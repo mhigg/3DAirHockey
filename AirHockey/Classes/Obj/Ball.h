@@ -1,8 +1,6 @@
 #pragma once
 #include "Obj.h"
 #include <vector>
-#include "../Controller/OPRT_State.h"
-#include "../Effekseer/EffectMng.h"
 
 class Ball :
 	public Obj

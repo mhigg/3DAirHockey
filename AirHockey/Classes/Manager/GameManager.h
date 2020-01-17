@@ -6,6 +6,14 @@
 class Player;
 class Ball;
 
+// ZOrder用
+enum class SpriteNum
+{
+	SHADOW,
+	BALL,
+	PLAYER,
+};
+
 class GameManager :
 	public cocos2d::Node
 {
@@ -16,12 +24,14 @@ public:
 	static GameManager* createGameMng();
 
 	cocos2d::Vec2 GetMovingRange() const;
+	std::vector<float> GetDepth() const;
 private:
 	CREATE_FUNC(GameManager);
 
-	void ballCreate();
 	void update(float dt);
 	void Init();
+
+	std::vector<float> _zdepth;		// 深度値を保存するもの
 
 	const cocos2d::Vec2 _moveRange;
 	const float _maxDepth;	// 奥行の最大値
