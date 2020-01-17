@@ -5,7 +5,7 @@
 
 USING_NS_CC;
 
-TrajectControl::TrajectControl() : _speed(2.f,2.f,2.f)
+TrajectControl::TrajectControl() : _speed(2.f, 3.f, 2.f)
 {
 	_vel = _speed;
 }
@@ -14,13 +14,12 @@ TrajectControl::~TrajectControl()
 {
 }
 
-cocos2d::Vec3 TrajectControl::GetVel(State& state)
+cocos2d::Vec3 TrajectControl::GetVel(const State& state)
 {
 	if (state == State::NORMAL)
 	{
 		/// デフォルトの速度を返す
-		/// ここに速度を反転させるかの処理を追加する
-		return _vel;
+		return CalNormalVel();
 	}
 	else if (state == State::CURVE)
 	{
@@ -62,6 +61,25 @@ void TrajectControl::CalBezierPoint()
 		_points[i].y = (a * a * start.y) + (2 * a * b * mid.y) + (b * b * end.y);
 		_points[i].z = (a * a * start.z) + (2 * a * b * mid.z) + (b * b * end.z);
 	}
+}
+
+cocos2d::Vec3 TrajectControl::CalNormalVel()
+{
+	/// ボールの情報を取得している
+	auto runScene	= Director::getInstance()->getRunningScene();
+	auto gameMng	= (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
+	auto ball		= (Ball*)gameMng->getChildByName("ball");
+
+	/// 速度を反転させるかのフラグを取得している
+	auto isReverse	= ball->GetIsReverse();
+	cocos2d::Vec3 vel;
+
+	/// 速度の設定
+	vel.x = (!std::get<0>(isReverse) ? _speed.x : -_speed.x);
+	vel.y = (!std::get<1>(isReverse) ? _speed.y : -_speed.y);
+	vel.z = (!std::get<2>(isReverse) ? _speed.z : -_speed.z);
+
+	return vel;
 }
 
 cocos2d::Vec3 TrajectControl::CalCurveVel()

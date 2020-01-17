@@ -3,6 +3,7 @@
 #include "../Character/Player.h"
 #include "../Manager/GameManager.h"
 #include "../Manager/AnimMng.h"
+#include "TrajectControl.h"
 #include "Collision.h"
 
 USING_NS_CC;
@@ -32,7 +33,6 @@ std::tuple<bool, bool, bool> Ball::GetIsReverse() const
 	return _isReverse;
 }
 
-
 void Ball::update(float dt)
 {
 	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
@@ -40,74 +40,8 @@ void Ball::update(float dt)
 		/// ゲームシーン以外の時は処理に入らないようにする
 		return;
 	}
-	/// ゲームマネージャーの取得
-	auto gameMng  = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
-	/// プレイヤーの取得
-	auto player = (Player*)gameMng->getChildByName("player");
-
-	if (_localPos.z > _wallDepth[29])
-	{
-		std::get<2>(_isReverse) = true;
-	}
-	else if (_localPos.z < player->GetDepth())
-	{
-		/// プレイヤーとボールの当たり判定
-		/// (判定を確認するために一次変数に保存している)
-		auto col = Collision::GetInstance().HitCollision2D(this->getPosition(), this->getContentSize(),
-														   player->getPosition(), player->getContentSize());
-		if (col)
-		{
-			std::get<2>(_isReverse) = false;
-		}
-	}
-	else{}
-
-	if (!std::get<2>(_isReverse))
-	{
-		_localPos.z+=3;
-	}
-	else
-	{
-		_localPos.z-=3;
-	}
-	
-	if (_localPos.x - _radius < -gameMng->GetMovingRange().x)
-	{
-		std::get<0>(_isReverse) = false;
-	}
-	else if (_localPos.x + _radius > gameMng->GetMovingRange().x)
-	{
-		std::get<0>(_isReverse) = true;
-	}
-	else{}
-
-	if (!std::get<0>(_isReverse))
-	{
-		_localPos.x += 2;
-	}
-	else
-	{
-		_localPos.x -= 2;
-	}
-	auto debug = gameMng->GetMovingRange();
-	if (_localPos.y - _radius < -gameMng->GetMovingRange().y)
-	{
-		std::get<1>(_isReverse) = false;
-	}
-	else if (_localPos.y + _radius > gameMng->GetMovingRange().y)
-	{
-		std::get<1>(_isReverse) = true;
-	}
-	else{}
-
-	if (!std::get<1>(_isReverse))
-	{
-		_localPos.y += 2;
-	}
-	else
-	{
-		_localPos.y -= 2;
-	}
+	ChangeIsReverse();
+	_localPos += _traject->GetVel(State::NORMAL);
 
 	// 壁の色更新
 	auto director = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
@@ -133,15 +67,59 @@ void Ball::update(float dt)
 	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
 	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
+}
 
+void Ball::ChangeIsReverse()
+{
+	/// ゲームマネージャーの取得
+	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
+	/// プレイヤーの取得
+	auto player = (Player*)gameMng->getChildByName("player");
 
+	/// 反転フラグの更新(X)
+	if (_localPos.x - _radius < -gameMng->GetMovingRange().x)
+	{
+		std::get<0>(_isReverse) = false;
+	}
+	else if (_localPos.x + _radius > gameMng->GetMovingRange().x)
+	{
+		std::get<0>(_isReverse) = true;
+	}
+	else {}
+
+	if (_localPos.y - _radius < -gameMng->GetMovingRange().y)
+	{
+		std::get<1>(_isReverse) = false;
+	}
+	else if (_localPos.y + _radius > gameMng->GetMovingRange().y)
+	{
+		std::get<1>(_isReverse) = true;
+	}
+	else {}
+
+	if (_localPos.z > _wallDepth[29])
+	{
+		std::get<2>(_isReverse) = true;
+	}
+	else if (_localPos.z < player->GetDepth())
+	{
+		/// プレイヤーとボールの当たり判定		◆
+		/// (判定を確認するために一次変数に保存している)		
+		auto col = Collision::GetInstance().HitCollision2D(this->getPosition(), this->getContentSize(),
+			player->getPosition(), player->getContentSize());
+		if (col)
+		{
+			std::get<2>(_isReverse) = false;
+		}
+	}
+	else {}
 }
 
 bool Ball::Init(void)
 {
 	// 初期座標
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-	_localPos = { 0,0,_wallDepth[0] };
+	_localPos = { 0,0,0 };
 
 	// ﾎﾞｰﾙのｱﾆﾒｰｼｮﾝ登録
 	lpAnimMng.AddAnimCache("ball", "ball", 15, 0.03f, false);
@@ -160,6 +138,9 @@ bool Ball::Init(void)
 
 	/// 判定の初期化
 	_isReverse = { false, false, false };
+
+	/// ボールの軌道制御用クラスの生成
+	_traject.reset(new TrajectControl());
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	cocos2d::Node::scheduleUpdate();
