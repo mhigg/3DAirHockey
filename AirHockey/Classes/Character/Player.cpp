@@ -1,4 +1,4 @@
-#include "Player.h"
+﻿#include "Player.h"
 #include "../Controller/MouseCtl.h"
 #include "../Controller/Input_Touch.h"
 #include "Manager/PointWithDepth.h"
@@ -10,16 +10,16 @@ float Player::_depth;
 
 Player::Player()
 {
-	/// ���̉摜��ǉ����Ă���@��
+	/// 仮の画像を追加している　◆
 	auto sprite = Sprite::create("player.png");
 	sprite->setName("image");
 	this->setContentSize(sprite->getContentSize());
-	/// �v���C���[�̃^�O����ݒ肵�Ă���(��)�@��
+	/// プレイヤーのタグ名を設定している(仮)　◆
 	this->setName("player");
 	this->addChild(sprite);
 	this->setPosition(Vec2::ZERO);
 
-	/// ���̃}�E�X�ݒ�
+	/// 仮のマウス設定
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_oprtState.reset(new MouseCtl(this));
 #else
@@ -46,19 +46,19 @@ float Player::GetDepth() const
 
 void Player::MoveUpdate()
 {
-	/// ��ʃT�C�Y�̎擾
+	/// 画面サイズの取得
 	auto scrSize = Director::getInstance()->sharedDirector()->getOpenGLView()->getFrameSize();
 	auto pos	 = _oprtState->GetPoint();
 	auto size	 = this->getChildByName("image")->getContentSize();
 
-	/// X���̈ړ��͈̓`�F�b�N
+	/// X軸の移動範囲チェック
 	if ((pos.x + size.width / 2 < scrSize.width) &&
 		(pos.x - size.width / 2 > 0))
 	{
 		this->setPositionX(pos.x);
 	}
 
-	/// Y���̈ړ��͈̓`�F�b�N
+	/// Y軸の移動範囲チェック
 	if ((pos.y + size.height / 2 < scrSize.height) &&
 		(pos.y - size.height / 2 > 0))
 	{
@@ -70,7 +70,7 @@ void Player::update(float dt)
 {
 	MoveUpdate();
 	
-	// ���s���̐[���ɂ���āA�v���C���[�̃T�C�Y��ύX����悤�ɂ��Ă���
+	// 奥行きの深さによって、プレイヤーのサイズを変更するようにしている
 	setScale(lpPointWithDepth.GetInstance().GetScale(_depth));
 	
 	lpPointWithDepth.GetInstance().SetVanishingPoint(_oprtState->GetPoint() / 100 - cocos2d::Vec2(400,300) / 100);

@@ -1,4 +1,4 @@
-/****************************************************************************
+ï»¿/****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
@@ -34,18 +34,18 @@ public:
 	~GameScene();
 	static cocos2d::Scene* createScene();
 
-	virtual bool init();							// ‰Šú‰»—pŠÖ”
-	void update(float dt);							// ó‘Ô‘JˆÚ—p
+	virtual bool init();							// åˆæœŸåŒ–ç”¨é–¢æ•°
+	void update(float dt);							// çŠ¶æ…‹é·ç§»ç”¨
 
 	void ChangeScene(cocos2d::Ref* ref);
-	void menuCloseCallback(cocos2d::Ref* pSender);	// ³¨İÄŞ³‚ğ•Â‚¶‚éˆ×‚ÌÎŞÀİ	
+	void menuCloseCallback(cocos2d::Ref* pSender);	// ï½³ï½¨ï¾ï¾„ï¾ï½³ã‚’é–‰ã˜ã‚‹ç‚ºã®ï¾ï¾ï¾€ï¾	
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(GameScene);
 
 private:
-	//void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags);	// Effecseer‚Åg—p
-	std::vector<float> zdepth;	// ‰œs
+	//void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags);	// Effecseerã§ä½¿ç”¨
+	std::vector<float> zdepth;	// å¥¥è¡Œ
 };
 
 #endif // __GameScene_H__

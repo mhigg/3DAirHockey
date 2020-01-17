@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "cocos2d.h"
 #include "OPRT_State.h"
@@ -11,7 +11,7 @@ public:
 	~MouseCtl();
 
 	void Update();
-	// À•Wæ“¾—p
+	// åº§æ¨™å–å¾—ç”¨
 	cocos2d::Vec2 GetPoint() const;		
 };
 

@@ -1,4 +1,4 @@
-#include "Ball.h"
+ï»¿#include "Ball.h"
 #include "StageWall.h"
 #include "../Character/Player.h"
 #include "../Manager/GameManager.h"
@@ -35,35 +35,35 @@ std::tuple<bool, bool, bool> Ball::GetIsReverse() const
 
 bool Ball::Init(void)
 {
-	// ‰ŠúÀ•W
+	// åˆæœŸåº§æ¨™
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	_localPos = { 0,0,0 };
 
-	// ÎŞ°Ù‚Ì±ÆÒ°¼®İ“o˜^
+	// ï¾ï¾ï½°ï¾™ã®ï½±ï¾†ï¾’ï½°ï½¼ï½®ï¾ç™»éŒ²
 	lpAnimMng.AddAnimCache("ball", "ball", 15, 0.03f, false);
 
-	// ‰Šú±ÆÒ°¼®İ
+	// åˆæœŸï½±ï¾†ï¾’ï½°ï½¼ï½®ï¾
 	lpAnimMng.SetAnim(this, "ball", false);
 
-	// ”¼Œa(‰æ‘œ‚Ì‘å‚«‚³/2 - —]”’)
+	// åŠå¾„(ç”»åƒã®å¤§ãã•/2 - ä½™ç™½)
 	_radius = 192 / 2 - 32;
 
-	// pos‚Æ½Ìß×²Ä‚Ì‘å‚«‚³‚ğˆê“_“§‹}–@‚É’u‚«Š·‚¦‚é
-	// ˆê“_“§‹}–@‚É‚µ‚½‚ÌÀ•W‚Ì¾¯Ä
+	// posã¨ï½½ï¾Œï¾Ÿï¾—ï½²ï¾„ã®å¤§ãã•ã‚’ä¸€ç‚¹é€è¦–å›³æ³•ã«ç½®ãæ›ãˆã‚‹
+	// ä¸€ç‚¹é€è¦–å›³æ³•ã«ã—ãŸæ™‚ã®åº§æ¨™ã®ï½¾ï½¯ï¾„
 	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
-	// ˆê“_“§‹}–@‚É‚µ‚½‚Ì‰æ‘œ‚Ì»²½Şİ’è
+	// ä¸€ç‚¹é€è¦–å›³æ³•ã«ã—ãŸæ™‚ã®ç”»åƒã®ï½»ï½²ï½½ï¾è¨­å®š
 	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
 
-	/// ”»’è‚Ì‰Šú‰»
+	/// åˆ¤å®šã®åˆæœŸåŒ–
 	_isReverse = { false, false, false };
 
-	/// ƒ{[ƒ‹‚Ì‹O“¹§Œä—pƒNƒ‰ƒX‚Ì¶¬
+	/// ãƒœãƒ¼ãƒ«ã®è»Œé“åˆ¶å¾¡ç”¨ã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆ
 	_traject.reset(new TrajectControl());
 
-	/// ƒxƒWƒF‹Èü‚ğg‚Á‚Ä’[“_‚ğ¶¬‚µ‚Ä‚¢‚é(‰¼)@‰¼
+	/// ãƒ™ã‚¸ã‚§æ›²ç·šã‚’ä½¿ã£ã¦ç«¯ç‚¹ã‚’ç”Ÿæˆã—ã¦ã„ã‚‹(ä»®)ã€€ä»®
 	_traject->CalBezierPoint();
 
-	// 1ÌÚ°Ñ‚²‚Æ‚Éupdate‚ğ
+	// 1ï¾Œï¾šï½°ï¾‘ã”ã¨ã«updateã‚’
 	cocos2d::Node::scheduleUpdate();
 
 	return true;
@@ -71,12 +71,12 @@ bool Ball::Init(void)
 
 void Ball::ChangeIsReverse()
 {
-	/// ƒQ[ƒ€ƒ}ƒl[ƒWƒƒ[‚Ìæ“¾
+	/// ã‚²ãƒ¼ãƒ ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®å–å¾—
 	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
-	/// ƒvƒŒƒCƒ„[‚Ìæ“¾
+	/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å–å¾—
 	auto player = (Player*)gameMng->getChildByName("player");
 
-	/// ”½“]ƒtƒ‰ƒO‚ÌXV(X)
+	/// åè»¢ãƒ•ãƒ©ã‚°ã®æ›´æ–°(X)
 	if (_localPos.x - _radius < -gameMng->GetMovingRange().x)
 	{
 		std::get<0>(_isReverse) = false;
@@ -103,8 +103,8 @@ void Ball::ChangeIsReverse()
 	}
 	else if (_localPos.z < player->GetDepth())
 	{
-		/// ƒvƒŒƒCƒ„[‚Æƒ{[ƒ‹‚Ì“–‚½‚è”»’è		Ÿ
-		/// (”»’è‚ğŠm”F‚·‚é‚½‚ß‚ÉˆêŸ•Ï”‚É•Û‘¶‚µ‚Ä‚¢‚é)		
+		/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ãƒœãƒ¼ãƒ«ã®å½“ãŸã‚Šåˆ¤å®š		â—†
+		/// (åˆ¤å®šã‚’ç¢ºèªã™ã‚‹ãŸã‚ã«ä¸€æ¬¡å¤‰æ•°ã«ä¿å­˜ã—ã¦ã„ã‚‹)		
 		auto col = Collision::GetInstance().HitCollision2D(this->getPosition(), this->getContentSize(),
 														   player->getPosition(), player->getContentSize());
 		if (col)
@@ -120,23 +120,23 @@ void Ball::update(float dt)
 {
 	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
 	{
-		/// ƒQ[ƒ€ƒV[ƒ“ˆÈŠO‚Ì‚Íˆ—‚É“ü‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+		/// ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ä»¥å¤–ã®æ™‚ã¯å‡¦ç†ã«å…¥ã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹
 		return;
 	}
 
-	/// ‚Æ‚è‚ ‚¦‚¸‰¼‚Å‚â‚Á‚Ä‚İ‚Ä‚é
+	/// ã¨ã‚Šã‚ãˆãšä»®ã§ã‚„ã£ã¦ã¿ã¦ã‚‹
 	if (!_isCurve)
 	{
 		_isCurve = _traject->CalBezierPoint();;
 	}
 
-	/// ”½“]ƒtƒ‰ƒO‚Ì•ÏX‚ğs‚Á‚Ä‚¢‚é
+	/// åè»¢ãƒ•ãƒ©ã‚°ã®å¤‰æ›´ã‚’è¡Œã£ã¦ã„ã‚‹
 	ChangeIsReverse();
 
-	/// ƒ{[ƒ‹‚ğˆÚ“®‚³‚¹‚Ä‚¢‚é
+	/// ãƒœãƒ¼ãƒ«ã‚’ç§»å‹•ã•ã›ã¦ã„ã‚‹
 	_localPos += _traject->GetVel(State::NORMAL);
 
-	// •Ç‚ÌFXV
+	// å£ã®è‰²æ›´æ–°
 	auto director = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
 	StageWall* wall;
 	for (int k = 0; k < _wallDepth.size(); k++)
@@ -145,20 +145,20 @@ void Ball::update(float dt)
 
 		if (_localPos.z > _wallDepth[k])
 		{
-			// •ÏXŒã‚Ì¶×°
+			// å¤‰æ›´å¾Œã®ï½¶ï¾—ï½°
 			wall->SetWallColorChangeFlag(true);
 		}
 		else
 		{
-			// ’Êí‚Ì¶×°
+			// é€šå¸¸æ™‚ã®ï½¶ï¾—ï½°
 			wall->SetWallColorChangeFlag(false);
 		}
 	}
 
-	// À•W‚ÌXV
-	// pos‚Æ½Ìß×²Ä‚Ì‘å‚«‚³‚ğˆê“_“§‹}–@‚É’u‚«Š·‚¦‚é
-	// ˆê“_“§‹}–@‚É‚µ‚½‚ÌÀ•W‚Ì¾¯Ä
+	// åº§æ¨™ã®æ›´æ–°
+	// posã¨ï½½ï¾Œï¾Ÿï¾—ï½²ï¾„ã®å¤§ãã•ã‚’ä¸€ç‚¹é€è¦–å›³æ³•ã«ç½®ãæ›ãˆã‚‹
+	// ä¸€ç‚¹é€è¦–å›³æ³•ã«ã—ãŸæ™‚ã®åº§æ¨™ã®ï½¾ï½¯ï¾„
 	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
-	// ˆê“_“§‹}–@‚É‚µ‚½‚Ì‰æ‘œ‚Ì»²½Şİ’è
+	// ä¸€ç‚¹é€è¦–å›³æ³•ã«ã—ãŸæ™‚ã®ç”»åƒã®ï½»ï½²ï½½ï¾è¨­å®š
 	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
 }

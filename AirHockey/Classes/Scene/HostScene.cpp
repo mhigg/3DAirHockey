@@ -1,4 +1,4 @@
-#include "HostScene.h"
+ï»¿#include "HostScene.h"
 #include "GameScene.h"
 USING_NS_CC;
 
@@ -18,12 +18,12 @@ bool HostScene::init()
 		return false;
 	}
 
-	// ‰æ–Ê‰ð‘œ“x‚ÌŽæ“¾
+	// ç”»é¢è§£åƒåº¦ã®å–å¾—
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	// À•W‚ÌŽæ“¾
+	// åº§æ¨™ã®å–å¾—
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	// ‰Eã‚Ì¼¬¯ÄÀÞ³ÝÎÞÀÝ‚Ìì¬
+	// å³ä¸Šã®ï½¼ï½¬ï½¯ï¾„ï¾€ï¾žï½³ï¾ï¾Žï¾žï¾€ï¾ã®ä½œæˆ
 	auto closeItem = MenuItemImage::create(
 		"CloseNormal.png",
 		"CloseSelected.png",
@@ -37,7 +37,7 @@ bool HostScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu);
 
-	/// ƒV[ƒ“‘JˆÚ—p‚Ìƒ{ƒ^ƒ“‚Ìì¬
+	/// ã‚·ãƒ¼ãƒ³é·ç§»ç”¨ã®ãƒœã‚¿ãƒ³ã®ä½œæˆ
 	auto sceneItem = MenuItemImage::create(
 		"button.png",
 		"button2.png",
@@ -50,13 +50,13 @@ bool HostScene::init()
 	sceneMenu->setPosition(Vec2::ZERO);
 	this->addChild(sceneMenu, static_cast<int>(LayerNum::FRONT));
 
-	/// Œ»Ý‚ÌƒV[ƒ“‚ð•\‚·ƒeƒLƒXƒg
+	/// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’è¡¨ã™ãƒ†ã‚­ã‚¹ãƒˆ
 	auto label = Label::create("Host", "Arial", 60);
 	label->setPosition(Vec2(label->getContentSize().width / 2,
 							visibleSize.height - label->getContentSize().height / 2));
 	this->addChild(label);
 
-	// 1ÌÚ°Ñ‚²‚Æ‚Éupdate‚ð
+	// 1ï¾Œï¾šï½°ï¾‘ã”ã¨ã«updateã‚’
 	this->scheduleUpdate();
 	return true;
 }
