@@ -1,29 +1,29 @@
 LOCAL_PATH := $(call my-dir)
-LOCAL_PHOTON_ROOT := $(LOCAL_PATH)/../../../vendor/AndroidNDK_SDK
+LOCAL_PHOTON_ROOT := $(LOCAL_PATH)/../../../vendor/AndroidNdkSdk
 
 include $(CLEAR_VARS)
 
-$(call import-add-path,$(LOCAL_PATH)/../../cocos2d)
-$(call import-add-path,$(LOCAL_PATH)/../../cocos2d/external)
-$(call import-add-path,$(LOCAL_PATH)/../../cocos2d/cocos)
+$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d)
+$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/external)
+$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/cocos)
 
 LOCAL_MODULE := MyGame_shared
 
 LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES_JNI_PREFIXED := \
-    $(wildcard $(LOCAL_PATH)/../../Classes/*.cpp) \
-    $(wildcard $(LOCAL_PATH)/../../Classes/**/*.c*)
+    $(wildcard $(LOCAL_PATH)/../../../Classes/*.cpp) \
+    $(wildcard $(LOCAL_PATH)/../../../Classes/**/*.c*)
 
 LOCAL_SRC_FILES_JNI_UNPREFIXED := $(subst jni/,, $(LOCAL_SRC_FILES_JNI_PREFIXED))
 
 LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/AppDelegate.cpp \
-                   $(LOCAL_PATH)/../../../Classes/HelloWorldScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Scene/GameScene.cpp \
                    $(LOCAL_SRC_FILES_JNI_UNPREFIXED)
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../vendor/AndroidNDK_SDK
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../vendor/AndroidNdkSdk
 
 # _COCOS_HEADER_ANDROID_BEGIN
 # _COCOS_HEADER_ANDROID_END
