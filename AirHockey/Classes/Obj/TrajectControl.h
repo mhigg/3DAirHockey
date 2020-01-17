@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include <array>
 #include "cocos2d.h"
 
 // ボールの軌道の状態
@@ -22,6 +22,6 @@ public:
 private:
 	cocos2d::Vec3 CalCurveVel();			// カーブする軌道の速度計算用 
 	const cocos2d::Vec3 _vel;	
-	std::vector<cocos2d::Vec3> _points;		// 曲線の端点(とりあえず、可変長) ◆
+	std::array<cocos2d::Vec3, 29> _points;		// 曲線の端点(とりあえず固定長) ◆
 };
 
