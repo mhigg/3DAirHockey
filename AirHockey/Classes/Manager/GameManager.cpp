@@ -36,7 +36,7 @@ void GameManager::Init()
 	/// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成
 	float mag = _maxDepth / (_wallMax * _wallMax);
 
-	/// 深度値保存用の一次変数
+	/// 深度値保存用の一次変数(_wallDepth, _zdepthの0番目は値が壊れているので0でいいかもしれない)　◆
 	float depth;
 
 	for (int x = _wallMax; x > 0; x--)
@@ -45,6 +45,8 @@ void GameManager::Init()
 		depth = _maxDepth - depth;
 		_zdepth.emplace_back(depth);
 	}
+	/// 仮の初期化 ◆
+	_zdepth[0] = 0.f;
 
 	/// ボールの生成
 	auto ball = new Ball(_zdepth);
