@@ -30,12 +30,21 @@ import android.os.Build;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
-public class AppActivity extends Cocos2dxActivity {
+import java.util.List;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 
+public class AppActivity extends Cocos2dxActivity implements SensorEventListener {
+    private SensorManager _sensorManager;
+    public static float[] _sensor = new float[3];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.setEnableVirtualButton(false);
         super.onCreate(savedInstanceState);
+        // センサー取得
+        _sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
         if (!isTaskRoot()) {
             // Android launched another instance of the root activity into an existing task
@@ -53,6 +62,57 @@ public class AppActivity extends Cocos2dxActivity {
         }
         // DO OTHER INITIALIZATION BELOW
         
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        List<Sensor> sensors = _sensorManager.getSensorList(Sensor.TYPE_GYROSCOPE);
+        for (Sensor s : sensors) {
+            _sensorManager.registerListener(this, s, SensorManager.SENSOR_DELAY_GAME);
+        }
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        _sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event)
+    {
+        if(event.values[0] > 5)
+        {
+            _sensor[0] = 1000;
+        }
+        else
+        {
+            _sensor[0] = -1000;
+        }
+        //_sensor[0] = event.values[0];
+        _sensor[1] = event.values[1];
+        _sensor[2] = event.values[2];
+    }
+
+    public static float getX()
+    {
+        return _sensor[0];
+    }
+    public static float getY()
+    {
+        return _sensor[1];
+    }
+    public static float getZ()
+    {
+        return _sensor[2];
     }
 
 }
