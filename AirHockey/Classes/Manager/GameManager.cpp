@@ -26,11 +26,13 @@ cocos2d::Vec2 GameManager::GetMovingRange() const
 	return _moveRange;
 }
 
+std::vector<float> GameManager::GetDepth() const
+{
+	return _zdepth;
+}
+
 void GameManager::Init()
 {
-	/// ボールの生成
-	std::vector<float> zdepth;
-
 	/// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成
 	float mag = _maxDepth / (_wallMax * _wallMax);
 
@@ -41,9 +43,11 @@ void GameManager::Init()
 	{
 		depth = x * x * mag;
 		depth = _maxDepth - depth;
-		zdepth.emplace_back(depth);
+		_zdepth.emplace_back(depth);
 	}
-	auto ball = new Ball(zdepth);
+
+	/// ボールの生成
+	auto ball = new Ball(_zdepth);
 	ball->setName("ball");
 	this->addChild(ball);
 
@@ -52,7 +56,7 @@ void GameManager::Init()
 	this->addChild(ballShadow);
 
 	/// プレイヤーの生成
-	this->addChild(Player::createPlayer(zdepth[0]));
+	this->addChild(Player::createPlayer(_zdepth[0]));
 }
 
 void GameManager::update(float dt)
