@@ -22,9 +22,14 @@ Ball::~Ball()
 {
 }
 
-cocos2d::Vec3 Ball::GetLocalPos(void)
+cocos2d::Vec3 Ball::GetLocalPos(void) const
 {
 	return _localPos;
+}
+
+std::tuple<bool, bool, bool> Ball::GetIsReverse() const
+{
+	return _isReverse;
 }
 
 
@@ -42,7 +47,7 @@ void Ball::update(float dt)
 
 	if (_localPos.z > _wallDepth[29])
 	{
-		zReverse = true;
+		std::get<2>(_isReverse) = true;
 	}
 	else if (_localPos.z < player->GetDepth())
 	{
@@ -52,12 +57,12 @@ void Ball::update(float dt)
 														   player->getPosition(), player->getContentSize());
 		if (col)
 		{
-			zReverse = false;
+			std::get<2>(_isReverse) = false;
 		}
 	}
 	else{}
 
-	if (!zReverse)
+	if (!std::get<2>(_isReverse))
 	{
 		_localPos.z+=3;
 	}
@@ -68,15 +73,15 @@ void Ball::update(float dt)
 	
 	if (_localPos.x - _radius < -gameMng->GetMovingRange().x)
 	{
-		xReverse = false;
+		std::get<0>(_isReverse) = false;
 	}
 	else if (_localPos.x + _radius > gameMng->GetMovingRange().x)
 	{
-		xReverse = true;
+		std::get<0>(_isReverse) = true;
 	}
 	else{}
 
-	if (!xReverse)
+	if (!std::get<0>(_isReverse))
 	{
 		_localPos.x += 2;
 	}
@@ -87,15 +92,15 @@ void Ball::update(float dt)
 	auto debug = gameMng->GetMovingRange();
 	if (_localPos.y - _radius < -gameMng->GetMovingRange().y)
 	{
-		yReverse = false;
+		std::get<1>(_isReverse) = false;
 	}
 	else if (_localPos.y + _radius > gameMng->GetMovingRange().y)
 	{
-		yReverse = true;
+		std::get<1>(_isReverse) = true;
 	}
 	else{}
 
-	if (!yReverse)
+	if (!std::get<1>(_isReverse))
 	{
 		_localPos.y += 2;
 	}
@@ -152,6 +157,9 @@ bool Ball::Init(void)
 	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
 	// ˆê“_“§‹}–@‚É‚µ‚½‚Ì‰æ‘œ‚Ì»²½Şİ’è
 	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
+
+	/// ”»’è‚Ì‰Šú‰»
+	_isReverse = { false, false, false };
 
 	// 1ÌÚ°Ñ‚²‚Æ‚Éupdate‚ğ
 	cocos2d::Node::scheduleUpdate();

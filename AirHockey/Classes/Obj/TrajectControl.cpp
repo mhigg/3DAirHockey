@@ -5,8 +5,9 @@
 
 USING_NS_CC;
 
-TrajectControl::TrajectControl()
+TrajectControl::TrajectControl() : _speed(2.f,2.f,2.f)
 {
+	_vel = _speed;
 }
 
 TrajectControl::~TrajectControl()
@@ -18,6 +19,7 @@ cocos2d::Vec3 TrajectControl::GetVel(State& state)
 	if (state == State::NORMAL)
 	{
 		/// デフォルトの速度を返す
+		/// ここに速度を反転させるかの処理を追加する
 		return _vel;
 	}
 	else if (state == State::CURVE)
@@ -69,6 +71,7 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 	auto runScene = Director::getInstance()->getRunningScene();
 	auto gameMng  = (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
 	auto ball	  = (Ball*)gameMng->getChildByName("ball");
+	/// Z軸の進行方向を確認して、端点を見る位置を変える
 
 	return Vec3::ZERO;
 }
