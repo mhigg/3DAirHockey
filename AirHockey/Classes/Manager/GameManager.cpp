@@ -26,7 +26,7 @@ cocos2d::Vec2 GameManager::GetMovingRange() const
 	return _moveRange;
 }
 
-std::vector<float> GameManager::GetDepth() const
+std::vector<float> GameManager::GetDepths() const
 {
 	return _zdepth;
 }

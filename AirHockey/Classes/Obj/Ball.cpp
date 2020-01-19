@@ -3,7 +3,6 @@
 #include "../Character/Player.h"
 #include "../Manager/GameManager.h"
 #include "../Manager/AnimMng.h"
-#include "TrajectControl.h"
 #include "Collision.h"
 
 USING_NS_CC;
@@ -60,11 +59,11 @@ bool Ball::Init(void)
 	/// ボールの軌道制御用クラスの生成
 	_traject.reset(new TrajectControl());
 
-	/// ベジェ曲線を使って端点を生成している(仮)　仮
-	_traject->CalBezierPoint();
-
 	// 1ﾌﾚｰﾑごとにupdateを
 	cocos2d::Node::scheduleUpdate();
+
+	/// ボールの状態の初期化
+	_ballState = State::NORMAL;
 
 	return true;
 }
@@ -99,9 +98,18 @@ void Ball::ChangeIsReverse()
 
 	if (_localPos.z > _wallDepth[29])
 	{
+		if (!std::get<2>(_isReverse))
+		{
+			/// 状態を変更するための処理(デバッグ用)
+			_ballState = (State)(rand() % 2);
+			if (_ballState == State::CURVE)
+			{
+				_traject->CalBezierPoint();
+			}
+		}
 		std::get<2>(_isReverse) = true;
 	}
-	else if (_localPos.z < player->GetDepth())
+	else if (_localPos.z <= player->GetDepth())
 	{
 		/// プレイヤーとボールの当たり判定		◆
 		/// (判定を確認するために一次変数に保存している)		
@@ -109,6 +117,15 @@ void Ball::ChangeIsReverse()
 														   player->getPosition(), player->getContentSize());
 		if (col)
 		{
+			if (std::get<2>(_isReverse))
+			{
+				/// 状態を変更するための処理(デバッグ用)
+				_ballState = (State)(rand() % 2);
+				if (_ballState == State::CURVE)
+				{
+					_traject->CalBezierPoint();
+				}
+			}
 			std::get<2>(_isReverse) = false;
 		}
 	}
@@ -124,17 +141,10 @@ void Ball::update(float dt)
 		return;
 	}
 
-	/// とりあえず仮でやってみてる
-	if (!_isCurve)
-	{
-		_isCurve = _traject->CalBezierPoint();;
-	}
-
 	/// 反転フラグの変更を行っている
 	ChangeIsReverse();
 
-	/// ボールを移動させている
-	_localPos += _traject->GetVel(State::NORMAL);
+	_localPos += _traject->GetVel(_ballState);
 
 	// 壁の色更新
 	auto director = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer");

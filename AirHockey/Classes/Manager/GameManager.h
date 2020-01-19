@@ -24,7 +24,7 @@ public:
 	static GameManager* createGameMng();
 
 	cocos2d::Vec2 GetMovingRange() const;
-	std::vector<float> GetDepth() const;
+	std::vector<float> GetDepths() const;
 private:
 	CREATE_FUNC(GameManager);
 

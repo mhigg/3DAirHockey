@@ -10,6 +10,8 @@ enum class State
 	MAX
 };
 
+class Player;
+
 /// ボールの軌道制御用クラス
 class TrajectControl
 {
@@ -18,7 +20,7 @@ public:
 	~TrajectControl();
 
 	cocos2d::Vec3 GetVel(const State& state);		// 速度取得用
-	bool CalBezierPoint();				
+	bool CalBezierPoint();
 private:
 	cocos2d::Vec3 CalNormalVel();
 	cocos2d::Vec3 CalCurveVel();			// カーブする軌道の速度計算用 
