@@ -1,13 +1,13 @@
 ﻿#pragma once
 #include "OPRT_State.h"
 
-struct Input_Touch :
+struct Oprt_Touch :
 	public OPRT_State
 {
 public:
-	Input_Touch();
-	Input_Touch(cocos2d::Node* sprite);
-	~Input_Touch();
+	Oprt_Touch();
+	Oprt_Touch(cocos2d::Node* node);
+	~Oprt_Touch();
 
 	cocos2d::Vec2 GetPoint(void) const;
 private:

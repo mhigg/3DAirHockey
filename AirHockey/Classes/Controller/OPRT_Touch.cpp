@@ -1,10 +1,10 @@
-﻿#include "Input_Touch.h"
+﻿#include "OPRT_Touch.h"
 
-Input_Touch::Input_Touch()
+Oprt_Touch::Oprt_Touch()
 {
 }
 
-Input_Touch::Input_Touch(cocos2d::Node * node)
+Oprt_Touch::Oprt_Touch(cocos2d::Node * node)
 {
 	_point = cocos2d::Vec2(0, 0);
 	// 初期化
@@ -28,15 +28,15 @@ Input_Touch::Input_Touch(cocos2d::Node * node)
 	node->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, node);
 }
 
-Input_Touch::~Input_Touch()
+Oprt_Touch::~Oprt_Touch()
 {
 }
 
-cocos2d::Vec2 Input_Touch::GetPoint(void) const
+cocos2d::Vec2 Oprt_Touch::GetPoint(void) const
 {
 	return _point;
 }
 
-void Input_Touch::Update(void)
+void Oprt_Touch::Update(void)
 {
 }

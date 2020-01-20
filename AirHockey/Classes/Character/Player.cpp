@@ -1,6 +1,7 @@
 ﻿#include "Player.h"
 #include "../Controller/MouseCtl.h"
-#include "../Controller/Input_Touch.h"
+#include "../Controller/OPRT_Touch.h"
+#include "../Controller/OPRT_Gyro.h"
 #include "Manager/PointWithDepth.h"
 #include "Manager/GameManager.h"
 
@@ -47,12 +48,11 @@ Player::Player()
 	this->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 	// 消失点の変更
 	lpPointWithDepth.GetInstance().SetVanishingPoint((-this->getPosition() + Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height)));
-	ratio = cocos2d::Vec2(0.5f, 0.5f);
 	/// 仮のマウス設定
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_oprtState.reset(new MouseCtl(this));
 #else
-	_gyro.reset(new OPRT_Gyro());
+	_oprtState.reset(new OPRT_Gyro(this));
 #endif
 	this->scheduleUpdate();
 }
@@ -79,37 +79,7 @@ void Player::MoveUpdate()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	/// 画面サイズの取得
 	auto scrSize = Director::getInstance()->sharedDirector()->getOpenGLView()->getFrameSize();
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	auto pos	 = _oprtState->GetPoint();
-#else
-	auto sensor = _gyro->GetSensor()/10;
-	// 縦移動
-	cocos2d::Vec2 pos = Vec2(visibleSize.width * ratio.x, visibleSize.height * ratio.y);
-	if(abs(sensor.x) > 0.0f)
-	{
-        ratio.x += sensor.x;
-    }
-	if(abs(sensor.z) > 0.0f)
-    {
-	    ratio.y += sensor.y;
-    }
-	if(ratio.x > 1)
-	{
-	    ratio.x = 1;
-    }
-	else if (ratio.x < 0)
-	{
-		ratio.x = 0;
-	}
-	if(ratio.y > 1)
-    {
-	    ratio.y = 1;
-    }
-	if (ratio.y < 0)
-	{
-		ratio.y = 0;
-	}
-#endif
 	Size size	 = { this->getChildByName("leftUp")->getContentSize().width + this->getChildByName("lightUp")->getContentSize().width,
 					 this->getChildByName("leftDown")->getContentSize().height + this->getChildByName("lightDown")->getContentSize().height};
 	// 消失点の変更
@@ -132,6 +102,7 @@ void Player::MoveUpdate()
 
 void Player::update(float dt)
 {
+	_oprtState->Update();
 	MoveUpdate();
 	
 	// 奥行きの深さによって、プレイヤーのサイズを変更するようにしている
