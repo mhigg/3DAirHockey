@@ -57,3 +57,11 @@
 /AirHockey/cocos2d/cocos/editor-support/spine/proj.win32/Debug.win32/libSpine.pdb
 /AirHockey/cocos2d/external/recast/proj.win32/Debug.win32
 /AirHockey/proj.android/app/.cxx
+/AirHockey/cocos2d/cocos/editor-support/spine/proj.win32/*.filters
+/AirHockey/cocos2d/cocos/editor-support/spine/proj.win32/*.user
+/AirHockey/cocos2d/external/recast/proj.win32/*.filters
+/AirHockey/cocos2d/external/recast/proj.win32/*.user
+/AirHockey/cocos2d/cocos/editor-support/spine/proj.win32/libSpine.vcxproj.filters
+/AirHockey/cocos2d/cocos/editor-support/spine/proj.win32/libSpine.vcxproj.user
+/AirHockey/cocos2d/external/recast/proj.win32/librecast.vcxproj.filters
+/AirHockey/cocos2d/external/recast/proj.win32/librecast.vcxproj.user
