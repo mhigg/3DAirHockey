@@ -110,9 +110,7 @@ void Ball::ChangeIsReverse()
 		std::get<2>(_isReverse) = true;
 	}
 	else if (_localPos.z <= player->GetDepth())
-	{
-		/// プレイヤーとボールの当たり判定		◆
-		/// (判定を確認するために一次変数に保存している)		
+	{	
 		auto col = Collision::GetInstance().HitCollision2D(this->getPosition(), this->getContentSize(),
 														   player->getPosition(), player->getContentSize());
 		if (col)
