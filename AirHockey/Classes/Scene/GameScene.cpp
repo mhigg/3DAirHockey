@@ -170,21 +170,35 @@ void GameScene::menuCloseCallback(Ref* pSender)
 
 void GameScene::update(float dt)
 {
-	for (auto data : lpEffectMng.GetManager())
+	// ｴﾌｪｸﾄの要素がある場合
+	if (lpEffectMng.GetManager().empty() == false)
 	{
-		// Effekseerの更新
-		data.second->update();
+		for (auto data : lpEffectMng.GetManager())
+		{
+			// Effekseerの更新
+			data.second->update();
+		}
 	}
 }
 
-//void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parentTransform, uint32_t parentFlags)
-//{
-//	//// Effekseerの描画設定
-//	//for (auto data : lpEffectMng.GetManager())
-//	//{
-//	//	data.second->begin(renderer, _globalZOrder);
-//	//	cocos2d::Scene::visit(renderer, parentTransform, parentFlags);
-//	//	data.second->end(renderer, _globalZOrder);
-//	//}
-//}
+void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parentTransform, uint32_t parentFlags)
+{
+	// Effekseerの描画設定
+	// ｴﾌｪｸﾄの要素がある場合
+	if (lpEffectMng.GetManager().empty() == false)
+	{
+		for (auto data : lpEffectMng.GetManager())
+		{
+			data.second->begin(renderer, _globalZOrder);
+			cocos2d::Scene::visit(renderer, parentTransform, parentFlags);
+			data.second->end(renderer, _globalZOrder);
+		}
+	}
+	// ない場合
+	else
+	{
+		cocos2d::Scene::visit(renderer, parentTransform, parentFlags);
+	}
+}
+
 
