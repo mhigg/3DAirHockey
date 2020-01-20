@@ -89,14 +89,6 @@ public class AppActivity extends Cocos2dxActivity implements SensorEventListener
     @Override
     public void onSensorChanged(SensorEvent event)
     {
-        if(event.values[0] > 5)
-        {
-            _sensor[0] = 1000;
-        }
-        else
-        {
-            _sensor[0] = -1000;
-        }
         _sensor[0] = event.values[0];
         _sensor[1] = event.values[1];
         _sensor[2] = event.values[2];

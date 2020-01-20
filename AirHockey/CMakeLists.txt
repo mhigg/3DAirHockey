@@ -25,24 +25,9 @@
 
 cmake_minimum_required(VERSION 3.6)
 
-set(APP_NAME tester)
+set(APP_NAME AirHockey)
 
 project(${APP_NAME})
-
-include(AndroidNdkModules)
-android_ndk_import_module_cpufeatures()
-
-include_directories(
-        D:/cricket/cricket-1.6.7/inc
-)
-
-link_directories(
-        D:/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug
-)
-
-link_libraries(
-        D:/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug/libck.a
-)
 
 set(COCOS2DX_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cocos2d)
 set(CMAKE_MODULE_PATH ${COCOS2DX_ROOT_PATH}/cmake/Modules/)
@@ -64,53 +49,61 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
-     Classes/GameScene.cpp
-     Classes/input/OprtState.cpp
-     Classes/input/OprtKey.cpp
-     Classes/input/OprtTouch.cpp
-     Classes/input/INPUT_ID.cpp
-     Classes/unit/Player.cpp
-     Classes/unit/Enemy.cpp
-     Classes/AnimaManager.cpp
-     Classes/_debug/_DebugConOut.cpp
-     Classes/_debug/_DebugDispOut.cpp
-     Classes/module/ActionCtl.cpp
-     Classes/module/MoveLR.cpp
-     Classes/module/CheckHitObj.cpp
-     Classes/module/CheckKey.cpp
-     Classes/module/Jump.cpp
-     Classes/module/Fall.cpp
-     Classes/module/FlipLR.cpp
+     Classes/Scene/TitleScene.cpp
+     Classes/Scene/GameScene.cpp
+     Classes/Scene/HostScene.cpp
+     Classes/Scene/GuestScene.cpp
+     Classes/Scene/ResultScene.cpp
+     Classes/Controller/OPRT_State.cpp
+     Classes/Controller/OPRT_Key.cpp
+     Classes/Controller/OPRT_Gyro.cpp
+     Classes/Controller/OPRT_Touch.cpp
+     Classes/Controller/MouseCtl.cpp
+     Classes/Obj/Obj.cpp
+     Classes/Obj/Ball.cpp
+     Classes/Obj/BallAfter.cpp
+     Classes/Obj/BallShadow.cpp
+     Classes/Obj/TrajectControl.cpp
+     Classes/Obj/StageWall.cpp
+     Classes/Character/Player.cpp
+     Classes/Effekseer/EffectMng.cpp
      Classes/Effekseer/Effekseer.cpp
      Classes/Effekseer/EffekseerNative.cpp
      Classes/Effekseer/EffekseerRendererNative.cpp
-     Classes/unit/EffectManager.cpp
-     Classes/SoundManager.cpp
+     Classes/Manager/AnimMng.cpp
+     Classes/Manager/GameManager.cpp
+     Classes/Manager/PointWithDepth.cpp
+     Classes/Stage.cpp
+     Classes/Collision.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
-     Classes/GameScene.h
-     Classes/input/OprtState.h
-     Classes/input/OprtKey.h
-     Classes/input/OprtTouch.h
-     Classes/input/INPUT_ID.h
-     Classes/unit/Player.h
-     Classes/unit/Enemy.h
-     Classes/unit/EffectManager.h
-     Classes/AnimaManager.h
-     Classes/_debug/_DebugConOut.h
-     Classes/_debug/_DebugDispOut.h
-     Classes/module/ActionCtl.h
-     Classes/module/MoveLR.h
-     Classes/module/CheckHitObj.h
-     Classes/module/CheckKey.h
-     Classes/module/Jump.h
-     Classes/module/Fall.h
-     Classes/module/FlipLR.h
+     Classes/Scene/TitleScene.h
+     Classes/Scene/GameScene.h
+     Classes/Scene/HostScene.h
+     Classes/Scene/GuestScene.h
+     Classes/Scene/ResultScene.h
+     Classes/Controller/OPRT_State.h
+     Classes/Controller/OPRT_Key.h
+     Classes/Controller/OPRT_Gyro.h
+     Classes/Controller/OPRT_Touch.h
+     Classes/Controller/MouseCtl.h
+     Classes/Obj/Obj.h
+     Classes/Obj/Ball.h
+     Classes/Obj/BallAfter.h
+     Classes/Obj/BallShadow.h
+     Classes/Obj/TrajectControl.h
+     Classes/Obj/StageWall.h
+     Classes/Character/Player.h
+     Classes/Effekseer/EffectMng.h
      Classes/Effekseer/Effekseer.h
      Classes/Effekseer/EffekseerNative.h
      Classes/Effekseer/EffekseerRendererNative.h
-     Classes/SoundManager.h
+     Classes/Manager/AnimMng.h
+     Classes/Manager/GameManager.h
+     Classes/Manager/PointWithDepth.h
+     Classes/Stage.h
+     Classes/Collision.h
      )
 
 if(ANDROID)
