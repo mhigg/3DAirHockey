@@ -31,11 +31,11 @@ void AnimMng::AddAnimCache(const std::string spriteName, const std::string animN
 
 void AnimMng::SetAnim(cocos2d::Sprite* sprite,const std::string animName, const bool repeat)
 {
-	if (_animName == animName 
-		&& _oldAnimReverseFlag == _animReverseFlag)
-	{
-		return;
-	}
+	//if (_animName == animName 
+	//	&& _oldAnimReverseFlag == _animReverseFlag)
+	//{
+	//	return;
+	//}
 
 	// ±ÆÒ°¼®Ý‚ðŽ~‚ß‚é
 	sprite->stopAllActions();
