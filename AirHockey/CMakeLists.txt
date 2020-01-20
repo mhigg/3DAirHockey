@@ -23,7 +23,7 @@
 # THE SOFTWARE.
 # ****************************************************************************/
 
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.6)
 
 set(APP_NAME AirHockey)
 
@@ -56,10 +56,13 @@ list(APPEND GAME_SOURCE
      Classes/Scene/ResultScene.cpp
      Classes/Controller/OPRT_State.cpp
      Classes/Controller/OPRT_Key.cpp
+     Classes/Controller/OPRT_Gyro.cpp
      Classes/Controller/Input_Touch.cpp
      Classes/Controller/MouseCtl.cpp
      Classes/Obj/Obj.cpp
      Classes/Obj/Ball.cpp
+     Classes/Obj/BallShadow.cpp
+     Classes/Obj/TrajectControl.cpp
      Classes/Obj/StageWall.cpp
      Classes/Character/Player.cpp
      Classes/Effekseer/EffectMng.cpp
@@ -69,7 +72,6 @@ list(APPEND GAME_SOURCE
      Classes/Manager/AnimMng.cpp
      Classes/Manager/GameManager.cpp
      Classes/Manager/PointWithDepth.cpp
-     Classes/NetworkLogic.cpp
      Classes/Stage.cpp
      Classes/Collision.cpp
      )
@@ -82,10 +84,13 @@ list(APPEND GAME_HEADER
      Classes/Scene/ResultScene.h
      Classes/Controller/OPRT_State.h
      Classes/Controller/OPRT_Key.h
+     Classes/Controller/OPRT_Gyro.h
      Classes/Controller/Input_Touch.h
      Classes/Controller/MouseCtl.h
      Classes/Obj/Obj.h
      Classes/Obj/Ball.h
+     Classes/Obj/BallShadow.h
+     Classes/Obj/TrajectControl.h
      Classes/Obj/StageWall.h
      Classes/Character/Player.h
      Classes/Effekseer/EffectMng.h
@@ -95,7 +100,6 @@ list(APPEND GAME_HEADER
      Classes/Manager/AnimMng.h
      Classes/Manager/GameManager.h
      Classes/Manager/PointWithDepth.h
-     Classes/NetworkLogic.h
      Classes/Stage.h
      Classes/Collision.h
      )
@@ -161,18 +165,14 @@ if(NOT ANDROID)
     add_executable(${APP_NAME} ${all_code_files})
 else()
     add_library(${APP_NAME} SHARED ${all_code_files})
- # add this code
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/AndroidNdkSdk)
     add_subdirectory(${COCOS2DX_ROOT_PATH}/cocos/platform/android ${ENGINE_BINARY_PATH}/cocos/platform)
     target_link_libraries(${APP_NAME} -Wl,--whole-archive cpp_android_spec -Wl,--no-whole-archive)
 endif()
 
 target_link_libraries(${APP_NAME} cocos2d)
-target_link_libraries(${APP_NAME} photon_loadbalancing) #add
 target_include_directories(${APP_NAME}
         PRIVATE Classes
         PRIVATE ${COCOS2DX_ROOT_PATH}/cocos/audio/include/
-        PRIVATE vendor/AndroidNdkSdk/ # add
 )
 
 # mark app resources

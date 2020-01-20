@@ -58,7 +58,7 @@ extern "C" {
 
 OPRT_Gyro::OPRT_Gyro()
 {
-    _force = cocos2d::Vec2();
+    _Sensor = cocos2d::Vec3();
 }
 
 
@@ -66,12 +66,13 @@ OPRT_Gyro::~OPRT_Gyro()
 {
 }
 
-cocos2d::Vec2 OPRT_Gyro::Gyro()
+cocos2d::Vec3 OPRT_Gyro::GetSensor()
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	_force.x = getX();
-	_force.y = getY();
+	_Sensor.x = getX();
+	_Sensor.y = getY();
+	_Sensor.z = getZ();
 #else
 #endif
-	return _force;
+	return _Sensor;
 }

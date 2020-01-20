@@ -2,12 +2,6 @@
 #include "jni.h"
 #include "cocos2d.h"
 
-struct SensorData
-{
-    float X;
-    float Y;
-    float Z;
-};
 
 #ifndef __ANDROID_JNI__
 #define __ANDROID_JNI__
@@ -30,10 +24,8 @@ public:
 	OPRT_Gyro();
 	~OPRT_Gyro();
 
-    cocos2d::Vec2 Gyro();
+    cocos2d::Vec3 GetSensor();
 private:
-	cocos2d::Vec2 _point;
-	cocos2d::Vec2 _force;
-	SensorData _sensor;
+	cocos2d::Vec3 _Sensor;
 };
 

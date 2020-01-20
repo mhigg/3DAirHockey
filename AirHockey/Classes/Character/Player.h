@@ -3,6 +3,7 @@
 #include <memory>
 #include "cocos2d.h"
 #include "Controller/OPRT_State.h"
+#include "Controller/OPRT_Gyro.h"
 
 class Player : 
 	public cocos2d::Sprite
@@ -19,7 +20,8 @@ private:
 	CREATE_FUNC(Player);
 
 	std::unique_ptr<OPRT_State> _oprtState;
-
+	std::unique_ptr<OPRT_Gyro> _gyro;
+	cocos2d::Vec2 ratio;
 	static float _depth;			// ê[ìxíl
 };
 
