@@ -22,7 +22,7 @@ public:
 	~BallShadow();
 private:
 	bool Init(void);
-	void update(float dt)override;
+	void update(float dt)override;	// 状態更新
 
-	SHADOW _shadowPlace;
+	SHADOW _shadowPlace;			// 上下左右の影のenum保存用
 };
