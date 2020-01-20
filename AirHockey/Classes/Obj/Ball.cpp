@@ -1,8 +1,10 @@
 ﻿#include "Ball.h"
+#include "BallAfter.h"
 #include "StageWall.h"
 #include "../Character/Player.h"
 #include "../Manager/GameManager.h"
 #include "../Manager/AnimMng.h"
+
 #include "Collision.h"
 
 USING_NS_CC;
@@ -169,4 +171,9 @@ void Ball::update(float dt)
 	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
 	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
+
+	/// 残像の座標を更新している
+	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
+	auto ballAfter = (BallAfter*)gameMng->getChildByName("ballAfter");
+	ballAfter->Update(_localPos);
 }

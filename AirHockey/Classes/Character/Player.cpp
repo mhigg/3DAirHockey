@@ -13,8 +13,9 @@ Player::Player()
 	/// 仮の画像を追加している　◆
 	auto sprite = Sprite::create("player.png");
 	sprite->setName("image");
-	this->setContentSize(sprite->getContentSize());
-	/// プレイヤーのタグ名を設定している(仮)　◆
+	//this->setContentSize(sprite->getContentSize());
+
+	/// プレイヤーのタグ名を設定している(仮)
 	this->setName("player");
 	this->addChild(sprite);
 	this->setPosition(Vec2::ZERO);

@@ -1,6 +1,7 @@
 ﻿#include "../Character/Player.h"
 #include "../Obj/Ball.h"
 #include "../Obj/BallShadow.h"
+#include "../Obj/BallAfter.h"
 #include "GameManager.h"
 
 USING_NS_CC;
@@ -59,6 +60,10 @@ void GameManager::Init()
 		auto ballShadow = new BallShadow(k);
 		this->addChild(ballShadow);
 	}
+
+	auto ballAfter = new BallAfter();
+	ballAfter->setName("ballAfter");
+	this->addChild(ballAfter, static_cast<int>(SpriteNum::BALL));
 	/// プレイヤーの生成
 	this->addChild(Player::createPlayer(_zdepth[0]), static_cast<int>(SpriteNum::PLAYER));
 }
