@@ -11,7 +11,7 @@ float Player::_depth;
 Player::Player()
 {
 	/// 仮の画像を追加している　◆
-	auto sprite = Sprite::create("player.png");
+	auto sprite = Sprite::create("image/player/player.png");
 	sprite->setName("image");
 	this->setContentSize(sprite->getContentSize());
 	/// プレイヤーのタグ名を設定している(仮)　◆
@@ -46,6 +46,8 @@ float Player::GetDepth() const
 
 void Player::MoveUpdate()
 {
+	auto a = getColor();
+
 	/// 画面サイズの取得
 	auto scrSize = Director::getInstance()->sharedDirector()->getOpenGLView()->getFrameSize();
 	auto pos	 = _oprtState->GetPoint();
