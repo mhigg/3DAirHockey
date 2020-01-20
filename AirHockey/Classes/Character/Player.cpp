@@ -11,12 +11,36 @@ float Player::_depth;
 Player::Player()
 {
 	/// 仮の画像を追加している　◆
-	auto sprite = Sprite::create("image/player/player.png");
-	sprite->setName("image");
-	this->setContentSize(sprite->getContentSize());
+	// 中央
+	auto sprite = Sprite::create("image/player/player_center.png");
+	sprite->setName("center");
+	//this->setContentSize(sprite->getContentSize());
 	/// プレイヤーのタグ名を設定している(仮)　◆
 	this->setName("player");
 	this->addChild(sprite);
+	
+	// 左上
+	sprite = Sprite::create("image/player/player_left_up.png");
+	sprite->setAnchorPoint({ 1, 0 });
+	sprite->setName("leftUp");
+	this->addChild(sprite);
+	// 左下
+	sprite = Sprite::create("image/player/player_left_down.png");
+	sprite->setAnchorPoint({ 1, 1 });
+	sprite->setName("leftDown");
+	this->addChild(sprite);
+
+	// 右上
+	sprite = Sprite::create("image/player/player_light_up.png");
+	sprite->setAnchorPoint({ 0, 0 });
+	sprite->setName("lightUp");
+	this->addChild(sprite);
+	// 右下
+	sprite = Sprite::create("image/player/player_light_down.png");
+	sprite->setAnchorPoint({ 0, 1 });
+	sprite->setName("lightDown");
+	this->addChild(sprite);
+
 	this->setPosition(Vec2::ZERO);
 
 	/// 仮のマウス設定
@@ -46,12 +70,11 @@ float Player::GetDepth() const
 
 void Player::MoveUpdate()
 {
-	auto a = getColor();
-
 	/// 画面サイズの取得
 	auto scrSize = Director::getInstance()->sharedDirector()->getOpenGLView()->getFrameSize();
 	auto pos	 = _oprtState->GetPoint();
-	auto size	 = this->getChildByName("image")->getContentSize();
+	Size size	 = { this->getChildByName("leftUp")->getContentSize().width + this->getChildByName("lightUp")->getContentSize().width,
+					 this->getChildByName("leftDown")->getContentSize().height + this->getChildByName("lightDown")->getContentSize().height};
 
 	/// X軸の移動範囲チェック
 	if ((pos.x + size.width / 2 < scrSize.width) &&
@@ -75,5 +98,5 @@ void Player::update(float dt)
 	// 奥行きの深さによって、プレイヤーのサイズを変更するようにしている
 	setScale(lpPointWithDepth.GetInstance().GetScale(_depth));
 	
-	lpPointWithDepth.GetInstance().SetVanishingPoint(_oprtState->GetPoint() / 100 - cocos2d::Vec2(400,300) / 100);
+	lpPointWithDepth.GetInstance().SetVanishingPoint((_oprtState->GetPoint() - cocos2d::Vec2(400,300)) / 100);
 }
