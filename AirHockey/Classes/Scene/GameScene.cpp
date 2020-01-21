@@ -31,11 +31,14 @@
 #include "../Effekseer/EffectMng.h"
 
 #include "../Manager/GameManager.h"
+#include "../Manager/CCAudioMng.h"
 
 USING_NS_CC;
 
 GameScene::~GameScene()
 {
+	/// 仮でシャットダウンしている
+	CCAudioMng::GetInstance().ShutDown();
 }
 
 Scene* GameScene::createScene()
@@ -150,12 +153,15 @@ bool GameScene::init()
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
 
+	/// 仮のBGM再生
+	CCAudioMng::GetInstance().RegistStreamBGM("BGM/bgm.cks", "bgm");
+	CCAudioMng::GetInstance().CkPlayBGM("bgm");
+
 	/// シーン名を付けた
 	this->setName("GameScene");
 
 	return true;
 }
-
 
 void GameScene::ChangeScene(cocos2d::Ref * ref)
 {
@@ -170,6 +176,7 @@ void GameScene::menuCloseCallback(Ref* pSender)
 
 void GameScene::update(float dt)
 {
+	CCAudioMng::GetInstance().Update();
 	// ｴﾌｪｸﾄの要素がある場合
 	if (lpEffectMng.GetManager().empty() == false)
 	{
