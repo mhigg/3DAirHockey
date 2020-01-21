@@ -19,8 +19,9 @@ void BallAfter::Update(const cocos2d::Vec3 & lPos)
 		_points[i + 1] = _points[i];
 	}
 
-	if ((debug / 10) % 2)
+	if ((debug / 20) % 2)
 	{
+		debug = 0;
 		_points[0] = lPos;
 	}
 	++debug;
