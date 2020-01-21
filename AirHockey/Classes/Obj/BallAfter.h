@@ -16,7 +16,9 @@ private:
 	void Init();
 	void update(float dt);
 
-	std::array<cocos2d::Vec3, 30> _points;
-	std::array<cocos2d::Sprite*, 30> _images;
+	int debug = 0;
+
+	std::array<cocos2d::Vec3, 20> _points;
+	std::array<cocos2d::Sprite*, 20> _images;
 };
 

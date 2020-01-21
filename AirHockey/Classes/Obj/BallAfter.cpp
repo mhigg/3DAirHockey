@@ -18,7 +18,12 @@ void BallAfter::Update(const cocos2d::Vec3 & lPos)
 	{
 		_points[i + 1] = _points[i];
 	}
-	_points[0] = lPos;
+
+	if ((debug / 10) % 2)
+	{
+		_points[0] = lPos;
+	}
+	++debug;
 
 	/// 更新した座標を使って、残像の位置とサイズを更新する
 	for (int i = 0; i < _images.size(); ++i)
