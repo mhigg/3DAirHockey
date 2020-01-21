@@ -47,7 +47,7 @@ Player::Player()
 	// 座標を真ん中にセット
 	this->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 	// 消失点の変更
-	lpPointWithDepth.GetInstance().SetVanishingPoint((-this->getPosition() + Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height)));
+	//lpPointWithDepth.GetInstance().SetVanishingPoint((-this->getPosition() + Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height)));
 	/// 仮のマウス設定
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_oprtState.reset(new MouseCtl(this));
