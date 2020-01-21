@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\Character\Player.cpp" />
+    <ClCompile Include="..\Classes\Collision.cpp" />
+    <ClCompile Include="..\Classes\NetworkLogic.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\Classes\Manager\AnimMng.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Manager\GameManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Manager\PointWithDepth.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\Ball.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\BallShadow.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\StageWall.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\TrajectControl.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\EffectMng.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\Effekseer.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\EffekseerNative.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\EffekseerRendererNative.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Controller\OPRT_State.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\GameScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\GuestScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\HostScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\ResultScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\TitleScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Controller\MouseCtl.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Controller\OPRT_Key.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\Obj.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\BallAfter.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Controller\OPRT_Gyro.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Manager\CCAudioMng.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Controller\OPRT_Touch.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\Character\Player.h" />
+    <ClInclude Include="..\Classes\Collision.h" />
+    <ClInclude Include="..\Classes\NetworkLogic.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="..\Classes\Manager\AnimMng.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\GameManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\PointWithDepth.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\BallShadow.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\Ball.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\StageWall.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\TrajectControl.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\EffectMng.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\Effekseer.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\EffekseerNative.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\EffekseerRendererNative.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Controller\OPRT_State.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Controller\OPRT_Key.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\GameScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\GuestScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\HostScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\ResultScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\TitleScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Controller\MouseCtl.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\Obj.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\BallAfter.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Controller\OPRT_Gyro.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\CCAudioMng.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Controller\OPRT_Touch.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{4c8d9e80-6a68-425b-81c7-d0567b18dbf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Obj">
+      <UniqueIdentifier>{b0b7ebf5-d079-4486-baa2-7177c16c19ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer">
+      <UniqueIdentifier>{b37e7277-64d6-4b15-ad15-8acb7058c247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller">
+      <UniqueIdentifier>{69e7d5b3-aff4-4e48-9b0d-270752c6eeb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{ee26cdd7-c853-4652-8100-70b5f1449bcc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
