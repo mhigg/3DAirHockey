@@ -97,7 +97,7 @@
     <Link>
       <AdditionalDependencies>libcurl.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);ck.lib;$(_COCOS_LIB_WIN32_END);Common-cpp_vc15_debug_windows_md_Win32.lib;LoadBalancing-cpp_vc15_debug_windows_md_Win32.lib;Photon-cpp_vc15_debug_windows_md_Win32.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);..\vendor\WindowsSdk\Photon-cpp\lib;..\vendor\WindowsSdk\Common-cpp\lib;..\vendor\WindowsSdk\LoadBalancing-cpp\lib;$(CRICKET_ROOT)\DebugDynamic</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);..\vendor\WindowsSdk\Photon-cpp\lib;..\vendor\WindowsSdk\Common-cpp\lib;..\vendor\WindowsSdk\LoadBalancing-cpp\lib;$(CRICKET_ROOT)\lib\win\vs15.0\x86\DebugDynamic</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
