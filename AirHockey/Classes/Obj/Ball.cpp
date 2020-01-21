@@ -100,6 +100,10 @@ void Ball::ChangeIsReverse()
 
 	if (_localPos.z > _wallDepth[29])
 	{
+		/// 残像の奥行きを変更している
+		auto ballAfter = gameMng->getChildByName("ballAfter");
+		ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::SHADOW));
+
 		if (!std::get<2>(_isReverse))
 		{
 			/// 状態を変更するための処理(デバッグ用)
@@ -113,6 +117,10 @@ void Ball::ChangeIsReverse()
 	}
 	else if (_localPos.z <= player->GetDepth())
 	{	
+		/// 残像の奥行きを変更している
+		auto ballAfter = gameMng->getChildByName("ballAfter");
+		ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
+
 		auto col = Collision::GetInstance().HitCollision2D(this->getPosition(), this->getContentSize(),
 														   player->getPosition(), player->getContentSize());
 		if (col)
@@ -145,10 +153,10 @@ void Ball::update(float dt)
 	/// 反転フラグの変更を行っている
 	ChangeIsReverse();
 
-	_localPos += _traject->GetVel(_ballState);
+	_localPos += _traject->GetVel(State::NORMAL);
 
 	// 壁の色更新
-	auto director = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
+	auto director = Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
 	StageWall* wall;
 	for (int k = 0; k < _wallDepth.size(); k++)
 	{
@@ -174,7 +182,7 @@ void Ball::update(float dt)
 	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
 
 	/// 残像の座標を更新している
-	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
-	auto ballAfter = (BallAfter*)gameMng->getChildByName("ballAfter");
+	auto gameMng	= Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
+	auto ballAfter	= (BallAfter*)gameMng->getChildByName("ballAfter");
 	ballAfter->Update(_localPos);
 }

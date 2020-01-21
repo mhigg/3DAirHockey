@@ -61,9 +61,11 @@ void GameManager::Init()
 		this->addChild(ballShadow);
 	}
 
+	/// 残像の生成
 	auto ballAfter = new BallAfter();
 	ballAfter->setName("ballAfter");
 	this->addChild(ballAfter, static_cast<int>(SpriteNum::BALL));
+
 	/// プレイヤーの生成
 	this->addChild(Player::createPlayer(_zdepth[0]), static_cast<int>(SpriteNum::PLAYER));
 }
