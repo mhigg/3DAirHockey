@@ -135,6 +135,7 @@ void Ball::ChangeIsReverse()
 
 void Ball::update(float dt)
 {
+	auto debug = dt;
 	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
 	{
 		/// ゲームシーン以外の時は処理に入らないようにする

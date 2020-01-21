@@ -2,7 +2,7 @@
 
 USING_NS_CC;
 
-BallAfter::BallAfter()
+BallAfter::BallAfter() : _invTime(6)
 {
 	Init();
 }
@@ -13,26 +13,26 @@ BallAfter::~BallAfter()
 
 void BallAfter::Update(const cocos2d::Vec3 & lPos)
 {
-	/// 3次元座標の更新
-	for (int i = _images.size() - 2; i >= 0; --i)
+	if ((_cnt / _invTime) % 2)
 	{
-		_points[i + 1] = _points[i];
-	}
-
-	if ((debug / 20) % 2)
-	{
-		debug = 0;
+		/// 3次元座標の更新
+		for (int i = _images.size() - 2; i >= 0; --i)
+		{
+			_points[i + 1] = _points[i];
+		}
+		_cnt = 0;
 		_points[0] = lPos;
-	}
-	++debug;
 
-	/// 更新した座標を使って、残像の位置とサイズを更新する
-	for (int i = 0; i < _images.size(); ++i)
-	{
-		/// 位置調整のために、画面サイズの半分を減算している(直値なので、修正を必ず行う) ◆
-		_images[i]->setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_points[i]) - cocos2d::Vec2(1024 / 2, 576 / 2));
-		_images[i]->setScale(lpPointWithDepth.GetInstance().GetScale(_points[i].z));
+		/// 更新した座標を使って、残像の位置とサイズを更新する
+		for (int i = 0; i < _images.size(); ++i)
+		{
+			/// 位置調整のために、画面サイズの半分を減算している(直値なので、修正を必ず行う) ◆
+			_images[i]->setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_points[i]) - cocos2d::Vec2(1024 / 2, 576 / 2));
+			_images[i]->setScale(lpPointWithDepth.GetInstance().GetScale(_points[i].z));
+		}
 	}
+	// 時間の更新
+	++_cnt;
 }
 
 void BallAfter::Init()
@@ -51,7 +51,7 @@ void BallAfter::Init()
 		_images[i]->setContentSize(_images[i]->getContentSize()/* * rate*/);
 
 		/// 画像透明度の設定
-		_images[i]->setOpacity(128 * rate);
+		_images[i]->setOpacity(140 * rate);
 		
 		/// 初期座標の設定
 		setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));

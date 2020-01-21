@@ -16,9 +16,11 @@ private:
 	void Init();
 	void update(float dt);
 
-	int debug = 0;
+	int _cnt = 0;				// ŠÔŒv‘ª—p
 
-	std::array<cocos2d::Vec3, 20> _points;
-	std::array<cocos2d::Sprite*, 20> _images;
+	std::array<cocos2d::Vec3, 6> _points;
+	std::array<cocos2d::Sprite*, 6> _images;
+
+	const int _invTime;			// c‘œ‚ğˆÚ“®‚³‚¹‚éŠÔŠu
 };
 
