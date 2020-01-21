@@ -95,9 +95,9 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libcurl.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END);Common-cpp_vc15_debug_windows_md_Win32.lib;LoadBalancing-cpp_vc15_debug_windows_md_Win32.lib;Photon-cpp_vc15_debug_windows_md_Win32.lib</AdditionalDependencies>
+      <AdditionalDependencies>libcurl.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);ck.lib;$(_COCOS_LIB_WIN32_END);Common-cpp_vc15_debug_windows_md_Win32.lib;LoadBalancing-cpp_vc15_debug_windows_md_Win32.lib;Photon-cpp_vc15_debug_windows_md_Win32.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);..\vendor\WindowsSdk\Photon-cpp\lib;..\vendor\WindowsSdk\Common-cpp\lib;..\vendor\WindowsSdk\LoadBalancing-cpp\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);..\vendor\WindowsSdk\Photon-cpp\lib;..\vendor\WindowsSdk\Common-cpp\lib;..\vendor\WindowsSdk\LoadBalancing-cpp\lib;$(CRICKET_ROOT)\DebugDynamic</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -167,6 +167,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClCompile Include="..\Classes\Effekseer\EffekseerNative.cpp" />
     <ClCompile Include="..\Classes\Effekseer\EffekseerRendererNative.cpp" />
     <ClCompile Include="..\Classes\Manager\AnimMng.cpp" />
+    <ClCompile Include="..\Classes\Manager\CCAudioMng.cpp" />
     <ClCompile Include="..\Classes\Manager\GameManager.cpp" />
     <ClCompile Include="..\Classes\Manager\PointWithDepth.cpp" />
     <ClCompile Include="..\Classes\NetworkLogic.cpp" />
@@ -186,6 +187,21 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\Character\Player.h" />
+    <ClInclude Include="..\Classes\ck\attenuationmode.h" />
+    <ClInclude Include="..\Classes\ck\bank.h" />
+    <ClInclude Include="..\Classes\ck\ck.h" />
+    <ClInclude Include="..\Classes\ck\config.h" />
+    <ClInclude Include="..\Classes\ck\customfile.h" />
+    <ClInclude Include="..\Classes\ck\customstream.h" />
+    <ClInclude Include="..\Classes\ck\effect.h" />
+    <ClInclude Include="..\Classes\ck\effectbus.h" />
+    <ClInclude Include="..\Classes\ck\effectparam.h" />
+    <ClInclude Include="..\Classes\ck\effectprocessor.h" />
+    <ClInclude Include="..\Classes\ck\effecttype.h" />
+    <ClInclude Include="..\Classes\ck\mixer.h" />
+    <ClInclude Include="..\Classes\ck\pathtype.h" />
+    <ClInclude Include="..\Classes\ck\platform.h" />
+    <ClInclude Include="..\Classes\ck\sound.h" />
     <ClInclude Include="..\Classes\Collision.h" />
     <ClInclude Include="..\Classes\Controller\MouseCtl.h" />
     <ClInclude Include="..\Classes\Controller\OPRT_Gyro.h" />
@@ -197,6 +213,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClInclude Include="..\Classes\Effekseer\EffekseerNative.h" />
     <ClInclude Include="..\Classes\Effekseer\EffekseerRendererNative.h" />
     <ClInclude Include="..\Classes\Manager\AnimMng.h" />
+    <ClInclude Include="..\Classes\Manager\CCAudioMng.h" />
     <ClInclude Include="..\Classes\Manager\GameManager.h" />
     <ClInclude Include="..\Classes\Manager\PointWithDepth.h" />
     <ClInclude Include="..\Classes\NetworkLogic.h" />
