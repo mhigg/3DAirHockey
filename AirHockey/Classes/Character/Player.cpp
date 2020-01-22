@@ -99,4 +99,11 @@ void Player::update(float dt)
 	
 	// 奥行きの深さによって、プレイヤーのサイズを変更するようにしている
 	setScale(lpPointWithDepth.GetInstance().GetScale(_depth));
+
+	auto runScene = Director::getInstance()->getRunningScene();
+	auto gameMng = (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
+	auto pos = cocos2d::Vec3(this->getPositionX() - gameMng->GetMovingRange().x,
+							 this->getPositionY() - gameMng->GetMovingRange().y,
+							 _depth);
+	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(pos));
 }

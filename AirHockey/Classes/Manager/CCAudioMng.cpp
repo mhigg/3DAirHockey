@@ -132,7 +132,7 @@ void CCAudioMng::CkPlaySE(const std::string& key)
 		/// Ä¶’†‚Å‚È‚¯‚ê‚ÎAÄ¶‚ðs‚¤
 		if (!_seMap[key]->isPlaying())
 		{
-			//_seMap[key]->play();
+			_seMap[key]->play();
 		}
 	}
 }
