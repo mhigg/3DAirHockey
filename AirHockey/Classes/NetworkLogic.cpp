@@ -405,7 +405,7 @@ void NetworkLogic::leaveRoomEventAction(int playerNr, bool isInactive)
 	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"player ") + playerNr + L" has left the game");
 }
 
-void NetworkLogic::customEventAction(int playerNr, nByte /*eventCode*/, const ExitGames::Common::Object& eventContent)
+void NetworkLogic::customEventAction(int playerNr, nByte eventCode, const ExitGames::Common::Object& eventContent)
 {
 	// you do not receive your own events, unless you specify yourself as one of the receivers explicitly, so you must start 2 clients, to receive the events, which you have sent, as sendEvent() uses the default receivers of opRaiseEvent() (all players in same room like the sender, except the sender itself)
 	EGLOG(ExitGames::Common::DebugLevel::ALL, L"");
@@ -413,6 +413,17 @@ void NetworkLogic::customEventAction(int playerNr, nByte /*eventCode*/, const Ex
 #if defined _EG_EMSCRIPTEN_PLATFORM
 //	mpOutputListener->writeLine(L"");
 #endif
+	
+	ExitGames::Common::Hashtable* event;
+
+	switch (eventCode) {
+	case 1:
+		event = ExitGames::Common::ValueObject<ExitGames::Common::Hashtable*>(eventContent).getDataCopy();
+		float x = ExitGames::Common::ValueObject<float>(event->getValue(1)).getDataCopy();
+		float y = ExitGames::Common::ValueObject<float>(event->getValue(2)).getDataCopy();
+		eventQueue.push({ static_cast<float>(playerNr), x, y });
+		break;
+	}
 }
 
 void NetworkLogic::onDirectMessage(const ExitGames::Common::Object& msg, int remoteID, bool relay)
@@ -463,6 +474,9 @@ void NetworkLogic::createRoomReturn(int localPlayerNr, const ExitGames::Common::
 	//	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been created");
 	//	mpOutputListener->writeLine(L"regularly sending dummy events now");
 	mStateAccessor.setState(STATE_JOINED);
+
+	// ルーム内で割り当てられたプレイヤー番号を取得する
+	playerNr = localPlayerNr;
 }
 
 void NetworkLogic::joinOrCreateRoomReturn(int localPlayerNr, const ExitGames::Common::Hashtable& /*gameProperties*/, const ExitGames::Common::Hashtable& /*playerProperties*/, int errorCode, const ExitGames::Common::JString& errorString)
@@ -516,6 +530,9 @@ void NetworkLogic::joinRoomReturn(int localPlayerNr, const ExitGames::Common::Ha
 	//	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been joined");
 	//	mpOutputListener->writeLine(L"regularly sending dummy events now");
 	mStateAccessor.setState(STATE_JOINED);
+
+	// ルーム内で割り当てられたプレイヤー番号を取得する
+	playerNr = localPlayerNr;
 }
 
 void NetworkLogic::joinRandomRoomReturn(int localPlayerNr, const ExitGames::Common::Hashtable& /*gameProperties*/, const ExitGames::Common::Hashtable& /*playerProperties*/, int errorCode, const ExitGames::Common::JString& errorString)
@@ -535,6 +552,9 @@ void NetworkLogic::joinRandomRoomReturn(int localPlayerNr, const ExitGames::Comm
 	//	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been joined");
 	//	mpOutputListener->writeLine(L"regularly sending dummy events now");
 	mStateAccessor.setState(STATE_JOINED);
+
+	// ルーム内で割り当てられたプレイヤー番号を取得する
+	playerNr = localPlayerNr;
 }
 
 void NetworkLogic::leaveRoomReturn(int errorCode, const ExitGames::Common::JString& errorString)
@@ -583,4 +603,18 @@ void NetworkLogic::onAvailableRegions(const ExitGames::Common::JVector<ExitGames
 	ExitGames::Common::JString selectedRegion;
 	//	mpOutputListener->writeLine(L"selecting region: " + (selectedRegion=availableRegions[0]));
 	mLoadBalancingClient.selectRegion(selectedRegion);
+}
+
+bool NetworkLogic::isRoomExists(void)
+{
+	if (mLoadBalancingClient.getRoomList().getIsEmpty()) {
+		return false;
+	}
+
+	return true;
+}
+
+void NetworkLogic::sendEvent(nByte code, ExitGames::Common::Hashtable* eventContent)
+{
+	mLoadBalancingClient.opRaiseEvent(true, eventContent, 1, code);
 }

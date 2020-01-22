@@ -1,5 +1,8 @@
 #pragma once
 
+#include <array>
+#include <queue>
+
 //#include "OutputListener.h"
 #include "LoadBalancing-cpp/inc/Client.h"
 
@@ -69,6 +72,16 @@ public:
 	Input getLastInput(void) const;
 	void setLastInput(Input newInput);
 	State getState(void) const;
+
+	// ルームが存在するか否かを返すメソッド
+	bool isRoomExists(void);
+	// イベントを送信するメソッド
+	void sendEvent(nByte code, ExitGames::Common::Hashtable* eventContent);
+
+	// 自分のプレイヤー番号
+	int playerNr = 0;
+	// イベントキュー
+	std::queue<std::array<float, 3>> eventQueue;
 
 #ifdef _EG_XB1_PLATFORM
 	void setXSTSToken(const ExitGames::Common::JVector<nByte>& mXSTSToken);
