@@ -78,6 +78,7 @@
     <ClCompile Include="..\Classes\Controller\OPRT_Touch.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ConsoleOut.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -157,6 +158,8 @@
     <ClInclude Include="..\Classes\Controller\OPRT_Touch.h">
       <Filter>Controller</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\OutputListener.h" />
+    <ClInclude Include="..\Classes\ConsoleOut.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />

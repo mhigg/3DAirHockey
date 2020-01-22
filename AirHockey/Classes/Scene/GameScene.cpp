@@ -32,6 +32,8 @@
 #include "../Manager/GameManager.h"
 #include "../Manager/CCAudioMng.h"
 
+#include "../ConsoleOut.h"
+
 USING_NS_CC;
 
 GameScene::~GameScene()
@@ -147,6 +149,26 @@ bool GameScene::init()
 	label->setColor(Color3B::BLACK);
 	this->addChild(label);
 
+	_swallowsTouches = true;
+	// シングルタップリスナーを用意する
+	auto listener = EventListenerTouchOneByOne::create();
+	listener->setSwallowTouches(_swallowsTouches);
+ 
+	// 各イベントの割り当て
+	listener->onTouchBegan     = CC_CALLBACK_2(GameScene::onTouchBegan, this);
+	listener->onTouchMoved     = CC_CALLBACK_2(GameScene::onTouchMoved, this);
+	listener->onTouchEnded     = CC_CALLBACK_2(GameScene::onTouchEnded, this);
+	listener->onTouchCancelled = CC_CALLBACK_2(GameScene::onTouchCancelled, this);
+ 
+	// イベントディスパッチャにシングルタップ用リスナーを追加する
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	
+	// Photonネットワーククラスのインスタンスを作成
+	networkLogic = new NetworkLogic(&ConsoleOut::get());
+ 
+	// 毎フレームでupdateを実行させる
+	this->schedule(schedule_selector(GameScene::update));
+
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
 
@@ -156,7 +178,7 @@ bool GameScene::init()
 
 	/// シーン名を付けた
 	this->setName("GameScene");
-
+	
 	return true;
 }
 
@@ -173,6 +195,44 @@ void GameScene::menuCloseCallback(Ref* pSender)
 
 void GameScene::update(float dt)
 {
+	networkLogic->run();
+
+	switch (networkLogic->getState()) {
+	case STATE_CONNECTED:
+	case STATE_LEFT:
+		// ルームが存在すればジョイン、なければ作成する
+		if (networkLogic->isRoomExists()) {
+			networkLogic->setLastInput(INPUT_2);
+		}
+		else {
+			networkLogic->setLastInput(INPUT_1);
+		}
+		break;
+	case STATE_DISCONNECTED:
+		// 接続が切れたら再度接続
+		networkLogic->connect();
+		break;
+	case STATE_CONNECTING:
+	case STATE_JOINING:
+	case STATE_JOINED:
+	case STATE_LEAVING:
+	case STATE_DISCONNECTING:
+	default:
+		break;
+	}
+
+	while (!networkLogic->eventQueue.empty()) {
+		std::array<float, 3>arr = networkLogic->eventQueue.front();
+		networkLogic->eventQueue.pop();
+
+		int playerNr = static_cast<int>(arr[0]);
+		float x = arr[1];
+		float y = arr[2];
+		CCLOG("%d, %f, %f", playerNr, x, y);
+
+		this->addParticle(playerNr, x, y);
+	}
+
 	CCAudioMng::GetInstance().Update();
 	// ｴﾌｪｸﾄの要素がある場合
 	if (lpEffectMng.GetManager().empty() == false)
@@ -206,3 +266,53 @@ void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parent
 }
 
 
+bool GameScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+
+	if (networkLogic->playerNr) {
+		this->addParticle(networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
+
+		// イベント（タッチ座標）を送信
+		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
+		eventContent->put<int, float>(1, touch->getLocation().x);
+		eventContent->put<int, float>(2, touch->getLocation().y);
+		networkLogic->sendEvent(1, eventContent);
+	}
+
+	return true;
+}
+
+void GameScene::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+
+}
+
+void GameScene::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+
+}
+
+void GameScene::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+
+}
+
+void GameScene::addParticle(int playerNr, float x, float y)
+{
+	ParticleSystem* particle;
+	switch (playerNr) {
+	case 1:
+		particle = ParticleFire::create();
+		break;
+	case 2:
+		particle = ParticleSmoke::create();
+		break;
+	case 3:
+		particle = ParticleFlower::create();
+		break;
+	default:
+		particle = ParticleSun::create();
+		break;
+	}
+	particle->setDuration(0.1);
+	particle->setSpeed(500);
+	particle->setPosition(cocos2d::Point(x, y));
+	this->addChild(particle);
+}

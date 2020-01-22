@@ -3,7 +3,7 @@
 #include <array>
 #include <queue>
 
-//#include "OutputListener.h"
+#include "OutputListener.h"
 #include "LoadBalancing-cpp/inc/Client.h"
 
 #ifdef _EG_PS4_PLATFORM
@@ -56,7 +56,7 @@ private:
 class NetworkLogic : private ExitGames::LoadBalancing::Listener
 {
 public:
-	NetworkLogic(/*OutputListener* listener*/);
+	NetworkLogic(OutputListener* listener);
 	//	NetworkLogic(const ExitGames::Common::JString& appID, const ExitGames::Common::JString& appVersion);
 	void registerForStateUpdates(NetworkLogicListener* listener);
 	void run(void);
@@ -127,7 +127,7 @@ private:
 	ExitGames::Common::Logger mLogger;
 	StateAccessor mStateAccessor;
 	Input mLastInput;
-	//	OutputListener* mpOutputListener;
+	OutputListener* mpOutputListener;
 	bool mAutoJoinRoom;
 	ExitGames::Common::EGTime mLastSendTime;
 #ifdef _EG_XB1_PLATFORM
