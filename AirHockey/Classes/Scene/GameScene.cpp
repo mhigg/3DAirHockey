@@ -37,8 +37,6 @@ USING_NS_CC;
 
 GameScene::~GameScene()
 {
-	/// 仮でシャットダウンしている
-	CCAudioMng::GetInstance().ShutDown();
 }
 
 Scene* GameScene::createScene()

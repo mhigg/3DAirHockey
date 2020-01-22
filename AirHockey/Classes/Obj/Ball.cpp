@@ -109,7 +109,7 @@ void Ball::ChangeIsReverse()
 		Size size = Size(_radius * 2, _radius * 2);
 		for (auto plAnchor : players[1]->getChildren())
 		{
-			col = lpCollision.HitCollision2D(this->getPosition(), size,
+			col = lpCollision.HitCollision2D(Vec2(_localPos.x, _localPos.y), size,
 											 players[1]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize());
 			if (col && !std::get<2>(_isReverse))
 			{
@@ -134,12 +134,10 @@ void Ball::ChangeIsReverse()
 		Size size = Size(_radius * 2, _radius * 2);
 		for (auto plAnchor : players[0]->getChildren())
 		{
-			col = lpCollision.HitCollision2D(this->getPosition(), size,
+			col = lpCollision.HitCollision2D(Vec2(_localPos.x, _localPos.y), size,
 											 players[0]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize());
 			if (col && std::get<2>(_isReverse))
 			{
-				auto pos1 = players[0]->getPosition();
-				auto pos2 = players[1]->getPosition();
 				auto ballAfter = gameMng->getChildByName("ballAfter");
 				ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
 

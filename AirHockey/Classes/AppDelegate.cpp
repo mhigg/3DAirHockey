@@ -27,6 +27,8 @@
 #include "Scene/GameScene.h"
 //#include "Scene/ResultScene.h"
 
+#include "Manager/CCAudioMng.h"
+
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
 
@@ -63,6 +65,7 @@ AppDelegate::~AppDelegate()
 #elif USE_SIMPLE_AUDIO_ENGINE
     SimpleAudioEngine::end();
 #endif
+	CCAudioMng::GetInstance().ShutDown();
 }
 
 // if you want a different context, modify the value of glContextAttrs

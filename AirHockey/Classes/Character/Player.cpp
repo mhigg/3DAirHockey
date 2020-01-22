@@ -70,27 +70,27 @@ cocos2d::Vec2 Player::GetAnchorPos(const std::string& name)
 	/// アンカーポイントに設定してある座標を返している
 	if (name == "center")
 	{
-		return this->getPosition();
+		return Vec2(_localPos.x, _localPos.y);
 	}
 	else if (name == "leftup")
 	{
 		Size size = this->getChildByName(name)->getContentSize();
-		return this->getPosition() + Vec2(-size.width / 2, size.height / 2);
+		return Vec2(_localPos.x, _localPos.y) + Vec2(-size.width / 2, size.height / 2);
 	}
 	else if (name == "rightup")
 	{
 		Size size = this->getChildByName(name)->getContentSize();
-		return this->getPosition() + Vec2(size.width / 2, size.height / 2);
+		return Vec2(_localPos.x, _localPos.y) + Vec2(size.width / 2, size.height / 2);
 	}
 	else if (name == "leftdown")
 	{
 		Size size = this->getChildByName(name)->getContentSize();
-		return this->getPosition() + Vec2(-size.width / 2, -size.height / 2);
+		return Vec2(_localPos.x, _localPos.y) + Vec2(-size.width / 2, -size.height / 2);
 	}
 	else if (name == "rightdown")
 	{
 		Size size = this->getChildByName(name)->getContentSize();
-		return this->getPosition() + Vec2(size.width / 2, -size.height / 2);
+		return Vec2(_localPos.x, _localPos.y) + Vec2(size.width / 2, -size.height / 2);
 	}
 	else {}
 	return Vec2::ZERO;
