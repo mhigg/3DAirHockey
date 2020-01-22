@@ -28,6 +28,7 @@ import android.os.Bundle;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import android.os.Build;
 import android.view.WindowManager;
+import android.content.Context;
 import android.view.WindowManager.LayoutParams;
 
 import java.util.List;
@@ -39,10 +40,13 @@ import android.hardware.SensorManager;
 public class AppActivity extends Cocos2dxActivity implements SensorEventListener {
     private SensorManager _sensorManager;
     public static float[] _sensor = new float[3];
+    private static native void initCricket(Context context);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.setEnableVirtualButton(false);
         super.onCreate(savedInstanceState);
+        AppActivity.initCricket(this.getApplicationContext());
         // センサー取得
         _sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
