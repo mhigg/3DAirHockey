@@ -29,6 +29,21 @@ set(APP_NAME AirHockey)
 
 project(${APP_NAME})
 
+include(AndroidNdkModules)
+android_ndk_import_module_cpufeatures()
+
+include_directories(
+        D:/cricket/cricket-1.6.7/inc
+)
+
+link_directories(
+        D:/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug
+)
+
+link_libraries(
+        D:/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug/libck.a
+)
+
 set(COCOS2DX_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cocos2d)
 set(CMAKE_MODULE_PATH ${COCOS2DX_ROOT_PATH}/cmake/Modules/)
 
@@ -73,6 +88,7 @@ list(APPEND GAME_SOURCE
      Classes/Manager/AnimMng.cpp
      Classes/Manager/GameManager.cpp
      Classes/Manager/PointWithDepth.cpp
+     Classes/Manager/CCAudioMng.cpp
      Classes/Stage.cpp
      Classes/Collision.cpp
      )
@@ -102,6 +118,7 @@ list(APPEND GAME_HEADER
      Classes/Manager/AnimMng.h
      Classes/Manager/GameManager.h
      Classes/Manager/PointWithDepth.h
+     Classes/Manager/CCAudioMng.h
      Classes/Stage.h
      Classes/Collision.h
      )
