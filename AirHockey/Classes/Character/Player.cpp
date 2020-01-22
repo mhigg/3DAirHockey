@@ -7,43 +7,42 @@
 
 USING_NS_CC;
 
-float Player::_depth;
-
-Player::Player()
+Player::Player(const float& zdepth)
 {
+	_depth = zdepth;
+
 	/// 仮の画像を追加している　◆
 	// 中央
 	auto sprite = Sprite::create("image/player/player_center.png");
-	sprite->setName("center");
-	//this->setContentSize(sprite->getContentSize());
-	/// プレイヤーのタグ名を設定している(仮)　◆
-	this->setName("player");
+	sprite->setTag(static_cast<int>(PL_ANCHOR::CENTER));
 	this->addChild(sprite);
 	
 	// 左上
 	sprite = Sprite::create("image/player/player_left_up.png");
 	sprite->setAnchorPoint({ 1, 0 });
-	sprite->setName("leftUp");
+	sprite->setTag(static_cast<int>(PL_ANCHOR::LEFTUP));
 	this->addChild(sprite);
 	// 左下
 	sprite = Sprite::create("image/player/player_left_down.png");
 	sprite->setAnchorPoint({ 1, 1 });
-	sprite->setName("leftDown");
+	sprite->setTag(static_cast<int>(PL_ANCHOR::LEFTDOWN));
 	this->addChild(sprite);
 
 	// 右上
 	sprite = Sprite::create("image/player/player_light_up.png");
 	sprite->setAnchorPoint({ 0, 0 });
-	sprite->setName("lightUp");
+	sprite->setTag(static_cast<int>(PL_ANCHOR::RIGHTUP));
 	this->addChild(sprite);
+
 	// 右下
 	sprite = Sprite::create("image/player/player_light_down.png");
 	sprite->setAnchorPoint({ 0, 1 });
-	sprite->setName("lightDown");
+	sprite->setTag(static_cast<int>(PL_ANCHOR::RIGHTDOWN));
 	this->addChild(sprite);
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	Vec2 origin =	 Director::getInstance()->getVisibleOrigin();
+
 	// 座標を真ん中にセット
 	this->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 	// 消失点の変更
@@ -61,13 +60,6 @@ Player::~Player()
 {
 }
 
-Player * Player::createPlayer(const float& depth)
-{
-	_depth = depth;
-
-	return Player::create();
-}
-
 float Player::GetDepth() const
 {
 	return _depth;
@@ -80,8 +72,8 @@ void Player::MoveUpdate()
 	/// 画面サイズの取得
 	auto scrSize = Director::getInstance()->sharedDirector()->getOpenGLView()->getFrameSize();
 	auto pos	 = _oprtState->GetPoint();
-	Size size	 = { this->getChildByName("leftUp")->getContentSize().width + this->getChildByName("lightUp")->getContentSize().width,
-					 this->getChildByName("leftDown")->getContentSize().height + this->getChildByName("lightDown")->getContentSize().height};
+	Size size	 = { this->getChildByTag(static_cast<int>(PL_ANCHOR::LEFTUP))->getContentSize().width + this->getChildByTag(static_cast<int>(PL_ANCHOR::RIGHTUP))->getContentSize().width,
+					 this->getChildByTag(static_cast<int>(PL_ANCHOR::LEFTDOWN))->getContentSize().height + this->getChildByTag(static_cast<int>(PL_ANCHOR::RIGHTDOWN))->getContentSize().height};
 	// 消失点の変更
 	// lpPointWithDepth.GetInstance().SetVanishingPoint((-pos + Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height)));
 

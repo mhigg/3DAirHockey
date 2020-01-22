@@ -19,6 +19,8 @@ private:
 	void ChangeIsReverse();							// 反転用フラグの更新用
 	void update(float dt) override;
 
+
+
 	std::unique_ptr<TrajectControl> _traject;		// ボールの軌道制御用
 	std::tuple<bool, bool, bool> _isReverse;		// 速度反転用のフラグ(0 : X, 1 : Y, 2 : Z)
 	std::vector<float> _wallDepth;					// 壁の奥行
