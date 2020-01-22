@@ -3,6 +3,8 @@
 #include <memory>
 #include "cocos2d.h"
 
+#define lpCollision (Collision::GetInstance())
+
 /// クラスにする必要性がないかもしれない
 
 class Collision

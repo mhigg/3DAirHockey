@@ -67,7 +67,14 @@ void GameManager::Init()
 	this->addChild(ballAfter, static_cast<int>(SpriteNum::BALL));
 
 	/// プレイヤーの生成
-	this->addChild(Player::createPlayer(_zdepth[0]), static_cast<int>(SpriteNum::PLAYER));
+	Player* player;
+	for (int i = 0; i < 2; ++i)
+	{
+		depth  = (i == 0 ? _zdepth[0] : _zdepth[_wallMax - 1]);
+		player = new Player(depth);
+		player->setName("player" + std::to_string(i + 1));
+		this->addChild(player, static_cast<int>(SpriteNum::PLAYER));
+	}
 }
 
 void GameManager::update(float dt)

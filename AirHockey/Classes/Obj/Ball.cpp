@@ -74,8 +74,13 @@ void Ball::ChangeIsReverse()
 {
 	/// ゲームマネージャーの取得
 	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
+	
 	/// プレイヤーの取得
-	auto player = (Player*)gameMng->getChildByName("player");
+	Player* players[2];
+	for (int i = 0; i < sizeof(players) / sizeof(players[0]); ++i)
+	{
+		players[i] = (Player*)gameMng->getChildByName("player" + std::to_string(i + 1));
+	}
 
 	/// 反転フラグの更新(X)
 	if (_localPos.x - _radius < -gameMng->GetMovingRange().x)
@@ -104,27 +109,31 @@ void Ball::ChangeIsReverse()
 		auto ballAfter = gameMng->getChildByName("ballAfter");
 		ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::SHADOW));
 
-		if (!std::get<2>(_isReverse))
-		{
-			/// 状態を変更するための処理(デバッグ用)
-			_ballState = (State)(rand() % 2);
-			if (_ballState == State::CURVE)
+		/*auto col = lpCollision.HitCollision2D(this->getPosition(), this->getContentSize(),
+											  players[1]->getPosition(), players[1]->getContentSize());
+		if (col)
+		{*/
+			if (!std::get<2>(_isReverse))
 			{
-				_traject->CalBezierPoint();
+				/// 状態を変更するための処理(デバッグ用)
+				_ballState = (State)(rand() % 2);
+				if (_ballState == State::CURVE)
+				{
+					_traject->CalBezierPoint();
+				}
 			}
-		}
-		std::get<2>(_isReverse) = true;
+			std::get<2>(_isReverse) = true;
+		//}
 	}
-	else if (_localPos.z <= player->GetDepth())
+	else if (_localPos.z <= players[0]->GetDepth())
 	{	
-		/// 残像の奥行きを変更している
-		auto ballAfter = gameMng->getChildByName("ballAfter");
-		ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
-
-		auto col = Collision::GetInstance().HitCollision2D(this->getPosition(), this->getContentSize(),
-														   player->getPosition(), player->getContentSize());
+		auto col = lpCollision.HitCollision2D(this->getPosition(), this->getContentSize(),
+											  players[0]->getPosition(), players[0]->getContentSize());
 		if (col)
 		{
+			/// 残像の奥行きを変更している
+			auto ballAfter = gameMng->getChildByName("ballAfter");
+			ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
 			if (std::get<2>(_isReverse))
 			{
 				/// 状態を変更するための処理(デバッグ用)
@@ -153,7 +162,7 @@ void Ball::update(float dt)
 	/// 反転フラグの変更を行っている
 	ChangeIsReverse();
 
-	_localPos += _traject->GetVel(State::NORMAL);
+	_localPos += _traject->GetVel(_ballState);
 
 	// 壁の色更新
 	auto director = Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
