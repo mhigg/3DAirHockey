@@ -70,9 +70,14 @@ void GameManager::Init()
 	Player* player;
 	for (int i = 0; i < 2; ++i)
 	{
+		/// プレイヤーの深度値を設定している(左 : 1P, 右 : 2P)
 		depth  = (i == 0 ? _zdepth[0] : _zdepth[_wallMax - 1]);
 		player = new Player(depth);
+
+		/// プレイヤーの名前を設定している
 		player->setName("player" + std::to_string(i + 1));
+
+		/// プレイヤーの追加
 		this->addChild(player, static_cast<int>(SpriteNum::PLAYER));
 	}
 }

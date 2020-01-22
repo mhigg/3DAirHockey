@@ -54,9 +54,9 @@ bool BallShadow::Init(void)
 
 	// posとｽﾌﾟﾗｲﾄの大きさを一点透視図法に置き換える
 	// 一点透視図法にした時の座標のｾｯﾄ
-	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
+	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
-	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
+	setScale(lpPointWithDepth.GetScale(_localPos.z));
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	cocos2d::Node::scheduleUpdate();
@@ -78,8 +78,6 @@ void BallShadow::update(float dt)
 
 	// 画像の拡大縮小用
 	float scale = 0;
-	// ﾎﾞｰﾙの半径
-	auto _radius = 192 / 2 - 32;
 	// 画面ｻｲｽﾞ
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	// 座標と大きさの更新
@@ -114,7 +112,7 @@ void BallShadow::update(float dt)
 	setOpacity(255 * abs(scale));
 
 	// 一点透視図法にした時の座標のｾｯﾄ
-	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
+	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
-	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z) * abs(scale));
+	setScale(lpPointWithDepth.GetScale(_localPos.z) * abs(scale));
 }

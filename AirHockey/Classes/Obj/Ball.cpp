@@ -51,9 +51,9 @@ bool Ball::Init(void)
 
 	// posとｽﾌﾟﾗｲﾄの大きさを一点透視図法に置き換える
 	// 一点透視図法にした時の座標のｾｯﾄ
-	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
+	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
-	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
+	setScale(lpPointWithDepth.GetScale(_localPos.z));
 
 	/// 判定の初期化
 	_isReverse = { false, false, false };
@@ -103,47 +103,55 @@ void Ball::ChangeIsReverse()
 	}
 	else {}
 
-	if (_localPos.z > _wallDepth[29])
+	if (_localPos.z > players[1]->GetDepth())
 	{
-		/// 残像の奥行きを変更している
-		auto ballAfter = gameMng->getChildByName("ballAfter");
-		ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::SHADOW));
-
-		/*auto col = lpCollision.HitCollision2D(this->getPosition(), this->getContentSize(),
-											  players[1]->getPosition(), players[1]->getContentSize());
-		if (col)
-		{*/
-			if (!std::get<2>(_isReverse))
+		bool col;
+		Size size = Size(_radius * 2, _radius * 2);
+		for (auto plAnchor : players[1]->getChildren())
+		{
+			col = lpCollision.HitCollision2D(this->getPosition(), size,
+											 players[1]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize());
+			if (col && !std::get<2>(_isReverse))
 			{
+				auto ballAfter = gameMng->getChildByName("ballAfter");
+				ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
+
 				/// 状態を変更するための処理(デバッグ用)
 				_ballState = (State)(rand() % 2);
 				if (_ballState == State::CURVE)
 				{
 					_traject->CalBezierPoint();
 				}
+				std::get<2>(_isReverse) = true;
+				break;
 			}
-			std::get<2>(_isReverse) = true;
-		//}
+		}
 	}
 	else if (_localPos.z <= players[0]->GetDepth())
-	{	
-		auto col = lpCollision.HitCollision2D(this->getPosition(), this->getContentSize(),
-											  players[0]->getPosition(), players[0]->getContentSize());
-		if (col)
+	{
+		/// プレイヤーの矩形ごとに当たり判定を取っている
+		bool col;
+		Size size = Size(_radius * 2, _radius * 2);
+		for (auto plAnchor : players[0]->getChildren())
 		{
-			/// 残像の奥行きを変更している
-			auto ballAfter = gameMng->getChildByName("ballAfter");
-			ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
-			if (std::get<2>(_isReverse))
+			col = lpCollision.HitCollision2D(this->getPosition(), size,
+											 players[0]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize());
+			if (col && std::get<2>(_isReverse))
 			{
+				auto pos1 = players[0]->getPosition();
+				auto pos2 = players[1]->getPosition();
+				auto ballAfter = gameMng->getChildByName("ballAfter");
+				ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
+
 				/// 状態を変更するための処理(デバッグ用)
 				_ballState = (State)(rand() % 2);
 				if (_ballState == State::CURVE)
 				{
 					_traject->CalBezierPoint();
 				}
+				std::get<2>(_isReverse) = false;
+				break;
 			}
-			std::get<2>(_isReverse) = false;
 		}
 	}
 	else {}
@@ -186,9 +194,9 @@ void Ball::update(float dt)
 	// 座標の更新
 	// posとｽﾌﾟﾗｲﾄの大きさを一点透視図法に置き換える
 	// 一点透視図法にした時の座標のｾｯﾄ
-	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
+	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
-	setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
+	setScale(lpPointWithDepth.GetScale(_localPos.z));
 
 	/// 残像の座標を更新している
 	auto gameMng	= Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");

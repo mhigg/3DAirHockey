@@ -9,44 +9,44 @@ USING_NS_CC;
 
 Player::Player(const float& zdepth)
 {
-	_depth = zdepth;
+	/// 座標の初期化
+	_localPos = {0,0,zdepth};
 
-	/// 仮の画像を追加している　◆
+	/// 仮の画像を追加　◆
 	// 中央
-	auto sprite = Sprite::create("image/player/player_center.png");
-	sprite->setTag(static_cast<int>(PL_ANCHOR::CENTER));
+	auto sprite = Sprite::create("image/player/player_center_hit.png");
+	sprite->setName("center");
 	this->addChild(sprite);
 	
 	// 左上
-	sprite = Sprite::create("image/player/player_left_up.png");
+	sprite = Sprite::create("image/player/player_left_up_hit.png");
 	sprite->setAnchorPoint({ 1, 0 });
-	sprite->setTag(static_cast<int>(PL_ANCHOR::LEFTUP));
+	sprite->setName("leftup");
 	this->addChild(sprite);
 	// 左下
-	sprite = Sprite::create("image/player/player_left_down.png");
+	sprite = Sprite::create("image/player/player_left_down_hit.png");
 	sprite->setAnchorPoint({ 1, 1 });
-	sprite->setTag(static_cast<int>(PL_ANCHOR::LEFTDOWN));
+	sprite->setName("leftdown");
 	this->addChild(sprite);
 
 	// 右上
-	sprite = Sprite::create("image/player/player_light_up.png");
+	sprite = Sprite::create("image/player/player_light_up_hit.png");
 	sprite->setAnchorPoint({ 0, 0 });
-	sprite->setTag(static_cast<int>(PL_ANCHOR::RIGHTUP));
+	sprite->setName("rightup");
 	this->addChild(sprite);
 
 	// 右下
-	sprite = Sprite::create("image/player/player_light_down.png");
+	sprite = Sprite::create("image/player/player_light_down_hit.png");
 	sprite->setAnchorPoint({ 0, 1 });
-	sprite->setTag(static_cast<int>(PL_ANCHOR::RIGHTDOWN));
+	sprite->setName("rightdown");
 	this->addChild(sprite);
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin =	 Director::getInstance()->getVisibleOrigin();
 
 	// 座標を真ん中にセット
-	this->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+	this->setPosition(Vec2(_localPos.x + visibleSize.width / 2, _localPos.y + visibleSize.height / 2));
 	// 消失点の変更
-	//lpPointWithDepth.GetInstance().SetVanishingPoint((-this->getPosition() + Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height)));
+	//lpPointWithDepth.SetVanishingPoint((-this->getPosition() + Vec2(_localPos.x + visibleSize.width, _localPos.y + visibleSize.height)));
 	/// 仮のマウス設定
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_oprtState.reset(new MouseCtl(this));
@@ -62,48 +62,84 @@ Player::~Player()
 
 float Player::GetDepth() const
 {
-	return _depth;
+	return _localPos.z;
+}
+
+cocos2d::Vec2 Player::GetAnchorPos(const std::string& name)
+{
+	/// アンカーポイントに設定してある座標を返している
+	if (name == "center")
+	{
+		return this->getPosition();
+	}
+	else if (name == "leftup")
+	{
+		Size size = this->getChildByName(name)->getContentSize();
+		return this->getPosition() + Vec2(-size.width / 2, size.height / 2);
+	}
+	else if (name == "rightup")
+	{
+		Size size = this->getChildByName(name)->getContentSize();
+		return this->getPosition() + Vec2(size.width / 2, size.height / 2);
+	}
+	else if (name == "leftdown")
+	{
+		Size size = this->getChildByName(name)->getContentSize();
+		return this->getPosition() + Vec2(-size.width / 2, -size.height / 2);
+	}
+	else if (name == "rightdown")
+	{
+		Size size = this->getChildByName(name)->getContentSize();
+		return this->getPosition() + Vec2(size.width / 2, -size.height / 2);
+	}
+	else {}
+	return Vec2::ZERO;
 }
 
 void Player::MoveUpdate()
 {
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	
 	/// 画面サイズの取得
-	auto scrSize = Director::getInstance()->sharedDirector()->getOpenGLView()->getFrameSize();
-	auto pos	 = _oprtState->GetPoint();
-	Size size	 = { this->getChildByTag(static_cast<int>(PL_ANCHOR::LEFTUP))->getContentSize().width + this->getChildByTag(static_cast<int>(PL_ANCHOR::RIGHTUP))->getContentSize().width,
-					 this->getChildByTag(static_cast<int>(PL_ANCHOR::LEFTDOWN))->getContentSize().height + this->getChildByTag(static_cast<int>(PL_ANCHOR::RIGHTDOWN))->getContentSize().height};
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	Vec2 pos	 = _oprtState->GetPoint() - visibleSize / 2;
+	Vec2 offset  = visibleSize / 2;
+
+	/// サイズの取得
+	float width, height;
+
+	width  = (this->getChildByName("leftup")->getContentSize().width +
+			  this->getChildByName("rightup")->getContentSize().width);
+	height = (this->getChildByName("leftdown")->getContentSize().height +
+			  this->getChildByName("rightdown")->getContentSize().height);
+
+	Size size = { width, height };
+
 	// 消失点の変更
-	// lpPointWithDepth.GetInstance().SetVanishingPoint((-pos + Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height)));
+	// lpPointWithDepth.SetVanishingPoint((-pos + Vec2(_localPos.x + visibleSize.width, _localPos.y + visibleSize.height)));
 
 	/// X軸の移動範囲チェック
-	if ((pos.x + size.width / 2 < scrSize.width) &&
-		(pos.x - size.width / 2 > 0))
+	if ((pos.x + offset.x + size.width / 2 < visibleSize.width) &&
+		(pos.x + offset.x - size.width / 2 > 0))
 	{
-		this->setPositionX(pos.x);
+		_localPos.x = pos.x;
 	}
 
 	/// Y軸の移動範囲チェック
-	if ((pos.y + size.height / 2 < scrSize.height) &&
-		(pos.y - size.height / 2 > 0))
+	if ((pos.y + offset.y + size.height / 2 < visibleSize.height) &&
+		(pos.y + offset.y - size.height / 2 > 0))
 	{
-		this->setPositionY(pos.y);
+		_localPos.y = pos.y;
 	}
+	// 奥行きの深さによって、サイズを変更するようにしている
+	setScale(lpPointWithDepth.GetScale(_localPos.z));
+	
+	/// ワールド座標に変換している
+	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 }
 
 void Player::update(float dt)
 {
 	_oprtState->Update();
 	MoveUpdate();
-	
-	// 奥行きの深さによって、プレイヤーのサイズを変更するようにしている
-	setScale(lpPointWithDepth.GetInstance().GetScale(_depth));
-
-	auto runScene = Director::getInstance()->getRunningScene();
-	auto gameMng = (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
-	auto pos = cocos2d::Vec3(this->getPositionX() - gameMng->GetMovingRange().x,
-							 this->getPositionY() - gameMng->GetMovingRange().y,
-							 _depth);
-	setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(pos));
 }

@@ -27,8 +27,8 @@ void BallAfter::Update(const cocos2d::Vec3 & lPos)
 		for (int i = 0; i < _images.size(); ++i)
 		{
 			/// 位置調整のために、画面サイズの半分を減算している(直値なので、修正を必ず行う) ◆
-			_images[i]->setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_points[i]) - cocos2d::Vec2(1024 / 2, 576 / 2));
-			_images[i]->setScale(lpPointWithDepth.GetInstance().GetScale(_points[i].z));
+			_images[i]->setPosition(lpPointWithDepth.SetWorldPosition(_points[i]) - cocos2d::Vec2(1024 / 2, 576 / 2));
+			_images[i]->setScale(lpPointWithDepth.GetScale(_points[i].z));
 		}
 	}
 	// 時間の更新
@@ -54,10 +54,10 @@ void BallAfter::Init()
 		_images[i]->setOpacity(140 * rate);
 		
 		/// 初期座標の設定
-		setPosition(lpPointWithDepth.GetInstance().SetWorldPosition(_localPos));
+		setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 
 		/// 画像スケールの設定
-		setScale(lpPointWithDepth.GetInstance().GetScale(_localPos.z));
+		setScale(lpPointWithDepth.GetScale(_localPos.z));
 
 		this->addChild(_images[i]);
 	}
