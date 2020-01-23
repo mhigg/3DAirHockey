@@ -114,26 +114,20 @@ void Ball::ChangeIsReverse()
 											 players[1]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize());
 			if (col && !std::get<2>(_isReverse))
 			{
-				
+				/// ボールと当たった時の画像に変更する
+				players[1]->ChangeImage(plAnchor->getTag());
+
+				/// 残像の描画位置を変更する
 				auto ballAfter = gameMng->getChildByName("ballAfter");
 				ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::SHADOW));
+
 				/// 状態を変更するための処理(デバッグ用)
 				_ballState = (State)(rand() % 2);
 				if (_ballState == State::CURVE)
 				{
 					_traject->CalBezierPoint();
 				}
-
-				/// 跳ね返す方向の設定
-				if (abs(players[1]->GetMoveDistance().x) >= 2)
-				{
-					std::get<0>(_isReverse) = (players[0]->GetMoveDistance().x < 0 ? true : false);
-				}
-				if (abs(players[1]->GetMoveDistance().y) >= 2)
-				{
-					std::get<1>(_isReverse) = (players[0]->GetMoveDistance().y < 0 ? true : false);
-				}
-				std::get<2>(_isReverse) = true;
+				ChangeMoving(players[1]);
 				break;
 			}
 		}
@@ -149,26 +143,15 @@ void Ball::ChangeIsReverse()
 											 players[0]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize());
 			if (col && std::get<2>(_isReverse))
 			{
+				/// ボールと当たった時の画像に変更する
 				players[0]->ChangeImage(plAnchor->getTag());
+
+				/// 残像の描画位置を変更する
 				auto ballAfter = gameMng->getChildByName("ballAfter");
 				ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
-			
-				/// 状態を変更するための処理
-				_ballState = (State)(rand() % 2);
-				if (_ballState == State::CURVE)
-				{
-					_traject->CalBezierPoint();
-				}
-
-				/// 跳ね返す方向の設定
-				if (abs(players[0]->GetMoveDistance().x) >= 2)
-				{
-					std::get<0>(_isReverse) = (players[0]->GetMoveDistance().x < 0 ? true : false);
-				}
-				if (abs(players[0]->GetMoveDistance().y) >= 2)
-				{
-					std::get<1>(_isReverse) = (players[0]->GetMoveDistance().y < 0 ? true : false);
-				}
+				
+				ChangeMoving(players[0]);
+				
 				std::get<2>(_isReverse) = false;
 				break;
 			}
@@ -177,6 +160,30 @@ void Ball::ChangeIsReverse()
 	else {}
 }
 
+void Ball::ChangeMoving(const Node* pl)
+{
+	/// プレイヤーの情報取得
+	auto player = (Player*)pl;
+
+	/// 状態を変更するための処理(デバッグ用)
+	_ballState = (State)(rand() % 2);
+	if (_ballState == State::CURVE)
+	{
+		_traject->CalBezierPoint();
+	}
+	else  // 現状、ボールの状態は2種類しかないのでif～elseを使った2分岐処理にしている
+	{
+		/// ボールの跳ね返す方向を切り替えるかの判定
+		if (abs(player->GetMoveDistance().x) >= 2)
+		{
+			std::get<0>(_isReverse) = (player->GetMoveDistance().x < 0 ? true : false);
+		}
+		if (abs(player->GetMoveDistance().y) >= 2)
+		{
+			std::get<1>(_isReverse) = (player->GetMoveDistance().y < 0 ? true : false);
+		}
+	}
+}
 
 void Ball::update(float dt)
 {

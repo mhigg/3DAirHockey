@@ -17,6 +17,7 @@ public:
 private:
 	bool Init(void);
 	void ChangeIsReverse();							// 反転用フラグの更新用
+	void ChangeMoving(const Node* pl);				// 移動方法の変更用
 	void update(float dt) override;
 
 	std::unique_ptr<TrajectControl> _traject;		// ボールの軌道制御用
