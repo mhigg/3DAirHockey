@@ -177,7 +177,7 @@ void Ball::ChangeIsReverse()
 		/// プレイヤーの当たったアンカーポイントを取得している
 		int ancType = IsHitAnchor(players[0]);
 
-		if (ancType >= 0 && !std::get<2>(_isReverse))
+		if (ancType >= 0 && std::get<2>(_isReverse))
 		{
 			/// ボールと当たった時の画像に変更する
 			players[0]->ChangeImage(ancType);
