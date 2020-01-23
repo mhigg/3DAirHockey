@@ -14,18 +14,15 @@ TrajectControl::~TrajectControl()
 {
 }
 
-bool TrajectControl::CalBezierPoint()
+/// 正規化済みのベクトルを取得している
+bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 {
-	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
-	{
-		return false;
-	}
-
 	/// 端点の生成に必要なものを取得している
 	auto runScene	= Director::getInstance()->getRunningScene();
 	auto gameMng	= (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
 	auto ball		= (Ball*)gameMng->getChildByName("ball");
 
+	Vec2 distance = Vec2(500 * vec.x, 400 * vec.y);
 	/// 一次ベジェの曲線を生成するために必要なもの
 	Vec3 start, mid, end;
 	float a, b, endDepth;
@@ -34,8 +31,8 @@ bool TrajectControl::CalBezierPoint()
 	endDepth = (std::get<2>(ball->GetIsReverse()) ? gameMng->GetDepths()[29] : gameMng->GetDepths()[0]);
 
 	start	= Vec3(ball->GetLocalPos().x, ball->GetLocalPos().y, ball->GetLocalPos().z);
-	mid		= Vec3(400, 300, gameMng->GetDepths()[12]);
-	end		= Vec3(-400, -250, endDepth);				/// 仮の設定　◆
+	mid		= Vec3(ball->GetLocalPos().x + distance.x, ball->GetLocalPos().y + distance.y, gameMng->GetDepths()[16]);
+	end		= Vec3(ball->GetLocalPos().x - distance.x, ball->GetLocalPos().y - distance.y, endDepth);				/// 仮の設定　◆
 
 	for (int i = 0; i < _points.size(); ++i)
 	{

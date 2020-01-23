@@ -114,32 +114,32 @@ void Ball::ChangeIsReverse()
 	}
 
 	/// 反転フラグの更新(X)
-	if (_localPos.x - _radius < -gameMng->GetMovingRange().x &&
-		_ballState == State::NORMAL)
+	if (_localPos.x - _radius < -gameMng->GetMovingRange().x)
 	{
+		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
 		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
 		std::get<0>(_isReverse) = false;
 	}
-	else if (_localPos.x + _radius > gameMng->GetMovingRange().x &&
-		_ballState == State::NORMAL)
+	else if (_localPos.x + _radius > gameMng->GetMovingRange().x)
 	{
+		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
 		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
 		std::get<0>(_isReverse) = true;
 	}
 	else {}
 
-	if (_localPos.y - _radius < -gameMng->GetMovingRange().y &&
-		_ballState == State::NORMAL)
+	if (_localPos.y - _radius < -gameMng->GetMovingRange().y)
 	{
+		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
 		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
 		std::get<1>(_isReverse) = false;
 	}
-	else if (_localPos.y + _radius > gameMng->GetMovingRange().y &&
-		_ballState == State::NORMAL)
+	else if (_localPos.y + _radius > gameMng->GetMovingRange().y)
 	{
+		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
 		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
 		std::get<1>(_isReverse) = true;
@@ -160,13 +160,9 @@ void Ball::ChangeIsReverse()
 			auto ballAfter = gameMng->getChildByName("ballAfter");
 			ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::SHADOW));
 
-			/// 状態を変更するための処理(デバッグ用)
-			_ballState = (State)(rand() % 2);
-			if (_ballState == State::CURVE)
-			{
-				_traject->CalBezierPoint();
-			}
-			ChangeMoving(players[1]);			/// ここを移動量によってカーブを行うかの処理にする
+			/// プレイヤーを動かしながらボールを当てた時、カーブを行う。
+			ChangeMoving(players[1]);
+
 			/// 効果音の再生
 			CCAudioMng::GetInstance().CkPlaySE("hit", 0.f);
 			std::get<2>(_isReverse) = true;
@@ -186,6 +182,7 @@ void Ball::ChangeIsReverse()
 			auto ballAfter = gameMng->getChildByName("ballAfter");
 			ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
 
+			/// プレイヤーを動かしながらボールを当てた時、カーブを行う。
 			ChangeMoving(players[1]);
 
 			/// 効果音の再生
@@ -202,23 +199,16 @@ void Ball::ChangeMoving(const Node* pl)
 	/// プレイヤーの情報取得
 	auto player = (Player*)pl;
 
-	/// 状態を変更するための処理(デバッグ用)
-	_ballState = (State)(rand() % 2);
-	if (_ballState == State::CURVE)
+	/// ボールの跳ね返す方向を切り替えるかの判定
+	if (abs(player->GetMoveDistance().x) >= 10 &&
+		abs(player->GetMoveDistance().y) >= 10)
 	{
-		_traject->CalBezierPoint();
+		_ballState = State::CURVE;
+		_traject->CalBezierPoint(player->GetMoveDistance().getNormalized());
 	}
-	else  // 現状、ボールの状態は2種類しかないのでif～elseを使った2分岐処理にしている
+	else
 	{
-		/// ボールの跳ね返す方向を切り替えるかの判定
-		if (abs(player->GetMoveDistance().x) >= 2)
-		{
-			std::get<0>(_isReverse) = (player->GetMoveDistance().x < 0 ? true : false);
-		}
-		if (abs(player->GetMoveDistance().y) >= 2)
-		{
-			std::get<1>(_isReverse) = (player->GetMoveDistance().y < 0 ? true : false);
-		}
+		_ballState = State::NORMAL;
 	}
 }
 
