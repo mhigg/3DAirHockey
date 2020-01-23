@@ -59,7 +59,6 @@ bool HostScene::init()
 	this->addChild(label);
 
 	networkLogic = new NetworkLogic(&ConsoleOut::get());
-	networkLogic->opCreateRoom(ExitGames::LoadBalancing::DirectMode::NONE);
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();

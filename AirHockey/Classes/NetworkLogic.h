@@ -12,15 +12,15 @@
 
 enum State
 {
-	STATE_INITIALIZED = 0,
-	STATE_CONNECTING,
-	STATE_CONNECTED,
-	STATE_JOINING,
-	STATE_JOINED,
-	STATE_LEAVING,
-	STATE_LEFT,
-	STATE_DISCONNECTING,
-	STATE_DISCONNECTED
+	STATE_INITIALIZED = 0,	// 初期接続
+	STATE_CONNECTING,		// 通信接続中
+	STATE_CONNECTED,		// 通信接続状態
+	STATE_JOINING,			// ｹﾞｰﾑに参加中
+	STATE_JOINED,			// ｹﾞｰﾑに参加状態
+	STATE_LEAVING,			// ｹﾞｰﾑから離脱中
+	STATE_LEFT,				// ｹﾞｰﾑから離脱状態
+	STATE_DISCONNECTING,	// 通信切断中
+	STATE_DISCONNECTED		// 通信切断状態
 };
 
 enum Input
@@ -57,17 +57,20 @@ class NetworkLogic : private ExitGames::LoadBalancing::Listener
 {
 public:
 	NetworkLogic(OutputListener* listener);
-	//	NetworkLogic(const ExitGames::Common::JString& appID, const ExitGames::Common::JString& appVersion);
 	void registerForStateUpdates(NetworkLogicListener* listener);
 	void run(void);
+	void disconnect(void);
 	void connect(void);
-	void opCreateRoom(nByte directMode);
+
+	void opCreateRoom(const ExitGames::Common::JString& roomName, int maxPlayers, nByte directMode);
 	void opJoinOrCreateRoom(void);
 	void opJoinRandomOrCreateRoom(void);
 	void opJoinRoom(const ExitGames::Common::JString& roomID, bool rejoin = false);
 	void opJoinRandomRoom(void);
-	void disconnect(void);
+
+	// イベントを送信するメソッド
 	void sendEvent(void);
+	void sendEvent(nByte code, ExitGames::Common::Hashtable eventContent);
 
 	Input getLastInput(void) const;
 	void setLastInput(Input newInput);
@@ -75,8 +78,6 @@ public:
 
 	// ルームが存在するか否かを返すメソッド
 	bool isRoomExists(void);
-	// イベントを送信するメソッド
-	void sendEvent(nByte code, ExitGames::Common::Hashtable* eventContent);
 
 	// 自分のプレイヤー番号
 	int playerNr = 0;
@@ -91,6 +92,7 @@ public:
 private:
 	void sendDirect(int64 count);
 
+// ----------------------------------- mListener's methods --------------------------------------
 	// receive and print out debug out here
 	virtual void debugReturn(int debugLevel, const ExitGames::Common::JString& string);
 
@@ -103,13 +105,14 @@ private:
 	// events, triggered by certain operations of all players in the same room
 	virtual void joinRoomEventAction(int playerNr, const ExitGames::Common::JVector<int>& playernrs, const ExitGames::LoadBalancing::Player& player);
 	virtual void leaveRoomEventAction(int playerNr, bool isInactive);
+
 	virtual void customEventAction(int playerNr, nByte eventCode, const ExitGames::Common::Object& eventContent);
 
 	virtual void onLobbyStatsResponse(const ExitGames::Common::JVector<ExitGames::LoadBalancing::LobbyStatsResponse>& lobbyStats);
 	virtual void onLobbyStatsUpdate(const ExitGames::Common::JVector<ExitGames::LoadBalancing::LobbyStatsResponse>& lobbyStats);
 	virtual void onAvailableRegions(const ExitGames::Common::JVector<ExitGames::Common::JString>& availableRegions, const ExitGames::Common::JVector<ExitGames::Common::JString>& availableRegionServers);
 	virtual void onDirectMessage(const ExitGames::Common::Object& msg, int remoteID, bool relay);
-	// callbacks for operations on PhotonLoadBalancing server
+	// callbacks for operations on PhotonLoadBalancing server = server's response?
 	virtual void connectReturn(int errorCode, const ExitGames::Common::JString& errorString, const ExitGames::Common::JString& region, const ExitGames::Common::JString& cluster);
 	virtual void disconnectReturn(void);
 	virtual void createRoomReturn(int localPlayerNr, const ExitGames::Common::Hashtable& gameProperties, const ExitGames::Common::Hashtable& playerProperties, int errorCode, const ExitGames::Common::JString& errorString);
@@ -120,6 +123,7 @@ private:
 	virtual void leaveRoomReturn(int errorCode, const ExitGames::Common::JString& errorString);
 	virtual void joinLobbyReturn(void);
 	virtual void leaveLobbyReturn(void);
+//------------------------------------------------------------------------------------------
 
 	ExitGames::LoadBalancing::Client mLoadBalancingClient;
 	ExitGames::Common::JString mLastJoinedRoom;

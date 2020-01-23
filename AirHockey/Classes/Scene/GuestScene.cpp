@@ -59,7 +59,6 @@ bool GuestScene::init()
 	this->addChild(label);
 
 	networkLogic = new NetworkLogic(&ConsoleOut::get());
-	networkLogic->opJoinOrCreateRoom();
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
