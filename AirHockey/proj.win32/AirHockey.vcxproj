@@ -174,8 +174,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClCompile Include="..\Classes\NetworkLogic.cpp" />
     <ClCompile Include="..\Classes\Obj\Ball.cpp" />
     <ClCompile Include="..\Classes\Obj\BallAfter.cpp" />
-    <ClCompile Include="..\Classes\Obj\BallShadow.cpp" />
     <ClCompile Include="..\Classes\Obj\Obj.cpp" />
+    <ClCompile Include="..\Classes\Obj\Shadow.cpp" />
     <ClCompile Include="..\Classes\Obj\StageWall.cpp" />
     <ClCompile Include="..\Classes\Obj\TrajectControl.cpp" />
     <ClCompile Include="..\Classes\Scene\GameScene.cpp" />
@@ -206,8 +206,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClInclude Include="..\Classes\NetworkLogic.h" />
     <ClInclude Include="..\Classes\Obj\Ball.h" />
     <ClInclude Include="..\Classes\Obj\BallAfter.h" />
-    <ClInclude Include="..\Classes\Obj\BallShadow.h" />
     <ClInclude Include="..\Classes\Obj\Obj.h" />
+    <ClInclude Include="..\Classes\Obj\Shadow.h" />
     <ClInclude Include="..\Classes\Obj\StageWall.h" />
     <ClInclude Include="..\Classes\Obj\TrajectControl.h" />
     <ClInclude Include="..\Classes\OutputListener.h" />

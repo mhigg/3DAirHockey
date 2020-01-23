@@ -1,34 +1,36 @@
-#include "BallShadow.h"
+ï»¿#include "Shadow.h"
 #include "Ball.h"
 #include "../Manager/GameManager.h"
 
 USING_NS_CC;
 
-BallShadow::BallShadow(int num, const std::string fileName)
+Shadow::Shadow(int num, const std::string typeName, std::string ID)
 {
-	// ã‰º¶‰E‚Ì‰e‚Ì‚Ç‚ê‚©‚ğenum‚Å•Û‘¶
+	// ä¸Šä¸‹å·¦å³ã®å½±ã®ã©ã‚Œã‹ã‚’enumã§ä¿å­˜
 	_shadowPlace = static_cast<SHADOW>(num);
-	Init(fileName);
+	_id = ID;
+	Init(typeName);
 }
 
-BallShadow::BallShadow()
+Shadow::Shadow()
 {
-	setTexture("image/ball_shadow.png");
+	_typeName = "ball";
+	_id = "";
 	Init();
 }
 
-BallShadow::~BallShadow()
+Shadow::~Shadow()
 {
 }
 
-bool BallShadow::Init(void)
+bool Shadow::Init(void)
 {
-	//‰æ‘œ
-	//setTexture("image/ball_shadow.png");
-	// ½Ìß×²Ä‚Ì‘å‚«‚³
+	//ç”»åƒ
+	setTexture("image/" + _typeName + "_shadow.png");
+	// ï½½ï¾Œï¾Ÿï¾—ï½²ï¾„ã®å¤§ãã•
 	auto size = getContentSize();
 
-	// ‰ŠúÀ•W
+	// åˆæœŸåº§æ¨™
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	switch (_shadowPlace)
 	{
@@ -39,12 +41,12 @@ bool BallShadow::Init(void)
 		_localPos = { 0, -visibleSize.height / 2 - size.height,0 };
 		break;
 	case LEFT:
-		// ‰æ‘œ‚Ì‰ñ“]
+		// ç”»åƒã®å›è»¢
 		setRotation(90);
 		_localPos = { -visibleSize.width / 2 - size.height / 2,0,0 };
 		break;
 	case RIGHT:
-		// ‰æ‘œ‚Ì‰ñ“]
+		// ç”»åƒã®å›è»¢
 		setRotation(90);
 		_localPos = { visibleSize.width / 2 + size.height / 2,0,0 };
 		break;
@@ -53,43 +55,42 @@ bool BallShadow::Init(void)
 		break;
 	};
 
-	// pos‚Æ½Ìß×²Ä‚Ì‘å‚«‚³‚ğˆê“_“§‹}–@‚É’u‚«Š·‚¦‚é
-	// ˆê“_“§‹}–@‚É‚µ‚½‚ÌÀ•W‚Ì¾¯Ä
+	// posã¨ï½½ï¾Œï¾Ÿï¾—ï½²ï¾„ã®å¤§ãã•ã‚’ä¸€ç‚¹é€è¦–å›³æ³•ã«ç½®ãæ›ãˆã‚‹
+	// ä¸€ç‚¹é€è¦–å›³æ³•ã«ã—ãŸæ™‚ã®åº§æ¨™ã®ï½¾ï½¯ï¾„
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
-	// ˆê“_“§‹}–@‚É‚µ‚½‚Ì‰æ‘œ‚Ì»²½Şİ’è
+	// ä¸€ç‚¹é€è¦–å›³æ³•ã«ã—ãŸæ™‚ã®ç”»åƒã®ï½»ï½²ï½½ï¾è¨­å®š
 	setScale(lpPointWithDepth.GetScale(_localPos.z));
 
-	// 1ÌÚ°Ñ‚²‚Æ‚Éupdate‚ğ
+	// 1ï¾Œï¾šï½°ï¾‘ã”ã¨ã«updateã‚’
 	cocos2d::Node::scheduleUpdate();
 
 	return true;
 }
 
-bool BallShadow::Init(const std::string fileName)
+bool Shadow::Init(const std::string typeName)
 {
-	// ‰æ‘œ
-	setTexture(fileName);
+	_typeName = typeName;
 	Init();
 	return true;
 }
 
-void BallShadow::update(float dt)
+void Shadow::update(float dt)
 {
 	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
 	{
-		/// ƒQ[ƒ€ƒV[ƒ“ˆÈŠO‚Ì‚Íˆ—‚É“ü‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+		/// ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ä»¥å¤–ã®æ™‚ã¯å‡¦ç†ã«å…¥ã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹
 		return;
 	}
-	/// ƒQ[ƒ€ƒ}ƒl[ƒWƒƒ[‚Ìæ“¾
+	/// ã‚²ãƒ¼ãƒ ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®å–å¾—
 	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
-	/// ƒ{[ƒ‹‚Ìæ“¾
-	auto obj = (Obj*)gameMng->getChildByName("ball");
+	/// ãƒœãƒ¼ãƒ«ã®å–å¾—
+	auto obj = (Obj*)gameMng->getChildByName(_typeName + _id);
 
-	// ‰æ‘œ‚ÌŠg‘åk¬—p
+	// ç”»åƒã®æ‹¡å¤§ç¸®å°ç”¨
 	float scale = 0;
-	// ‰æ–Ê»²½Ş
+	// ç”»é¢ï½»ï½²ï½½ï¾
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-	// À•W‚Æ‘å‚«‚³‚ÌXV
+	// åº§æ¨™ã¨å¤§ãã•ã®æ›´æ–°
 	switch (_shadowPlace)
 	{
 	case UP:
@@ -117,11 +118,11 @@ void BallShadow::update(float dt)
 		break;
 	};
 
-	// “§–¾“x‚ÌXV
+	// é€æ˜åº¦ã®æ›´æ–°
 	setOpacity(255 * abs(scale));
 
-	// ˆê“_“§‹}–@‚É‚µ‚½‚ÌÀ•W‚Ì¾¯Ä
+	// ä¸€ç‚¹é€è¦–å›³æ³•ã«ã—ãŸæ™‚ã®åº§æ¨™ã®ï½¾ï½¯ï¾„
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
-	// ˆê“_“§‹}–@‚É‚µ‚½‚Ì‰æ‘œ‚Ì»²½Şİ’è
+	// ä¸€ç‚¹é€è¦–å›³æ³•ã«ã—ãŸæ™‚ã®ç”»åƒã®ï½»ï½²ï½½ï¾è¨­å®š
 	setScale(lpPointWithDepth.GetScale(_localPos.z) * abs(scale));
 }
