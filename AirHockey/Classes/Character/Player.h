@@ -1,10 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 #include <memory>
 #include <array>
 #include "Controller/OPRT_State.h"
+#include "../Obj/Obj.h"
 
-/// ƒvƒŒƒCƒ„[‚ÌƒAƒ“ƒJ[ƒ|ƒCƒ“ƒg
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¢ãƒ³ã‚«ãƒ¼ãƒã‚¤ãƒ³ãƒˆ
 enum class PL_ANC
 {
 	CENTER,
@@ -15,43 +16,42 @@ enum class PL_ANC
 	MAX
 };
 
-/// ‰æ‘œ–¼‚Ì·•ª‚ğ•Û‘¶‚·‚é‚½‚ß‚ÌŒ^
+/// ç”»åƒåã®å·®åˆ†ã‚’ä¿å­˜ã™ã‚‹ãŸã‚ã®å‹
 
-// first : ƒ{[ƒ‹‚Æ“–‚½‚Á‚Ä‚¢‚È‚¢, second : ƒ{[ƒ‹‚Æ“–‚½‚Á‚½
+// first : ãƒœãƒ¼ãƒ«ã¨å½“ãŸã£ã¦ã„ãªã„æ™‚, second : ãƒœãƒ¼ãƒ«ã¨å½“ãŸã£ãŸæ™‚
 using texturePair  = std::pair<cocos2d::Texture2D*, cocos2d::Texture2D*>;
 using textureArray = std::array<texturePair, static_cast<int>(PL_ANC::MAX)>;
 
 
 class Player : 
-	public cocos2d::Sprite
+	public Obj
 {
 public:
 	Player(const float& zdepth);
 	~Player();
 
-	/// [“x’l‚Ìæ“¾—p
+	/// æ·±åº¦å€¤ã®å–å¾—ç”¨
 	float GetDepth() const;
 
-	/// İ’è‚µ‚½ƒAƒ“ƒJ[‚ÌÀ•Wæ“¾—p
+	/// è¨­å®šã—ãŸã‚¢ãƒ³ã‚«ãƒ¼ã®åº§æ¨™å–å¾—ç”¨
 	cocos2d::Vec2 GetAnchorPos(const std::string& name);
 
-	/// ˆÚ“®—Êæ“¾—p
+	/// ç§»å‹•é‡å–å¾—ç”¨
 	cocos2d::Vec2 GetMoveDistance() const;
 
-	/// ƒ{[ƒ‹‚Æ“–‚½‚Á‚½‚Ì‰æ‘œ•ÏX—p
+	/// ãƒœãƒ¼ãƒ«ã¨å½“ãŸã£ãŸæ™‚ã®ç”»åƒå¤‰æ›´ç”¨
 	void ChangeImage(const int& num);
 private:
-	void InitTextureInfo();		// ·•ª‰æ‘œ‚Ì‰Šú‰»
-	void MoveUpdate();			// ˆÚ“®XV—p
-	void ResetTexture();		// Å‰‚Éİ’è‚µ‚½‰æ‘œ‚É–ß‚·
+	void InitTextureInfo();		// å·®åˆ†ç”»åƒã®åˆæœŸåŒ–
+	void MoveUpdate();			// ç§»å‹•æ›´æ–°ç”¨
+	void ResetTexture();		// æœ€åˆã«è¨­å®šã—ãŸç”»åƒã«æˆ»ã™
 	void update(float dt);
 
 	std::unique_ptr<OPRT_State> _oprtState;
-	textureArray _texInfo;		// ‰æ‘œî•ñ•Û‘¶—p
+	textureArray _texInfo;		// ç”»åƒæƒ…å ±ä¿å­˜ç”¨
 
-	cocos2d::Vec2 _prePos;		// ˆÚ“®‘O‚ÌÀ•W
-	cocos2d::Vec3 _localPos;	
+	cocos2d::Vec2 _prePos;		// ç§»å‹•å‰ã®åº§æ¨™
 
-	int _dispCnt;				// “–‚½‚Á‚½‚Ì‰æ‘œ‚ğ•\¦‚·‚éŠÔ
+	int _dispCnt;				// å½“ãŸã£ãŸæ™‚ã®ç”»åƒã‚’è¡¨ç¤ºã™ã‚‹æ™‚é–“
 };
 

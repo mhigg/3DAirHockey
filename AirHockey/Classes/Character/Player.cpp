@@ -11,7 +11,7 @@ Player::Player(const float& zdepth)
 {
 	/// 座標の初期化
 	_prePos	  = Vec2::ZERO;
-	_localPos = {0,0,zdepth};
+	_localPos = { 0,0,zdepth };
 
 	// 中央
 	auto sprite = Sprite::create("image/player/player_center.png");
@@ -56,7 +56,7 @@ Player::Player(const float& zdepth)
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
 	// 座標を真ん中にセット
-	this->setPosition(Vec2(_localPos.x + visibleSize.width / 2, _localPos.y + visibleSize.height / 2));
+	this->setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 	// 消失点の変更
 	//lpPointWithDepth.SetVanishingPoint((-this->getPosition() + Vec2(_localPos.x + visibleSize.width, _localPos.y + visibleSize.height)));
 
@@ -161,7 +161,6 @@ void Player::MoveUpdate()
 
 	// 消失点の変更
 	// lpPointWithDepth.SetVanishingPoint((-pos + Vec2(_localPos.x + visibleSize.width, _localPos.y + visibleSize.height)));
-
 	/// X軸の移動範囲チェック
 	if ((pos.x + offset.x + size.width / 2 < visibleSize.width) &&
 		(pos.x + offset.x - size.width / 2 > 0))
