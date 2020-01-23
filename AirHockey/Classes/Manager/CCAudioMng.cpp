@@ -1,3 +1,4 @@
+#include <cmath>
 #include "CCAudioMng.h"
 
 std::unique_ptr<CCAudioMng, CCAudioMng::AudioDeleter> CCAudioMng::s_Instance;
@@ -31,6 +32,10 @@ CCAudioMng::~CCAudioMng()
 {
 }
 
+float CCAudioMng::Clamp(const float & rate, const float & minRate, const float & maxRate)
+{
+	return fmin(maxRate, fmax(minRate, rate));
+}
 void CCAudioMng::Destroy()
 {
 	/// bankƒf[ƒ^‚Ì‰ð•ú
@@ -72,7 +77,6 @@ void CCAudioMng::ShutDown()
 
 void CCAudioMng::RegistBank(const std::string & pathName, const std::string& key)
 {
-	
 	CkPathType pathType;
 /// “®ìŠÂ‹«‚É‚æ‚Á‚ÄA“Ç‚Ýž‚ÞƒpƒX‚Ìƒ^ƒCƒv‚ðØ‚è‘Ö‚¦‚Ä‚¢‚é
 #if CK_PLATFORM_WIN
@@ -85,7 +89,7 @@ void CCAudioMng::RegistBank(const std::string & pathName, const std::string& key
 	if (_bankMap.find(key) == _bankMap.end())
 	{
 		/// Soundƒtƒ@ƒCƒ‹‚Ìæ“ªƒpƒX‚ðŽw’è‚µ‚Ä‚¢‚é
-		std::string bankName = "Resource/Sound/" + pathName;
+		std::string bankName = "Sound/" + pathName;
 		_bankMap[key] = CkBank::newBank(bankName.c_str(), pathType);
 	}
 }
@@ -129,9 +133,37 @@ void CCAudioMng::CkPlaySE(const std::string& key)
 	/// Œø‰Ê‰¹‚ª“o˜^‚³‚ê‚Ä‚¢‚é‚©‚Ì”»’è
 	if (_seMap.find(key) != _seMap.end())
 	{
-		/// Ä¶’†‚Å‚È‚¯‚ê‚ÎAÄ¶‚ðs‚¤
-		if (!_seMap[key]->isPlaying())
+		if (_seMap[key] != nullptr)
 		{
+			/// Ä¶’†‚Å‚È‚¯‚ê‚ÎAÄ¶‚ðs‚¤
+			if (_seMap[key]->isPlaying())
+			{
+				CkStopSE(key);
+				_seMap[key]->play();
+			}
+			else
+			{
+				_seMap[key]->play();
+			}
+		}
+	}
+}
+
+void CCAudioMng::CkPlaySE(const std::string & key, const float & rate)
+{
+	/// Œø‰Ê‰¹‚ª“o˜^‚³‚ê‚Ä‚¢‚é‚©‚Ì”»’è
+	if (_seMap.find(key) != _seMap.end())
+	{
+		/// Ä¶’†‚Å‚È‚¯‚ê‚ÎAÄ¶‚ðs‚¤
+		if (_seMap[key]->isPlaying())
+		{
+			CkStopSE(key);
+			_seMap[key]->setVolume(Clamp(rate));
+			_seMap[key]->play();
+		}
+		else
+		{
+			_seMap[key]->setVolume(Clamp(rate));
 			_seMap[key]->play();
 		}
 	}
@@ -150,6 +182,21 @@ void CCAudioMng::CkPlayBGM(const std::string& key)
 	}
 }
 
+void CCAudioMng::CkPlayBGM(const std::string & key, const float & rate)
+{
+	/// BGM‚ª“o˜^‚³‚ê‚Ä‚¢‚é‚©‚Ì”»’è
+	if (_bgmMap.find(key) != _bgmMap.end())
+	{
+		/// Ä¶’†
+		if (_bgmMap[key]->isPlaying())
+		{
+			/// ‰¹—Ê‚Ì’²®‚ð‚µ‚ÄÄ¶‚·‚é
+			_bgmMap[key]->setVolume(Clamp(rate));
+			_bgmMap[key]->play();
+		}
+	}
+}
+
 void CCAudioMng::CkStopBGM(const std::string & key)
 {
 	/// BGM‚ª“o˜^‚³‚ê‚Ä‚¢‚é‚©‚Ì”»’è
@@ -158,7 +205,20 @@ void CCAudioMng::CkStopBGM(const std::string & key)
 		/// Ä¶’†
 		if (_bgmMap[key]->isPlaying())
 		{
-			_bgmMap[key]->play();
+			_bgmMap[key]->stop();
+		}
+	}
+}
+
+void CCAudioMng::CkStopSE(const std::string & key)
+{
+	/// BGM‚ª“o˜^‚³‚ê‚Ä‚¢‚é‚©‚Ì”»’è
+	if (_seMap.find(key) != _seMap.end())
+	{
+		/// Ä¶’†
+		if (_seMap[key]->isPlaying())
+		{
+			_seMap[key]->stop();
 		}
 	}
 }

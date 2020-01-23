@@ -27,6 +27,4 @@ private:
 	float _radius;									// 球の半径
 
 	State _ballState;								// ボールの状態保存用					
-
-	
 };

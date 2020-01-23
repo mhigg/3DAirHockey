@@ -5,6 +5,7 @@
 #include "../Manager/GameManager.h"
 #include "../Manager/AnimMng.h"
 
+#include "../Manager/CCAudioMng.h"
 #include "Collision.h"
 
 USING_NS_CC;
@@ -84,22 +85,34 @@ void Ball::ChangeIsReverse()
 	}
 
 	/// 反転フラグの更新(X)
-	if (_localPos.x - _radius < -gameMng->GetMovingRange().x)
+	if (_localPos.x - _radius < -gameMng->GetMovingRange().x &&
+		_ballState == State::NORMAL)
 	{
+		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
 		std::get<0>(_isReverse) = false;
 	}
-	else if (_localPos.x + _radius > gameMng->GetMovingRange().x)
+	else if (_localPos.x + _radius > gameMng->GetMovingRange().x &&
+		_ballState == State::NORMAL)
 	{
+		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
 		std::get<0>(_isReverse) = true;
 	}
 	else {}
 
-	if (_localPos.y - _radius < -gameMng->GetMovingRange().y)
+	if (_localPos.y - _radius < -gameMng->GetMovingRange().y &&
+		_ballState == State::NORMAL)
 	{
+		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
 		std::get<1>(_isReverse) = false;
 	}
-	else if (_localPos.y + _radius > gameMng->GetMovingRange().y)
+	else if (_localPos.y + _radius > gameMng->GetMovingRange().y &&
+		_ballState == State::NORMAL)
 	{
+		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
 		std::get<1>(_isReverse) = true;
 	}
 	else {}
@@ -129,6 +142,9 @@ void Ball::ChangeIsReverse()
 					_traject->CalBezierPoint();
 				}
 				ChangeMoving(players[1]);
+				/// 効果音の再生
+				CCAudioMng::GetInstance().CkPlaySE("hit", 0.f);
+				std::get<2>(_isReverse) = true;
 				break;
 			}
 		}
@@ -153,7 +169,9 @@ void Ball::ChangeIsReverse()
 				
 				ChangeMoving(players[0]);
 				
+				/// 効果音の再生
 				std::get<2>(_isReverse) = false;
+				CCAudioMng::GetInstance().CkPlaySE("hit", 1.f);
 				break;
 			}
 		}
@@ -189,7 +207,6 @@ void Ball::ChangeMoving(const Node* pl)
 
 void Ball::update(float dt)
 {
-	auto debug = dt;
 	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
 	{
 		/// ゲームシーン以外の時は処理に入らないようにする
@@ -202,7 +219,7 @@ void Ball::update(float dt)
 	// 1ﾌﾚｰﾑ前の座標(ｱﾆﾒｰｼｮﾝの向き用)
 	Vec2 oldPos = { _localPos.x,_localPos.y };
 	// 移動の更新
-	_localPos += _traject->GetVel(_ballState)/3;
+	_localPos += _traject->GetVel(_ballState);
 	// ｱﾆﾒｰｼｮﾝの向き
 	float angle  = atan2(_localPos.y - oldPos.y, _localPos.x - oldPos.x) * 180 / M_PI;
 	setRotation(90+angle);

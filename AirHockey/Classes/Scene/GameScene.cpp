@@ -173,8 +173,13 @@ bool GameScene::init()
 	this->scheduleUpdate();
 
 	/// 仮のBGM再生
-	CCAudioMng::GetInstance().RegistStreamBGM("BGM/bgm.cks", "bgm");
-	CCAudioMng::GetInstance().CkPlayBGM("bgm");
+	/*CCAudioMng::GetInstance().RegistStreamBGM("BGM/bgm.cks", "bgm");
+	CCAudioMng::GetInstance().CkPlayBGM("bgm");*/
+
+	/// 仮のSE再生 ◆ (ネタは後で修正するぞ)
+	CCAudioMng::GetInstance().RegistBank("SE/ball.ckb", "ball");
+	CCAudioMng::GetInstance().RegistBankSE("ball", "neta", "neta");
+	CCAudioMng::GetInstance().RegistBankSE("ball", "hit", "hit");
 
 	/// シーン名を付けた
 	this->setName("GameScene");

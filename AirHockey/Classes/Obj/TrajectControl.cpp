@@ -5,7 +5,7 @@
 
 USING_NS_CC;
 
-TrajectControl::TrajectControl() : _speed(8.f, 8.f,8.f)
+TrajectControl::TrajectControl() : _speed(8.f, 8.f,4.f)
 {
 }
 

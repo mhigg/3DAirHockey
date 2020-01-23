@@ -68,14 +68,23 @@ public:
 
 	// 効果音の再生
 	void CkPlaySE(const std::string& key);
+	void CkPlaySE(const std::string& key, const float& rate);
 
 	// BGMの再生
 	void CkPlayBGM(const std::string& key);
+	void CkPlayBGM(const std::string& key, const float& rate);
 
 	void CkStopBGM(const std::string& key);
 private:
 	CCAudioMng();
 	~CCAudioMng();
+
+	void CkStopSE(const std::string& key);
+
+	// 一定範囲の割合を返すもの(min : 音量の最小値,max : 音の最大値)
+	float Clamp(const float& rate, 
+				const float& minRate = 0.2f, 
+				const float& maxRate = 1.0f);
 
 	// 登録しているサウンドデータの解放用
 	void Destroy();
@@ -89,8 +98,6 @@ private:
 		}
 	};
 	static std::unique_ptr<CCAudioMng, AudioDeleter> s_Instance;
-
-	static bool soundFlag;
 
 	/// unorderedmapを使用して管理を行う
 	CkBankMap _bankMap;		// bankデータの管理用
