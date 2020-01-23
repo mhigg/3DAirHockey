@@ -26,7 +26,6 @@
 #define __HOST_SCENE_H__
 
 #include "cocos2d.h"
-#include "NetworkLogic.h"
 
 class HostScene
 	: public cocos2d::Scene
@@ -41,20 +40,8 @@ public:
 	void ChangeScene(cocos2d::Ref* ref);
 	void menuCloseCallback(cocos2d::Ref* pSender);	// ｳｨﾝﾄﾞｳを閉じる為のﾎﾞﾀﾝ	
 
-	// テスト用
-	virtual bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event);
-	virtual void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unused_event);
-	virtual void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event);
-	virtual void onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unused_event);
-
 	// implement the "static create()" method manually
 	CREATE_FUNC(HostScene);
-
-private:
-	// テスト用
-	void addParticle(int playerNr, float x, float y);
-	NetworkLogic* networkLogic;
-	bool _swallowsTouches;
 
 };
 
