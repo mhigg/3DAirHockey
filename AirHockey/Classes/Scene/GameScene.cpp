@@ -165,7 +165,7 @@ bool GameScene::init()
 	
 	// Photonネットワーククラスのインスタンスを作成
 	networkLogic = new NetworkLogic(&ConsoleOut::get());
- 
+
 	// 毎フレームでupdateを実行させる
 	this->schedule(schedule_selector(GameScene::update));
 
@@ -194,6 +194,7 @@ void GameScene::ChangeScene(cocos2d::Ref * ref)
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {
+	networkLogic->disconnect();
 	// ｼｬｯﾄﾀﾞｳﾝﾎﾞﾀﾝを押したら閉じる用にする
 	Director::getInstance()->end();
 }
@@ -281,7 +282,7 @@ bool GameScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
 		eventContent->put<int, float>(1, touch->getLocation().x);
 		eventContent->put<int, float>(2, touch->getLocation().y);
-		networkLogic->sendEvent(1, eventContent);
+		networkLogic->sendEvent(1, *eventContent);
 	}
 
 	return true;

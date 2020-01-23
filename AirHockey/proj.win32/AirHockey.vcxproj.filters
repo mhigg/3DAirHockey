@@ -18,9 +18,6 @@
     <ClCompile Include="..\Classes\Obj\Ball.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Obj\BallShadow.cpp">
-      <Filter>Obj</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Obj\StageWall.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
@@ -79,6 +76,9 @@
       <Filter>Controller</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ConsoleOut.cpp" />
+    <ClCompile Include="..\Classes\Obj\Shadow.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -94,9 +94,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Manager\PointWithDepth.h">
       <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Obj\BallShadow.h">
-      <Filter>Obj</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Obj\Ball.h">
       <Filter>Obj</Filter>
@@ -160,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\OutputListener.h" />
     <ClInclude Include="..\Classes\ConsoleOut.h" />
+    <ClInclude Include="..\Classes\Obj\Shadow.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />

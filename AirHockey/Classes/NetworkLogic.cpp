@@ -152,18 +152,20 @@ void NetworkLogic::connect(void)
 	if (mUserID.length()) // if we don't have a user Id yet, let the server assign one for us, afterwards store the assigned value in mUserID in connectReturn() and re-use it in subsequent connects, so that Photon recognizes us as the same user
 		authValues.setUserID(mUserID);
 #endif
-	mLoadBalancingClient.connect(authValues, PLAYER_NAME);
+	// connect() is asynchronous - the actual result arrives in the Listener::connectReturn() or the Listener::connectionErrorReturn() callback
+	if(mLoadBalancingClient.connect(authValues, PLAYER_NAME))
+		EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"Could not connect.");
 	mStateAccessor.setState(STATE_CONNECTING);
 }
 
 void NetworkLogic::disconnect(void)
 {
-	mLoadBalancingClient.disconnect();
+	mLoadBalancingClient.disconnect(); // disconnect() is asynchronous - the actual result arrives in the Listener::disconnectReturn() callback
 }
 
-void NetworkLogic::opCreateRoom(nByte directMode)
+void NetworkLogic::opCreateRoom(const ExitGames::Common::JString& roomName, int maxPlayers, nByte directMode)
 {
-	mLoadBalancingClient.opCreateRoom(L"", ExitGames::LoadBalancing::RoomOptions().setMaxPlayers(4).setPlayerTtl(INT_MAX / 2).setEmptyRoomTtl(10000).setDirectMode(directMode));
+	mLoadBalancingClient.opCreateRoom(roomName, ExitGames::LoadBalancing::RoomOptions().setMaxPlayers(maxPlayers).setPlayerTtl(INT_MAX / 2).setEmptyRoomTtl(10000).setDirectMode(directMode));
 	mStateAccessor.setState(STATE_JOINING);
 	mpOutputListener->writeLine(ExitGames::Common::JString(L"creating room") + L"...");
 }
@@ -221,24 +223,35 @@ void NetworkLogic::run(void)
 			{
 			case INPUT_1:
 				mpOutputListener->writeLine(L"\n============= Create Game");
-				opCreateRoom(ExitGames::LoadBalancing::DirectMode::NONE);
+				opCreateRoom(L"", 4, ExitGames::LoadBalancing::DirectMode::NONE);
 				break;
 			case INPUT_2:
 				mpOutputListener->writeLine(L"\n============= Join Random Game");
 				// remove false to enable rejoin
 				if ((false) && mLastJoinedRoom.length())
+				{
 					opJoinRoom(mLastJoinedRoom, true);
+				}
 				else
-					opJoinRandomRoom();
+				{
+					// join random rooms easily, filtering for specific room properties, if needed
+					ExitGames::Common::Hashtable expectedCustomRoomProperties;
+
+					// custom props can have any name but the key must be string
+					expectedCustomRoomProperties.put(L"map", 1);
+
+					// joining a random room with the map we selected before
+					mLoadBalancingClient.opJoinRandomRoom(expectedCustomRoomProperties);
+				}
 				break;
 #ifndef _EG_EMSCRIPTEN_PLATFORM
 			case INPUT_3:
 				mpOutputListener->writeLine(L"\n============= Create Game Direct All To All");
-				opCreateRoom(ExitGames::LoadBalancing::DirectMode::ALL_TO_ALL);
+				opCreateRoom(L"", 4, ExitGames::LoadBalancing::DirectMode::ALL_TO_ALL);
 				break;
 			case INPUT_4:
 				mpOutputListener->writeLine(L"\n============= Create Game Direct Master To All");
-				opCreateRoom(ExitGames::LoadBalancing::DirectMode::MASTER_TO_ALL);
+				opCreateRoom(L"", 4, ExitGames::LoadBalancing::DirectMode::MASTER_TO_ALL);
 				break;
 #endif
 			default: // no or illegal input -> stay waiting for legal input
@@ -292,7 +305,7 @@ void NetworkLogic::run(void)
 		}
 	}
 	mLastInput = INPUT_NON;
-	mLoadBalancingClient.service();
+	mLoadBalancingClient.service(); // needs to be called regularly!
 }
 
 void NetworkLogic::sendEvent(void)
@@ -309,6 +322,14 @@ void NetworkLogic::sendEvent(void)
 #if defined _EG_EMSCRIPTEN_PLATFORM
 		mpOutputListener->writeLine(L"");
 #endif
+}
+
+//@code : use distinct event codes to distinguish between different types of events (for example 'move', 'shoot', etc.)
+//@eventContent : organize your payload data in any way you like as long as it is supported by Photons serialization
+void NetworkLogic::sendEvent(nByte code, ExitGames::Common::Hashtable eventContent)
+{
+	bool sendReliable = false; // send something reliable if it has to arrive everywhere
+	mLoadBalancingClient.opRaiseEvent(sendReliable, eventContent, code);
 }
 
 void NetworkLogic::sendDirect(int64 count)
@@ -408,7 +429,10 @@ void NetworkLogic::leaveRoomEventAction(int playerNr, bool isInactive)
 void NetworkLogic::customEventAction(int playerNr, nByte eventCode, const ExitGames::Common::Object& eventContent)
 {
 	// you do not receive your own events, unless you specify yourself as one of the receivers explicitly, so you must start 2 clients, to receive the events, which you have sent, as sendEvent() uses the default receivers of opRaiseEvent() (all players in same room like the sender, except the sender itself)
-	EGLOG(ExitGames::Common::DebugLevel::ALL, L"");
+
+	// logging the string representation of the eventContent can be really useful for debugging, but use with care: for big events this might get expensive
+	EGLOG(ExitGames::Common::DebugLevel::ALL, L"an event of type %d from player Nr %d with the following content has just arrived: %ls", eventCode, playerNr, eventContent.toString(true).cstr());
+
 	mpOutputListener->write(ExitGames::Common::JString(L"R") + ExitGames::Common::ValueObject<long long>(eventContent).getDataCopy() + "<-p" + playerNr + L" ");
 #if defined _EG_EMSCRIPTEN_PLATFORM
 		mpOutputListener->writeLine(L"");
@@ -612,9 +636,4 @@ bool NetworkLogic::isRoomExists(void)
 	}
 
 	return true;
-}
-
-void NetworkLogic::sendEvent(nByte code, ExitGames::Common::Hashtable* eventContent)
-{
-	mLoadBalancingClient.opRaiseEvent(true, eventContent, 1, code);
 }
