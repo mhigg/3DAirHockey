@@ -4,12 +4,12 @@
 #	include <emscripten.h>
 #endif
 
-static const EG_CHAR* appID = L"<91ccb37c-1396-43af-bbbf-46a4124935a5>"; // set your app id here
+static const EG_CHAR* appID = L"91ccb37c-1396-43af-bbbf-46a4124935a5"; // set your app id here
 static const EG_CHAR* appVersion = L"1.0";
 
 static const bool autoLobbyStats = true;
 static const int sendInterval = 1000;
-static const bool useBestRegion = false; // attention: in RegionSelectionMode::BEST different client instances (sometimes even from the same location) might get different ping results and hence might connect to different regions - in that case they don't see each other or each others rooms!
+static const bool useBestRegion = true; // attention: in RegionSelectionMode::BEST different client instances (sometimes even from the same location) might get different ping results and hence might connect to different regions - in that case they don't see each other or each others rooms!
 #if defined EG_PLATFORM_SUPPORTS_CPP11 && defined EG_PLATFORM_SUPPORTS_MULTITHREADING
 	// pinging takes a moment, so for a real game it makes sense to retrive the best region with getRegionWithBestPing(), store it in a file, use RegionSelectionMode::SELECT and pass that region to selectRegion() and to only use RegionSelectionMode::BEST, if no best region has been determined yet or if the player explicitly requests to repeat pinging
 static const nByte regionSelectionMode = useBestRegion ? ExitGames::LoadBalancing::RegionSelectionMode::BEST : ExitGames::LoadBalancing::RegionSelectionMode::SELECT;
@@ -108,7 +108,7 @@ NetworkLogic::NetworkLogic(OutputListener* listener)
 #	pragma warning(push)
 #	pragma warning(disable:4355)
 #endif
-	: mLoadBalancingClient(*this, appID, appVersion, ExitGames::Photon::ConnectionProtocol::DEFAULT, autoLobbyStats, regionSelectionMode)
+	: mLoadBalancingClient(*this, appID, appVersion, ExitGames::Photon::ConnectionProtocol::TCP, autoLobbyStats, regionSelectionMode)
 	, mLastInput(INPUT_NON)
 	, mpOutputListener(listener)
 #if defined _EG_EMSCRIPTEN_PLATFORM || defined _EG_PSVITA_PLATFORM || defined _EG_XB1_PLATFORM || defined _EG_SWITCH_PLATFORM
@@ -154,6 +154,7 @@ void NetworkLogic::connect(void)
 #endif
 	// connect() is asynchronous - the actual result arrives in the Listener::connectReturn() or the Listener::connectionErrorReturn() callback
 	if(mLoadBalancingClient.connect(authValues, PLAYER_NAME))
+//	if (!mLoadBalancingClient.connect())
 		EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"Could not connect.");
 	mStateAccessor.setState(STATE_CONNECTING);
 }
@@ -223,35 +224,24 @@ void NetworkLogic::run(void)
 			{
 			case INPUT_1:
 				mpOutputListener->writeLine(L"\n============= Create Game");
-				opCreateRoom(L"", 4, ExitGames::LoadBalancing::DirectMode::NONE);
+				opCreateRoom(L"None", 4, ExitGames::LoadBalancing::DirectMode::NONE);
 				break;
 			case INPUT_2:
 				mpOutputListener->writeLine(L"\n============= Join Random Game");
 				// remove false to enable rejoin
 				if ((false) && mLastJoinedRoom.length())
-				{
 					opJoinRoom(mLastJoinedRoom, true);
-				}
 				else
-				{
-					// join random rooms easily, filtering for specific room properties, if needed
-					ExitGames::Common::Hashtable expectedCustomRoomProperties;
-
-					// custom props can have any name but the key must be string
-					expectedCustomRoomProperties.put(L"map", 1);
-
-					// joining a random room with the map we selected before
-					mLoadBalancingClient.opJoinRandomRoom(expectedCustomRoomProperties);
-				}
+					opJoinRandomRoom();
 				break;
 #ifndef _EG_EMSCRIPTEN_PLATFORM
 			case INPUT_3:
 				mpOutputListener->writeLine(L"\n============= Create Game Direct All To All");
-				opCreateRoom(L"", 4, ExitGames::LoadBalancing::DirectMode::ALL_TO_ALL);
+				opCreateRoom(L"AllToAll", 4, ExitGames::LoadBalancing::DirectMode::ALL_TO_ALL);
 				break;
 			case INPUT_4:
 				mpOutputListener->writeLine(L"\n============= Create Game Direct Master To All");
-				opCreateRoom(L"", 4, ExitGames::LoadBalancing::DirectMode::MASTER_TO_ALL);
+				opCreateRoom(L"MasterToAll", 4, ExitGames::LoadBalancing::DirectMode::MASTER_TO_ALL);
 				break;
 #endif
 			default: // no or illegal input -> stay waiting for legal input
@@ -326,10 +316,10 @@ void NetworkLogic::sendEvent(void)
 
 //@code : use distinct event codes to distinguish between different types of events (for example 'move', 'shoot', etc.)
 //@eventContent : organize your payload data in any way you like as long as it is supported by Photons serialization
-void NetworkLogic::sendEvent(nByte code, ExitGames::Common::Hashtable eventContent)
+void NetworkLogic::sendEvent(nByte code, ExitGames::Common::Hashtable *eventContent)
 {
-	bool sendReliable = false; // send something reliable if it has to arrive everywhere
-	mLoadBalancingClient.opRaiseEvent(sendReliable, eventContent, code);
+	bool sendReliable = true; // send something reliable if it has to arrive everywhere
+	mLoadBalancingClient.opRaiseEvent(sendReliable, eventContent, 1, code);
 }
 
 void NetworkLogic::sendDirect(int64 count)

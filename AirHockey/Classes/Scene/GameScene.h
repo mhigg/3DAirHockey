@@ -27,7 +27,7 @@
 
 #include <vector>
 #include "cocos2d.h"
-#include "Classes/NetworkLogic.h"
+#include "NetworkLogic.h"
 
 class GameScene : public cocos2d::Scene
 {

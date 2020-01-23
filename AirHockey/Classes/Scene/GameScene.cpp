@@ -202,7 +202,6 @@ void GameScene::menuCloseCallback(Ref* pSender)
 void GameScene::update(float dt)
 {
 	networkLogic->run();
-
 	switch (networkLogic->getState()) {
 	case STATE_CONNECTED:
 	case STATE_LEFT:
@@ -282,7 +281,7 @@ bool GameScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
 		eventContent->put<int, float>(1, touch->getLocation().x);
 		eventContent->put<int, float>(2, touch->getLocation().y);
-		networkLogic->sendEvent(1, *eventContent);
+		networkLogic->sendEvent(1, eventContent);
 	}
 
 	return true;
