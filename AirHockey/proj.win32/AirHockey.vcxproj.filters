@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\Character\Player.cpp" />
     <ClCompile Include="..\Classes\Collision.cpp" />
     <ClCompile Include="..\Classes\NetworkLogic.cpp" />
     <ClCompile Include="main.cpp" />
@@ -79,10 +78,12 @@
     <ClCompile Include="..\Classes\Obj\Shadow.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Character\Player.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\Character\Player.h" />
     <ClInclude Include="..\Classes\Collision.h" />
     <ClInclude Include="..\Classes\NetworkLogic.h" />
     <ClInclude Include="main.h" />
@@ -158,6 +159,9 @@
     <ClInclude Include="..\Classes\OutputListener.h" />
     <ClInclude Include="..\Classes\ConsoleOut.h" />
     <ClInclude Include="..\Classes\Obj\Shadow.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Character\Player.h">
       <Filter>Obj</Filter>
     </ClInclude>
   </ItemGroup>

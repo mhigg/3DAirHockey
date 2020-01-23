@@ -119,8 +119,26 @@ void Ball::ChangeIsReverse()
 
 	if (_localPos.z > players[1]->GetDepth())
 	{
-		bool col;
-		Size size = Size(_radius * 2, _radius * 2);
+		bool col = false;			/// 当たったかの判定
+		Size size = Size(_radius * 2, _radius * 2);		// ボールの大きさ
+		Vec2 distance = {500, 500};						// 距離(初期値は大きめの値にしている)	
+		PL_ANC ancType;									// 当たった場所の取得用
+			
+		///// ここの部分を関数で定義したほうがいいかもしれない
+		//for (auto plAnchor : players[1]->getChildren())
+		//{
+		//	if (lpCollision.HitCollision2D(Vec2(_localPos.x, _localPos.y), size,
+		//		players[1]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize()))
+		//	{
+		//		distance = Vec2(abs(players[1]->GetAnchorPos(plAnchor->getName()).x - _localPos.x),
+		//						abs(players[1]->GetAnchorPos(plAnchor->getName()).y - _localPos.y));
+
+		//	}
+		//	////　距離によって、状態を変更していく処理を書いていこう 雑な説明！！
+		//	/// 2Pとボールの当たり判定
+		//	// col = 
+	
+		//}
 		for (auto plAnchor : players[1]->getChildren())
 		{
 			/// 2Pとボールの当たり判定

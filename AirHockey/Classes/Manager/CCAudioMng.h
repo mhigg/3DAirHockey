@@ -79,7 +79,7 @@ private:
 	CCAudioMng();
 	~CCAudioMng();
 
-	void CkStopSE(const std::string& key);
+	void CkStopSE(const std::string& key);		// publicにするかも？　◆
 
 	// 一定範囲の割合を返すもの(min : 音量の最小値,max : 音の最大値)
 	float Clamp(const float& rate, 

@@ -5,6 +5,7 @@
 
 USING_NS_CC;
 
+/// 音の確認をするためにZ方向の移動速度をいじっている　◆
 TrajectControl::TrajectControl() : _speed(8.f, 8.f,4.f)
 {
 }
@@ -46,7 +47,6 @@ bool TrajectControl::CalBezierPoint()
 		_points[i].y = (a * a * start.y) + (2 * a * b * mid.y) + (b * b * end.y);
 		_points[i].z = (a * a * start.z) + (2 * a * b * mid.z) + (b * b * end.z);
 	}
-
 	return true;
 }
 
@@ -98,7 +98,6 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 	/// ベクトルの取得をしている
 	for (int i = 0; i < _points.size(); ++i)
 	{
-		//// 球の速度が遅いと感じるのであれば、調整可能　◆
 		if (!std::get<2>(ball->GetIsReverse()))
 		{
 			/// 手前→奥のZ軸の取得
