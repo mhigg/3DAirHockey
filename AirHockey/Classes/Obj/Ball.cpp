@@ -200,8 +200,8 @@ void Ball::ChangeMoving(const Node* pl)
 	auto player = (Player*)pl;
 
 	/// ボールの跳ね返す方向を切り替えるかの判定
-	if (abs(player->GetMoveDistance().x) >= 10 &&
-		abs(player->GetMoveDistance().y) >= 10)
+	if (abs(player->GetMoveDistance().x) >= 4 &&
+		abs(player->GetMoveDistance().y) >= 4)
 	{
 		_ballState = State::CURVE;
 		_traject->CalBezierPoint(player->GetMoveDistance().getNormalized());
