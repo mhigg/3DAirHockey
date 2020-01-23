@@ -1,7 +1,7 @@
 ﻿#include "../Character/Player.h"
 #include "../Obj/Ball.h"
-#include "../Obj/BallShadow.h"
 #include "../Obj/BallAfter.h"
+#include "../Obj/Shadow.h"
 #include "GameManager.h"
 
 USING_NS_CC;
@@ -57,8 +57,10 @@ void GameManager::Init()
 	/// ボールの影の生成
 	for (int k = 0; k < 4; k++)
 	{
-		auto ballShadow = new BallShadow(k, "image/ball_shadow.png");
+		auto ballShadow = new Shadow(k, "ball");
+		auto playerShadow = new Shadow(k, "player", "1");
 		this->addChild(ballShadow);
+		this->addChild(playerShadow);
 	}
 
 	/// 残像の生成
