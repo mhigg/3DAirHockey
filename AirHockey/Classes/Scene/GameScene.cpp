@@ -202,7 +202,6 @@ void GameScene::menuCloseCallback(Ref* pSender)
 void GameScene::update(float dt)
 {
 	networkLogic->run();
-
 	switch (networkLogic->getState()) {
 	case STATE_CONNECTED:
 	case STATE_LEFT:

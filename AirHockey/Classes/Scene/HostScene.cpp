@@ -59,6 +59,7 @@ bool HostScene::init()
 	this->addChild(label);
 
 	networkLogic = new NetworkLogic(&ConsoleOut::get());
+	ExitGames::LoadBalancing::AuthenticationValues().setUserID(L"Host");
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
@@ -67,6 +68,42 @@ bool HostScene::init()
 
 void HostScene::update(float dt)
 {
+	networkLogic->run();
+	switch (networkLogic->getState()) {
+	case STATE_CONNECTED:
+	case STATE_LEFT:
+		// ルームが存在すればジョイン、なければ作成する
+		if (networkLogic->isRoomExists()) {
+			networkLogic->setLastInput(INPUT_2);
+		}
+		else {
+			networkLogic->setLastInput(INPUT_1);
+		}
+		break;
+	case STATE_DISCONNECTED:
+		// 接続が切れたら再度接続
+		networkLogic->connect();
+		break;
+	case STATE_CONNECTING:
+	case STATE_JOINING:
+	case STATE_JOINED:
+	case STATE_LEAVING:
+	case STATE_DISCONNECTING:
+	default:
+		break;
+	}
+
+	while (!networkLogic->eventQueue.empty()) {
+		std::array<float, 3> arr = networkLogic->eventQueue.front();
+		networkLogic->eventQueue.pop();
+
+		int playerNr = static_cast<int>(arr[0]);
+		float x = arr[1];
+		float y = arr[2];
+		CCLOG("%d, %f, %f", playerNr, x, y);
+
+		this->addParticle(playerNr, x, y);
+	}
 }
 
 void HostScene::ChangeScene(cocos2d::Ref * ref)
@@ -77,4 +114,54 @@ void HostScene::ChangeScene(cocos2d::Ref * ref)
 void HostScene::menuCloseCallback(cocos2d::Ref * pSender)
 {
 	Director::getInstance()->end();
+}
+
+bool HostScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	if (networkLogic->playerNr) {
+		this->addParticle(networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
+
+		// イベント（タッチ座標）を送信
+		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
+		eventContent->put<int, float>(1, touch->getLocation().x);
+		eventContent->put<int, float>(2, touch->getLocation().y);
+		networkLogic->sendEvent(1, *eventContent);
+	}
+	
+	return true;
+}
+
+void HostScene::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+
+}
+
+void HostScene::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+
+}
+
+void HostScene::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+
+}
+
+void HostScene::addParticle(int playerNr, float x, float y)
+{
+	ParticleSystem* particle;
+	switch (playerNr) {
+	case 1:
+		particle = ParticleFire::create();
+		break;
+	case 2:
+		particle = ParticleSmoke::create();
+		break;
+	case 3:
+		particle = ParticleFlower::create();
+		break;
+	default:
+		particle = ParticleSun::create();
+		break;
+	}
+	particle->setDuration(0.1);
+	particle->setSpeed(500);
+	particle->setPosition(cocos2d::Point(x, y));
+	this->addChild(particle);
 }

@@ -68,7 +68,30 @@ bool GuestScene::init()
 
 void GuestScene::update(float dt)
 {
-	
+	networkLogic->run();
+	switch (networkLogic->getState()) {
+	case STATE_CONNECTED:
+	case STATE_LEFT:
+		// ルームが存在すればジョイン、なければ作成する
+		if (networkLogic->isRoomExists()) {
+			networkLogic->setLastInput(INPUT_2);
+		}
+		else {
+			networkLogic->setLastInput(INPUT_1);
+		}
+		break;
+	case STATE_DISCONNECTED:
+		// 接続が切れたら再度接続
+		networkLogic->connect();
+		break;
+	case STATE_CONNECTING:
+	case STATE_JOINING:
+	case STATE_JOINED:
+	case STATE_LEAVING:
+	case STATE_DISCONNECTING:
+	default:
+		break;
+	}
 }
 
 void GuestScene::ChangeScene(cocos2d::Ref * ref)
