@@ -91,6 +91,8 @@ list(APPEND GAME_SOURCE
      Classes/Manager/CCAudioMng.cpp
      Classes/Stage.cpp
      Classes/Collision.cpp
+     Classes/NetworkLogic.cpp
+     Classes/ConsoleOut.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -121,6 +123,9 @@ list(APPEND GAME_HEADER
      Classes/Manager/CCAudioMng.h
      Classes/Stage.h
      Classes/Collision.h
+     Classes/NetworkLogic.h
+     Classes/ConsoleOut.h
+     Classes/OutputListener.h
      )
 
 if(ANDROID)
