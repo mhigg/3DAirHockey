@@ -16,6 +16,7 @@ public:
 	std::tuple<bool, bool, bool> GetIsReverse() const;		// 反転用フラグの取得用
 private:
 	bool Init(void);
+	int IsHitAnchor(const Node* pl);				// 当たったプレイヤーの位置を取得するもの
 	void ChangeIsReverse();							// 反転用フラグの更新用
 	void ChangeMoving(const Node* pl);				// 移動方法の変更用
 	void update(float dt) override;

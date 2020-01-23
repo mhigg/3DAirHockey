@@ -72,6 +72,35 @@ bool Ball::Init(void)
 	return true;
 }
 
+int Ball::IsHitAnchor(const Node* pl)
+{
+	Player* player	= (Player*)pl;
+	int ancType		= -1;							// 当たった場所の取得用
+	bool col		= false;						// 当たったかの判定
+	Size size		= Size(_radius, _radius);		// ボールの大きさ
+	Vec2 distance	= { 500, 500 };					// 距離(初期値は大きめの値にしている)	
+
+	for (auto plAnchor : player->getChildren())
+	{
+		/// 当たり判定の取得
+		if (lpCollision.HitCollision2D(Vec2(_localPos.x, _localPos.y), size,
+			player->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize()))
+		{
+			col = true;
+			/// ボールに最も近いプレイヤーのアンカーポイントを求める処理
+			if (abs(player->GetAnchorPos(plAnchor->getName()).x - _localPos.x) < distance.x
+			&&  abs(player->GetAnchorPos(plAnchor->getName()).y - _localPos.y) < distance.y)
+			{
+				distance = Vec2(abs(player->GetAnchorPos(plAnchor->getName()).x - _localPos.x),
+								abs(player->GetAnchorPos(plAnchor->getName()).y - _localPos.y));
+
+				ancType = plAnchor->getTag();
+			}
+		}
+	}
+	return ancType;
+}
+
 void Ball::ChangeIsReverse()
 {
 	/// ゲームマネージャーの取得
@@ -119,79 +148,49 @@ void Ball::ChangeIsReverse()
 
 	if (_localPos.z > players[1]->GetDepth())
 	{
-		bool col = false;			/// 当たったかの判定
-		Size size = Size(_radius * 2, _radius * 2);		// ボールの大きさ
-		Vec2 distance = {500, 500};						// 距離(初期値は大きめの値にしている)	
-		PL_ANC ancType;									// 当たった場所の取得用
-			
-		///// ここの部分を関数で定義したほうがいいかもしれない
-		//for (auto plAnchor : players[1]->getChildren())
-		//{
-		//	if (lpCollision.HitCollision2D(Vec2(_localPos.x, _localPos.y), size,
-		//		players[1]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize()))
-		//	{
-		//		distance = Vec2(abs(players[1]->GetAnchorPos(plAnchor->getName()).x - _localPos.x),
-		//						abs(players[1]->GetAnchorPos(plAnchor->getName()).y - _localPos.y));
+		/// プレイヤーの当たったアンカーポイントを取得している
+		int ancType = IsHitAnchor(players[1]);
 
-		//	}
-		//	////　距離によって、状態を変更していく処理を書いていこう 雑な説明！！
-		//	/// 2Pとボールの当たり判定
-		//	// col = 
-	
-		//}
-		for (auto plAnchor : players[1]->getChildren())
+		if (ancType >= 0 && !std::get<2>(_isReverse))
 		{
-			/// 2Pとボールの当たり判定
-			col = lpCollision.HitCollision2D(Vec2(_localPos.x, _localPos.y), size,
-											 players[1]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize());
-			if (col && !std::get<2>(_isReverse))
+			/// ボールと当たった時の画像に変更する
+			players[1]->ChangeImage(ancType);
+
+			/// 残像の描画位置を変更する
+			auto ballAfter = gameMng->getChildByName("ballAfter");
+			ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::SHADOW));
+
+			/// 状態を変更するための処理(デバッグ用)
+			_ballState = (State)(rand() % 2);
+			if (_ballState == State::CURVE)
 			{
-				/// ボールと当たった時の画像に変更する
-				players[1]->ChangeImage(plAnchor->getTag());
-
-				/// 残像の描画位置を変更する
-				auto ballAfter = gameMng->getChildByName("ballAfter");
-				ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::SHADOW));
-
-				/// 状態を変更するための処理(デバッグ用)
-				_ballState = (State)(rand() % 2);
-				if (_ballState == State::CURVE)
-				{
-					_traject->CalBezierPoint();
-				}
-				ChangeMoving(players[1]);
-				/// 効果音の再生
-				CCAudioMng::GetInstance().CkPlaySE("hit", 0.f);
-				std::get<2>(_isReverse) = true;
-				break;
+				_traject->CalBezierPoint();
 			}
+			ChangeMoving(players[1]);			/// ここを移動量によってカーブを行うかの処理にする
+			/// 効果音の再生
+			CCAudioMng::GetInstance().CkPlaySE("hit", 0.f);
+			std::get<2>(_isReverse) = true;
 		}
 	}
 	else if (_localPos.z <= players[0]->GetDepth())
 	{
-		/// プレイヤーの矩形ごとに当たり判定を取っている
-		bool col;
-		Size size = Size(_radius * 2, _radius * 2);
-		for (auto plAnchor : players[0]->getChildren())
-		{
-			col = lpCollision.HitCollision2D(Vec2(_localPos.x, _localPos.y), size,
-											 players[0]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize());
-			if (col && std::get<2>(_isReverse))
-			{
-				/// ボールと当たった時の画像に変更する
-				players[0]->ChangeImage(plAnchor->getTag());
+		/// プレイヤーの当たったアンカーポイントを取得している
+		int ancType = IsHitAnchor(players[0]);
 
-				/// 残像の描画位置を変更する
-				auto ballAfter = gameMng->getChildByName("ballAfter");
-				ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
-				
-				ChangeMoving(players[0]);
-				
-				/// 効果音の再生
-				std::get<2>(_isReverse) = false;
-				CCAudioMng::GetInstance().CkPlaySE("hit", 1.f);
-				break;
-			}
+		if (ancType >= 0 && !std::get<2>(_isReverse))
+		{
+			/// ボールと当たった時の画像に変更する
+			players[0]->ChangeImage(ancType);
+
+			/// 残像の描画位置を変更する
+			auto ballAfter = gameMng->getChildByName("ballAfter");
+			ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
+
+			ChangeMoving(players[1]);
+
+			/// 効果音の再生
+			std::get<2>(_isReverse) = false;
+			CCAudioMng::GetInstance().CkPlaySE("hit", 1.f);
 		}
 	}
 	else {}
