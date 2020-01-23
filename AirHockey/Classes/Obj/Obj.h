@@ -8,6 +8,7 @@ class Obj :
 public:
 	Obj();
 	~Obj();
+	cocos2d::Vec3 GetLocalPos(void) const;					// _localPos�̎擾
 private:
 	bool Init(void);
 	virtual void update(float dt) = 0;

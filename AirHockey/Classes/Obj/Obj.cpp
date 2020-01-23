@@ -9,6 +9,11 @@ Obj::~Obj()
 {
 }
 
+cocos2d::Vec3 Obj::GetLocalPos(void) const
+{
+	return _localPos;
+}
+
 bool Obj::Init(void)
 {
 	// Šî’ê‚Ìinit()‚É•K‚¸’Ê‚é‚æ‚¤‚É‚·‚é

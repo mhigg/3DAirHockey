@@ -6,7 +6,7 @@
 
 USING_NS_CC;
 
-GameManager::GameManager() : _maxDepth(1000.f), _wallMax(30), _moveRange(1024 / 2, 576 / 2)
+GameManager::GameManager() : _maxDepth(1000.f), _wallMax(30), _moveRange(1024 / 2, 576 / 2), _playerDepth(3)
 {
 	Init();
 	this->setName("GameManager");
@@ -57,7 +57,7 @@ void GameManager::Init()
 	/// ボールの影の生成
 	for (int k = 0; k < 4; k++)
 	{
-		auto ballShadow = new BallShadow(k);
+		auto ballShadow = new BallShadow(k, "image/ball_shadow.png");
 		this->addChild(ballShadow);
 	}
 
@@ -71,7 +71,7 @@ void GameManager::Init()
 	for (int i = 0; i < 2; ++i)
 	{
 		/// プレイヤーの深度値を設定している(左 : 1P, 右 : 2P)
-		depth  = (i == 0 ? _zdepth[0] : _zdepth[_wallMax - 1]);
+		depth  = (i == 0 ? _zdepth[_playerDepth] : _zdepth[_wallMax - _playerDepth - 1]);
 		player = new Player(depth);
 
 		/// プレイヤーの名前を設定している

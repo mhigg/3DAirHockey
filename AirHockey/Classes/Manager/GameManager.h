@@ -36,5 +36,6 @@ private:
 	const cocos2d::Vec2 _moveRange;
 	const float _maxDepth;	// 奥行の最大値
 	const int _wallMax;		// 壁の最大数
+	const int _playerDepth;
 };
 

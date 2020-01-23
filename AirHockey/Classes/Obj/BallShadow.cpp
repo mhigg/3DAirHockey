@@ -4,15 +4,16 @@
 
 USING_NS_CC;
 
-BallShadow::BallShadow(int num)
+BallShadow::BallShadow(int num, const std::string fileName)
 {
 	// 上下左右の影のどれかをenumで保存
 	_shadowPlace = static_cast<SHADOW>(num);
-	Init();
+	Init(fileName);
 }
 
 BallShadow::BallShadow()
 {
+	setTexture("image/ball_shadow.png");
 	Init();
 }
 
@@ -22,8 +23,8 @@ BallShadow::~BallShadow()
 
 bool BallShadow::Init(void)
 {
-	// 画像
-	setTexture("image/ball_shadow.png");
+	//画像
+	//setTexture("image/ball_shadow.png");
 	// ｽﾌﾟﾗｲﾄの大きさ
 	auto size = getContentSize();
 
@@ -64,6 +65,14 @@ bool BallShadow::Init(void)
 	return true;
 }
 
+bool BallShadow::Init(const std::string fileName)
+{
+	// 画像
+	setTexture(fileName);
+	Init();
+	return true;
+}
+
 void BallShadow::update(float dt)
 {
 	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
@@ -74,7 +83,7 @@ void BallShadow::update(float dt)
 	/// ゲームマネージャーの取得
 	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
 	/// ボールの取得
-	auto ball = (Ball*)gameMng->getChildByName("ball");
+	auto obj = (Obj*)gameMng->getChildByName("ball");
 
 	// 画像の拡大縮小用
 	float scale = 0;
@@ -84,24 +93,24 @@ void BallShadow::update(float dt)
 	switch (_shadowPlace)
 	{
 	case UP:
-		_localPos.x = ball->GetLocalPos().x;
-		_localPos.z = ball->GetLocalPos().z;
-		scale = (ball->GetLocalPos().y - visibleSize.height / 2) / (visibleSize.height) + 1;
+		_localPos.x = obj->GetLocalPos().x;
+		_localPos.z = obj->GetLocalPos().z;
+		scale = (obj->GetLocalPos().y - visibleSize.height / 2) / (visibleSize.height) + 1;
 		break;
 	case DOWN:
-		_localPos.x = ball->GetLocalPos().x;
-		_localPos.z = ball->GetLocalPos().z;
-		scale = (ball->GetLocalPos().y - visibleSize.height / 2) / (visibleSize.height);
+		_localPos.x = obj->GetLocalPos().x;
+		_localPos.z = obj->GetLocalPos().z;
+		scale = (obj->GetLocalPos().y - visibleSize.height / 2) / (visibleSize.height);
 		break;
 	case LEFT:
-		_localPos.y = ball->GetLocalPos().y;
-		_localPos.z = ball->GetLocalPos().z;
-		scale = (ball->GetLocalPos().x - visibleSize.width / 2) / (visibleSize.width);
+		_localPos.y = obj->GetLocalPos().y;
+		_localPos.z = obj->GetLocalPos().z;
+		scale = (obj->GetLocalPos().x - visibleSize.width / 2) / (visibleSize.width);
 		break;
 	case RIGHT:
-		_localPos.y = ball->GetLocalPos().y;
-		_localPos.z = ball->GetLocalPos().z;
-		scale = (ball->GetLocalPos().x - visibleSize.width / 2) / (visibleSize.width) + 1;
+		_localPos.y = obj->GetLocalPos().y;
+		_localPos.z = obj->GetLocalPos().z;
+		scale = (obj->GetLocalPos().x - visibleSize.width / 2) / (visibleSize.width) + 1;
 		break;
 	default:
 		_localPos = { 0,0,0 };
