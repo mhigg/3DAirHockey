@@ -32,10 +32,6 @@ CCAudioMng::~CCAudioMng()
 {
 }
 
-float CCAudioMng::Clamp(const float & rate, const float & minRate, const float & maxRate)
-{
-	return fmin(maxRate, fmax(minRate, rate));
-}
 void CCAudioMng::Destroy()
 {
 	/// bankƒf[ƒ^‚Ì‰ğ•ú
@@ -73,6 +69,11 @@ void CCAudioMng::ShutDown()
 {
 	Destroy();
 	CkShutdown();
+}
+
+float CCAudioMng::Clamp(const float & rate, const float & minRate, const float & maxRate)
+{
+	return fmin(maxRate, fmax(minRate, rate));
 }
 
 void CCAudioMng::RegistBank(const std::string & pathName, const std::string& key)
