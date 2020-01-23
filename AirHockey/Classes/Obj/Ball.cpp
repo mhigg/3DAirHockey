@@ -8,6 +8,7 @@
 #include "Collision.h"
 
 USING_NS_CC;
+#define M_PI (3.1416)
 
 Ball::Ball(std::vector<float> depth)
 {
@@ -41,13 +42,13 @@ bool Ball::Init(void)
 	_localPos = { 0,0,0 };
 
 	// ﾎﾞｰﾙのｱﾆﾒｰｼｮﾝ登録
-	lpAnimMng.AddAnimCache("ball", "ball", 15, 0.03f, false);
+	lpAnimMng.AddAnimCache("ball", "ball", 18, 0.03f, true);
 
 	// 初期ｱﾆﾒｰｼｮﾝ
-	lpAnimMng.SetAnim(this, "ball", false);
+	lpAnimMng.SetAnim(this, "ball", true);
 
 	// 半径(画像の大きさ/2 - 余白)
-	_radius = 192 / 2 - 32;
+	_radius = 150;
 
 	// posとｽﾌﾟﾗｲﾄの大きさを一点透視図法に置き換える
 	// 一点透視図法にした時の座標のｾｯﾄ
@@ -158,6 +159,7 @@ void Ball::ChangeIsReverse()
 		}
 	}
 	else {}
+
 }
 
 void Ball::ChangeMoving(const Node* pl)
@@ -197,7 +199,13 @@ void Ball::update(float dt)
 	/// 反転フラグの変更を行っている
 	ChangeIsReverse();
 
-	_localPos += _traject->GetVel(_ballState);
+	// 1ﾌﾚｰﾑ前の座標(ｱﾆﾒｰｼｮﾝの向き用)
+	Vec2 oldPos = { _localPos.x,_localPos.y };
+	// 移動の更新
+	_localPos += _traject->GetVel(_ballState)/3;
+	// ｱﾆﾒｰｼｮﾝの向き
+	float angle  = atan2(_localPos.y - oldPos.y, _localPos.x - oldPos.x) * 180 / M_PI;
+	setRotation(90+angle);
 
 	// 壁の色更新
 	auto director = Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
