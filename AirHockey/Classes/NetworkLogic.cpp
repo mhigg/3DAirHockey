@@ -316,10 +316,10 @@ void NetworkLogic::sendEvent(void)
 
 //@code : use distinct event codes to distinguish between different types of events (for example 'move', 'shoot', etc.)
 //@eventContent : organize your payload data in any way you like as long as it is supported by Photons serialization
-void NetworkLogic::sendEvent(nByte code, ExitGames::Common::Hashtable eventContent)
+void NetworkLogic::sendEvent(nByte code, ExitGames::Common::Hashtable *eventContent)
 {
-	bool sendReliable = false; // send something reliable if it has to arrive everywhere
-	mLoadBalancingClient.opRaiseEvent(sendReliable, eventContent, code);
+	bool sendReliable = true; // send something reliable if it has to arrive everywhere
+	mLoadBalancingClient.opRaiseEvent(sendReliable, eventContent, 1, code);
 }
 
 void NetworkLogic::sendDirect(int64 count)

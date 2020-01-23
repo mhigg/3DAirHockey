@@ -70,7 +70,7 @@ public:
 
 	// イベントを送信するメソッド
 	void sendEvent(void);
-	void sendEvent(nByte code, ExitGames::Common::Hashtable eventContent);
+	void sendEvent(nByte code, ExitGames::Common::Hashtable *eventContent);
 
 	Input getLastInput(void) const;
 	void setLastInput(Input newInput);
