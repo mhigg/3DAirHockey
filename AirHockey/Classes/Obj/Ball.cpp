@@ -109,18 +109,29 @@ void Ball::ChangeIsReverse()
 		Size size = Size(_radius * 2, _radius * 2);
 		for (auto plAnchor : players[1]->getChildren())
 		{
+			/// 2Pとボールの当たり判定
 			col = lpCollision.HitCollision2D(Vec2(_localPos.x, _localPos.y), size,
 											 players[1]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize());
 			if (col && !std::get<2>(_isReverse))
 			{
+				
 				auto ballAfter = gameMng->getChildByName("ballAfter");
-				ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
-
+				ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::SHADOW));
 				/// 状態を変更するための処理(デバッグ用)
 				_ballState = (State)(rand() % 2);
 				if (_ballState == State::CURVE)
 				{
 					_traject->CalBezierPoint();
+				}
+
+				/// 跳ね返す方向の設定
+				if (abs(players[1]->GetMoveDistance().x) >= 2)
+				{
+					std::get<0>(_isReverse) = (players[0]->GetMoveDistance().x < 0 ? true : false);
+				}
+				if (abs(players[1]->GetMoveDistance().y) >= 2)
+				{
+					std::get<1>(_isReverse) = (players[0]->GetMoveDistance().y < 0 ? true : false);
 				}
 				std::get<2>(_isReverse) = true;
 				break;
@@ -138,14 +149,25 @@ void Ball::ChangeIsReverse()
 											 players[0]->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize());
 			if (col && std::get<2>(_isReverse))
 			{
+				players[0]->ChangeImage(plAnchor->getTag());
 				auto ballAfter = gameMng->getChildByName("ballAfter");
 				ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
-
-				/// 状態を変更するための処理(デバッグ用)
+			
+				/// 状態を変更するための処理
 				_ballState = (State)(rand() % 2);
 				if (_ballState == State::CURVE)
 				{
 					_traject->CalBezierPoint();
+				}
+
+				/// 跳ね返す方向の設定
+				if (abs(players[0]->GetMoveDistance().x) >= 2)
+				{
+					std::get<0>(_isReverse) = (players[0]->GetMoveDistance().x < 0 ? true : false);
+				}
+				if (abs(players[0]->GetMoveDistance().y) >= 2)
+				{
+					std::get<1>(_isReverse) = (players[0]->GetMoveDistance().y < 0 ? true : false);
 				}
 				std::get<2>(_isReverse) = false;
 				break;
