@@ -234,14 +234,14 @@ void NetworkLogic::run(void)
 				}
 				else
 				{
-					// join random rooms easily, filtering for specific room properties, if needed
-					ExitGames::Common::Hashtable expectedCustomRoomProperties;
+					//// join random rooms easily, filtering for specific room properties, if needed
+					//ExitGames::Common::Hashtable expectedCustomRoomProperties;
 
-					// custom props can have any name but the key must be string
-					expectedCustomRoomProperties.put(L"map", 1);
+					//// custom props can have any name but the key must be string
+					//expectedCustomRoomProperties.put(L"map", 1);
 
-					// joining a random room with the map we selected before
-					mLoadBalancingClient.opJoinRandomRoom(expectedCustomRoomProperties);
+					//// joining a random room with the map we selected before
+					mLoadBalancingClient.opJoinRandomRoom(/*expectedCustomRoomProperties*/);
 				}
 				break;
 #ifndef _EG_EMSCRIPTEN_PLATFORM
