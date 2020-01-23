@@ -157,6 +157,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Character\Player.cpp" />
     <ClCompile Include="..\Classes\Collision.cpp" />
+    <ClCompile Include="..\Classes\ConsoleOut.cpp" />
     <ClCompile Include="..\Classes\Controller\MouseCtl.cpp" />
     <ClCompile Include="..\Classes\Controller\OPRT_Gyro.cpp" />
     <ClCompile Include="..\Classes\Controller\OPRT_Key.cpp" />
@@ -188,6 +189,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\Character\Player.h" />
     <ClInclude Include="..\Classes\Collision.h" />
+    <ClInclude Include="..\Classes\ConsoleOut.h" />
     <ClInclude Include="..\Classes\Controller\MouseCtl.h" />
     <ClInclude Include="..\Classes\Controller\OPRT_Gyro.h" />
     <ClInclude Include="..\Classes\Controller\OPRT_Key.h" />
@@ -208,6 +210,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClInclude Include="..\Classes\Obj\Obj.h" />
     <ClInclude Include="..\Classes\Obj\StageWall.h" />
     <ClInclude Include="..\Classes\Obj\TrajectControl.h" />
+    <ClInclude Include="..\Classes\OutputListener.h" />
     <ClInclude Include="..\Classes\Scene\GameScene.h" />
     <ClInclude Include="..\Classes\Scene\GuestScene.h" />
     <ClInclude Include="..\Classes\Scene\HostScene.h" />

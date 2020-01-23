@@ -26,6 +26,7 @@
 #define __GUEST_SCENE_H__
 
 #include "cocos2d.h"
+#include "NetworkLogic.h"
 
 class GuestScene
 	: public cocos2d::Scene
@@ -42,6 +43,9 @@ public:
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(GuestScene);
+
+private:
+	NetworkLogic* networkLogic;
 
 };
 

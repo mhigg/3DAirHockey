@@ -1,5 +1,7 @@
 ﻿#include "HostScene.h"
 #include "GameScene.h"
+#include "ConsoleOut.h"
+
 USING_NS_CC;
 
 HostScene::~HostScene()
@@ -55,6 +57,9 @@ bool HostScene::init()
 	label->setPosition(Vec2(label->getContentSize().width / 2,
 							visibleSize.height - label->getContentSize().height / 2));
 	this->addChild(label);
+
+	networkLogic = new NetworkLogic(&ConsoleOut::get());
+	networkLogic->opCreateRoom(ExitGames::LoadBalancing::DirectMode::NONE);
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();

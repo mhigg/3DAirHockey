@@ -103,14 +103,14 @@ void NetworkLogic::setIDToken(const ExitGames::Common::JString& IDToken)
 #endif
 
 // functions
-NetworkLogic::NetworkLogic(/*OutputListener* listener*/)
+NetworkLogic::NetworkLogic(OutputListener* listener)
 #ifdef _EG_MS_COMPILER
 #	pragma warning(push)
 #	pragma warning(disable:4355)
 #endif
 	: mLoadBalancingClient(*this, appID, appVersion, ExitGames::Photon::ConnectionProtocol::DEFAULT, autoLobbyStats, regionSelectionMode)
 	, mLastInput(INPUT_NON)
-	//	, mpOutputListener(listener)
+	, mpOutputListener(listener)
 #if defined _EG_EMSCRIPTEN_PLATFORM || defined _EG_PSVITA_PLATFORM || defined _EG_XB1_PLATFORM || defined _EG_SWITCH_PLATFORM
 	, mAutoJoinRoom(true)
 #else
@@ -139,7 +139,7 @@ void NetworkLogic::registerForStateUpdates(NetworkLogicListener* listener)
 
 void NetworkLogic::connect(void)
 {
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"connecting to Photon"));
+	mpOutputListener->writeLine(ExitGames::Common::JString(L"connecting to Photon"));
 	ExitGames::LoadBalancing::AuthenticationValues authValues;
 #ifdef _EG_XB1_PLATFORM
 	authValues.setType(ExitGames::LoadBalancing::CustomAuthenticationType::XBOX).setData(mXSTSToken);
@@ -165,7 +165,7 @@ void NetworkLogic::opCreateRoom(nByte directMode)
 {
 	mLoadBalancingClient.opCreateRoom(L"", ExitGames::LoadBalancing::RoomOptions().setMaxPlayers(4).setPlayerTtl(INT_MAX / 2).setEmptyRoomTtl(10000).setDirectMode(directMode));
 	mStateAccessor.setState(STATE_JOINING);
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"creating room") + L"...");
+	mpOutputListener->writeLine(ExitGames::Common::JString(L"creating room") + L"...");
 }
 
 void NetworkLogic::opJoinOrCreateRoom(void)
@@ -173,28 +173,28 @@ void NetworkLogic::opJoinOrCreateRoom(void)
 	ExitGames::Common::JString roomID(L"DemoLoadBalancing");
 	mLoadBalancingClient.opJoinOrCreateRoom(roomID);
 	mStateAccessor.setState(STATE_JOINING);
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"joining or creating room ") + roomID + L"...");
+	mpOutputListener->writeLine(ExitGames::Common::JString(L"joining or creating room ") + roomID + L"...");
 }
 
 void NetworkLogic::opJoinRandomOrCreateRoom(void)
 {
 	mLoadBalancingClient.opJoinRandomOrCreateRoom();
 	mStateAccessor.setState(STATE_JOINING);
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"joining a random room or creating a new room") + L"...");
+	mpOutputListener->writeLine(ExitGames::Common::JString(L"joining a random room or creating a new room") + L"...");
 }
 
 void NetworkLogic::opJoinRoom(const ExitGames::Common::JString& roomID, bool rejoin)
 {
 	mLoadBalancingClient.opJoinRoom(roomID, rejoin);
 	mStateAccessor.setState(STATE_JOINING);
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(rejoin?L"re":L"") + L"joining room " + roomID + "...");
+	mpOutputListener->writeLine(ExitGames::Common::JString(rejoin?L"re":L"") + L"joining room " + roomID + "...");
 }
 
 void NetworkLogic::opJoinRandomRoom(void)
 {
 	mLoadBalancingClient.opJoinRandomRoom();
 	mStateAccessor.setState(STATE_JOINING);
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"joining random room..."));
+	mpOutputListener->writeLine(ExitGames::Common::JString(L"joining random room..."));
 }
 
 void NetworkLogic::run(void)
@@ -205,7 +205,7 @@ void NetworkLogic::run(void)
 	{
 		disconnect();
 		mStateAccessor.setState(STATE_DISCONNECTING);
-		//		mpOutputListener->writeLine(L"terminating application");
+		mpOutputListener->writeLine(L"terminating application");
 	}
 	else
 	{
@@ -220,12 +220,12 @@ void NetworkLogic::run(void)
 			switch (mLastInput)
 			{
 			case INPUT_1:
-				//						mpOutputListener->writeLine(L"\n============= Create Game");
+				mpOutputListener->writeLine(L"\n============= Create Game");
 				opCreateRoom(ExitGames::LoadBalancing::DirectMode::NONE);
 				break;
 			case INPUT_2:
-				//						mpOutputListener->writeLine(L"\n============= Join Random Game");
-										// remove false to enable rejoin
+				mpOutputListener->writeLine(L"\n============= Join Random Game");
+				// remove false to enable rejoin
 				if ((false) && mLastJoinedRoom.length())
 					opJoinRoom(mLastJoinedRoom, true);
 				else
@@ -233,11 +233,11 @@ void NetworkLogic::run(void)
 				break;
 #ifndef _EG_EMSCRIPTEN_PLATFORM
 			case INPUT_3:
-				//						mpOutputListener->writeLine(L"\n============= Create Game Direct All To All");
+				mpOutputListener->writeLine(L"\n============= Create Game Direct All To All");
 				opCreateRoom(ExitGames::LoadBalancing::DirectMode::ALL_TO_ALL);
 				break;
 			case INPUT_4:
-				//						mpOutputListener->writeLine(L"\n============= Create Game Direct Master To All");
+				mpOutputListener->writeLine(L"\n============= Create Game Direct Master To All");
 				opCreateRoom(ExitGames::LoadBalancing::DirectMode::MASTER_TO_ALL);
 				break;
 #endif
@@ -257,14 +257,14 @@ void NetworkLogic::run(void)
 			{
 			case INPUT_1: // leave Game
 				mLoadBalancingClient.opLeaveRoom();
-				//					mpOutputListener->writeLine(L"");
-				//					mpOutputListener->writeLine(L"leaving room");
+				mpOutputListener->writeLine(L"");
+				mpOutputListener->writeLine(L"leaving room");
 				mStateAccessor.setState(STATE_LEAVING);
 				break;
 			case INPUT_2: // leave Game
 				mLoadBalancingClient.opLeaveRoom(true);
-				//					mpOutputListener->writeLine(L"");
-				//					mpOutputListener->writeLine(L"leaving room (will come back)");
+				mpOutputListener->writeLine(L"");
+				mpOutputListener->writeLine(L"leaving room (will come back)");
 				mStateAccessor.setState(STATE_LEAVING);
 				break;
 			default: // no or illegal input -> stay waiting for legal input
@@ -301,13 +301,13 @@ void NetworkLogic::sendEvent(void)
 	if (mLoadBalancingClient.getCurrentlyJoinedRoom().getDirectMode() == ExitGames::LoadBalancing::DirectMode::NONE)
 	{
 		mLoadBalancingClient.opRaiseEvent(false, count, 0);
-		//		mpOutputListener->write(ExitGames::Common::JString(L"S") + count + L" ");
+		mpOutputListener->write(ExitGames::Common::JString(L"S") + count + L" ");
 	}
 	else
 		sendDirect(count);
 	++count;
 #if defined _EG_EMSCRIPTEN_PLATFORM
-	//	mpOutputListener->writeLine(L"");
+		mpOutputListener->writeLine(L"");
 #endif
 }
 
@@ -323,7 +323,7 @@ void NetworkLogic::sendDirect(int64 count)
 	case 0: // send to all with one call
 	{
 		int sent = mLoadBalancingClient.sendDirect(str, ExitGames::Common::JVector<int>(), fallbackRelay);
-		//			mpOutputListener->write(L"Sd" + str + L"->ALL(" + sent + ") ");
+		mpOutputListener->write(L"Sd" + str + L"->ALL(" + sent + ") ");
 	}
 	break;
 	case 1: // send to a few with one call
@@ -336,7 +336,7 @@ void NetworkLogic::sendDirect(int64 count)
 				targets.addElement(nr);
 		}
 		int sent = mLoadBalancingClient.sendDirect(str, targets, fallbackRelay);
-		//			mpOutputListener->write(L"Sd" + str + L"->p" + targets.toString() + "(" + sent + ") ");
+		mpOutputListener->write(L"Sd" + str + L"->p" + targets.toString() + "(" + sent + ") ");
 	}
 	break;
 	case 2: // send with call per player			
@@ -346,10 +346,10 @@ void NetworkLogic::sendDirect(int64 count)
 			int nr = mLoadBalancingClient.getCurrentlyJoinedRoom().getPlayers()[i]->getNumber();
 			if (nr != localNr)
 			{
-				//					if(mLoadBalancingClient.sendDirect(str, nr, fallbackRelay))
-				//						mpOutputListener->write(L"Sd" + str + L"->p" + nr + L" ");
-				//					else 
-				//						mpOutputListener->write(L"Xd" + str + L"->p" + nr + L" ");
+				if(mLoadBalancingClient.sendDirect(str, nr, fallbackRelay))
+					mpOutputListener->write(L"Sd" + str + L"->p" + nr + L" ");
+				else 
+					mpOutputListener->write(L"Xd" + str + L"->p" + nr + L" ");
 			}
 		}
 	}
@@ -363,55 +363,55 @@ void NetworkLogic::sendDirect(int64 count)
 
 void NetworkLogic::debugReturn(int debugLevel, const ExitGames::Common::JString& string)
 {
-	//	mpOutputListener->debugReturn(debugLevel, string);
+	mpOutputListener->debugReturn(debugLevel, string);
 }
 
 void NetworkLogic::connectionErrorReturn(int errorCode)
 {
 	EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"code: %d", errorCode);
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"received connection error ") + errorCode);
+	mpOutputListener->writeLine(ExitGames::Common::JString(L"received connection error ") + errorCode);
 	mStateAccessor.setState(STATE_DISCONNECTED);
 }
 
 void NetworkLogic::clientErrorReturn(int errorCode)
 {
 	EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"code: %d", errorCode);
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"received error ") + errorCode + L" from client");
+	mpOutputListener->writeLine(ExitGames::Common::JString(L"received error ") + errorCode + L" from client");
 }
 
 void NetworkLogic::warningReturn(int warningCode)
 {
 	EGLOG(ExitGames::Common::DebugLevel::WARNINGS, L"code: %d", warningCode);
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"received warning ") + warningCode + L" from client");
+	mpOutputListener->writeLine(ExitGames::Common::JString(L"received warning ") + warningCode + L" from client");
 }
 
 void NetworkLogic::serverErrorReturn(int errorCode)
 {
 	EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"code: %d", errorCode);
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"received error ") + errorCode + " from server");
+	mpOutputListener->writeLine(ExitGames::Common::JString(L"received error ") + errorCode + " from server");
 }
 
 void NetworkLogic::joinRoomEventAction(int playerNr, const ExitGames::Common::JVector<int>& /*playernrs*/, const ExitGames::LoadBalancing::Player& player)
 {
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"%ls joined the game", player.getName().cstr());
-	//	mpOutputListener->writeLine(L"");
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"player ") + playerNr + L" " + player.getName() + L" has joined the game");
+	mpOutputListener->writeLine(L"");
+	mpOutputListener->writeLine(ExitGames::Common::JString(L"player ") + playerNr + L" " + player.getName() + L" has joined the game");
 }
 
 void NetworkLogic::leaveRoomEventAction(int playerNr, bool isInactive)
 {
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"");
-	//	mpOutputListener->writeLine(L"");
-	//	mpOutputListener->writeLine(ExitGames::Common::JString(L"player ") + playerNr + L" has left the game");
+	mpOutputListener->writeLine(L"");
+	mpOutputListener->writeLine(ExitGames::Common::JString(L"player ") + playerNr + L" has left the game");
 }
 
 void NetworkLogic::customEventAction(int playerNr, nByte eventCode, const ExitGames::Common::Object& eventContent)
 {
 	// you do not receive your own events, unless you specify yourself as one of the receivers explicitly, so you must start 2 clients, to receive the events, which you have sent, as sendEvent() uses the default receivers of opRaiseEvent() (all players in same room like the sender, except the sender itself)
 	EGLOG(ExitGames::Common::DebugLevel::ALL, L"");
-	//	mpOutputListener->write(ExitGames::Common::JString(L"R") + ExitGames::Common::ValueObject<long long>(eventContent).getDataCopy() + "<-p" + playerNr + L" ");
+	mpOutputListener->write(ExitGames::Common::JString(L"R") + ExitGames::Common::ValueObject<long long>(eventContent).getDataCopy() + "<-p" + playerNr + L" ");
 #if defined _EG_EMSCRIPTEN_PLATFORM
-//	mpOutputListener->writeLine(L"");
+		mpOutputListener->writeLine(L"");
 #endif
 	
 	ExitGames::Common::Hashtable* event;
@@ -428,7 +428,7 @@ void NetworkLogic::customEventAction(int playerNr, nByte eventCode, const ExitGa
 
 void NetworkLogic::onDirectMessage(const ExitGames::Common::Object& msg, int remoteID, bool relay)
 {
-	//	mpOutputListener->write(ExitGames::Common::JString(L"Rd") + (relay?L"(R)":L"") + msg.toString() + "<-p" + remoteID + L" ");
+	mpOutputListener->write(ExitGames::Common::JString(L"Rd") + (relay?L"(R)":L"") + msg.toString() + "<-p" + remoteID + L" ");
 }
 
 void NetworkLogic::connectReturn(int errorCode, const ExitGames::Common::JString& errorString, const ExitGames::Common::JString& region, const ExitGames::Common::JString& cluster)
@@ -440,7 +440,7 @@ void NetworkLogic::connectReturn(int errorCode, const ExitGames::Common::JString
 		return;
 	}
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"connected to cluster " + cluster + L" of region " + region + L", user id = " + mLoadBalancingClient.getUserID());
-	//	mpOutputListener->writeLine(L"connected to cluster " + cluster + L" of region " + region + L", user id = " + mLoadBalancingClient.getUserID());
+	mpOutputListener->writeLine(L"connected to cluster " + cluster + L" of region " + region + L", user id = " + mLoadBalancingClient.getUserID());
 	mUserID = mLoadBalancingClient.getUserID();
 	mStateAccessor.setState(STATE_CONNECTED);
 	if (mAutoJoinRoom)
@@ -450,7 +450,7 @@ void NetworkLogic::connectReturn(int errorCode, const ExitGames::Common::JString
 void NetworkLogic::disconnectReturn(void)
 {
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"");
-	//	mpOutputListener->writeLine(L"disconnected");
+	mpOutputListener->writeLine(L"disconnected");
 #ifdef _EG_XB1_PLATFORM
 	mStateAccessor.setState(mReauthenticateRequired ? STATE_INITIALIZED : STATE_DISCONNECTED);
 #else
@@ -464,15 +464,15 @@ void NetworkLogic::createRoomReturn(int localPlayerNr, const ExitGames::Common::
 	if (errorCode)
 	{
 		EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"%ls", errorString.cstr());
-		//		mpOutputListener->writeLine(L"opCreateRoom() failed: " + errorString);
+		mpOutputListener->writeLine(L"opCreateRoom() failed: " + errorString);
 		mStateAccessor.setState(STATE_CONNECTED);
 		return;
 	}
 	mLastJoinedRoom = mLoadBalancingClient.getCurrentlyJoinedRoom().getName();
 
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"localPlayerNr: %d", localPlayerNr);
-	//	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been created");
-	//	mpOutputListener->writeLine(L"regularly sending dummy events now");
+	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been created");
+	mpOutputListener->writeLine(L"regularly sending dummy events now");
 	mStateAccessor.setState(STATE_JOINED);
 
 	// ルーム内で割り当てられたプレイヤー番号を取得する
@@ -485,15 +485,15 @@ void NetworkLogic::joinOrCreateRoomReturn(int localPlayerNr, const ExitGames::Co
 	if (errorCode)
 	{
 		EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"%ls", errorString.cstr());
-		//		mpOutputListener->writeLine(L"opJoinOrCreateRoom() failed: " + errorString);
+		mpOutputListener->writeLine(L"opJoinOrCreateRoom() failed: " + errorString);
 		mStateAccessor.setState(STATE_CONNECTED);
 		return;
 	}
 	mLastJoinedRoom = mLoadBalancingClient.getCurrentlyJoinedRoom().getName();
 
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"localPlayerNr: %d", localPlayerNr);
-	//	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been entered");
-	//	mpOutputListener->writeLine(L"regularly sending dummy events now");
+	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been entered");
+	mpOutputListener->writeLine(L"regularly sending dummy events now");
 	mStateAccessor.setState(STATE_JOINED);
 }
 
@@ -503,15 +503,15 @@ void NetworkLogic::joinRandomOrCreateRoomReturn(int localPlayerNr, const ExitGam
 	if (errorCode)
 	{
 		EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"%ls", errorString.cstr());
-		//		mpOutputListener->writeLine(L"opJoinRandomOrCreateRoom() failed: " + errorString);
+		mpOutputListener->writeLine(L"opJoinRandomOrCreateRoom() failed: " + errorString);
 		mStateAccessor.setState(STATE_CONNECTED);
 		return;
 	}
 	mLastJoinedRoom = mLoadBalancingClient.getCurrentlyJoinedRoom().getName();
 
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"localPlayerNr: %d", localPlayerNr);
-	//	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been entered");
-	//	mpOutputListener->writeLine(L"regularly sending dummy events now");
+	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been entered");
+	mpOutputListener->writeLine(L"regularly sending dummy events now");
 	mStateAccessor.setState(STATE_JOINED);
 }
 
@@ -522,13 +522,13 @@ void NetworkLogic::joinRoomReturn(int localPlayerNr, const ExitGames::Common::Ha
 	{
 		mLastJoinedRoom = L"";
 		EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"%ls", errorString.cstr());
-		//		mpOutputListener->writeLine(L"opJoinRoom() failed: " + errorString);
+		mpOutputListener->writeLine(L"opJoinRoom() failed: " + errorString);
 		mStateAccessor.setState(STATE_CONNECTED);
 		return;
 	}
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"localPlayerNr: %d", localPlayerNr);
-	//	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been joined");
-	//	mpOutputListener->writeLine(L"regularly sending dummy events now");
+	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been joined");
+	mpOutputListener->writeLine(L"regularly sending dummy events now");
 	mStateAccessor.setState(STATE_JOINED);
 
 	// ルーム内で割り当てられたプレイヤー番号を取得する
@@ -541,7 +541,7 @@ void NetworkLogic::joinRandomRoomReturn(int localPlayerNr, const ExitGames::Comm
 	if (errorCode)
 	{
 		EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"%ls", errorString.cstr());
-		//		mpOutputListener->writeLine(L"opJoinRandomRoom() failed: " + errorString);
+		mpOutputListener->writeLine(L"opJoinRandomRoom() failed: " + errorString);
 		mStateAccessor.setState(STATE_CONNECTED);
 		return;
 	}
@@ -549,8 +549,8 @@ void NetworkLogic::joinRandomRoomReturn(int localPlayerNr, const ExitGames::Comm
 	mLastJoinedRoom = mLoadBalancingClient.getCurrentlyJoinedRoom().getName();
 
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"localPlayerNr: %d", localPlayerNr);
-	//	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been joined");
-	//	mpOutputListener->writeLine(L"regularly sending dummy events now");
+	mpOutputListener->writeLine(L"... room " + mLoadBalancingClient.getCurrentlyJoinedRoom().getName() + " has been joined");
+	mpOutputListener->writeLine(L"regularly sending dummy events now");
 	mStateAccessor.setState(STATE_JOINED);
 
 	// ルーム内で割り当てられたプレイヤー番号を取得する
@@ -563,45 +563,45 @@ void NetworkLogic::leaveRoomReturn(int errorCode, const ExitGames::Common::JStri
 	if (errorCode)
 	{
 		EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"%ls", errorString.cstr());
-		//		mpOutputListener->writeLine(L"opLeaveRoom() failed: " + errorString);
+		mpOutputListener->writeLine(L"opLeaveRoom() failed: " + errorString);
 		mStateAccessor.setState(STATE_DISCONNECTING);
 		return;
 	}
 	mStateAccessor.setState(STATE_LEFT);
-	//	mpOutputListener->writeLine(L"room has been successfully left");
+	mpOutputListener->writeLine(L"room has been successfully left");
 }
 
 void NetworkLogic::joinLobbyReturn(void)
 {
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"");
-	//	mpOutputListener->writeLine(L"joined lobby");
+	mpOutputListener->writeLine(L"joined lobby");
 }
 
 void NetworkLogic::leaveLobbyReturn(void)
 {
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"");
-	//	mpOutputListener->writeLine(L"left lobby");
+	mpOutputListener->writeLine(L"left lobby");
 }
 
 void NetworkLogic::onLobbyStatsResponse(const ExitGames::Common::JVector<ExitGames::LoadBalancing::LobbyStatsResponse>& lobbyStats)
 {
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"%ls", lobbyStats.toString().cstr());
-	//	mpOutputListener->writeLine(L"LobbyStats: " + lobbyStats.toString());
+	mpOutputListener->writeLine(L"LobbyStats: " + lobbyStats.toString());
 }
 
 void NetworkLogic::onLobbyStatsUpdate(const ExitGames::Common::JVector<ExitGames::LoadBalancing::LobbyStatsResponse>& lobbyStats)
 {
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"%ls", lobbyStats.toString().cstr());
-	//	mpOutputListener->writeLine(L"LobbyStats: " + lobbyStats.toString());
+	mpOutputListener->writeLine(L"LobbyStats: " + lobbyStats.toString());
 }
 
 void NetworkLogic::onAvailableRegions(const ExitGames::Common::JVector<ExitGames::Common::JString>& availableRegions, const ExitGames::Common::JVector<ExitGames::Common::JString>& availableRegionServers)
 {
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"%ls / %ls", availableRegions.toString().cstr(), availableRegionServers.toString().cstr());
-	//	mpOutputListener->writeLine(L"onAvailableRegions: " + availableRegions.toString() + L" / " + availableRegionServers.toString());
-		// select first region from list
+	mpOutputListener->writeLine(L"onAvailableRegions: " + availableRegions.toString() + L" / " + availableRegionServers.toString());
+	// select first region from list
 	ExitGames::Common::JString selectedRegion;
-	//	mpOutputListener->writeLine(L"selecting region: " + (selectedRegion=availableRegions[0]));
+	mpOutputListener->writeLine(L"selecting region: " + (selectedRegion=availableRegions[0]));
 	mLoadBalancingClient.selectRegion(selectedRegion);
 }
 
