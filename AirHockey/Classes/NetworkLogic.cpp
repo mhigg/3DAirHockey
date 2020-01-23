@@ -153,8 +153,9 @@ void NetworkLogic::connect(void)
 		authValues.setUserID(mUserID);
 #endif
 	// connect() is asynchronous - the actual result arrives in the Listener::connectReturn() or the Listener::connectionErrorReturn() callback
-	mLoadBalancingClient.connect(authValues, PLAYER_NAME);
-//		EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"Could not connect.");
+	if(mLoadBalancingClient.connect(authValues, PLAYER_NAME))
+//	if (!mLoadBalancingClient.connect())
+		EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"Could not connect.");
 	mStateAccessor.setState(STATE_CONNECTING);
 }
 
@@ -229,20 +230,9 @@ void NetworkLogic::run(void)
 				mpOutputListener->writeLine(L"\n============= Join Random Game");
 				// remove false to enable rejoin
 				if ((false) && mLastJoinedRoom.length())
-				{
 					opJoinRoom(mLastJoinedRoom, true);
-				}
 				else
-				{
-					//// join random rooms easily, filtering for specific room properties, if needed
-					//ExitGames::Common::Hashtable expectedCustomRoomProperties;
-
-					//// custom props can have any name but the key must be string
-					//expectedCustomRoomProperties.put(L"map", 1);
-
-					//// joining a random room with the map we selected before
-					mLoadBalancingClient.opJoinRandomRoom(/*expectedCustomRoomProperties*/);
-				}
+					opJoinRandomRoom();
 				break;
 #ifndef _EG_EMSCRIPTEN_PLATFORM
 			case INPUT_3:
