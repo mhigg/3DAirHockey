@@ -44,12 +44,15 @@ public:
 private:
 	void InitTextureInfo();		// 差分画像の初期化
 	void MoveUpdate();			// 移動更新用
+	void VanishPointUpdate();
 	void ResetTexture();		// 最初に設定した画像に戻す
 	void update(float dt);
 
 	std::unique_ptr<OPRT_State> _oprtState;
 	textureArray _texInfo;		// 画像情報保存用
 
+	cocos2d::Vec2 _vel;			// 消失点の速度
+	cocos2d::Vec2 _vPoint;		// 消失点の座標
 	cocos2d::Vec2 _prePos;		// 移動前の座標
 
 	int _dispCnt;				// 当たった時の画像を表示する時間

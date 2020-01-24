@@ -26,6 +26,7 @@
 #define __TITLE_SCENE_H__
 
 #include "cocos2d.h"
+#include "Controller/OPRT_State.h"
 
 class TitleScene 
 	: public cocos2d::Scene
@@ -42,6 +43,8 @@ public:
 	// implement the "static create()" method manually
 	CREATE_FUNC(TitleScene);
 
+
+	std::unique_ptr<OPRT_State> _oprtState;	// ﾀｯﾁやｼﾞｬｲﾛの入力取得用
 };
 
 #endif // __TitleScene_H__
