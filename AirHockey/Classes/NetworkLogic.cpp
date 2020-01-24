@@ -153,7 +153,7 @@ void NetworkLogic::connect(void)
 		authValues.setUserID(mUserID);
 #endif
 	// connect() is asynchronous - the actual result arrives in the Listener::connectReturn() or the Listener::connectionErrorReturn() callback
-	if(mLoadBalancingClient.connect(authValues, PLAYER_NAME))
+	if(!mLoadBalancingClient.connect(authValues, PLAYER_NAME))
 //	if (!mLoadBalancingClient.connect())
 		EGLOG(ExitGames::Common::DebugLevel::ERRORS, L"Could not connect.");
 	mStateAccessor.setState(STATE_CONNECTING);
@@ -224,7 +224,7 @@ void NetworkLogic::run(void)
 			{
 			case INPUT_1:
 				mpOutputListener->writeLine(L"\n============= Create Game");
-				opCreateRoom(L"None", 4, ExitGames::LoadBalancing::DirectMode::NONE);
+				opCreateRoom(L"None", 2, ExitGames::LoadBalancing::DirectMode::NONE);
 				break;
 			case INPUT_2:
 				mpOutputListener->writeLine(L"\n============= Join Random Game");
