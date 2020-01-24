@@ -70,17 +70,19 @@ void GameManager::Init()
 
 	/// プレイヤーの生成
 	Player* player;
+	int layer;
 	for (int i = 0; i < 2; ++i)
 	{
 		/// プレイヤーの深度値を設定している(左 : 1P, 右 : 2P)
 		depth  = (i == 0 ? _zdepth[_playerDepth] : _zdepth[_wallMax - _playerDepth - 1]);
+		layer  = (i == 0 ? static_cast<int>(SpriteNum::PLAYER) : static_cast<int>(SpriteNum::SHADOW));
 		player = new Player(depth);
 
 		/// プレイヤーの名前を設定している
 		player->setName("player" + std::to_string(i + 1));
 
 		/// プレイヤーの追加
-		this->addChild(player, static_cast<int>(SpriteNum::PLAYER));
+		this->addChild(player, layer);
 	}
 }
 
