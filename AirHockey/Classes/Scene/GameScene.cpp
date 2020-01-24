@@ -166,9 +166,6 @@ bool GameScene::init()
 	// Photonネットワーククラスのインスタンスを作成
 	networkLogic = new NetworkLogic(&ConsoleOut::get());
 
-	// 毎フレームでupdateを実行させる
-	this->schedule(schedule_selector(GameScene::update));
-
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
 
