@@ -22,6 +22,7 @@ public:
 	float GetScale(float local_z);								// ｽﾌﾟﾗｲﾄ用のscareのｹﾞｯﾀｰ
 
 	void SetVanishingPoint(cocos2d::Point pos);					// 消失点を動かしたいときに使うｾｯﾀｰ
+	void ResetVanishingPoint(void);								// 動かした消失点を初期値に戻す
 
 private:
 	// 関数ｵﾌﾞｼﾞｪｸﾄ
@@ -41,9 +42,9 @@ private:
 	void PointNormalize(cocos2d::Point VanishingPoint);					// 
 	Z_DEPTH _zDepth;						// 奥行の始点と終点
 	cocos2d::Point _firstVanishingPoint;	// 初期の消失点のXとYの座標
-	cocos2d::Point _nowVanishingPoint;		// 更新する消失点のXとYの座標
-	cocos2d::Point _normalizePoint;			// 
-	cocos2d::Point _magnification;			// 消失点を動かす倍率()
-	cocos2d::Rect  _moveVanishingPoint;		// 消失点を動かせる範囲
-	float _scale;							// ｽﾌﾟﾗｲﾄの大きさ
+	cocos2d::Point _nowVanishingPoint;			// 更新する消失点のXとYの座標
+	cocos2d::Point _normalizePoint;				// 
+	cocos2d::Point _magnification;				// 消失点を動かす倍率()
+	cocos2d::Rect  _moveVanishingPoint;			// 消失点を動かせる範囲
+	float _scale;								// ｽﾌﾟﾗｲﾄの大きさ
 };
