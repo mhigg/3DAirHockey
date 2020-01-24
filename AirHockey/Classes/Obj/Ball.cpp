@@ -114,14 +114,14 @@ void Ball::ChangeIsReverse()
 	}
 
 	/// 反転フラグの更新(X)
-	if (_localPos.x - _radius < -gameMng->GetMovingRange().x)
+	if (_localPos.x - _radius / 2 < -gameMng->GetMovingRange().x)
 	{
 		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<0>(_isReverse) = false;
 	}
-	else if (_localPos.x + _radius > gameMng->GetMovingRange().x)
+	else if (_localPos.x + _radius/ 2 > gameMng->GetMovingRange().x)
 	{
 		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
@@ -130,14 +130,14 @@ void Ball::ChangeIsReverse()
 	}
 	else {}
 
-	if (_localPos.y - _radius < -gameMng->GetMovingRange().y)
+	if (_localPos.y - _radius / 2 < -gameMng->GetMovingRange().y)
 	{
 		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<1>(_isReverse) = false;
 	}
-	else if (_localPos.y + _radius > gameMng->GetMovingRange().y)
+	else if (_localPos.y + _radius / 2 > gameMng->GetMovingRange().y)
 	{
 		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
