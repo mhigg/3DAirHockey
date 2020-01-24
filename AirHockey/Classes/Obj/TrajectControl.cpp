@@ -5,8 +5,7 @@
 
 USING_NS_CC;
 
-/// 音の確認をするためにZ方向の移動速度をいじっている　◆
-TrajectControl::TrajectControl() : _speed(8.f, 8.f,4.f)
+TrajectControl::TrajectControl() : _speed(6.f,6.f,6.f)
 {
 }
 
@@ -22,6 +21,7 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 	auto gameMng	= (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
 	auto ball		= (Ball*)gameMng->getChildByName("ball");
 
+	/// 画面サイズ / 2 - ボールの半径をカーブできる移動範囲に設定してみるか？　◆
 	Vec2 distance = Vec2(500 * vec.x, 400 * vec.y);
 	/// 一次ベジェの曲線を生成するために必要なもの
 	Vec3 start, mid, end;
@@ -102,7 +102,7 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 			{
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
-				return cocos2d::Vec3(_speed.x * vec.x, _speed.y * vec.y, _speed.z * vec.z);
+				return cocos2d::Vec3(_speed.x * vec.x * 2, _speed.y * vec.y * 2, _speed.z * vec.z * 2);
 			}
 		}
 		else
@@ -112,7 +112,7 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 			{
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
-				return cocos2d::Vec3(_speed.x * vec.x, _speed.y * vec.y, _speed.z * vec.z);
+				return cocos2d::Vec3(_speed.x * vec.x * 2, _speed.y * vec.y * 2, _speed.z * vec.z * 2);
 			}
 		}
 	}
