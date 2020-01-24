@@ -221,7 +221,7 @@ void Ball::update(float dt)
 		return;
 	}
 
-	/// 反転フラグの変更を行っている
+	/// ボールの移動方向を反転させる処理
 	ChangeIsReverse();
 
 	// 1ﾌﾚｰﾑ前の座標(ｱﾆﾒｰｼｮﾝの向き用)

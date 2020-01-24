@@ -57,8 +57,11 @@ Player::Player(const float& zdepth)
 
 	// 座標を真ん中にセット
 	this->setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
+
+	_vPoint = this->getPosition();
+	_vel = Vec2::ZERO;
 	// 消失点の変更
-	//lpPointWithDepth.SetVanishingPoint((-this->getPosition() + Vec2(_localPos.x + visibleSize.width, _localPos.y + visibleSize.height)));
+	//lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(_localPos.x + visibleSize.width, _localPos.y + visibleSize.height));
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_oprtState.reset(new MouseCtl(this));
@@ -159,8 +162,6 @@ void Player::MoveUpdate()
 
 	Size size = { width, height };
 
-	// 消失点の変更
-	// lpPointWithDepth.SetVanishingPoint((-pos + Vec2(_localPos.x + visibleSize.width, _localPos.y + visibleSize.height)));
 	/// X軸の移動範囲チェック
 	if ((pos.x + offset.x + size.width / 2 < visibleSize.width) &&
 		(pos.x + offset.x - size.width / 2 > 0))
@@ -181,6 +182,29 @@ void Player::MoveUpdate()
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 }
 
+void Player::VanishPointUpdate()
+{
+	/// 画面サイズの取得
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	auto Clamp = [](const float& vel, const float& speed)
+	{
+		return fmin(3.f, fmax(-3.f, (vel + speed)));
+	};
+
+	float speed = 3.f;
+	Vec2 distance = (Vec2(_localPos.x, _localPos.y) -_vPoint);
+	_vel.x = (distance.x >= 0 ? Clamp(_vel.x, speed) : Clamp(_vel.x, -speed));
+	_vel.y = (distance.y >= 0 ? Clamp(_vel.y, speed) : Clamp(_vel.y, -speed));
+
+	if (this->getName() == "player1")
+	{
+		_vPoint += _vel;
+		//lpPointWithDepth.SetVanishingPoint((-_vPoint) - visibleSize / 2);
+	}
+
+}
+
 void Player::ResetTexture()
 {
 	Sprite* sp;
@@ -198,6 +222,8 @@ void Player::update(float dt)
 	_oprtState->Update();
 	MoveUpdate();
 
+	VanishPointUpdate();
+	
 	if (_dispCnt == 0)
 	{
 		ResetTexture();
