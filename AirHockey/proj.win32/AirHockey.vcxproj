@@ -161,6 +161,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClCompile Include="..\Classes\Controller\MouseCtl.cpp" />
     <ClCompile Include="..\Classes\Controller\OPRT_Gyro.cpp" />
     <ClCompile Include="..\Classes\Controller\OPRT_Key.cpp" />
+    <ClCompile Include="..\Classes\Controller\OPRT_Network.cpp" />
     <ClCompile Include="..\Classes\Controller\OPRT_State.cpp" />
     <ClCompile Include="..\Classes\Controller\OPRT_Touch.cpp" />
     <ClCompile Include="..\Classes\Effekseer\EffectMng.cpp" />
@@ -185,6 +186,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClCompile Include="..\Classes\Scene\ResultScene.cpp" />
     <ClCompile Include="..\Classes\Scene\TitleScene.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OPRT_Network.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -194,6 +196,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClInclude Include="..\Classes\Controller\MouseCtl.h" />
     <ClInclude Include="..\Classes\Controller\OPRT_Gyro.h" />
     <ClInclude Include="..\Classes\Controller\OPRT_Key.h" />
+    <ClInclude Include="..\Classes\Controller\OPRT_Network.h" />
     <ClInclude Include="..\Classes\Controller\OPRT_State.h" />
     <ClInclude Include="..\Classes\Controller\OPRT_Touch.h" />
     <ClInclude Include="..\Classes\Effekseer\EffectMng.h" />
@@ -219,6 +222,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClInclude Include="..\Classes\Scene\ResultScene.h" />
     <ClInclude Include="..\Classes\Scene\TitleScene.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="OPRT_Network.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cocos2d\cocos\2d\libcocos2d.vcxproj">
