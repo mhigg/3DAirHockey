@@ -77,7 +77,7 @@ list(APPEND GAME_SOURCE
      Classes/Obj/Obj.cpp
      Classes/Obj/Ball.cpp
      Classes/Obj/BallAfter.cpp
-     Classes/Obj/BallShadow.cpp
+     Classes/Obj/Shadow.cpp
      Classes/Obj/TrajectControl.cpp
      Classes/Obj/StageWall.cpp
      Classes/Character/Player.cpp
@@ -109,7 +109,7 @@ list(APPEND GAME_HEADER
      Classes/Obj/Obj.h
      Classes/Obj/Ball.h
      Classes/Obj/BallAfter.h
-     Classes/Obj/BallShadow.h
+     Classes/Obj/Shadow.h
      Classes/Obj/TrajectControl.h
      Classes/Obj/StageWall.h
      Classes/Character/Player.h
