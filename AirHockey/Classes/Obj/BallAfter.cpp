@@ -2,7 +2,7 @@
 
 USING_NS_CC;
 
-BallAfter::BallAfter() : _invTime(6)
+BallAfter::BallAfter() : _invTime(8)
 {
 	Init();
 }
@@ -27,8 +27,8 @@ void BallAfter::Update(const cocos2d::Vec3 & lPos)
 		for (int i = 0; i < _images.size(); ++i)
 		{
 			///// 位置調整のために、画面サイズの半分を減算している(直値なので、修正を必ず行う) ◆
-			//_images[i]->setPosition(lpPointWithDepth.SetWorldPosition(_points[i]) - cocos2d::Vec2(1024 / 2, 576 / 2));
-			//_images[i]->setScale(lpPointWithDepth.GetScale(_points[i].z));
+			_images[i]->setPosition(lpPointWithDepth.SetWorldPosition(_points[i]) - cocos2d::Vec2(1024 / 2, 576 / 2));
+			_images[i]->setScale(lpPointWithDepth.GetScale(_points[i].z));
 		}
 	}
 	// 時間の更新
@@ -41,17 +41,17 @@ void BallAfter::Init()
 	float rate;
 	for (int i = 0; i < _images.size(); ++i)
 	{
-		/*/// 画像サイズの倍率を計算している
-		rate	= (float)(_images.size() - i) / (_images.size());*/
+		/// 画像サイズの倍率を計算している
+		rate	= (float)(_images.size() - i) / (_images.size());
 
-		///// 画像の取得
-		//_images[i]	= Sprite::create("image/ball/ball_13.png");
+		/// 画像の取得
+		_images[i]	= Sprite::create("image/ball/new_ball/ball_13.png");
 
-		///// 画像サイズの設定
-		//_images[i]->setContentSize(_images[i]->getContentSize()/* * rate*/);
+		/// 画像サイズの設定
+		_images[i]->setContentSize(_images[i]->getContentSize()/* * rate*/);
 
-		///// 画像透明度の設定
-		//_images[i]->setOpacity(140 * rate);
+		/// 画像透明度の設定
+		_images[i]->setOpacity(140 * rate);
 		
 		/// 初期座標の設定
 		setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
@@ -59,7 +59,7 @@ void BallAfter::Init()
 		/// 画像スケールの設定
 		setScale(lpPointWithDepth.GetScale(_localPos.z));
 
-		/*this->addChild(_images[i]);*/
+		this->addChild(_images[i]);
 	}
 }
 
