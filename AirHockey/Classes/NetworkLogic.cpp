@@ -4,7 +4,7 @@
 #	include <emscripten.h>
 #endif
 
-static const EG_CHAR* appID = L"91ccb37c-1396-43af-bbbf-46a4124935a5"; // set your app id here
+//static const EG_CHAR* appID = L"91ccb37c-1396-43af-bbbf-46a4124935a5"; // set your app id here
 static const EG_CHAR* appVersion = L"1.0";
 
 static const bool autoLobbyStats = true;
@@ -103,7 +103,7 @@ void NetworkLogic::setIDToken(const ExitGames::Common::JString& IDToken)
 #endif
 
 // functions
-NetworkLogic::NetworkLogic(OutputListener* listener)
+NetworkLogic::NetworkLogic(OutputListener* listener, const EG_CHAR* appID)
 #ifdef _EG_MS_COMPILER
 #	pragma warning(push)
 #	pragma warning(disable:4355)

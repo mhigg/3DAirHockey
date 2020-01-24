@@ -25,9 +25,9 @@ enum State
 
 enum Input
 {
-	INPUT_NON = 0,
-	INPUT_1,
-	INPUT_2,
+	INPUT_NON = 0,	// –¢Ú‘±
+	INPUT_1,		// Ú‘±1”Ô–Ú:ƒ‹[ƒ€‚Ìì¬
+	INPUT_2,		// Ú‘±2”Ô–ÚˆÈ~:ƒ‹[ƒ€‚Ö‚ÌQ‰Á
 	INPUT_3,
 	INPUT_4,
 	INPUT_EXIT
@@ -56,7 +56,7 @@ private:
 class NetworkLogic : private ExitGames::LoadBalancing::Listener
 {
 public:
-	NetworkLogic(OutputListener* listener);
+	NetworkLogic(OutputListener* listener, const EG_CHAR* appID);
 	void registerForStateUpdates(NetworkLogicListener* listener);
 	void run(void);
 	void disconnect(void);

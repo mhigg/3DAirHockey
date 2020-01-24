@@ -204,6 +204,8 @@ void GameScene::update(float dt)
 	case STATE_CONNECTED:
 	case STATE_LEFT:
 		// ルームが存在すればジョイン、なければ作成する
+		// →ホストはINPUT1、ゲストはINPUT2を渡すように変更する。
+		// ホストとゲストを区別する変数など追加する
 		if (networkLogic->isRoomExists()) {
 			networkLogic->setLastInput(INPUT_2);
 		}

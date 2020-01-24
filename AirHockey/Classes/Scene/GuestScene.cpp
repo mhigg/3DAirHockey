@@ -88,12 +88,9 @@ void GuestScene::update(float dt)
 	switch (networkLogic->getState()) {
 	case STATE_CONNECTED:
 	case STATE_LEFT:
-		// ルームが存在すればジョイン、なければ作成する
+		// ゲスト側で、ルームが存在すればジョイン
 		if (networkLogic->isRoomExists()) {
 			networkLogic->setLastInput(INPUT_2);
-		}
-		else {
-			networkLogic->setLastInput(INPUT_1);
 		}
 		break;
 	case STATE_DISCONNECTED:
