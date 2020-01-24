@@ -43,8 +43,8 @@ cocos2d::Point PointWithDepth::SetWorldPosition(cocos2d::Vec3 localPos)
 	cocos2d::Point pos;
 
 	// 奥行の式
-	pos.x = _firstVanishingPoint.x + (_scale - 1) * (_nowVanishingPoint.x /** _magnification.x*/ * _normalizePoint.x);
-	pos.y = _firstVanishingPoint.y + (_scale - 1) * (_nowVanishingPoint.y /** _magnification.y*/ * _normalizePoint.y);
+	pos.x = _firstVanishingPoint.x + (_scale - 0.99) * (_nowVanishingPoint.x /** _magnification.x*/ * _normalizePoint.x);
+	pos.y = _firstVanishingPoint.y + (_scale - 0.99) * (_nowVanishingPoint.y /** _magnification.y*/ * _normalizePoint.y);
 
 	// 座標の更新
 	pos.x += (_scale) * (localPos.x);
@@ -56,12 +56,19 @@ cocos2d::Point PointWithDepth::SetWorldPosition(cocos2d::Vec3 localPos)
 float PointWithDepth::GetScale(float local_z)
 {
 	// ｽﾌﾟﾗｲﾄの大きさの設定(1～0)まで
-	return _scale = (local_z - _zDepth.second) / (_zDepth.first - _zDepth.second);;
+	_scale = (local_z - _zDepth.second) / (_zDepth.first - _zDepth.second);
+
+	if (_scale < 0)
+	{
+		_scale = 0;
+	}
+
+	return _scale = (local_z - _zDepth.second) / (_zDepth.first - _zDepth.second);
 }
 
 void PointWithDepth::SetVanishingPoint(cocos2d::Point pos)
 {
-	auto tmpVanishingPoint = _nowVanishingPoint + pos;
+	auto tmpVanishingPoint = pos;
 
 	if (tmpVanishingPoint.x < _moveVanishingPoint.origin.x + 1)
 	{
@@ -80,6 +87,11 @@ void PointWithDepth::SetVanishingPoint(cocos2d::Point pos)
 		tmpVanishingPoint.y = _moveVanishingPoint.size.height;
 	}
 	_nowVanishingPoint = tmpVanishingPoint;
+}
+
+void PointWithDepth::ResetVanishingPoint(void)
+{
+	_nowVanishingPoint = _firstVanishingPoint;
 }
 
 void PointWithDepth::PointNormalize(cocos2d::Point vanishingPoint)
