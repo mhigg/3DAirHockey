@@ -5,6 +5,11 @@
 
 USING_NS_CC;
 
+// ルームを複数作るためのアプリケーションＩＤ
+// appID1と2で作るルーム・入るルームが変わります
+static const EG_CHAR* appID1 = L"91ccb37c-1396-43af-bbbf-46a4124935a5";
+static const EG_CHAR* appID2 = L"b1723cd8-6b7c-4d52-989c-702c2848d8e8";
+
 HostScene::~HostScene()
 {
 }
@@ -73,7 +78,7 @@ bool HostScene::init()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
 	// Photonネットワーククラスのインスタンスを作成
-	networkLogic = new NetworkLogic(&ConsoleOut::get());
+	networkLogic = new NetworkLogic(&ConsoleOut::get(), appID1);
 
 
 	this->addChild(label);
@@ -89,13 +94,8 @@ void HostScene::update(float dt)
 	switch (networkLogic->getState()) {
 	case STATE_CONNECTED:
 	case STATE_LEFT:
-		// ルームが存在すればジョイン、なければ作成する
-		if (networkLogic->isRoomExists()) {
-			networkLogic->setLastInput(INPUT_2);
-		}
-		else {
-			networkLogic->setLastInput(INPUT_1);
-		}
+		// ホスト側でのルーム作成
+		networkLogic->setLastInput(INPUT_1);
 		break;
 	case STATE_DISCONNECTED:
 		// 接続が切れたら再度接続

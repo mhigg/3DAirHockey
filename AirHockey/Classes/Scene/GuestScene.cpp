@@ -3,6 +3,9 @@
 
 #include "../ConsoleOut.h"
 
+static const EG_CHAR* appID1 = L"91ccb37c-1396-43af-bbbf-46a4124935a5";
+static const EG_CHAR* appID2 = L"b1723cd8-6b7c-4d52-989c-702c2848d8e8";
+
 USING_NS_CC;
 
 GuestScene::~GuestScene()
@@ -74,7 +77,7 @@ bool GuestScene::init()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
 	// Photonネットワーククラスのインスタンスを作成
-	networkLogic = new NetworkLogic(&ConsoleOut::get());
+	networkLogic = new NetworkLogic(&ConsoleOut::get(), appID1);
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
@@ -88,12 +91,9 @@ void GuestScene::update(float dt)
 	switch (networkLogic->getState()) {
 	case STATE_CONNECTED:
 	case STATE_LEFT:
-		// ルームが存在すればジョイン、なければ作成する
+		// ゲスト側で、ルームが存在すればジョイン
 		if (networkLogic->isRoomExists()) {
 			networkLogic->setLastInput(INPUT_2);
-		}
-		else {
-			networkLogic->setLastInput(INPUT_1);
 		}
 		break;
 	case STATE_DISCONNECTED:
