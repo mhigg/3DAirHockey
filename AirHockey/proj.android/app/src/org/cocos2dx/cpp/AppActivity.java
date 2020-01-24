@@ -24,12 +24,12 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.cpp;
 
+import sensor.cpp.GyroSensor;
 import android.os.Bundle;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import android.os.Build;
 import android.view.WindowManager;
 import android.content.Context;
-import android.view.WindowManager.LayoutParams;
 
 import java.util.List;
 import android.hardware.Sensor;
@@ -37,9 +37,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import sensor.cpp.GyroSensor;
+
 public class AppActivity extends Cocos2dxActivity implements SensorEventListener {
     private SensorManager _sensorManager;
-    public static float[] _sensor = new float[3];
+    private static float[] _sensor = new float[3];
     private static native void initCricket(Context context);
 
     @Override
@@ -93,6 +95,10 @@ public class AppActivity extends Cocos2dxActivity implements SensorEventListener
     @Override
     public void onSensorChanged(SensorEvent event)
     {
+        for(int i = 0; i < 3; i++)
+        {
+            _sensor[i] = 0;
+        }
         _sensor[0] = event.values[0];
         _sensor[1] = event.values[1];
         _sensor[2] = event.values[2];

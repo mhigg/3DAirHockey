@@ -86,22 +86,6 @@ void OPRT_Gyro::Update(void)
 	{
 		_ratio.y += sensor.y;
 	}
-	if (_ratio.x > 1)
-	{
-		_ratio.x = 1;
-	}
-	else if (_ratio.x < 0)
-	{
-		_ratio.x = 0;
-	}
-	if (_ratio.y > 1)
-	{
-		_ratio.y = 1;
-	}
-	if (_ratio.y < 0)
-	{
-		_ratio.y = 0;
-	}
 	_point = cocos2d::Vec2(visibleSize.width * _ratio.x, visibleSize.height * _ratio.y);
 }
 
