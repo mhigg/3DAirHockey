@@ -146,7 +146,8 @@ void Ball::ChangeIsReverse()
 	}
 	else {}
 
-	if (_localPos.z > players[1]->GetDepth())
+	/// とりあえず、仮でボール半径のサイズ分を許容した当たり判定を取っている
+	if (_localPos.z > players[1]->GetDepth() - _radius * 0.1f)
 	{
 		/// プレイヤーの当たったアンカーポイントを取得している
 		int ancType = IsHitAnchor(players[1]);
@@ -167,7 +168,7 @@ void Ball::ChangeIsReverse()
 			std::get<2>(_isReverse) = true;
 		}
 	}
-	else if (_localPos.z <= players[0]->GetDepth())
+	else if (_localPos.z  <= players[0]->GetDepth() + _radius)
 	{
 		/// プレイヤーの当たったアンカーポイントを取得している
 		int ancType = IsHitAnchor(players[0]);
@@ -206,7 +207,8 @@ void Ball::ChangeMoving(const Node* pl)
 	}
 	else
 	{
-		CCAudioMng::GetInstance().CkPlaySE("hit", 1.f);
+		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		CCAudioMng::GetInstance().CkPlaySE("hit", rate);
 		_ballState = State::NORMAL;
 	}
 }
