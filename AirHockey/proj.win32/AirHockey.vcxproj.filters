@@ -84,7 +84,6 @@
     <ClCompile Include="..\Classes\Obj\TitleSprite.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
-    <ClCompile Include="OPRT_Network.cpp" />
     <ClCompile Include="..\Classes\Controller\OPRT_Network.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
@@ -174,7 +173,6 @@
     <ClInclude Include="..\Classes\Obj\TitleSprite.h">
       <Filter>Obj</Filter>
     </ClInclude>
-    <ClInclude Include="OPRT_Network.h" />
     <ClInclude Include="..\Classes\Controller\OPRT_Network.h">
       <Filter>Controller</Filter>
     </ClInclude>
