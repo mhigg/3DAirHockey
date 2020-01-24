@@ -118,14 +118,14 @@ void Ball::ChangeIsReverse()
 	{
 		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
-		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
+		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<0>(_isReverse) = false;
 	}
 	else if (_localPos.x + _radius > gameMng->GetMovingRange().x)
 	{
 		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
-		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
+		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<0>(_isReverse) = true;
 	}
 	else {}
@@ -134,14 +134,14 @@ void Ball::ChangeIsReverse()
 	{
 		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
-		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
+		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<1>(_isReverse) = false;
 	}
 	else if (_localPos.y + _radius > gameMng->GetMovingRange().y)
 	{
 		_ballState = State::NORMAL;
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
-		CCAudioMng::GetInstance().CkPlaySE("neta", rate);
+		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<1>(_isReverse) = true;
 	}
 	else {}
@@ -164,7 +164,6 @@ void Ball::ChangeIsReverse()
 			ChangeMoving(players[1]);
 
 			/// 効果音の再生
-			CCAudioMng::GetInstance().CkPlaySE("hit", 0.f);
 			std::get<2>(_isReverse) = true;
 		}
 	}
@@ -184,10 +183,7 @@ void Ball::ChangeIsReverse()
 
 			/// プレイヤーを動かしながらボールを当てた時、カーブを行う。
 			ChangeMoving(players[1]);
-
-			/// 効果音の再生
 			std::get<2>(_isReverse) = false;
-			CCAudioMng::GetInstance().CkPlaySE("hit", 1.f);
 		}
 	}
 	else {}
@@ -203,11 +199,14 @@ void Ball::ChangeMoving(const Node* pl)
 	if (abs(player->GetMoveDistance().x) >= 4 &&
 		abs(player->GetMoveDistance().y) >= 4)
 	{
+		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		CCAudioMng::GetInstance().CkPlaySE("curve", rate);
 		_ballState = State::CURVE;
 		_traject->CalBezierPoint(player->GetMoveDistance().getNormalized());
 	}
 	else
 	{
+		CCAudioMng::GetInstance().CkPlaySE("hit", 1.f);
 		_ballState = State::NORMAL;
 	}
 }
