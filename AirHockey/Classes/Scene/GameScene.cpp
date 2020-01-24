@@ -166,9 +166,6 @@ bool GameScene::init()
 	// Photonネットワーククラスのインスタンスを作成
 	networkLogic = new NetworkLogic(&ConsoleOut::get());
 
-	// 毎フレームでupdateを実行させる
-	this->schedule(schedule_selector(GameScene::update));
-
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
 
@@ -176,10 +173,11 @@ bool GameScene::init()
 	/*CCAudioMng::GetInstance().RegistStreamBGM("BGM/bgm.cks", "bgm");
 	CCAudioMng::GetInstance().CkPlayBGM("bgm");*/
 
-	/// 仮のSE再生 ◆ (ネタは後で修正するぞ)
+	/// 仮のSE再生
 	CCAudioMng::GetInstance().RegistBank("SE/ball.ckb", "ball");
-	CCAudioMng::GetInstance().RegistBankSE("ball", "neta", "neta");
+	CCAudioMng::GetInstance().RegistBankSE("ball", "curve", "curve");
 	CCAudioMng::GetInstance().RegistBankSE("ball", "hit", "hit");
+	CCAudioMng::GetInstance().RegistBankSE("ball", "wallHit", "wallHit");
 
 	/// シーン名を付けた
 	this->setName("GameScene");

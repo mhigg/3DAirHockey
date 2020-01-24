@@ -41,8 +41,8 @@ void BallAfter::Init()
 	float rate;
 	for (int i = 0; i < _images.size(); ++i)
 	{
-		/// ‰æ‘œƒTƒCƒY‚Ì”{—¦‚ðŒvŽZ‚µ‚Ä‚¢‚é
-		rate	= (float)(_images.size() - i) / (_images.size());
+		/*/// ‰æ‘œƒTƒCƒY‚Ì”{—¦‚ðŒvŽZ‚µ‚Ä‚¢‚é
+		rate	= (float)(_images.size() - i) / (_images.size());*/
 
 		///// ‰æ‘œ‚ÌŽæ“¾
 		//_images[i]	= Sprite::create("image/ball/ball_13.png");
