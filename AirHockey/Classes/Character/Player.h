@@ -44,7 +44,7 @@ public:
 private:
 	void InitTextureInfo();		// 差分画像の初期化
 	void MoveUpdate();			// 移動更新用
-	void VanishPointUpdate();
+	void VanishPointUpdate(const cocos2d::Vec2& pos);		// 消失点の更新用
 	void ResetTexture();		// 最初に設定した画像に戻す
 	void update(float dt);
 

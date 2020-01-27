@@ -79,9 +79,9 @@ private:
 	CCAudioMng();
 	~CCAudioMng();
 
-	void CkStopSE(const std::string& key);		// publicにするかも？　◆
+	void CkStopSE(const std::string& key);
 
-	// 一定範囲の割合を返すもの(min : 音量の最小値,max : 音の最大値)
+	// 一定範囲の割合を返すもの(minRate : 音量の最小値, maxRate : 音の最大値)
 	float Clamp(const float& rate, 
 				const float& minRate = 0.2f, 
 				const float& maxRate = 1.0f);
@@ -99,7 +99,7 @@ private:
 	};
 	static std::unique_ptr<CCAudioMng, AudioDeleter> s_Instance;
 
-	/// unorderedmapを使用して管理を行う
+	/// unordered_mapを使用して管理を行う
 	CkBankMap _bankMap;		// bankデータの管理用
 	CkSoundMap _seMap;		// 効果音データの管理用
 	CkSoundMap _bgmMap;		// BGMデータの管理用
