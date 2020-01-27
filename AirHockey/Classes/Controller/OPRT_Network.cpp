@@ -23,7 +23,8 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp)
 	// 各イベントの割り当て
 	listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event/*CC_CALLBACK_2(OPRT_Network::onTouchBegan, this*/)
 	{
-		if (networkLogic->playerNr) {
+		if (networkLogic->playerNr)
+		{
 			this->addParticle(networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
 
 			// イベント（タッチ座標）を送信
@@ -35,13 +36,13 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp)
 
 		return true;
 	};
-	listener->onTouchMoved = [this](cocos2d::Touch* touch, cocos2d::Event* event)/*CC_CALLBACK_2(OPRT_Network::onTouchMoved, this)*/
+	listener->onTouchMoved = [this](cocos2d::Touch* touch, cocos2d::Event* event)
 	{
 	};
-	listener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)/*CC_CALLBACK_2(OPRT_Network::onTouchEnded, this);*/
+	listener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)
 	{
 	};
-	listener->onTouchCancelled = [this](cocos2d::Touch* touch, cocos2d::Event* event)/*CC_CALLBACK_2(OPRT_Network::onTouchCancelled, this);*/
+	listener->onTouchCancelled = [this](cocos2d::Touch* touch, cocos2d::Event* event)
 	{
 	};
 
@@ -62,9 +63,10 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp, bool isHost)
 	listener->setSwallowTouches(_swallowsTouches);
 
 	// 各イベントの割り当て
-	listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event/*CC_CALLBACK_2(OPRT_Network::onTouchBegan, this*/)
+	listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event)
 	{
-		if (networkLogic->playerNr) {
+		if (networkLogic->playerNr)
+		{
 			this->addParticle(networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
 
 			// イベント（タッチ座標）を送信
@@ -76,13 +78,13 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp, bool isHost)
 
 		return true;
 	};
-	listener->onTouchMoved = [this](cocos2d::Touch* touch, cocos2d::Event* event)/*CC_CALLBACK_2(OPRT_Network::onTouchMoved, this)*/
+	listener->onTouchMoved = [this](cocos2d::Touch* touch, cocos2d::Event* event)
 	{
 	};
-	listener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)/*CC_CALLBACK_2(OPRT_Network::onTouchEnded, this);*/
+	listener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)
 	{
 	};
-	listener->onTouchCancelled = [this](cocos2d::Touch* touch, cocos2d::Event* event)/*CC_CALLBACK_2(OPRT_Network::onTouchCancelled, this);*/
+	listener->onTouchCancelled = [this](cocos2d::Touch* touch, cocos2d::Event* event)
 	{
 	};
 
@@ -168,7 +170,8 @@ cocos2d::Vec2 OPRT_Network::GetPoint(void) const
 void OPRT_Network::addParticle(int playerNr, float x, float y)
 {
 	ParticleSystem* particle;
-	switch (playerNr) {
+	switch (playerNr)
+	{
 	case 1:
 		particle = ParticleFire::create();
 		break;

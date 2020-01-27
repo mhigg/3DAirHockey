@@ -15,11 +15,9 @@ public:
 
 private:
 	void Run(void);	// ’ÊM‚ÌÚ‘±
+	void addParticle(int playerNr, float x, float y);
 
 	bool _isHost;	// Î½Ä‚È‚çtrue, ¹Ş½Ä‚È‚çfalse
-
-	void addParticle(int playerNr, float x, float y);
 	bool _swallowsTouches;
-
 	NetworkLogic* networkLogic;
 };

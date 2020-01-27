@@ -203,16 +203,19 @@ void GameScene::menuCloseCallback(Ref* pSender)
 void GameScene::update(float dt)
 {
 	networkLogic->run();
-	switch (networkLogic->getState()) {
+	switch (networkLogic->getState())
+	{
 	case STATE_CONNECTED:
 	case STATE_LEFT:
 		// ルームが存在すればジョイン、なければ作成する
 		// →ホストはINPUT1、ゲストはINPUT2を渡すように変更する。
 		// ホストとゲストを区別する変数など追加する
-		if (networkLogic->isRoomExists()) {
+		if (networkLogic->isRoomExists())
+		{
 			networkLogic->setLastInput(INPUT_2);
 		}
-		else {
+		else
+		{
 			networkLogic->setLastInput(INPUT_1);
 		}
 		break;
@@ -229,7 +232,8 @@ void GameScene::update(float dt)
 		break;
 	}
 
-	while (!networkLogic->eventQueue.empty()) {
+	while (!networkLogic->eventQueue.empty())
+	{
 		std::array<float, 3>arr = networkLogic->eventQueue.front();
 		networkLogic->eventQueue.pop();
 
@@ -277,7 +281,8 @@ void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parent
 bool GameScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 
-	if (networkLogic->playerNr) {
+	if (networkLogic->playerNr)
+	{
 		this->addParticle(networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
 
 		// イベント（タッチ座標）を送信
@@ -290,15 +295,18 @@ bool GameScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 	return true;
 }
 
-void GameScene::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+void GameScene::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unused_event)
+{
 
 }
 
-void GameScene::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+void GameScene::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event)
+{
 
 }
 
-void GameScene::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+void GameScene::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unused_event)
+{
 
 }
 

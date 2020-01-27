@@ -92,7 +92,8 @@ void HostScene::menuCloseCallback(cocos2d::Ref * pSender)
 void HostScene::addParticle(int playerNr, float x, float y)
 {
 	ParticleSystem* particle;
-	switch (playerNr) {
+	switch (playerNr)
+	{
 	case 1:
 		particle = ParticleFire::create();
 		break;
