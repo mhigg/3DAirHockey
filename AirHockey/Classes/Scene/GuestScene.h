@@ -25,8 +25,10 @@
 #ifndef __GUEST_SCENE_H__
 #define __GUEST_SCENE_H__
 
+#include <memory>
 #include "cocos2d.h"
 #include "NetworkLogic.h"
+#include "Controller/OPRT_State.h"
 
 class GuestScene
 	: public cocos2d::Scene
@@ -55,6 +57,7 @@ private:
 	void addParticle(int playerNr, float x, float y);
 	NetworkLogic* networkLogic;
 	bool _swallowsTouches;
+	std::unique_ptr<OPRT_State> inputNetwork;
 };
 
 #endif // __GuestScene_H__

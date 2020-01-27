@@ -7,4 +7,9 @@ class OPRT_Network :
 public:
 	OPRT_Network();
 	~OPRT_Network();
+
+	void Update(void);
+	cocos2d::Vec2 GetPoint(void) const;
+
+
 };

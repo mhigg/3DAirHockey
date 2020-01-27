@@ -1,6 +1,7 @@
 ﻿#include "GuestScene.h"
 #include "GameScene.h"
 
+#include "Controller/OPRT_Network.h"
 #include "../ConsoleOut.h"
 
 static const EG_CHAR* appID1 = L"91ccb37c-1396-43af-bbbf-46a4124935a5";
@@ -62,6 +63,8 @@ bool GuestScene::init()
 							visibleSize.height - label->getContentSize().height / 2));
 	this->addChild(label);
 
+	inputNetwork.reset(new OPRT_Network());
+
 	_swallowsTouches = true;
 	// シングルタップリスナーを用意する
 	auto listener = EventListenerTouchOneByOne::create();
@@ -108,6 +111,8 @@ void GuestScene::update(float dt)
 	default:
 		break;
 	}
+
+	inputNetwork->Update();
 
 	while (!networkLogic->eventQueue.empty()) {
 		std::array<float, 3>arr = networkLogic->eventQueue.front();
