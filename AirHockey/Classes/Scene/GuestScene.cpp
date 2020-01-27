@@ -65,22 +65,22 @@ bool GuestScene::init()
 
 	inputNetwork.reset(new OPRT_Network(false));
 
-	_swallowsTouches = true;
-	// シングルタップリスナーを用意する
-	auto listener = EventListenerTouchOneByOne::create();
-	listener->setSwallowTouches(_swallowsTouches);
+	//_swallowsTouches = true;
+	//// シングルタップリスナーを用意する
+	//auto listener = EventListenerTouchOneByOne::create();
+	//listener->setSwallowTouches(_swallowsTouches);
 
-	// 各イベントの割り当て
-	listener->onTouchBegan = CC_CALLBACK_2(GuestScene::onTouchBegan, this);
-	listener->onTouchMoved = CC_CALLBACK_2(GuestScene::onTouchMoved, this);
-	listener->onTouchEnded = CC_CALLBACK_2(GuestScene::onTouchEnded, this);
-	listener->onTouchCancelled = CC_CALLBACK_2(GuestScene::onTouchCancelled, this);
+	//// 各イベントの割り当て
+	//listener->onTouchBegan = CC_CALLBACK_2(GuestScene::onTouchBegan, this);
+	//listener->onTouchMoved = CC_CALLBACK_2(GuestScene::onTouchMoved, this);
+	//listener->onTouchEnded = CC_CALLBACK_2(GuestScene::onTouchEnded, this);
+	//listener->onTouchCancelled = CC_CALLBACK_2(GuestScene::onTouchCancelled, this);
 
-	// イベントディスパッチャにシングルタップ用リスナーを追加する
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	//// イベントディスパッチャにシングルタップ用リスナーを追加する
+	//_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-	// Photonネットワーククラスのインスタンスを作成
-	networkLogic = new NetworkLogic(&ConsoleOut::get(), appID1);
+	//// Photonネットワーククラスのインスタンスを作成
+	//networkLogic = new NetworkLogic(&ConsoleOut::get(), appID1);
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
@@ -116,17 +116,18 @@ void GuestScene::update(float dt)
 	inputNetwork->Update();
 
 	// ﾃﾞｰﾀの受信と処理
-	while (!networkLogic->eventQueue.empty()) {
-		std::array<float, 3>arr = networkLogic->eventQueue.front();
-		networkLogic->eventQueue.pop();
+	//while (!networkLogic->eventQueue.empty()) {
+	//	std::array<float, 3>arr = networkLogic->eventQueue.front();
+	//	networkLogic->eventQueue.pop();
 
-		int playerNr = static_cast<int>(arr[0]);
-		float x = arr[1];
-		float y = arr[2];
-		CCLOG("%d, %f, %f", playerNr, x, y);
+	//	int playerNr = static_cast<int>(arr[0]);
+	//	float x = arr[1];
+	//	float y = arr[2];
+	//	CCLOG("%d, %f, %f", playerNr, x, y);
 
-		this->addParticle(playerNr, x, y);
-	}
+	auto receivePos = inputNetwork->GetPoint();
+	this->addParticle(2, receivePos.x, receivePos.y);
+	//}
 }
 
 void GuestScene::ChangeScene(cocos2d::Ref * ref)
@@ -139,33 +140,33 @@ void GuestScene::menuCloseCallback(cocos2d::Ref * pSender)
 	Director::getInstance()->end();
 }
 
-bool GuestScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
-{
-
-	if (networkLogic->playerNr) {
-		this->addParticle(networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
-
-		// イベント（タッチ座標）を送信
-		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
-		eventContent->put<int, float>(1, touch->getLocation().x);
-		eventContent->put<int, float>(2, touch->getLocation().y);
-		networkLogic->sendEvent(1, eventContent);
-	}
-
-	return true;
-}
-
-void GuestScene::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
-
-}
-
-void GuestScene::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
-
-}
-
-void GuestScene::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
-
-}
+//bool GuestScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
+//{
+//
+//	if (networkLogic->playerNr) {
+//		this->addParticle(networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
+//
+//		// イベント（タッチ座標）を送信
+//		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
+//		eventContent->put<int, float>(1, touch->getLocation().x);
+//		eventContent->put<int, float>(2, touch->getLocation().y);
+//		networkLogic->sendEvent(1, eventContent);
+//	}
+//
+//	return true;
+//}
+//
+//void GuestScene::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+//
+//}
+//
+//void GuestScene::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+//
+//}
+//
+//void GuestScene::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+//
+//}
 
 void GuestScene::addParticle(int playerNr, float x, float y)
 {

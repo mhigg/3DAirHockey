@@ -58,12 +58,21 @@ OPRT_Network::~OPRT_Network()
 void OPRT_Network::Run(void)
 {
 	networkLogic->run();
-	switch (networkLogic->getState()) {
+	switch (networkLogic->getState())
+	{
 	case STATE_CONNECTED:
 	case STATE_LEFT:
 		// ゲスト側で、ルームが存在すればジョイン
-		if (networkLogic->isRoomExists()) {
-			networkLogic->setLastInput(INPUT_2);
+		if(!_isHost)
+		{
+			if (networkLogic->isRoomExists())
+			{
+				networkLogic->setLastInput(INPUT_2);
+			}
+		}
+		else
+		{
+			networkLogic->setLastInput(INPUT_1);
 		}
 		break;
 	case STATE_DISCONNECTED:
@@ -89,7 +98,19 @@ void OPRT_Network::Update(void)
 
 cocos2d::Vec2 OPRT_Network::GetPoint(void) const
 {
-	return cocos2d::Vec2();
+	// ﾃﾞｰﾀの受信と処理
+	cocos2d::Vec2 retVec;
+	while (!networkLogic->eventQueue.empty()) {
+		std::array<float, 3>arr = networkLogic->eventQueue.front();
+		networkLogic->eventQueue.pop();
+
+		int playerNr = static_cast<int>(arr[0]);
+		retVec.x = arr[1];
+		retVec.y = arr[2];
+		CCLOG("%d, %f, %f", playerNr, retVec.x, retVec.y);
+	}
+
+	return retVec;
 }
 
 bool OPRT_Network::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
