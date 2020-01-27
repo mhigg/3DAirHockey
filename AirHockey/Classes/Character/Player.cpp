@@ -58,10 +58,10 @@ Player::Player(const float& zdepth)
 	// 座標を真ん中にセット
 	this->setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 
-	_vPoint = this->getPosition();
-	_vel = Vec2::ZERO;
+	_vPoint = _vel = Vec2::ZERO;
 	// 消失点の変更
-	//lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(_localPos.x + visibleSize.width, _localPos.y + visibleSize.height));
+	/*lpPointWithDepth.SetVanishingPoint(-Vec2(_localPos.x + visibleSize.width,
+											 _localPos.y + visibleSize.height));*/
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_oprtState.reset(new MouseCtl(this));
@@ -178,31 +178,30 @@ void Player::MoveUpdate()
 	// 奥行きの深さによって、サイズを変更するようにしている
 	setScale(lpPointWithDepth.GetScale(_localPos.z));
 	
+	if (this->getName() == "player1")
+	{
+		VanishPointUpdate(pos);
+	}
+
+	/// ここの座標を使ってみるか
 	/// ワールド座標に変換している
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 }
 
-void Player::VanishPointUpdate()
+void Player::VanishPointUpdate(const cocos2d::Vec2& pos)
 {
-	/// 画面サイズの取得
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-
+	auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto Clamp = [](const float& vel, const float& speed)
 	{
 		return fmin(3.f, fmax(-3.f, (vel + speed)));
 	};
 
-	float speed = 3.f;
-	Vec2 distance = (Vec2(_localPos.x, _localPos.y) -_vPoint);
-	_vel.x = (distance.x >= 0 ? Clamp(_vel.x, speed) : Clamp(_vel.x, -speed));
-	_vel.y = (distance.y >= 0 ? Clamp(_vel.y, speed) : Clamp(_vel.y, -speed));
+	/// 現状、仮の消失点の更新をしている
+	auto distance = (pos - _vPoint).getNormalized();
+	_vel = Vec2(Clamp(_vel.x, distance.x * 0.2f), Clamp(_vel.y, distance.y * 0.2f));
+	_vPoint += _vel;
 
-	if (this->getName() == "player1")
-	{
-		_vPoint += _vel;
-		//lpPointWithDepth.SetVanishingPoint((-_vPoint) - visibleSize / 2);
-	}
-
+	lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(visibleSize.width / 2, visibleSize.height / 2));
 }
 
 void Player::ResetTexture()
@@ -222,8 +221,6 @@ void Player::update(float dt)
 	_oprtState->Update();
 	MoveUpdate();
 
-	VanishPointUpdate();
-	
 	if (_dispCnt == 0)
 	{
 		ResetTexture();

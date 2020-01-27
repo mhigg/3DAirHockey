@@ -189,7 +189,7 @@ void CCAudioMng::CkPlayBGM(const std::string & key, const float & rate)
 	if (_bgmMap.find(key) != _bgmMap.end())
 	{
 		/// Ä¶’†
-		if (_bgmMap[key]->isPlaying())
+		if (!_bgmMap[key]->isPlaying())
 		{
 			/// ‰¹—Ê‚Ì’²®‚ð‚µ‚ÄÄ¶‚·‚é
 			_bgmMap[key]->setVolume(Clamp(rate));
