@@ -1,15 +1,18 @@
 #include "OPRT_Network.h"
 #include "../ConsoleOut.h"
 
+// ルームを複数作るためのアプリケーションＩＤ
+// appID1, 2, 3で作るルーム・入るルームが変わります
 static const EG_CHAR* appID1 = L"91ccb37c-1396-43af-bbbf-46a4124935a5";
 static const EG_CHAR* appID2 = L"b1723cd8-6b7c-4d52-989c-702c2848d8e8";
+static const EG_CHAR* appID3 = L"ac500b19-8cfa-47b5-9781-4d9d438496e4";
 
 USING_NS_CC;
 
 OPRT_Network::OPRT_Network(cocos2d::Node* sp)
 {
 	// Photonネットワーククラスのインスタンスを作成
-	networkLogic = new NetworkLogic(&ConsoleOut::get(), appID1);
+	networkLogic = new NetworkLogic(&ConsoleOut::get(), appID2);
 
 	_swallowsTouches = true;
 
@@ -18,10 +21,6 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp)
 	listener->setSwallowTouches(_swallowsTouches);
 
 	// 各イベントの割り当て
-	//listener->onTouchBegan = CC_CALLBACK_2(OPRT_Network::onTouchBegan, this);
-	//listener->onTouchMoved = CC_CALLBACK_2(OPRT_Network::onTouchMoved, this);
-	//listener->onTouchEnded = CC_CALLBACK_2(OPRT_Network::onTouchEnded, this);
-	//listener->onTouchCancelled = CC_CALLBACK_2(OPRT_Network::onTouchCancelled, this);
 	listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event/*CC_CALLBACK_2(OPRT_Network::onTouchBegan, this*/)
 	{
 		if (networkLogic->playerNr) {

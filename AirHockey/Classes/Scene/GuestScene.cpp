@@ -4,9 +4,6 @@
 #include "Controller/OPRT_Network.h"
 #include "../ConsoleOut.h"
 
-static const EG_CHAR* appID1 = L"91ccb37c-1396-43af-bbbf-46a4124935a5";
-static const EG_CHAR* appID2 = L"b1723cd8-6b7c-4d52-989c-702c2848d8e8";
-
 USING_NS_CC;
 
 GuestScene::~GuestScene()
@@ -63,6 +60,7 @@ bool GuestScene::init()
 							visibleSize.height - label->getContentSize().height / 2));
 	this->addChild(label);
 
+	// ﾈｯﾄﾜｰｸ通信用ｲﾝﾌﾟｯﾄのｲﾝｽﾀﾝｽ
 	inputNetwork.reset(new OPRT_Network(this, false));
 
 	// 1ﾌﾚｰﾑごとにupdateを
