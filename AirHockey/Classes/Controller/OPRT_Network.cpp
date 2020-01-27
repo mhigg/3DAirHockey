@@ -166,34 +166,6 @@ cocos2d::Vec2 OPRT_Network::GetPoint(void) const
 	return retVec;
 }
 
-//bool OPRT_Network::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
-//{
-//
-//	if (networkLogic->playerNr) {
-//		this->addParticle(networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
-//
-//		// イベント（タッチ座標）を送信
-//		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
-//		eventContent->put<int, float>(1, touch->getLocation().x);
-//		eventContent->put<int, float>(2, touch->getLocation().y);
-//		networkLogic->sendEvent(1, eventContent);
-//	}
-//
-//	return true;
-//}
-//
-//void OPRT_Network::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
-//
-//}
-//
-//void OPRT_Network::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
-//
-//}
-//
-//void OPRT_Network::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
-//
-//}
-
 void OPRT_Network::addParticle(int playerNr, float x, float y)
 {
 	ParticleSystem* particle;
