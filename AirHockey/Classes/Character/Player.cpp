@@ -168,6 +168,17 @@ void Player::MoveUpdate()
 	{
 		_localPos.x = pos.x;
 	}
+	// 右の範囲外
+	else if (pos.x + offset.x + size.width / 2 > visibleSize.width)
+	{
+		_localPos.x = (visibleSize.width - size.width )/2;
+	}
+	// 左の範囲外
+	else if (pos.x + offset.x - size.width / 2 < 0)
+	{
+		_localPos.x = (-visibleSize.width + size.width) / 2;
+	}
+	else{}
 
 	/// Y軸の移動範囲チェック
 	if ((pos.y + offset.y + size.height / 2 < visibleSize.height) &&
@@ -175,6 +186,16 @@ void Player::MoveUpdate()
 	{
 		_localPos.y = pos.y;
 	}
+	else if (pos.y + offset.y + size.height / 2 > visibleSize.height)
+	{
+		_localPos.y = (visibleSize.height - size.height) / 2;
+	}
+	else if (pos.y + offset.y - size.height / 2 < 0)
+	{
+		_localPos.y = (-visibleSize.height + size.height) / 2;
+	}
+
+
 	// 奥行きの深さによって、サイズを変更するようにしている
 	setScale(lpPointWithDepth.GetScale(_localPos.z));
 	
