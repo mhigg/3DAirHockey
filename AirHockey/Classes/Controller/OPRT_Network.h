@@ -6,21 +6,15 @@ class OPRT_Network :
 	public OPRT_State
 {
 public:
-	OPRT_Network();
-	OPRT_Network(bool isHost);
+	OPRT_Network(cocos2d::Node* sp);
+	OPRT_Network(cocos2d::Node* sp, bool isHost);
 	~OPRT_Network();
 
 	void Update(void);					// 通信の接続とﾃﾞｰﾀ更新をし, 相手にﾃﾞｰﾀを送信する
 	cocos2d::Vec2 GetPoint(void) const;	// 相手から送信された座標ﾃﾞｰﾀを取得
 
-		// テスト用
-	virtual bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event);
-	virtual void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unused_event);
-	virtual void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event);
-	virtual void onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unused_event);
-
 private:
-	void Run(void);
+	void Run(void);	// 通信の接続
 
 	bool _isHost;	// ﾎｽﾄならtrue, ｹﾞｽﾄならfalse
 
