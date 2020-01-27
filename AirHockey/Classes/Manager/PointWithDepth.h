@@ -40,8 +40,8 @@ private:
 	static std::unique_ptr<PointWithDepth, PointWithDepthDeleter> s_Instance;	// ｲﾝｽﾀﾝｽ用ﾕﾆｰｸﾎﾟｲﾝﾀｰ
 
 	void PointNormalize(cocos2d::Point VanishingPoint);					// 
-	Z_DEPTH _zDepth;						// 奥行の始点と終点
-	cocos2d::Point _firstVanishingPoint;	// 初期の消失点のXとYの座標
+	Z_DEPTH _zDepth;							// 奥行の始点と終点
+	cocos2d::Point _firstVanishingPoint;		// 初期の消失点のXとYの座標
 	cocos2d::Point _nowVanishingPoint;			// 更新する消失点のXとYの座標
 	cocos2d::Point _normalizePoint;				// 
 	cocos2d::Point _magnification;				// 消失点を動かす倍率()
