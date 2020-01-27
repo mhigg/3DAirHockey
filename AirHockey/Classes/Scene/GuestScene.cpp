@@ -63,7 +63,7 @@ bool GuestScene::init()
 							visibleSize.height - label->getContentSize().height / 2));
 	this->addChild(label);
 
-	inputNetwork.reset(new OPRT_Network());
+	inputNetwork.reset(new OPRT_Network(false));
 
 	_swallowsTouches = true;
 	// シングルタップリスナーを用意する
@@ -90,30 +90,32 @@ bool GuestScene::init()
 
 void GuestScene::update(float dt)
 {
-	networkLogic->run();
-	switch (networkLogic->getState()) {
-	case STATE_CONNECTED:
-	case STATE_LEFT:
-		// ゲスト側で、ルームが存在すればジョイン
-		if (networkLogic->isRoomExists()) {
-			networkLogic->setLastInput(INPUT_2);
-		}
-		break;
-	case STATE_DISCONNECTED:
-		// 接続が切れたら再度接続
-		networkLogic->connect();
-		break;
-	case STATE_CONNECTING:
-	case STATE_JOINING:
-	case STATE_JOINED:
-	case STATE_LEAVING:
-	case STATE_DISCONNECTING:
-	default:
-		break;
-	}
+	//networkLogic->run();
+	//switch (networkLogic->getState()) {
+	//case STATE_CONNECTED:
+	//case STATE_LEFT:
+	//	// ゲスト側で、ルームが存在すればジョイン
+	//	if (networkLogic->isRoomExists()) {
+	//		networkLogic->setLastInput(INPUT_2);
+	//	}
+	//	break;
+	//case STATE_DISCONNECTED:
+	//	// 接続が切れたら再度接続
+	//	networkLogic->connect();
+	//	break;
+	//case STATE_CONNECTING:
+	//case STATE_JOINING:
+	//case STATE_JOINED:
+	//case STATE_LEAVING:
+	//case STATE_DISCONNECTING:
+	//default:
+	//	break;
+	//}
 
+	// ﾈｯﾄﾜｰｸ通信での送受信情報の更新
 	inputNetwork->Update();
 
+	// ﾃﾞｰﾀの受信と処理
 	while (!networkLogic->eventQueue.empty()) {
 		std::array<float, 3>arr = networkLogic->eventQueue.front();
 		networkLogic->eventQueue.pop();
