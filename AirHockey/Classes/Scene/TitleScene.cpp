@@ -1,7 +1,7 @@
 ﻿#include "TitleScene.h"
 #include "HostScene.h"
 #include "GuestScene.h"
-#include "../Obj/TitleSprite.h"
+#include "../Obj/SpriteAffectDepth.h"
 #include "../Controller/MouseCtl.h"
 #include "../Controller/OPRT_Touch.h"
 #include "../Controller/OPRT_Gyro.h"
@@ -100,7 +100,7 @@ bool TitleScene::init()
 	// ﾀｲﾄﾙ文字の表示
 	for (float k = 100; k >= 0; k -= 5)
 	{
-		auto titleLogo = new TitleSprite(Vec2{ 0,0 }, k, "image/title.png");
+		auto titleLogo = new SpriteAffectDepth(Vec2{ 0,0 }, k, "image/title.png");
 		logoLayer->addChild(titleLogo);
 
 	}

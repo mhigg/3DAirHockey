@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Obj.h"
+#include "SpriteAffectDepth.h"
 #include <vector>
 
 // 影の位置
@@ -14,7 +14,7 @@ enum SHADOW
 
 
 class Shadow :
-	public Obj
+	public SpriteAffectDepth
 {
 public:
 	Shadow(int num, const std::string fileName, std::string ID = "");

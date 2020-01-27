@@ -1,10 +1,10 @@
 #pragma once
 #include <array>
-#include "Obj.h"
+#include "SpriteAffectDepth.h"
 
 /// ボールの残像生成用クラス
 class BallAfter :
-	public Obj
+	public SpriteAffectDepth
 {
 public:
 	BallAfter();

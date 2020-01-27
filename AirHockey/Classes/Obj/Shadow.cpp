@@ -84,7 +84,7 @@ void Shadow::update(float dt)
 	/// ゲームマネージャーの取得
 	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
 	/// ボールの取得
-	auto obj = (Obj*)gameMng->getChildByName(_typeName + _id);
+	auto obj = (SpriteAffectDepth*)gameMng->getChildByName(_typeName + _id);
 
 	// 画像の拡大縮小用
 	float scale = 0;

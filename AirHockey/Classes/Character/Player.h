@@ -3,7 +3,7 @@
 #include <memory>
 #include <array>
 #include "Controller/OPRT_State.h"
-#include "../Obj/Obj.h"
+#include "../Obj/SpriteAffectDepth.h"
 
 /// プレイヤーのアンカーポイント
 enum class PL_ANC
@@ -24,7 +24,7 @@ using textureArray = std::array<texturePair, static_cast<int>(PL_ANC::MAX)>;
 
 
 class Player : 
-	public Obj
+	public SpriteAffectDepth
 {
 public:
 	Player(const float& zdepth);

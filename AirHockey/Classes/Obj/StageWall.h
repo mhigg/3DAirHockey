@@ -1,8 +1,8 @@
 #pragma once
-#include "Obj.h"
+#include "SpriteAffectDepth.h"
 
 class StageWall :
-	public Obj
+	public SpriteAffectDepth
 {
 public:
 	// (À•W,‰œs,Ã¸½Á¬°‚Ì‘å‚«‚³,F)

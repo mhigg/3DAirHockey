@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include <vector>
 #include <tuple>
-#include "Obj.h"
+#include "SpriteAffectDepth.h"
 #include "TrajectControl.h"
 
 class Ball :
-	public Obj
+	public SpriteAffectDepth
 {
 public:
 	Ball(std::vector<float> depth);

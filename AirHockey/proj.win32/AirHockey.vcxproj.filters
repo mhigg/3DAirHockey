@@ -59,9 +59,6 @@
     <ClCompile Include="..\Classes\Controller\OPRT_Key.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Obj\Obj.cpp">
-      <Filter>Obj</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Obj\BallAfter.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
@@ -81,11 +78,11 @@
     <ClCompile Include="..\Classes\Character\Player.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Obj\TitleSprite.cpp">
-      <Filter>Obj</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Controller\OPRT_Network.cpp">
       <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\SpriteAffectDepth.cpp">
+      <Filter>Obj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +144,6 @@
     <ClInclude Include="..\Classes\Controller\MouseCtl.h">
       <Filter>Controller</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Obj\Obj.h">
-      <Filter>Obj</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Obj\BallAfter.h">
       <Filter>Obj</Filter>
     </ClInclude>
@@ -170,11 +164,11 @@
     <ClInclude Include="..\Classes\Character\Player.h">
       <Filter>Obj</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Obj\TitleSprite.h">
-      <Filter>Obj</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Controller\OPRT_Network.h">
       <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\SpriteAffectDepth.h">
+      <Filter>Obj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
