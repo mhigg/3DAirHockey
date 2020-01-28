@@ -1,6 +1,8 @@
 ﻿#include "GuestScene.h"
 #include "GameScene.h"
 
+#include "../Manager/GameManager.h"
+
 #include "Controller/OPRT_Network.h"
 #include "../ConsoleOut.h"
 
@@ -59,6 +61,9 @@ bool GuestScene::init()
 	label->setPosition(Vec2(label->getContentSize().width / 2,
 							visibleSize.height - label->getContentSize().height / 2));
 	this->addChild(label);
+
+	auto gameMng = GameManager::createGameMng();
+	gameMng->GeneratePlayer(false);
 
 	// ﾈｯﾄﾜｰｸ通信用ｲﾝﾌﾟｯﾄのｲﾝｽﾀﾝｽ
 	inputNetwork.reset(new OPRT_Network(this, false));

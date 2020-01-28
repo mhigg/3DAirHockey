@@ -1,6 +1,8 @@
 ﻿#include "HostScene.h"
 #include "GameScene.h"
 
+#include "Manager/GameManager.h"
+
 #include "Controller/OPRT_Network.h"
 #include "../ConsoleOut.h"
 
@@ -61,6 +63,9 @@ bool HostScene::init()
 
 	// ﾈｯﾄﾜｰｸ通信用ｲﾝﾌﾟｯﾄのｲﾝｽﾀﾝｽ
 	inputNetwork.reset(new OPRT_Network(this, true));
+
+	auto gameMng = GameManager::createGameMng();
+	gameMng->GeneratePlayer(true);
 
 	this->addChild(label);
 

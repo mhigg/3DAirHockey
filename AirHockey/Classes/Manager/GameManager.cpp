@@ -32,6 +32,30 @@ std::vector<float> GameManager::GetDepths() const
 	return _zdepth;
 }
 
+void GameManager::GeneratePlayer(bool isHost)
+{
+	/// 深度値保存用の一次変数(_wallDepth, _zdepthの0番目は値が壊れているので0でいいかもしれない)　◆
+	float depth;
+	/// プレイヤーの生成
+	Player* player;
+	int layer;
+	for (int i = 0; i < 2; ++i)
+	{
+		/// プレイヤーの深度値を設定している(手前：奥)
+		depth = (i == 0 ? _zdepth[_playerDepth] : _zdepth[_wallMax - _playerDepth - 1]);
+		layer = (i == 0 ? static_cast<int>(SpriteNum::PLAYER) : static_cast<int>(SpriteNum::SHADOW));
+		player = new Player(isHost, depth);
+		/// プレイヤーの名前を設定している
+		//player->setName(isHost ? "HostPlayer" : "GuestPlayer");
+		player->setName("player" + std::to_string(i + 1));
+
+		/// プレイヤーの追加
+		this->addChild(player, layer);
+
+		isHost ^= 1;	// 一人目と二人目でホストとゲストを分けるため
+	}
+}
+
 void GameManager::Init()
 {
 	/// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成
@@ -68,22 +92,7 @@ void GameManager::Init()
 	ballAfter->setName("ballAfter");
 	this->addChild(ballAfter, static_cast<int>(SpriteNum::BALL));
 
-	/// プレイヤーの生成
-	Player* player;
-	int layer;
-	for (int i = 0; i < 2; ++i)
-	{
-		/// プレイヤーの深度値を設定している(左 : 1P, 右 : 2P)
-		depth  = (i == 0 ? _zdepth[_playerDepth] : _zdepth[_wallMax - _playerDepth - 1]);
-		layer  = (i == 0 ? static_cast<int>(SpriteNum::PLAYER) : static_cast<int>(SpriteNum::SHADOW));
-		player = new Player(depth);
-
-		/// プレイヤーの名前を設定している
-		player->setName("player" + std::to_string(i + 1));
-
-		/// プレイヤーの追加
-		this->addChild(player, layer);
-	}
+	// GeneratePlayer(true);
 }
 
 void GameManager::update(float dt)

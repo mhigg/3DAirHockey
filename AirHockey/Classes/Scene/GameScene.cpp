@@ -141,6 +141,7 @@ bool GameScene::init()
 	/// ゲーム管理者の生成
 	auto gameLayer = Layer::create();
 	auto gameMng   = GameManager::createGameMng();
+	gameMng->GeneratePlayer(true);
 	gameLayer->setName("GameLayer");
 	gameLayer->addChild(gameMng);
 	this->addChild(gameLayer, static_cast<int>(LayerNum::GAME));

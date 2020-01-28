@@ -17,7 +17,8 @@ private:
 	void Run(void);	// ’ÊM‚ÌÚ‘±
 	void addParticle(int playerNr, float x, float y);
 
+	cocos2d::Vec2 _point;
 	bool _isHost;	// Î½Ä‚È‚çtrue, ¹Ş½Ä‚È‚çfalse
 	bool _swallowsTouches;
-	NetworkLogic* networkLogic;
+	NetworkLogic* _networkLogic;
 };

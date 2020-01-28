@@ -1,12 +1,13 @@
 ﻿#include "Player.h"
 #include "../Controller/MouseCtl.h"
 #include "../Controller/OPRT_Touch.h"
+#include "../Controller/OPRT_Network.h"
 #include "Manager/PointWithDepth.h"
 #include "Manager/GameManager.h"
 
 USING_NS_CC;
 
-Player::Player(const float& zdepth)
+Player::Player(bool isHost, const float& zdepth)
 {
 	/// 座標の初期化
 	_prePos	  = Vec2::ZERO;
@@ -67,6 +68,7 @@ Player::Player(const float& zdepth)
 #else
 	_oprtState.reset(new Oprt_Touch(this));
 #endif
+	_inputNetwork.reset(new OPRT_Network(this, isHost));
 	this->scheduleUpdate();
 }
 

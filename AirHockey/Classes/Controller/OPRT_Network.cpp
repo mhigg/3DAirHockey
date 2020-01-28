@@ -12,7 +12,7 @@ USING_NS_CC;
 OPRT_Network::OPRT_Network(cocos2d::Node* sp)
 {
 	// Photonネットワーククラスのインスタンスを作成
-	networkLogic = new NetworkLogic(&ConsoleOut::get(), appID2);
+	_networkLogic = new NetworkLogic(&ConsoleOut::get(), appID2);
 
 	_swallowsTouches = true;
 
@@ -23,15 +23,15 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp)
 	// 各イベントの割り当て
 	listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event/*CC_CALLBACK_2(OPRT_Network::onTouchBegan, this*/)
 	{
-		if (networkLogic->playerNr)
+		if (_networkLogic->playerNr)
 		{
-			this->addParticle(networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
+			this->addParticle(_networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
 
 			// イベント（タッチ座標）を送信
 			ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
 			eventContent->put<int, float>(1, touch->getLocation().x);
 			eventContent->put<int, float>(2, touch->getLocation().y);
-			networkLogic->sendEvent(1, eventContent);
+			_networkLogic->sendEvent(1, eventContent);
 		}
 
 		return true;
@@ -54,7 +54,7 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp, bool isHost)
 {
 	_isHost = isHost;
 	// Photonネットワーククラスのインスタンスを作成
-	networkLogic = new NetworkLogic(&ConsoleOut::get(), appID2);
+	_networkLogic = new NetworkLogic(&ConsoleOut::get(), appID2);
 
 	_swallowsTouches = true;
 
@@ -65,15 +65,15 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp, bool isHost)
 	// 各イベントの割り当て
 	listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event)
 	{
-		if (networkLogic->playerNr)
+		if (_networkLogic->playerNr)
 		{
-			this->addParticle(networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
+			this->addParticle(_networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
 
 			// イベント（タッチ座標）を送信
 			ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
 			eventContent->put<int, float>(1, touch->getLocation().x);
 			eventContent->put<int, float>(2, touch->getLocation().y);
-			networkLogic->sendEvent(1, eventContent);
+			_networkLogic->sendEvent(1, eventContent);
 		}
 
 		return true;
@@ -99,27 +99,27 @@ OPRT_Network::~OPRT_Network()
 
 void OPRT_Network::Run(void)
 {
-	networkLogic->run();
-	switch (networkLogic->getState())
+	_networkLogic->run();
+	switch (_networkLogic->getState())
 	{
 	case STATE_CONNECTED:
 	case STATE_LEFT:
 		// ゲスト側で、ルームが存在すればジョイン
 		if(!_isHost)
 		{
-			if (networkLogic->isRoomExists())
+			if (_networkLogic->isRoomExists())
 			{
-				networkLogic->setLastInput(INPUT_2);
+				_networkLogic->setLastInput(INPUT_2);
 			}
 		}
 		else
 		{
-			networkLogic->setLastInput(INPUT_1);
+			_networkLogic->setLastInput(INPUT_1);
 		}
 		break;
 	case STATE_DISCONNECTED:
 		// 接続が切れたら再度接続
-		networkLogic->connect();
+		_networkLogic->connect();
 		break;
 	case STATE_CONNECTING:
 	case STATE_JOINING:
@@ -135,27 +135,27 @@ void OPRT_Network::Update(void)
 {
 	Run();
 
-	// データの送信
+	// データの送信：EventDispacherの命令に任せる→あえてここに書かなくていい
 
 	// ここでﾃﾞｰﾀの更新
-
+	// GetPointで渡す_pointの値の更新
 }
 
 cocos2d::Vec2 OPRT_Network::GetPoint(void) const
 {
 	// ﾃﾞｰﾀの受信と処理
 	cocos2d::Vec2 retVec;
-	if (networkLogic->eventQueue.empty())
+	if (_networkLogic->eventQueue.empty())
 	{
 		// eventが何も無いときは-p999を返す
 		retVec = { -999,-999 };
 	}
 	else
 	{
-		while (!networkLogic->eventQueue.empty())
+		while (!_networkLogic->eventQueue.empty())
 		{
-			std::array<float, 3>arr = networkLogic->eventQueue.front();
-			networkLogic->eventQueue.pop();
+			std::array<float, 3>arr = _networkLogic->eventQueue.front();
+			_networkLogic->eventQueue.pop();
 
 			int playerNr = static_cast<int>(arr[0]);
 			retVec.x = arr[1];

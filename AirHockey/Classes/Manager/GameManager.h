@@ -25,6 +25,10 @@ public:
 
 	cocos2d::Vec2 GetMovingRange() const;
 	std::vector<float> GetDepths() const;
+
+	// ホストで入ってきたらtrue, ゲストで入ってきたらfalseを渡してプレイヤーを生成
+	void GeneratePlayer(bool isHost);
+
 private:
 	CREATE_FUNC(GameManager);
 
@@ -37,5 +41,6 @@ private:
 	const float _maxDepth;	// 奥行の最大値
 	const int _wallMax;		// 壁の最大数
 	const int _playerDepth;
+	bool _isHost;
 };
 
