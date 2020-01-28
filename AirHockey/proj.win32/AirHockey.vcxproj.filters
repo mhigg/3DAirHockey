@@ -62,9 +62,6 @@
     <ClCompile Include="..\Classes\Obj\BallAfter.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Controller\OPRT_Gyro.cpp">
-      <Filter>Controller</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Manager\CCAudioMng.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
@@ -146,9 +143,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Obj\BallAfter.h">
       <Filter>Obj</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Controller\OPRT_Gyro.h">
-      <Filter>Controller</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Manager\CCAudioMng.h">
       <Filter>Manager</Filter>

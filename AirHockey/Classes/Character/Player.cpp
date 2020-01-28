@@ -1,7 +1,6 @@
 ﻿#include "Player.h"
 #include "../Controller/MouseCtl.h"
 #include "../Controller/OPRT_Touch.h"
-#include "../Controller/OPRT_Gyro.h"
 #include "Manager/PointWithDepth.h"
 #include "Manager/GameManager.h"
 
@@ -66,7 +65,7 @@ Player::Player(const float& zdepth)
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_oprtState.reset(new MouseCtl(this));
 #else
-	_oprtState.reset(new OPRT_Gyro(this));
+	_oprtState.reset(new Oprt_Touch(this));
 #endif
 	this->scheduleUpdate();
 }
