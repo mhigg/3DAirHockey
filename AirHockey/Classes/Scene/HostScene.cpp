@@ -65,7 +65,6 @@ bool HostScene::init()
 	auto label = Label::create("Host", "Arial", 60);
 	label->setPosition(Vec2(label->getContentSize().width / 2,
 							visibleSize.height - label->getContentSize().height / 2));
-
 	this->addChild(label);
 
 	lpAppInfo.isHost(true);

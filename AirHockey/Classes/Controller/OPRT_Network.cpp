@@ -9,40 +9,24 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp)
 	// Photonネットワーククラスのインスタンスを作成
 	_networkLogic = new NetworkLogic(&ConsoleOut::get(), lpAppInfo.appID());
 
-	_swallowsTouches = true;
-
-	// シングルタップリスナーを用意する
-	auto listener = EventListenerTouchOneByOne::create();
-	listener->setSwallowTouches(_swallowsTouches);
-
-	// 各イベントの割り当て
-	listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event)
+	/// マウス用のリスナーを生成している
+	auto mouseListener = EventListenerMouse::create();
+	mouseListener->onMouseMove = [&](Event* event)
 	{
-		if (_networkLogic->playerNr)
-		{
-			this->addParticle(_networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
+		/// マウスの情報を取得している
+		auto mouse = ((EventMouse*)event);
+		/// 移動対象に対して、マウスの座標を渡している
+		_point = (Vec2(mouse->getCursorX(), mouse->getCursorY()));
 
-			// イベント（タッチ座標）を送信
-			ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
-			eventContent->put<int, float>(1, touch->getLocation().x);
-			eventContent->put<int, float>(2, touch->getLocation().y);
-			_networkLogic->sendEvent(1, eventContent);
-		}
-
-		return true;
-	};
-	listener->onTouchMoved = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
-	};
-	listener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
-	};
-	listener->onTouchCancelled = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
+		// イベント（タッチ座標）を送信
+		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
+		eventContent->put<int, float>(1, mouse->getLocation().x);
+		eventContent->put<int, float>(2, mouse->getLocation().y);
+		_networkLogic->sendEvent(1, eventContent);
 	};
 
 	// イベントディスパッチャにシングルタップ用リスナーを追加する
-	sp->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, sp);
+	sp->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, sp);
 }
 
 OPRT_Network::OPRT_Network(cocos2d::Node* sp, bool isHost)
@@ -51,40 +35,24 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp, bool isHost)
 	// Photonネットワーククラスのインスタンスを作成
 	_networkLogic = new NetworkLogic(&ConsoleOut::get(), lpAppInfo.appID());
 
-	_swallowsTouches = true;
-
-	// シングルタップリスナーを用意する
-	auto listener = EventListenerTouchOneByOne::create();
-	listener->setSwallowTouches(_swallowsTouches);
-
-	// 各イベントの割り当て
-	listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event)
+	/// マウス用のリスナーを生成している
+	auto mouseListener = EventListenerMouse::create();
+	mouseListener->onMouseMove = [&](Event* event)
 	{
-		if (_networkLogic->playerNr)
-		{
-			this->addParticle(_networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
+		/// マウスの情報を取得している
+		auto mouse = ((EventMouse*)event);
+		/// 移動対象に対して、マウスの座標を渡している
+		_point = (Vec2(mouse->getCursorX(), mouse->getCursorY()));
 
-			// イベント（タッチ座標）を送信
-			ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
-			eventContent->put<int, float>(1, touch->getLocation().x);
-			eventContent->put<int, float>(2, touch->getLocation().y);
-			_networkLogic->sendEvent(1, eventContent);
-		}
-
-		return true;
-	};
-	listener->onTouchMoved = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
-	};
-	listener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
-	};
-	listener->onTouchCancelled = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
+		// イベント（タッチ座標）を送信
+		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
+		eventContent->put<int, float>(1, mouse->getLocation().x);
+		eventContent->put<int, float>(2, mouse->getLocation().y);
+		_networkLogic->sendEvent(1, eventContent);
 	};
 
 	// イベントディスパッチャにシングルタップ用リスナーを追加する
-	sp->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, sp);
+	sp->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, sp);
 }
 
 
@@ -99,7 +67,7 @@ void OPRT_Network::Run(void)
 	{
 	case STATE_CONNECTED:
 	case STATE_LEFT:
-		if(!_isHost)
+		if(_isHost)
 		{
 			// ゲスト側で、ルームが存在すればジョイン
 			if (_networkLogic->isRoomExists())
