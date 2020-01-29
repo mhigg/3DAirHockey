@@ -152,6 +152,7 @@ void Ball::ChangeIsReverse()
 		/// プレイヤーの当たったアンカーポイントを取得している
 		int ancType = IsHitAnchor(players[1]);
 
+		/// ボールがプレイヤーに当たった時に入る
 		if (ancType >= 0 && !std::get<2>(_isReverse))
 		{
 			/// ボールと当たった時の画像に変更する
@@ -164,7 +165,6 @@ void Ball::ChangeIsReverse()
 			/// プレイヤーを動かしながらボールを当てた時、カーブを行う。
 			ChangeMoving(players[1]);
 
-			/// 効果音の再生
 			std::get<2>(_isReverse) = true;
 		}
 	}
@@ -197,8 +197,8 @@ void Ball::ChangeMoving(const Node* pl)
 	auto player = (Player*)pl;
 
 	/// ボールの跳ね返す方向を切り替えるかの判定
-	if (abs(player->GetMoveDistance().x) >= 4 &&
-		abs(player->GetMoveDistance().y) >= 4)
+	if (abs(player->GetMoveDistance().x) >= 20 &&
+		abs(player->GetMoveDistance().y) >= 20)
 	{
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
 		CCAudioMng::GetInstance().CkPlaySE("curve", rate);
@@ -207,9 +207,14 @@ void Ball::ChangeMoving(const Node* pl)
 	}
 	else
 	{
+		_traject->SetVel(player->GetMoveDistance().getNormalized());
 		float rate = 1.f - (_localPos.z / _wallDepth[29]);
 		CCAudioMng::GetInstance().CkPlaySE("hit", rate);
 		_ballState = State::NORMAL;
+
+		Vec3 vel = _traject->GetVel(_ballState);
+		std::get<0>(_isReverse) = (vel.x >= 0.f ? false : true);
+		std::get<1>(_isReverse) = (vel.y >= 0.f ? false : true);
 	}
 }
 

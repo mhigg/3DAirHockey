@@ -5,8 +5,9 @@
 
 USING_NS_CC;
 
-TrajectControl::TrajectControl() : _speed(6.f,6.f,6.f)
+TrajectControl::TrajectControl() : _speed(8.f,8.f,8.f)
 {
+	_vel = _speed;
 }
 
 TrajectControl::~TrajectControl()
@@ -47,6 +48,21 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 	return true;
 }
 
+void TrajectControl::SetVel(const cocos2d::Vec2 & vec)
+{
+	/// ベクトルの最低値を設定するためのもの
+	auto Clamp = [](const float& vec)
+	{
+		if (vec >= 0.05f)
+		{
+			return fmin(1.f, fmax(0.1f, vec));
+		}
+		return vec;
+	};
+
+	_vel = Vec3(_speed.x * Clamp(abs(vec.x)), _speed.y * Clamp(abs(vec.y)), _speed.z);
+}
+
 cocos2d::Vec3 TrajectControl::GetVel(const State& state)
 {
 	if (state == State::NORMAL)
@@ -75,9 +91,9 @@ cocos2d::Vec3 TrajectControl::CalNormalVel()
 	cocos2d::Vec3 vel;
 
 	/// 速度の設定
-	vel.x = (!std::get<0>(isReverse) ? _speed.x : -_speed.x);
-	vel.y = (!std::get<1>(isReverse) ? _speed.y : -_speed.y);
-	vel.z = (!std::get<2>(isReverse) ? _speed.z : -_speed.z);
+	vel.x = (!std::get<0>(isReverse) ? _vel.x : -_vel.x);
+	vel.y = (!std::get<1>(isReverse) ? _vel.y : -_vel.y);
+	vel.z = (!std::get<2>(isReverse) ? _vel.z : -_vel.z);
 
 	return vel;
 }
@@ -91,6 +107,7 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 
 	/// 進行方向のベクトルを保存するもの
 	Vec3 vec;
+	float rate = 1.5f;
 	
 	/// ベクトルの取得をしている
 	for (int i = 0; i < _points.size(); ++i)
@@ -102,7 +119,8 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 			{
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
-				return cocos2d::Vec3(_speed.x * vec.x * 2, _speed.y * vec.y * 2, _speed.z * vec.z * 2);
+				_vel = Vec3(abs(_speed.x * vec.x * rate), abs(_speed.y * vec.y * rate), _speed.z);
+				return Vec3(_speed.x * vec.x * rate, _speed.y * vec.y * rate, _speed.z * vec.z * rate);
 			}
 		}
 		else
@@ -112,7 +130,8 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 			{
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
-				return cocos2d::Vec3(_speed.x * vec.x * 2, _speed.y * vec.y * 2, _speed.z * vec.z * 2);
+				_vel = Vec3(abs(_speed.x * vec.x * rate), abs(_speed.y * vec.y * rate), _speed.z);
+				return Vec3(_speed.x * vec.x * rate, _speed.y * vec.y * rate, _speed.z * vec.z * rate);
 			}
 		}
 	}
