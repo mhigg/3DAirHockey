@@ -12,7 +12,7 @@ USING_NS_CC;
 OPRT_Network::OPRT_Network(cocos2d::Node* sp)
 {
 	// Photonネットワーククラスのインスタンスを作成
-	_networkLogic = new NetworkLogic(&ConsoleOut::get(), appID2);
+	_networkLogic = new NetworkLogic(&ConsoleOut::get(), appID1);
 
 	_swallowsTouches = true;
 
@@ -54,7 +54,7 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp, bool isHost)
 {
 	_isHost = isHost;
 	// Photonネットワーククラスのインスタンスを作成
-	_networkLogic = new NetworkLogic(&ConsoleOut::get(), appID2);
+	_networkLogic = new NetworkLogic(&ConsoleOut::get(), appID1);
 
 	_swallowsTouches = true;
 
@@ -104,9 +104,9 @@ void OPRT_Network::Run(void)
 	{
 	case STATE_CONNECTED:
 	case STATE_LEFT:
-		// ゲスト側で、ルームが存在すればジョイン
 		if(!_isHost)
 		{
+			// ゲスト側で、ルームが存在すればジョイン
 			if (_networkLogic->isRoomExists())
 			{
 				_networkLogic->setLastInput(INPUT_2);
@@ -114,6 +114,7 @@ void OPRT_Network::Run(void)
 		}
 		else
 		{
+			// ホスト側ならルーム作成
 			_networkLogic->setLastInput(INPUT_1);
 		}
 		break;

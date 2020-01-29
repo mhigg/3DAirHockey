@@ -28,6 +28,7 @@ class Player :
 {
 public:
 	Player(bool isHost, const float& zdepth);
+	Player(bool isHost, const float& zdepth, int prov);	// 仮実装中のコンストラクタ
 	~Player();
 
 	/// 深度値の取得用
@@ -49,7 +50,6 @@ private:
 	void update(float dt);
 
 	std::unique_ptr<OPRT_State> _oprtState;
-	std::unique_ptr<OPRT_State> _inputNetwork;
 	textureArray _texInfo;		// 画像情報保存用
 
 	cocos2d::Vec2 _vel;			// 消失点の速度

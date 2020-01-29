@@ -18,7 +18,7 @@ Player::Player(bool isHost, const float& zdepth)
 	sprite->setName("center");
 	sprite->setTag(static_cast<int>(PL_ANC::CENTER));
 	this->addChild(sprite);
-	
+
 	// 左上
 	sprite = Sprite::create("image/player/player_leftup.png");
 	sprite->setAnchorPoint({ 1, 0 });
@@ -68,7 +68,81 @@ Player::Player(bool isHost, const float& zdepth)
 #else
 	_oprtState.reset(new Oprt_Touch(this));
 #endif
-	_inputNetwork.reset(new OPRT_Network(this, isHost));
+
+	this->scheduleUpdate();
+}
+
+Player::Player(bool isHost, const float& zdepth, int prov)
+{
+	/// 座標の初期化
+	_prePos	  = Vec2::ZERO;
+	_localPos = { 0,0,zdepth };
+
+	// 中央
+	auto sprite = Sprite::create("image/player/player_center.png");
+	sprite->setName("center");
+	sprite->setTag(static_cast<int>(PL_ANC::CENTER));
+	this->addChild(sprite);
+	
+	// 左上
+	sprite = Sprite::create("image/player/player_leftup.png");
+	sprite->setAnchorPoint({ 1, 0 });
+	sprite->setName("leftup");
+	sprite->setTag(static_cast<int>(PL_ANC::LEFTUP));
+	this->addChild(sprite);
+
+	// 左下
+	sprite = Sprite::create("image/player/player_leftdown.png");
+	sprite->setAnchorPoint({ 1, 1 });
+	sprite->setName("leftdown");
+	sprite->setTag(static_cast<int>(PL_ANC::LEFTDOWN));
+	this->addChild(sprite);
+
+	// 右上
+	sprite = Sprite::create("image/player/player_rightup.png");
+	sprite->setAnchorPoint({ 0, 0 });
+	sprite->setName("rightup");
+	sprite->setTag(static_cast<int>(PL_ANC::RIGHTUP));
+	this->addChild(sprite);
+
+	// 右下
+	sprite = Sprite::create("image/player/player_rightdown.png");
+	sprite->setAnchorPoint({ 0, 1 });
+	sprite->setName("rightdown");
+	sprite->setTag(static_cast<int>(PL_ANC::RIGHTDOWN));
+	this->addChild(sprite);
+
+	/// プレイヤーの差分用画像の初期化
+	InitTextureInfo();
+
+	/// 表示時間の初期化
+	_dispCnt = -1;
+
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
+	// 座標を真ん中にセット
+	this->setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
+
+	_vPoint = _vel = Vec2::ZERO;
+	// 消失点の変更
+	/*lpPointWithDepth.SetVanishingPoint(-Vec2(_localPos.x + visibleSize.width,
+											 _localPos.y + visibleSize.height));*/
+
+	if (prov == 0)
+	{
+		// 手前のマレットは自操作
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+		_oprtState.reset(new MouseCtl(this));
+#else
+		_oprtState.reset(new Oprt_Touch(this));
+#endif
+	}
+	else
+	{
+		// 奥側のマレットは通信
+		_oprtState.reset(new OPRT_Network(this, isHost));
+	}
+
 	this->scheduleUpdate();
 }
 
@@ -241,6 +315,7 @@ void Player::update(float dt)
 {
 	_prePos = Vec2(_localPos.x, _localPos.y);
 	_oprtState->Update();
+
 	MoveUpdate();
 
 	if (_dispCnt == 0)
