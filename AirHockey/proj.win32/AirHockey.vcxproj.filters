@@ -81,6 +81,9 @@
     <ClCompile Include="..\Classes\Obj\SpriteAffectDepth.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Manager\AppInfo.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Obj\SpriteAffectDepth.h">
       <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\AppInfo.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -28,7 +28,7 @@ class Player :
 {
 public:
 	Player(bool isHost, const float& zdepth);
-	Player(bool isHost, const float& zdepth, int prov);	// 仮実装中のコンストラクタ
+	Player(bool isHost, const float& zdepth, int provIsFront);	// 仮実装中のコンストラクタ
 	~Player();
 
 	/// 深度値の取得用

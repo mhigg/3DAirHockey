@@ -72,7 +72,7 @@ Player::Player(bool isHost, const float& zdepth)
 	this->scheduleUpdate();
 }
 
-Player::Player(bool isHost, const float& zdepth, int prov)
+Player::Player(bool isHost, const float& zdepth, int provIsFront)
 {
 	/// 座標の初期化
 	_prePos	  = Vec2::ZERO;
@@ -128,7 +128,7 @@ Player::Player(bool isHost, const float& zdepth, int prov)
 	/*lpPointWithDepth.SetVanishingPoint(-Vec2(_localPos.x + visibleSize.width,
 											 _localPos.y + visibleSize.height));*/
 
-	if (prov == 0)
+	if (provIsFront == 0)
 	{
 		// 手前のマレットは自操作
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

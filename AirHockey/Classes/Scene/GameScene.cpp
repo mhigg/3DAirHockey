@@ -31,12 +31,9 @@
 
 #include "../Manager/GameManager.h"
 #include "../Manager/CCAudioMng.h"
+#include "../Manager/AppInfo.h"
 
 #include "../ConsoleOut.h"
-
-static const EG_CHAR* appID1 = L"91ccb37c-1396-43af-bbbf-46a4124935a5";
-static const EG_CHAR* appID2 = L"b1723cd8-6b7c-4d52-989c-702c2848d8e8";
-static const EG_CHAR* appID3 = L"ac500b19-8cfa-47b5-9781-4d9d438496e4";
 
 USING_NS_CC;
 
@@ -142,7 +139,7 @@ bool GameScene::init()
 	/// ゲーム管理者の生成
 	auto gameLayer = Layer::create();
 	auto gameMng   = GameManager::createGameMng();
-	gameMng->GeneratePlayer(true);	// ホストならtrue, ゲストならfalse
+	gameMng->GeneratePlayer(lpAppInfo.isHost());
 	gameLayer->setName("GameLayer");
 	gameLayer->addChild(gameMng);
 	this->addChild(gameLayer, static_cast<int>(LayerNum::GAME));
@@ -153,23 +150,6 @@ bool GameScene::init()
 							visibleSize.height - label->getContentSize().height / 2));
 	label->setColor(Color3B::BLACK);
 	this->addChild(label);
-
-	_swallowsTouches = true;
-	// シングルタップリスナーを用意する
-	auto listener = EventListenerTouchOneByOne::create();
-	listener->setSwallowTouches(_swallowsTouches);
- 
-	// 各イベントの割り当て
-	listener->onTouchBegan     = CC_CALLBACK_2(GameScene::onTouchBegan, this);
-	listener->onTouchMoved     = CC_CALLBACK_2(GameScene::onTouchMoved, this);
-	listener->onTouchEnded     = CC_CALLBACK_2(GameScene::onTouchEnded, this);
-	listener->onTouchCancelled = CC_CALLBACK_2(GameScene::onTouchCancelled, this);
- 
-	// イベントディスパッチャにシングルタップ用リスナーを追加する
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-	
-	// Photonネットワーククラスのインスタンスを作成
-	networkLogic = new NetworkLogic(&ConsoleOut::get(), appID1);
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
@@ -197,56 +177,13 @@ void GameScene::ChangeScene(cocos2d::Ref * ref)
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {
-	networkLogic->disconnect();
+//	networkLogic->disconnect();
 	// ｼｬｯﾄﾀﾞｳﾝﾎﾞﾀﾝを押したら閉じる用にする
 	Director::getInstance()->end();
 }
 
 void GameScene::update(float dt)
 {
-	networkLogic->run();
-	switch (networkLogic->getState())
-	{
-	case STATE_CONNECTED:
-	case STATE_LEFT:
-		// ルームが存在すればジョイン、なければ作成する
-		// →ホストはINPUT1、ゲストはINPUT2を渡すように変更する。
-		// ホストとゲストを区別する変数など追加する
-		if (networkLogic->isRoomExists())
-		{
-			networkLogic->setLastInput(INPUT_2);
-		}
-		else
-		{
-			networkLogic->setLastInput(INPUT_1);
-		}
-		break;
-	case STATE_DISCONNECTED:
-		// 接続が切れたら再度接続
-		networkLogic->connect();
-		break;
-	case STATE_CONNECTING:
-	case STATE_JOINING:
-	case STATE_JOINED:
-	case STATE_LEAVING:
-	case STATE_DISCONNECTING:
-	default:
-		break;
-	}
-
-	while (!networkLogic->eventQueue.empty())
-	{
-		std::array<float, 3>arr = networkLogic->eventQueue.front();
-		networkLogic->eventQueue.pop();
-
-		int playerNr = static_cast<int>(arr[0]);
-		float x = arr[1];
-		float y = arr[2];
-		CCLOG("%d, %f, %f", playerNr, x, y);
-
-		this->addParticle(playerNr, x, y);
-	}
-
 	CCAudioMng::GetInstance().Update();
 	// ｴﾌｪｸﾄの要素がある場合
 	if (lpEffectMng.GetManager().empty() == false)
@@ -277,60 +214,4 @@ void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parent
 	{
 		cocos2d::Scene::visit(renderer, parentTransform, parentFlags);
 	}
-}
-
-
-bool GameScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
-{
-
-	if (networkLogic->playerNr)
-	{
-		this->addParticle(networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
-
-		// イベント（タッチ座標）を送信
-		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
-		eventContent->put<int, float>(1, touch->getLocation().x);
-		eventContent->put<int, float>(2, touch->getLocation().y);
-		networkLogic->sendEvent(1, eventContent);
-	}
-
-	return true;
-}
-
-void GameScene::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unused_event)
-{
-
-}
-
-void GameScene::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event)
-{
-
-}
-
-void GameScene::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unused_event)
-{
-
-}
-
-void GameScene::addParticle(int playerNr, float x, float y)
-{
-	ParticleSystem* particle;
-	switch (playerNr) {
-	case 1:
-		particle = ParticleFire::create();
-		break;
-	case 2:
-		particle = ParticleSmoke::create();
-		break;
-	case 3:
-		particle = ParticleFlower::create();
-		break;
-	default:
-		particle = ParticleSun::create();
-		break;
-	}
-	particle->setDuration(0.1);
-	particle->setSpeed(500);
-	particle->setPosition(cocos2d::Point(x, y));
-	this->addChild(particle);
 }

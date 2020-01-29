@@ -2,9 +2,14 @@
 #include "GameScene.h"
 
 #include "Manager/GameManager.h"
+#include "Manager/AppInfo.h"
 
-#include "Controller/OPRT_Network.h"
+#include "NetworkLogic.h"
 #include "../ConsoleOut.h"
+
+static const EG_CHAR* appID1 = L"91ccb37c-1396-43af-bbbf-46a4124935a5";
+static const EG_CHAR* appID2 = L"b1723cd8-6b7c-4d52-989c-702c2848d8e8";
+static const EG_CHAR* appID3 = L"ac500b19-8cfa-47b5-9781-4d9d438496e4";
 
 USING_NS_CC;
 
@@ -61,13 +66,10 @@ bool HostScene::init()
 	label->setPosition(Vec2(label->getContentSize().width / 2,
 							visibleSize.height - label->getContentSize().height / 2));
 
-	// ﾈｯﾄﾜｰｸ通信用ｲﾝﾌﾟｯﾄのｲﾝｽﾀﾝｽ
-	inputNetwork.reset(new OPRT_Network(this, true));
-
-	auto gameMng = GameManager::createGameMng();
-	gameMng->GeneratePlayer(true);
-
 	this->addChild(label);
+
+	lpAppInfo.isHost(true);
+	lpAppInfo.appID(appID3);	//←画面で選べるようにする
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
@@ -76,12 +78,6 @@ bool HostScene::init()
 
 void HostScene::update(float dt)
 {
-	inputNetwork->Update();
-	auto receivePos = inputNetwork->GetPoint();
-	if (receivePos != Vec2(-999, -999))
-	{
-		this->addParticle(1, receivePos.x, receivePos.y);
-	}
 }
 
 void HostScene::ChangeScene(cocos2d::Ref * ref)
@@ -92,28 +88,4 @@ void HostScene::ChangeScene(cocos2d::Ref * ref)
 void HostScene::menuCloseCallback(cocos2d::Ref * pSender)
 {
 	Director::getInstance()->end();
-}
-
-void HostScene::addParticle(int playerNr, float x, float y)
-{
-	ParticleSystem* particle;
-	switch (playerNr)
-	{
-	case 1:
-		particle = ParticleFire::create();
-		break;
-	case 2:
-		particle = ParticleSmoke::create();
-		break;
-	case 3:
-		particle = ParticleFlower::create();
-		break;
-	default:
-		particle = ParticleSun::create();
-		break;
-	}
-	particle->setDuration(0.1);
-	particle->setSpeed(500);
-	particle->setPosition(cocos2d::Point(x, y));
-	this->addChild(particle);
 }
