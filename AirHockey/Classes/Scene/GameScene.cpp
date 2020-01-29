@@ -36,6 +36,7 @@
 
 static const EG_CHAR* appID1 = L"91ccb37c-1396-43af-bbbf-46a4124935a5";
 static const EG_CHAR* appID2 = L"b1723cd8-6b7c-4d52-989c-702c2848d8e8";
+static const EG_CHAR* appID3 = L"ac500b19-8cfa-47b5-9781-4d9d438496e4";
 
 USING_NS_CC;
 
@@ -141,7 +142,7 @@ bool GameScene::init()
 	/// ゲーム管理者の生成
 	auto gameLayer = Layer::create();
 	auto gameMng   = GameManager::createGameMng();
-	gameMng->GeneratePlayer(true);
+	gameMng->GeneratePlayer(true);	// ホストならtrue, ゲストならfalse
 	gameLayer->setName("GameLayer");
 	gameLayer->addChild(gameMng);
 	this->addChild(gameLayer, static_cast<int>(LayerNum::GAME));
