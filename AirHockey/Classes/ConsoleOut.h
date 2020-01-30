@@ -1,4 +1,4 @@
-#include "OutputListener.h"
+﻿#include "OutputListener.h"
 
 class ConsoleImplementation;
 

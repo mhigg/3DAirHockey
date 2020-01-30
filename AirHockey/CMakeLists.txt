@@ -44,6 +44,34 @@ link_libraries(
         D:/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug/libck.a
 )
 
+include_directories(
+        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/
+)
+
+link_directories(
+        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/Common-cpp/lib/common-cpp-prebuilt
+)
+
+link_libraries(
+        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/Common-cpp/lib/common-cpp-prebuilt/libcommon-cpp-static_debug_android_armeabi-v7a_libc++.a
+)
+
+link_directories(
+        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/LoadBalancing-cpp/lib/loadbalancing-cpp-prebuilt
+)
+
+link_libraries(
+        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/LoadBalancing-cpp/lib/loadbalancing-cpp-prebuilt/libloadbalancing-cpp-static_debug_android_armeabi-v7a_libc++.a
+)
+
+link_directories(
+        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/Photon-cpp/lib/photon-cpp-prebuilt
+)
+
+link_libraries(
+        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/Photon-cpp/lib/photon-cpp-prebuilt/libphoton-cpp-static_debug_android_armeabi-v7a_libc++.a
+)
+
 set(COCOS2DX_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cocos2d)
 set(CMAKE_MODULE_PATH ${COCOS2DX_ROOT_PATH}/cmake/Modules/)
 
@@ -65,67 +93,69 @@ endif()
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/Scene/TitleScene.cpp
-     Classes/Scene/GameScene.cpp
      Classes/Scene/HostScene.cpp
      Classes/Scene/GuestScene.cpp
+     Classes/Scene/GameScene.cpp
      Classes/Scene/ResultScene.cpp
      Classes/Controller/OPRT_State.cpp
      Classes/Controller/OPRT_Key.cpp
-     Classes/Controller/OPRT_Gyro.cpp
      Classes/Controller/OPRT_Touch.cpp
      Classes/Controller/MouseCtl.cpp
-     Classes/Obj/Obj.cpp
+     Classes/Controller/OPRT_Network.cpp
+     Classes/Obj/SpriteAffectDepth.cpp
+     Classes/Obj/Player.cpp
      Classes/Obj/Ball.cpp
      Classes/Obj/BallAfter.cpp
      Classes/Obj/Shadow.cpp
      Classes/Obj/TrajectControl.cpp
      Classes/Obj/StageWall.cpp
-     Classes/Character/Player.cpp
      Classes/Effekseer/EffectMng.cpp
      Classes/Effekseer/Effekseer.cpp
      Classes/Effekseer/EffekseerNative.cpp
      Classes/Effekseer/EffekseerRendererNative.cpp
      Classes/Manager/AnimMng.cpp
      Classes/Manager/GameManager.cpp
-     Classes/Manager/PointWithDepth.cpp
      Classes/Manager/CCAudioMng.cpp
+     Classes/Manager/AppInfo.cpp
+     Classes/Manager/PointWithDepth.cpp
      Classes/Stage.cpp
-     Classes/Collision.cpp
      Classes/NetworkLogic.cpp
      Classes/ConsoleOut.cpp
+     Classes/Collision.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/Scene/TitleScene.h
-     Classes/Scene/GameScene.h
      Classes/Scene/HostScene.h
      Classes/Scene/GuestScene.h
+     Classes/Scene/GameScene.h
      Classes/Scene/ResultScene.h
      Classes/Controller/OPRT_State.h
      Classes/Controller/OPRT_Key.h
-     Classes/Controller/OPRT_Gyro.h
      Classes/Controller/OPRT_Touch.h
      Classes/Controller/MouseCtl.h
-     Classes/Obj/Obj.h
+     Classes/Controller/OPRT_Network.h
+     Classes/Obj/SpriteAffectDepth.h
+     Classes/Obj/Player.h
      Classes/Obj/Ball.h
      Classes/Obj/BallAfter.h
      Classes/Obj/Shadow.h
      Classes/Obj/TrajectControl.h
      Classes/Obj/StageWall.h
-     Classes/Character/Player.h
      Classes/Effekseer/EffectMng.h
      Classes/Effekseer/Effekseer.h
      Classes/Effekseer/EffekseerNative.h
      Classes/Effekseer/EffekseerRendererNative.h
      Classes/Manager/AnimMng.h
      Classes/Manager/GameManager.h
-     Classes/Manager/PointWithDepth.h
      Classes/Manager/CCAudioMng.h
+     Classes/Manager/AppInfo.h
+     Classes/Manager/PointWithDepth.h
      Classes/Stage.h
-     Classes/Collision.h
      Classes/NetworkLogic.h
      Classes/ConsoleOut.h
      Classes/OutputListener.h
+     Classes/Collision.h
      )
 
 if(ANDROID)

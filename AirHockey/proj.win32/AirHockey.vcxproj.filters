@@ -72,13 +72,16 @@
     <ClCompile Include="..\Classes\Obj\Shadow.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Character\Player.cpp">
-      <Filter>Obj</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Controller\OPRT_Network.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Obj\SpriteAffectDepth.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Manager\AppInfo.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\Player.cpp">
       <Filter>Obj</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,13 +158,16 @@
     <ClInclude Include="..\Classes\Obj\Shadow.h">
       <Filter>Obj</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Character\Player.h">
-      <Filter>Obj</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Controller\OPRT_Network.h">
       <Filter>Controller</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Obj\SpriteAffectDepth.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\AppInfo.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\Player.h">
       <Filter>Obj</Filter>
     </ClInclude>
   </ItemGroup>

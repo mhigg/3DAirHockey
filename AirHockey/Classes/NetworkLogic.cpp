@@ -1,4 +1,4 @@
-#include "NetworkLogic.h"
+ï»¿#include "NetworkLogic.h"
 
 #ifdef _EG_EMSCRIPTEN_PLATFORM
 #	include <emscripten.h>
@@ -489,7 +489,7 @@ void NetworkLogic::createRoomReturn(int localPlayerNr, const ExitGames::Common::
 	mpOutputListener->writeLine(L"regularly sending dummy events now");
 	mStateAccessor.setState(STATE_JOINED);
 
-	// ƒ‹[ƒ€“à‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ƒvƒŒƒCƒ„[”Ô†‚ğæ“¾‚·‚é
+	// ãƒ«ãƒ¼ãƒ å†…ã§å‰²ã‚Šå½“ã¦ã‚‰ã‚ŒãŸãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·ã‚’å–å¾—ã™ã‚‹
 	playerNr = localPlayerNr;
 }
 
@@ -545,7 +545,7 @@ void NetworkLogic::joinRoomReturn(int localPlayerNr, const ExitGames::Common::Ha
 	mpOutputListener->writeLine(L"regularly sending dummy events now");
 	mStateAccessor.setState(STATE_JOINED);
 
-	// ƒ‹[ƒ€“à‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ƒvƒŒƒCƒ„[”Ô†‚ğæ“¾‚·‚é
+	// ãƒ«ãƒ¼ãƒ å†…ã§å‰²ã‚Šå½“ã¦ã‚‰ã‚ŒãŸãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·ã‚’å–å¾—ã™ã‚‹
 	playerNr = localPlayerNr;
 }
 
@@ -567,7 +567,7 @@ void NetworkLogic::joinRandomRoomReturn(int localPlayerNr, const ExitGames::Comm
 	mpOutputListener->writeLine(L"regularly sending dummy events now");
 	mStateAccessor.setState(STATE_JOINED);
 
-	// ƒ‹[ƒ€“à‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ƒvƒŒƒCƒ„[”Ô†‚ğæ“¾‚·‚é
+	// ãƒ«ãƒ¼ãƒ å†…ã§å‰²ã‚Šå½“ã¦ã‚‰ã‚ŒãŸãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·ã‚’å–å¾—ã™ã‚‹
 	playerNr = localPlayerNr;
 }
 

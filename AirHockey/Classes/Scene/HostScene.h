@@ -27,8 +27,6 @@
 
 #include <memory>
 #include "cocos2d.h"
-#include "NetworkLogic.h"
-#include "Controller/OPRT_State.h"
 
 class HostScene
 	: public cocos2d::Scene
@@ -45,12 +43,6 @@ public:
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(HostScene);
-
-private:
-	// テスト用
-	void addParticle(int playerNr, float x, float y);
-	std::unique_ptr<OPRT_State> inputNetwork;
-
 };
 
 #endif // __HostScene_H__

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "OPRT_State.h"
 #include "NetworkLogic.h"
 
@@ -10,15 +10,15 @@ public:
 	OPRT_Network(cocos2d::Node* sp, bool isHost);
 	~OPRT_Network();
 
-	void Update(void);					// ’ÊM‚ÌÚ‘±‚ÆÃŞ°ÀXV‚ğ‚µ, ‘Šè‚ÉÃŞ°À‚ğ‘—M‚·‚é
-	cocos2d::Vec2 GetPoint(void) const;	// ‘Šè‚©‚ç‘—M‚³‚ê‚½À•WÃŞ°À‚ğæ“¾
+	void Update(void);					// é€šä¿¡ã®æ¥ç¶šã¨ï¾ƒï¾ï½°ï¾€æ›´æ–°ã‚’ã—, ç›¸æ‰‹ã«ï¾ƒï¾ï½°ï¾€ã‚’é€ä¿¡ã™ã‚‹
+	cocos2d::Vec2 GetPoint(void) const;	// ç›¸æ‰‹ã‹ã‚‰é€ä¿¡ã•ã‚ŒãŸåº§æ¨™ï¾ƒï¾ï½°ï¾€ã‚’å–å¾—
 
 private:
-	void Run(void);	// ’ÊM‚ÌÚ‘±
+	void Run(void);	// é€šä¿¡ã®æ¥ç¶š
 	void addParticle(int playerNr, float x, float y);
 
 	cocos2d::Vec2 _point;
-	bool _isHost;	// Î½Ä‚È‚çtrue, ¹Ş½Ä‚È‚çfalse
+	bool _isHost;	// ï¾ï½½ï¾„ãªã‚‰true, ï½¹ï¾ï½½ï¾„ãªã‚‰false
 	bool _swallowsTouches;
 	NetworkLogic* _networkLogic;
 };

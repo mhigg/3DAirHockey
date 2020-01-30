@@ -1,95 +1,58 @@
-#include "OPRT_Network.h"
+ï»¿#include "OPRT_Network.h"
 #include "../ConsoleOut.h"
-
-// ƒ‹[ƒ€‚ğ•¡”ì‚é‚½‚ß‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚h‚c
-// appID1, 2, 3‚Åì‚éƒ‹[ƒ€E“ü‚éƒ‹[ƒ€‚ª•Ï‚í‚è‚Ü‚·
-static const EG_CHAR* appID1 = L"91ccb37c-1396-43af-bbbf-46a4124935a5";
-static const EG_CHAR* appID2 = L"b1723cd8-6b7c-4d52-989c-702c2848d8e8";
-static const EG_CHAR* appID3 = L"ac500b19-8cfa-47b5-9781-4d9d438496e4";
+#include "../Manager/AppInfo.h"
 
 USING_NS_CC;
 
 OPRT_Network::OPRT_Network(cocos2d::Node* sp)
 {
-	// Photonƒlƒbƒgƒ[ƒNƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬
-	_networkLogic = new NetworkLogic(&ConsoleOut::get(), appID2);
+	// Photonãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆ
+	_networkLogic = new NetworkLogic(&ConsoleOut::get(), lpAppInfo.appID());
 
-	_swallowsTouches = true;
-
-	// ƒVƒ“ƒOƒ‹ƒ^ƒbƒvƒŠƒXƒi[‚ğ—pˆÓ‚·‚é
-	auto listener = EventListenerTouchOneByOne::create();
-	listener->setSwallowTouches(_swallowsTouches);
-
-	// ŠeƒCƒxƒ“ƒg‚ÌŠ„‚è“–‚Ä
-	listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event/*CC_CALLBACK_2(OPRT_Network::onTouchBegan, this*/)
+	/// ãƒã‚¦ã‚¹ç”¨ã®ãƒªã‚¹ãƒŠãƒ¼ã‚’ç”Ÿæˆã—ã¦ã„ã‚‹
+	auto mouseListener = EventListenerMouse::create();
+	mouseListener->onMouseMove = [&](Event* event)
 	{
-		if (_networkLogic->playerNr)
-		{
-			this->addParticle(_networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
+		/// ãƒã‚¦ã‚¹ã®æƒ…å ±ã‚’å–å¾—ã—ã¦ã„ã‚‹
+		auto mouse = ((EventMouse*)event);
+		/// ç§»å‹•å¯¾è±¡ã«å¯¾ã—ã¦ã€ãƒã‚¦ã‚¹ã®åº§æ¨™ã‚’æ¸¡ã—ã¦ã„ã‚‹
+		_point = (Vec2(mouse->getCursorX(), mouse->getCursorY()));
 
-			// ƒCƒxƒ“ƒgiƒ^ƒbƒ`À•Wj‚ğ‘—M
-			ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
-			eventContent->put<int, float>(1, touch->getLocation().x);
-			eventContent->put<int, float>(2, touch->getLocation().y);
-			_networkLogic->sendEvent(1, eventContent);
-		}
-
-		return true;
-	};
-	listener->onTouchMoved = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
-	};
-	listener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
-	};
-	listener->onTouchCancelled = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
+		// ã‚¤ãƒ™ãƒ³ãƒˆï¼ˆã‚¿ãƒƒãƒåº§æ¨™ï¼‰ã‚’é€ä¿¡
+		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
+		eventContent->put<int, float>(1, mouse->getLocation().x);
+		eventContent->put<int, float>(2, mouse->getLocation().y);
+		_networkLogic->sendEvent(1, eventContent);
 	};
 
-	// ƒCƒxƒ“ƒgƒfƒBƒXƒpƒbƒ`ƒƒ‚ÉƒVƒ“ƒOƒ‹ƒ^ƒbƒv—pƒŠƒXƒi[‚ğ’Ç‰Á‚·‚é
-	sp->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, sp);
+	// ã‚¤ãƒ™ãƒ³ãƒˆãƒ‡ã‚£ã‚¹ãƒ‘ãƒƒãƒãƒ£ã«ã‚·ãƒ³ã‚°ãƒ«ã‚¿ãƒƒãƒ—ç”¨ãƒªã‚¹ãƒŠãƒ¼ã‚’è¿½åŠ ã™ã‚‹
+	sp->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, sp);
 }
 
 OPRT_Network::OPRT_Network(cocos2d::Node* sp, bool isHost)
 {
 	_isHost = isHost;
-	// Photonƒlƒbƒgƒ[ƒNƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬
-	_networkLogic = new NetworkLogic(&ConsoleOut::get(), appID2);
+	// Photonãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆ
+	_networkLogic = new NetworkLogic(&ConsoleOut::get(), lpAppInfo.appID());
 
-	_swallowsTouches = true;
-
-	// ƒVƒ“ƒOƒ‹ƒ^ƒbƒvƒŠƒXƒi[‚ğ—pˆÓ‚·‚é
-	auto listener = EventListenerTouchOneByOne::create();
-	listener->setSwallowTouches(_swallowsTouches);
-
-	// ŠeƒCƒxƒ“ƒg‚ÌŠ„‚è“–‚Ä
-	listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event)
+	/// ãƒã‚¦ã‚¹ç”¨ã®ãƒªã‚¹ãƒŠãƒ¼ã‚’ç”Ÿæˆã—ã¦ã„ã‚‹
+	auto mouseListener = EventListenerMouse::create();
+	mouseListener->onMouseMove = [&](Event* event)
 	{
-		if (_networkLogic->playerNr)
-		{
-			this->addParticle(_networkLogic->playerNr, touch->getLocation().x, touch->getLocation().y);
+		/// ãƒã‚¦ã‚¹ã®æƒ…å ±ã‚’å–å¾—ã—ã¦ã„ã‚‹
+		auto mouse = ((EventMouse*)event);
+		/// ç§»å‹•å¯¾è±¡ã«å¯¾ã—ã¦ã€ãƒã‚¦ã‚¹ã®åº§æ¨™ã‚’æ¸¡ã—ã¦ã„ã‚‹
+		_point = (Vec2(mouse->getCursorX(), mouse->getCursorY()));
 
-			// ƒCƒxƒ“ƒgiƒ^ƒbƒ`À•Wj‚ğ‘—M
-			ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
-			eventContent->put<int, float>(1, touch->getLocation().x);
-			eventContent->put<int, float>(2, touch->getLocation().y);
-			_networkLogic->sendEvent(1, eventContent);
-		}
-
-		return true;
-	};
-	listener->onTouchMoved = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
-	};
-	listener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
-	};
-	listener->onTouchCancelled = [this](cocos2d::Touch* touch, cocos2d::Event* event)
-	{
+		// ã‚¤ãƒ™ãƒ³ãƒˆï¼ˆã‚¿ãƒƒãƒåº§æ¨™ï¼‰ã‚’é€ä¿¡
+		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
+		eventContent->put<int, float>(1, mouse->getLocation().x);
+		eventContent->put<int, float>(2, mouse->getLocation().y);
+		_networkLogic->sendEvent(1, eventContent);
 	};
 
-	// ƒCƒxƒ“ƒgƒfƒBƒXƒpƒbƒ`ƒƒ‚ÉƒVƒ“ƒOƒ‹ƒ^ƒbƒv—pƒŠƒXƒi[‚ğ’Ç‰Á‚·‚é
-	sp->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, sp);
+	// ã‚¤ãƒ™ãƒ³ãƒˆãƒ‡ã‚£ã‚¹ãƒ‘ãƒƒãƒãƒ£ã«ã‚·ãƒ³ã‚°ãƒ«ã‚¿ãƒƒãƒ—ç”¨ãƒªã‚¹ãƒŠãƒ¼ã‚’è¿½åŠ ã™ã‚‹
+	sp->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, sp);
 }
 
 
@@ -104,9 +67,9 @@ void OPRT_Network::Run(void)
 	{
 	case STATE_CONNECTED:
 	case STATE_LEFT:
-		// ƒQƒXƒg‘¤‚ÅAƒ‹[ƒ€‚ª‘¶İ‚·‚ê‚ÎƒWƒ‡ƒCƒ“
-		if(!_isHost)
+		if(_isHost)
 		{
+			// ã‚²ã‚¹ãƒˆå´ã§ã€ãƒ«ãƒ¼ãƒ ãŒå­˜åœ¨ã™ã‚Œã°ã‚¸ãƒ§ã‚¤ãƒ³
 			if (_networkLogic->isRoomExists())
 			{
 				_networkLogic->setLastInput(INPUT_2);
@@ -114,11 +77,12 @@ void OPRT_Network::Run(void)
 		}
 		else
 		{
+			// ãƒ›ã‚¹ãƒˆå´ãªã‚‰ãƒ«ãƒ¼ãƒ ä½œæˆ
 			_networkLogic->setLastInput(INPUT_1);
 		}
 		break;
 	case STATE_DISCONNECTED:
-		// Ú‘±‚ªØ‚ê‚½‚çÄ“xÚ‘±
+		// æ¥ç¶šãŒåˆ‡ã‚ŒãŸã‚‰å†åº¦æ¥ç¶š
 		_networkLogic->connect();
 		break;
 	case STATE_CONNECTING:
@@ -135,19 +99,19 @@ void OPRT_Network::Update(void)
 {
 	Run();
 
-	// ƒf[ƒ^‚Ì‘—MFEventDispacher‚Ì–½—ß‚É”C‚¹‚é¨‚ ‚¦‚Ä‚±‚±‚É‘‚©‚È‚­‚Ä‚¢‚¢
+	// ãƒ‡ãƒ¼ã‚¿ã®é€ä¿¡ï¼šEventDispacherã®å‘½ä»¤ã«ä»»ã›ã‚‹â†’ã‚ãˆã¦ã“ã“ã«æ›¸ã‹ãªãã¦ã„ã„
 
-	// ‚±‚±‚ÅÃŞ°À‚ÌXV
-	// GetPoint‚Å“n‚·_point‚Ì’l‚ÌXV
+	// ã“ã“ã§ï¾ƒï¾ï½°ï¾€ã®æ›´æ–°
+	// GetPointã§æ¸¡ã™_pointã®å€¤ã®æ›´æ–°
 }
 
 cocos2d::Vec2 OPRT_Network::GetPoint(void) const
 {
-	// ÃŞ°À‚ÌóM‚Æˆ—
+	// ï¾ƒï¾ï½°ï¾€ã®å—ä¿¡ã¨å‡¦ç†
 	cocos2d::Vec2 retVec;
 	if (_networkLogic->eventQueue.empty())
 	{
-		// event‚ª‰½‚à–³‚¢‚Æ‚«‚Í-p999‚ğ•Ô‚·
+		// eventãŒä½•ã‚‚ç„¡ã„ã¨ãã¯-p999ã‚’è¿”ã™
 		retVec = { -999,-999 };
 	}
 	else
