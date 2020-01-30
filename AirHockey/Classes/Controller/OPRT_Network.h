@@ -17,7 +17,6 @@ private:
 	void Run(void);	// 通信の接続
 	void addParticle(int playerNr, float x, float y);
 
-	cocos2d::Vec2 _point;
 	bool _isHost;	// ﾎｽﾄならtrue, ｹﾞｽﾄならfalse
 	bool _swallowsTouches;
 	NetworkLogic* _networkLogic;
