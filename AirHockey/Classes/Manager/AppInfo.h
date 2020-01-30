@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 #include <memory>
 #include "cocos2d.h"
 #include "NetworkLogic.h"
 
-// ’è‹`
+// å®šç¾©
 #define lpAppInfo AppInfo::GetInstance()
 
 class AppInfo : public cocos2d::Ref
@@ -14,16 +14,16 @@ public:
 		return (*s_Instance);
 	}
 
-	bool isHost(void);			// ƒzƒXƒg‚©‚Ç‚¤‚©‚ğ•Ô‚·
-	void isHost(bool isHost);	// ƒzƒXƒg‚©‚Ç‚¤‚©‚ğ“o˜^‚·‚é
-	const EG_CHAR* appID(void);			// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ID‚ğ•Ô‚·
-	void appID(const EG_CHAR* appID);	// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ID‚ğ“o˜^‚·‚é
+	bool isHost(void);			// ãƒ›ã‚¹ãƒˆã‹ã©ã†ã‹ã‚’è¿”ã™
+	void isHost(bool isHost);	// ãƒ›ã‚¹ãƒˆã‹ã©ã†ã‹ã‚’ç™»éŒ²ã™ã‚‹
+	const EG_CHAR* appID(void);			// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³IDã‚’è¿”ã™
+	void appID(const EG_CHAR* appID);	// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³IDã‚’ç™»éŒ²ã™ã‚‹
 
 private:
 	AppInfo();
 	~AppInfo();
 
-	// ƒVƒ“ƒOƒ‹ƒgƒ“‚ÌƒfƒŠ[ƒ^[
+	// ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã®ãƒ‡ãƒªãƒ¼ã‚¿ãƒ¼
 	struct AppInfoDeleter
 	{
 		void operator()(AppInfo* memory)
@@ -32,8 +32,8 @@ private:
 		}
 	};
 
-	bool _isHost;			// ƒzƒXƒg‚È‚çtrue, ƒQƒXƒg‚È‚çfalse
-	const EG_CHAR* _appID;	// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌID
+	bool _isHost;			// ãƒ›ã‚¹ãƒˆãªã‚‰true, ã‚²ã‚¹ãƒˆãªã‚‰false
+	const EG_CHAR* _appID;	// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ID
 
 	static std::unique_ptr<AppInfo, AppInfoDeleter> s_Instance;
 };
