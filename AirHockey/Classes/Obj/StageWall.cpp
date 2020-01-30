@@ -81,30 +81,52 @@ StageWall::StageWall(float zDepth, int num)
 	// 色の変更ﾌﾗｸﾞ
 	_colorChangeFlag = false;
 
-	// 線
-	//// 画面解像度の取得
-	//auto visibleSize = Director::getInstance()->getVisibleSize();
-	//// 画面の大きさの取得
-	//auto size = getContentSize();
-	//// 消失点までの線の描画
-	//auto line = DrawNode::create();
-	//// 線の太さ(cocosは半径になる)
-	//float radius = 2.0f;
-	//// 色
-	//auto lineColor = Color4F{ _nowColor,1.0f };
-	////drawSegment(始点,終点,太さ,色);
-	//// 左上
-	//line->drawSegment(Vec2(0, size.height), lpPointWithDepth.GetVanishingPoint(), radius, lineColor);
-	//// 左下
-	//line->drawSegment(Vec2(0, 0), lpPointWithDepth.GetVanishingPoint(), radius, lineColor);
-	//// 右上
-	//line->drawSegment(Vec2(size.width, size.height), lpPointWithDepth.GetVanishingPoint(), radius, lineColor);
-	//// 右下
-	//line->drawSegment(Vec2(size.width, 0), lpPointWithDepth.GetVanishingPoint(), radius, lineColor);
-	//addChild(line);
-
 	// 自分の壁の番号
 	_wallNum = num;
+
+	// 線の描画
+	if (_wallNum == 0)
+	{
+		/// 最後の壁を取得
+		auto gameMng = GameManager::createGameMng();
+
+		// 消失点までの描画
+		auto line = DrawNode::create();
+		// 画像のｻｲｽﾞ取得
+		auto size = getContentSize();
+		// 最後の壁のPos
+		auto endWallPos = size / 2;
+		// 最後の壁の大きさ
+		auto endWallScale = lpPointWithDepth.GetScale(gameMng->GetMaxDepth() - 1);
+		// 線の太さ(cocosは半径になる)
+		float radius = 1.0f;
+		// 色
+		auto lineColor = Color4F::WHITE;
+		// 左上
+		line->drawSegment(
+			Vec2(0, size.height),
+			Vec2((endWallPos.width - ((size.width / 2) * endWallScale)), (endWallPos.height + ((size.height / 2) * endWallScale))),
+			radius, lineColor);
+		// 左下
+		line->drawSegment(
+			Vec2(0, 0),
+			Vec2((endWallPos.width - ((size.width / 2) * endWallScale)), (endWallPos.height - ((size.height / 2) * endWallScale))),
+			radius, lineColor);
+		// 右上
+		line->drawSegment(
+			Vec2(size.width, size.height),
+			Vec2((endWallPos.width + ((size.width / 2) * endWallScale)), (endWallPos.height + ((size.height / 2) * endWallScale))),
+			radius, lineColor);
+		// 右下
+		line->drawSegment(
+			Vec2(size.width, 0),
+			Vec2((endWallPos.width + ((size.width / 2) * endWallScale)), (endWallPos.height - ((size.height / 2) * endWallScale))),
+			radius, lineColor);
+
+		// 親よりも前に表示する
+		line->setGlobalZOrder(this->getGlobalZOrder() + 1);
+		addChild(line);
+	}
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	cocos2d::Node::scheduleUpdate();
@@ -125,6 +147,12 @@ void StageWall::SetWallColorChangeFlag(bool flag)
 
 void StageWall::update(float dt)
 {
+	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
+	{
+		/// ゲームシーン以外の時は処理に入らないようにする
+		return;
+	}
+
 	// 座標の更新
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 
@@ -143,9 +171,10 @@ void StageWall::update(float dt)
 
 	if (_wallNum ==0)
 	{
-		/// 次の壁を取得
+		/// 最後の壁を取得
+		auto gameMng = GameManager::createGameMng();
 		auto layer = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
-		auto nextWall = (SpriteAffectDepth*)layer->getChildByName("Wall" + std::to_string(_wallNum +29 ));
+		auto endWall = (SpriteAffectDepth*)layer->getChildByName("Wall" + std::to_string(gameMng->GetWallMax()-1));
 
 		// 子の要素全削除(DrawLine)
 		removeAllChildrenWithCleanup(true);
@@ -154,29 +183,33 @@ void StageWall::update(float dt)
 		auto line = DrawNode::create();
 		// 画像のｻｲｽﾞ取得
 		auto size = getContentSize();
-		// 次の壁のPos
-		auto nextWallPos = nextWall->getPosition();
-		// 次の壁の大きさ
-		auto nextWallScale =nextWall->getScale();
+		// 最後の壁のPos
+		auto endWallPos = endWall->getPosition();
+		// 最後の壁の大きさ
+		auto endWallScale =endWall->getScale();
 		// 線の太さ(cocosは半径になる)
-		float radius = 2.0f;
+		float radius = 1.0f;
 		// 色
 		auto lineColor = Color4F::WHITE;
 		// 左上
-		line->drawSegment(Vec2(0, size.height),
-			Vec2((nextWallPos.x - ((size.width / 2) * nextWallScale)), (nextWallPos.y + ((size.height / 2) * nextWallScale))),
-				radius, lineColor);
+		line->drawSegment(
+			Vec2(0, size.height),
+			Vec2((endWallPos.x - ((size.width / 2) * endWallScale)), (endWallPos.y + ((size.height / 2) * endWallScale))),
+			radius, lineColor);
 		// 左下
-		line->drawSegment(Vec2(0, 0),
-			Vec2((nextWallPos.x - ((size.width / 2) * nextWallScale)), (nextWallPos.y - ((size.height / 2) * nextWallScale))),
+		line->drawSegment(
+			Vec2(0, 0),
+			Vec2((endWallPos.x - ((size.width / 2) * endWallScale)), (endWallPos.y - ((size.height / 2) * endWallScale))),
 			radius, lineColor);
 		// 右上
-		line->drawSegment(Vec2(size.width,size.height),
-			Vec2((nextWallPos.x + ((size.width / 2) * nextWallScale)), (nextWallPos.y + ((size.height / 2) * nextWallScale))),
+		line->drawSegment(
+			Vec2(size.width,size.height),
+			Vec2((endWallPos.x + ((size.width / 2) * endWallScale)), (endWallPos.y + ((size.height / 2) * endWallScale))),
 			radius, lineColor);
 		// 右下
-		line->drawSegment(Vec2(size.width, 0),
-			Vec2((nextWallPos.x + ((size.width / 2) * nextWallScale)), (nextWallPos.y - ((size.height / 2) * nextWallScale))),
+		line->drawSegment(
+			Vec2(size.width, 0),
+			Vec2((endWallPos.x + ((size.width / 2) * endWallScale)), (endWallPos.y - ((size.height / 2) * endWallScale))),
 			radius, lineColor);
 
 		//// 左上
@@ -199,6 +232,8 @@ void StageWall::update(float dt)
 		//	Vec2(size.width, 0),
 		//	Vec2(nextWallPos.x + (size.width / 2)* nextWallScale, nextWallPos.y - (size.height / 2)* nextWallScale),
 		//	radius, lineColor);
+
+		// 親よりも前に表示する
 		line->setGlobalZOrder(this->getGlobalZOrder()+1);
 		addChild(line);
 	}

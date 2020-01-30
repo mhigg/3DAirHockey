@@ -117,14 +117,14 @@ void Ball::ChangeIsReverse()
 	if (_localPos.x - _radius / 2 < -gameMng->GetMovingRange().x)
 	{
 		_ballState = State::NORMAL;
-		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<0>(_isReverse) = false;
 	}
 	else if (_localPos.x + _radius/ 2 > gameMng->GetMovingRange().x)
 	{
 		_ballState = State::NORMAL;
-		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<0>(_isReverse) = true;
 	}
@@ -133,14 +133,14 @@ void Ball::ChangeIsReverse()
 	if (_localPos.y - _radius / 2 < -gameMng->GetMovingRange().y)
 	{
 		_ballState = State::NORMAL;
-		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<1>(_isReverse) = false;
 	}
 	else if (_localPos.y + _radius / 2 > gameMng->GetMovingRange().y)
 	{
 		_ballState = State::NORMAL;
-		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<1>(_isReverse) = true;
 	}
@@ -193,6 +193,9 @@ void Ball::ChangeIsReverse()
 
 void Ball::ChangeMoving(const Node* pl)
 {
+	/// ゲームマネージャーの取得
+	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
+
 	/// プレイヤーの情報取得
 	auto player = (Player*)pl;
 
@@ -200,7 +203,7 @@ void Ball::ChangeMoving(const Node* pl)
 	if (abs(player->GetMoveDistance().x) >= 20 &&
 		abs(player->GetMoveDistance().y) >= 20)
 	{
-		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("curve", rate);
 		_ballState = State::CURVE;
 		_traject->CalBezierPoint(player->GetMoveDistance().getNormalized());
@@ -208,7 +211,7 @@ void Ball::ChangeMoving(const Node* pl)
 	else
 	{
 		_traject->SetVel(player->GetMoveDistance().getNormalized());
-		float rate = 1.f - (_localPos.z / _wallDepth[29]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("hit", rate);
 		_ballState = State::NORMAL;
 
@@ -235,7 +238,7 @@ void Ball::update(float dt)
 	_localPos += _traject->GetVel(_ballState);
 	// ｱﾆﾒｰｼｮﾝの向き
 	float angle  = atan2(_localPos.y - oldPos.y, _localPos.x - oldPos.x) * 180 / M_PI;
-	setRotation(90+angle);
+	setRotation(90 + angle);
 
 	// 壁の色更新
 	auto director = Director::getInstance()->getRunningScene()->getChildByName("StageLayer");

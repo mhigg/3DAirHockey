@@ -6,7 +6,7 @@
 
 USING_NS_CC;
 
-GameManager::GameManager() : _maxDepth(1000.f), _wallMax(30), _moveRange(1024 / 2, 576 / 2), _playerDepth(3)
+GameManager::GameManager() : _maxDepth(1000.f), _wallMax(10), _moveRange(1024 / 2, 576 / 2), _playerDepth(1)
 {
 	Init();
 	this->setName("GameManager");
@@ -30,6 +30,16 @@ cocos2d::Vec2 GameManager::GetMovingRange() const
 std::vector<float> GameManager::GetDepths() const
 {
 	return _zdepth;
+}
+
+float GameManager::GetMaxDepth(void) const
+{
+	return _maxDepth;
+}
+
+int GameManager::GetWallMax(void) const
+{
+	return _wallMax;
 }
 
 void GameManager::GeneratePlayer(bool isHost)

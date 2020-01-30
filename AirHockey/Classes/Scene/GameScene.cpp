@@ -93,6 +93,14 @@ bool GameScene::init()
 	sceneMenu->setPosition(Vec2::ZERO);
 	this->addChild(sceneMenu, static_cast<int>(LayerNum::FRONT));
 
+	/// ゲーム管理者の生成
+	auto gameLayer = Layer::create();
+	auto gameMng = GameManager::createGameMng();
+	gameMng->GeneratePlayer(lpAppInfo.isHost());
+	gameLayer->setName("GameLayer");
+	gameLayer->addChild(gameMng);
+	this->addChild(gameLayer, static_cast<int>(LayerNum::GAME));
+
 	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
 	auto stageLayer = Layer::create();
 	stageLayer->setName("StageLayer");
@@ -101,9 +109,9 @@ bool GameScene::init()
 	///// ここの直値を後ほど修正しておく　◆
 	// ｽﾃｰｼﾞの壁作成
 	// 奥行の最大値
-	float maxDepth = 1000;
+	float maxDepth = gameMng->GetMaxDepth();
 	// 壁の最大数
-	int wallMaxNum = 30;
+	int wallMaxNum = gameMng->GetWallMax();
 	// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成
 	float magnification = maxDepth / (wallMaxNum * wallMaxNum);
 	// 奥行の作成
@@ -113,6 +121,8 @@ bool GameScene::init()
 		depth = maxDepth - depth;
 		zdepth.emplace_back(depth);
 	}
+	/// 仮の初期化 ◆
+	zdepth[0] = 0.f;
 	// ﾌｨｰﾙﾄﾞの基本サイズ
 	Point wallSize = visibleSize;
 	// ﾌｨｰﾙﾄﾞ用ｽﾌﾟﾗｲﾄの作成
@@ -137,13 +147,6 @@ bool GameScene::init()
 		stageLayer->addChild(stageWall,0,"Wall" +std::to_string(k));
 	}
 
-	/// ゲーム管理者の生成
-	auto gameLayer = Layer::create();
-	auto gameMng   = GameManager::createGameMng();
-	gameMng->GeneratePlayer(lpAppInfo.isHost());
-	gameLayer->setName("GameLayer");
-	gameLayer->addChild(gameMng);
-	this->addChild(gameLayer, static_cast<int>(LayerNum::GAME));
 
 	/// 現在のシーンを表すテキスト
 	auto label = Label::create("Game", "Arial", 60);
