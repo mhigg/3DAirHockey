@@ -15,13 +15,11 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp)
 	{
 		/// マウスの情報を取得している
 		auto mouse = ((EventMouse*)event);
-		/// 移動対象に対して、マウスの座標を渡している
-		_point = (Vec2(mouse->getCursorX(), mouse->getCursorY()));
 
-		// イベント（タッチ座標）を送信
+		// マウスカーソルの座標を送信
 		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
-		eventContent->put<int, float>(1, mouse->getLocation().x);
-		eventContent->put<int, float>(2, mouse->getLocation().y);
+		eventContent->put<int, float>(1, mouse->getCursorX());
+		eventContent->put<int, float>(2, mouse->getCursorY());
 		_networkLogic->sendEvent(1, eventContent);
 	};
 
@@ -41,13 +39,11 @@ OPRT_Network::OPRT_Network(cocos2d::Node* sp, bool isHost)
 	{
 		/// マウスの情報を取得している
 		auto mouse = ((EventMouse*)event);
-		/// 移動対象に対して、マウスの座標を渡している
-		_point = (Vec2(mouse->getCursorX(), mouse->getCursorY()));
 
-		// イベント（タッチ座標）を送信
+		// マウスカーソルの座標を送信
 		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
-		eventContent->put<int, float>(1, mouse->getLocation().x);
-		eventContent->put<int, float>(2, mouse->getLocation().y);
+		eventContent->put<int, float>(1, mouse->getCursorX());
+		eventContent->put<int, float>(2, mouse->getCursorY());
 		_networkLogic->sendEvent(1, eventContent);
 	};
 
