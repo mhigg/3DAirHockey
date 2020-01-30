@@ -133,7 +133,8 @@ bool GameScene::init()
 		{
 			color = Color3B(0, 0, 0);
 		}
-		auto stageWall = new StageWall({ 0, 0 }, zdepth[k], wallSize, color);
+		//auto stageWall = new StageWall({ 0, 0 }, zdepth[k], wallSize, color);
+		auto stageWall = new StageWall(zdepth[k], k);
 		// ｽﾃｰｼﾞﾚｲﾔｰに追加
 		stageLayer->addChild(stageWall,0,"Wall" +std::to_string(k));
 	}

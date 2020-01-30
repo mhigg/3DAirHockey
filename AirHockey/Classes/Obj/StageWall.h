@@ -7,6 +7,8 @@ class StageWall :
 public:
 	// (座標,奥行,ﾃｸｽﾁｬｰの大きさ,色)
 	StageWall(cocos2d::Vec2 pos, float zDepth,cocos2d::Point size, cocos2d::Color3B color);
+	// (座標,奥行,壁の番号)
+	StageWall(float zDepth, int num);
 	StageWall();
 	~StageWall();
 
@@ -19,4 +21,6 @@ private:
 	cocos2d::Color3B _normalColor;	// 通常の壁の色
 	cocos2d::Color3B _changeColor;	// ﾎﾞｰﾙ通過時に変わる壁の色
 	bool _colorChangeFlag;			// 色を変えるﾌﾗｸﾞ(trueで_changeColor,falseで_normalColor)
+
+	int _wallNum;					// 壁の番号(手前が0番目で1ずつ増えている)
 };
