@@ -101,34 +101,23 @@ void OPRT_Network::Update(void)
 
 	// データの送信：EventDispacherの命令に任せる→あえてここに書かなくていい
 
-	// ここでﾃﾞｰﾀの更新
+	// ここでﾃﾞｰﾀ受信
 	// GetPointで渡す_pointの値の更新
+		while (!_networkLogic->eventQueue.empty())
+	{
+		std::array<float, 3>arr = _networkLogic->eventQueue.front();
+		_networkLogic->eventQueue.pop();
+
+		int playerNr = static_cast<int>(arr[0]);
+		_point.x = arr[1];
+		_point.y = arr[2];
+		CCLOG("%d, %f, %f", playerNr, _point.x, _point.y);
+	}
 }
 
 cocos2d::Vec2 OPRT_Network::GetPoint(void) const
 {
-	// ﾃﾞｰﾀの受信と処理
-	cocos2d::Vec2 retVec;
-	if (_networkLogic->eventQueue.empty())
-	{
-		// eventが何も無いときは-p999を返す
-		retVec = { -999,-999 };
-	}
-	else
-	{
-		while (!_networkLogic->eventQueue.empty())
-		{
-			std::array<float, 3>arr = _networkLogic->eventQueue.front();
-			_networkLogic->eventQueue.pop();
-
-			int playerNr = static_cast<int>(arr[0]);
-			retVec.x = arr[1];
-			retVec.y = arr[2];
-			CCLOG("%d, %f, %f", playerNr, retVec.x, retVec.y);
-		}
-	}
-
-	return retVec;
+	return _point;
 }
 
 void OPRT_Network::addParticle(int playerNr, float x, float y)
