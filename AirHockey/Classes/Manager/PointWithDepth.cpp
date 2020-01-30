@@ -62,6 +62,11 @@ float PointWithDepth::GetScale(float local_z)
 	return _scale;
 }
 
+cocos2d::Point PointWithDepth::GetVanishingPoint(void)
+{
+	return _nowVanishingPoint;
+}
+
 void PointWithDepth::SetVanishingPoint(cocos2d::Point pos)
 {
 	auto tmpVanishingPoint = pos;

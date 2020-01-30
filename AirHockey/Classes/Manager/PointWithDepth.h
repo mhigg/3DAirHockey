@@ -21,6 +21,7 @@ public:
 	cocos2d::Point SetWorldPosition(cocos2d::Vec3 localPos);	// scaleと座標を1点透視図法で計算する
 	float GetScale(float local_z);								// ｽﾌﾟﾗｲﾄ用のscareのｹﾞｯﾀｰ
 
+	cocos2d::Point GetVanishingPoint(void);						// 消失点の座標のｹﾞｯﾀｰ
 	void SetVanishingPoint(cocos2d::Point pos);					// 消失点を動かしたいときに使うｾｯﾀｰ
 	void ResetVanishingPoint(void);								// 動かした消失点を初期値に戻す
 

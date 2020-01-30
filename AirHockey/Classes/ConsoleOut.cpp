@@ -1,4 +1,4 @@
-#include "ConsoleOut.h"
+﻿#include "ConsoleOut.h"
 
 ConsoleOut::ConsoleOut(void)
 	: mpImp(NULL)
