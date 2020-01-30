@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <array>
 #include <queue>
@@ -12,22 +12,22 @@
 
 enum State
 {
-	STATE_INITIALIZED = 0,	// �����ڑ�
-	STATE_CONNECTING,		// �ʐM�ڑ���
-	STATE_CONNECTED,		// �ʐM�ڑ����
-	STATE_JOINING,			// �ްтɎQ����
-	STATE_JOINED,			// �ްтɎQ�����
-	STATE_LEAVING,			// �ްт��痣�E��
-	STATE_LEFT,				// �ްт��痣�E���
-	STATE_DISCONNECTING,	// �ʐM�ؒf��
-	STATE_DISCONNECTED		// �ʐM�ؒf���
+	STATE_INITIALIZED = 0,	// 初期接続
+	STATE_CONNECTING,		// 通信接続中
+	STATE_CONNECTED,		// 通信接続状態
+	STATE_JOINING,			// ｹﾞｰﾑに参加中
+	STATE_JOINED,			// ｹﾞｰﾑに参加状態
+	STATE_LEAVING,			// ｹﾞｰﾑから離脱中
+	STATE_LEFT,				// ｹﾞｰﾑから離脱状態
+	STATE_DISCONNECTING,	// 通信切断中
+	STATE_DISCONNECTED		// 通信切断状態
 };
 
 enum Input
 {
-	INPUT_NON = 0,	// ���ڑ�
-	INPUT_1,		// �ڑ�1�Ԗ�:���[���̍쐬
-	INPUT_2,		// �ڑ�2�Ԗڈȍ~:���[���ւ̎Q��
+	INPUT_NON = 0,	// 未接続
+	INPUT_1,		// 接続1番目:ルームの作成
+	INPUT_2,		// 接続2番目以降:ルームへの参加
 	INPUT_3,
 	INPUT_4,
 	INPUT_EXIT
@@ -68,7 +68,7 @@ public:
 	void opJoinRoom(const ExitGames::Common::JString& roomID, bool rejoin = false);
 	void opJoinRandomRoom(void);
 
-	// �C�x���g�𑗐M���郁�\�b�h
+	// イベントを送信するメソッド
 	void sendEvent(void);
 	void sendEvent(nByte code, ExitGames::Common::Hashtable *eventContent);
 
@@ -76,12 +76,12 @@ public:
 	void setLastInput(Input newInput);
 	State getState(void) const;
 
-	// ���[�������݂��邩�ۂ���Ԃ����\�b�h
+	// ルームが存在するか否かを返すメソッド
 	bool isRoomExists(void);
 
-	// �����̃v���C���[�ԍ�
+	// 自分のプレイヤー番号
 	int playerNr = 0;
-	// �C�x���g�L���[
+	// イベントキュー
 	std::queue<std::array<float, 3>> eventQueue;
 
 #ifdef _EG_XB1_PLATFORM

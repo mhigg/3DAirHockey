@@ -1,4 +1,4 @@
-#include "OPRT_Network.h"
+ï»¿#include "OPRT_Network.h"
 #include "../ConsoleOut.h"
 #include "../Manager/AppInfo.h"
 
@@ -6,52 +6,52 @@ USING_NS_CC;
 
 OPRT_Network::OPRT_Network(cocos2d::Node* sp)
 {
-	// Photonƒlƒbƒgƒ[ƒNƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬
+	// Photonãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆ
 	_networkLogic = new NetworkLogic(&ConsoleOut::get(), lpAppInfo.appID());
 
-	/// ƒ}ƒEƒX—p‚ÌƒŠƒXƒi[‚ğ¶¬‚µ‚Ä‚¢‚é
+	/// ãƒã‚¦ã‚¹ç”¨ã®ãƒªã‚¹ãƒŠãƒ¼ã‚’ç”Ÿæˆã—ã¦ã„ã‚‹
 	auto mouseListener = EventListenerMouse::create();
 	mouseListener->onMouseMove = [&](Event* event)
 	{
-		/// ƒ}ƒEƒX‚Ìî•ñ‚ğæ“¾‚µ‚Ä‚¢‚é
+		/// ãƒã‚¦ã‚¹ã®æƒ…å ±ã‚’å–å¾—ã—ã¦ã„ã‚‹
 		auto mouse = ((EventMouse*)event);
-		/// ˆÚ“®‘ÎÛ‚É‘Î‚µ‚ÄAƒ}ƒEƒX‚ÌÀ•W‚ğ“n‚µ‚Ä‚¢‚é
+		/// ç§»å‹•å¯¾è±¡ã«å¯¾ã—ã¦ã€ãƒã‚¦ã‚¹ã®åº§æ¨™ã‚’æ¸¡ã—ã¦ã„ã‚‹
 		_point = (Vec2(mouse->getCursorX(), mouse->getCursorY()));
 
-		// ƒCƒxƒ“ƒgiƒ^ƒbƒ`À•Wj‚ğ‘—M
+		// ã‚¤ãƒ™ãƒ³ãƒˆï¼ˆã‚¿ãƒƒãƒåº§æ¨™ï¼‰ã‚’é€ä¿¡
 		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
 		eventContent->put<int, float>(1, mouse->getLocation().x);
 		eventContent->put<int, float>(2, mouse->getLocation().y);
 		_networkLogic->sendEvent(1, eventContent);
 	};
 
-	// ƒCƒxƒ“ƒgƒfƒBƒXƒpƒbƒ`ƒƒ‚ÉƒVƒ“ƒOƒ‹ƒ^ƒbƒv—pƒŠƒXƒi[‚ğ’Ç‰Á‚·‚é
+	// ã‚¤ãƒ™ãƒ³ãƒˆãƒ‡ã‚£ã‚¹ãƒ‘ãƒƒãƒãƒ£ã«ã‚·ãƒ³ã‚°ãƒ«ã‚¿ãƒƒãƒ—ç”¨ãƒªã‚¹ãƒŠãƒ¼ã‚’è¿½åŠ ã™ã‚‹
 	sp->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, sp);
 }
 
 OPRT_Network::OPRT_Network(cocos2d::Node* sp, bool isHost)
 {
 	_isHost = isHost;
-	// Photonƒlƒbƒgƒ[ƒNƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬
+	// Photonãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆ
 	_networkLogic = new NetworkLogic(&ConsoleOut::get(), lpAppInfo.appID());
 
-	/// ƒ}ƒEƒX—p‚ÌƒŠƒXƒi[‚ğ¶¬‚µ‚Ä‚¢‚é
+	/// ãƒã‚¦ã‚¹ç”¨ã®ãƒªã‚¹ãƒŠãƒ¼ã‚’ç”Ÿæˆã—ã¦ã„ã‚‹
 	auto mouseListener = EventListenerMouse::create();
 	mouseListener->onMouseMove = [&](Event* event)
 	{
-		/// ƒ}ƒEƒX‚Ìî•ñ‚ğæ“¾‚µ‚Ä‚¢‚é
+		/// ãƒã‚¦ã‚¹ã®æƒ…å ±ã‚’å–å¾—ã—ã¦ã„ã‚‹
 		auto mouse = ((EventMouse*)event);
-		/// ˆÚ“®‘ÎÛ‚É‘Î‚µ‚ÄAƒ}ƒEƒX‚ÌÀ•W‚ğ“n‚µ‚Ä‚¢‚é
+		/// ç§»å‹•å¯¾è±¡ã«å¯¾ã—ã¦ã€ãƒã‚¦ã‚¹ã®åº§æ¨™ã‚’æ¸¡ã—ã¦ã„ã‚‹
 		_point = (Vec2(mouse->getCursorX(), mouse->getCursorY()));
 
-		// ƒCƒxƒ“ƒgiƒ^ƒbƒ`À•Wj‚ğ‘—M
+		// ã‚¤ãƒ™ãƒ³ãƒˆï¼ˆã‚¿ãƒƒãƒåº§æ¨™ï¼‰ã‚’é€ä¿¡
 		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
 		eventContent->put<int, float>(1, mouse->getLocation().x);
 		eventContent->put<int, float>(2, mouse->getLocation().y);
 		_networkLogic->sendEvent(1, eventContent);
 	};
 
-	// ƒCƒxƒ“ƒgƒfƒBƒXƒpƒbƒ`ƒƒ‚ÉƒVƒ“ƒOƒ‹ƒ^ƒbƒv—pƒŠƒXƒi[‚ğ’Ç‰Á‚·‚é
+	// ã‚¤ãƒ™ãƒ³ãƒˆãƒ‡ã‚£ã‚¹ãƒ‘ãƒƒãƒãƒ£ã«ã‚·ãƒ³ã‚°ãƒ«ã‚¿ãƒƒãƒ—ç”¨ãƒªã‚¹ãƒŠãƒ¼ã‚’è¿½åŠ ã™ã‚‹
 	sp->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, sp);
 }
 
@@ -69,7 +69,7 @@ void OPRT_Network::Run(void)
 	case STATE_LEFT:
 		if(_isHost)
 		{
-			// ƒQƒXƒg‘¤‚ÅAƒ‹[ƒ€‚ª‘¶İ‚·‚ê‚ÎƒWƒ‡ƒCƒ“
+			// ã‚²ã‚¹ãƒˆå´ã§ã€ãƒ«ãƒ¼ãƒ ãŒå­˜åœ¨ã™ã‚Œã°ã‚¸ãƒ§ã‚¤ãƒ³
 			if (_networkLogic->isRoomExists())
 			{
 				_networkLogic->setLastInput(INPUT_2);
@@ -77,12 +77,12 @@ void OPRT_Network::Run(void)
 		}
 		else
 		{
-			// ƒzƒXƒg‘¤‚È‚çƒ‹[ƒ€ì¬
+			// ãƒ›ã‚¹ãƒˆå´ãªã‚‰ãƒ«ãƒ¼ãƒ ä½œæˆ
 			_networkLogic->setLastInput(INPUT_1);
 		}
 		break;
 	case STATE_DISCONNECTED:
-		// Ú‘±‚ªØ‚ê‚½‚çÄ“xÚ‘±
+		// æ¥ç¶šãŒåˆ‡ã‚ŒãŸã‚‰å†åº¦æ¥ç¶š
 		_networkLogic->connect();
 		break;
 	case STATE_CONNECTING:
@@ -99,19 +99,19 @@ void OPRT_Network::Update(void)
 {
 	Run();
 
-	// ƒf[ƒ^‚Ì‘—MFEventDispacher‚Ì–½—ß‚É”C‚¹‚é¨‚ ‚¦‚Ä‚±‚±‚É‘‚©‚È‚­‚Ä‚¢‚¢
+	// ãƒ‡ãƒ¼ã‚¿ã®é€ä¿¡ï¼šEventDispacherã®å‘½ä»¤ã«ä»»ã›ã‚‹â†’ã‚ãˆã¦ã“ã“ã«æ›¸ã‹ãªãã¦ã„ã„
 
-	// ‚±‚±‚ÅÃŞ°À‚ÌXV
-	// GetPoint‚Å“n‚·_point‚Ì’l‚ÌXV
+	// ã“ã“ã§ï¾ƒï¾ï½°ï¾€ã®æ›´æ–°
+	// GetPointã§æ¸¡ã™_pointã®å€¤ã®æ›´æ–°
 }
 
 cocos2d::Vec2 OPRT_Network::GetPoint(void) const
 {
-	// ÃŞ°À‚ÌóM‚Æˆ—
+	// ï¾ƒï¾ï½°ï¾€ã®å—ä¿¡ã¨å‡¦ç†
 	cocos2d::Vec2 retVec;
 	if (_networkLogic->eventQueue.empty())
 	{
-		// event‚ª‰½‚à–³‚¢‚Æ‚«‚Í-p999‚ğ•Ô‚·
+		// eventãŒä½•ã‚‚ç„¡ã„ã¨ãã¯-p999ã‚’è¿”ã™
 		retVec = { -999,-999 };
 	}
 	else

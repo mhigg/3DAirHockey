@@ -1,6 +1,6 @@
-#include "AppInfo.h"
+﻿#include "AppInfo.h"
 
-std::unique_ptr<AppInfo, AppInfo::AppInfoDeleter> AppInfo::s_Instance(new AppInfo());	// �ݽ�ݽ�p�ư��߲���
+std::unique_ptr<AppInfo, AppInfo::AppInfoDeleter> AppInfo::s_Instance(new AppInfo());	// ｲﾝｽﾀﾝｽ用ﾕﾆｰｸﾎﾟｲﾝﾀｰ
 
 bool AppInfo::isHost(void)
 {
