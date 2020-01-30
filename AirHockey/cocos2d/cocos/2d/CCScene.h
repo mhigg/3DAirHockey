@@ -79,7 +79,6 @@ enum class LayerNum
 	FRONT,
 };
 
-
 class CC_DLL Scene : public Node
 {
 public:

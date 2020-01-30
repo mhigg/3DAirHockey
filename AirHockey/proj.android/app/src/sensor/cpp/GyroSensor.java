@@ -15,13 +15,21 @@ import android.hardware.SensorManager;
 
 public class GyroSensor extends Cocos2dxActivity implements SensorEventListener {
     private static SensorManager _sensorManager;
-    public static float[] _sensor = new float[3];
-    private static native void initCricket(Context context);
+    public float[] _sensor;
 
+    // 初期化関数
     public void Init()
     {
         // センサー取得
+        _sensor = new float[3];
         _sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.setEnableVirtualButton(false);
+        super.onCreate(savedInstanceState);
+        Init();
     }
 
     @Override
@@ -29,7 +37,8 @@ public class GyroSensor extends Cocos2dxActivity implements SensorEventListener 
     {
         super.onResume();
         List<Sensor> sensors = _sensorManager.getSensorList(Sensor.TYPE_GYROSCOPE);
-        for (Sensor s : sensors) {
+        for (Sensor s : sensors)
+        {
             _sensorManager.registerListener(this, s, SensorManager.SENSOR_DELAY_GAME);
         }
     }
@@ -54,15 +63,15 @@ public class GyroSensor extends Cocos2dxActivity implements SensorEventListener 
         _sensor[2] = event.values[2];
     }
 
-    public static float getX()
+    public float getX()
     {
         return _sensor[0];
     }
-    public static float getY()
+    public float getY()
     {
         return _sensor[1];
     }
-    public static float getZ()
+    public float getZ()
     {
         return _sensor[2];
     }

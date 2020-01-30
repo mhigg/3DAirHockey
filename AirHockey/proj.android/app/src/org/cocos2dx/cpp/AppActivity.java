@@ -88,17 +88,14 @@ public class AppActivity extends Cocos2dxActivity implements SensorEventListener
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    public void onAccuracyChanged(Sensor sensor, int accuracy)
+    {
         // TODO Auto-generated method stub
     }
 
     @Override
     public void onSensorChanged(SensorEvent event)
     {
-        for(int i = 0; i < 3; i++)
-        {
-            _sensor[i] = 0;
-        }
         _sensor[0] = event.values[0];
         _sensor[1] = event.values[1];
         _sensor[2] = event.values[2];
@@ -116,5 +113,4 @@ public class AppActivity extends Cocos2dxActivity implements SensorEventListener
     {
         return _sensor[2];
     }
-
 }
