@@ -1,7 +1,7 @@
 ﻿#include "TrajectControl.h"
 #include "../Manager/GameManager.h"
 #include "../Obj/Ball.h"
-#include "../Character/Player.h"
+#include "../Obj/Player.h"
 
 USING_NS_CC;
 

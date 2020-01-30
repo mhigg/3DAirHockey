@@ -1,7 +1,7 @@
 ﻿#include "Ball.h"
 #include "BallAfter.h"
 #include "StageWall.h"
-#include "../Character/Player.h"
+#include "../Obj/Player.h"
 #include "../Manager/GameManager.h"
 #include "../Manager/AnimMng.h"
 

@@ -26,7 +26,7 @@
 #include "ResultScene.h"
 #include "SimpleAudioEngine.h"
 #include "../Obj/StageWall.h"
-#include "../Character/Player.h"
+#include "../Obj/Player.h"
 #include "../Effekseer/EffectMng.h"
 
 #include "../Manager/GameManager.h"
