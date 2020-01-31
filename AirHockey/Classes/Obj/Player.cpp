@@ -13,55 +13,7 @@ Player::Player(bool isHost, const float& zdepth)
 	_prePos	  = Vec2::ZERO;
 	_localPos = { 0,0,zdepth };
 
-	// 中央
-	auto sprite = Sprite::create("image/player/player_center.png");
-	sprite->setName("center");
-	sprite->setTag(static_cast<int>(PL_ANC::CENTER));
-	this->addChild(sprite);
-
-	// 左上
-	sprite = Sprite::create("image/player/player_leftup.png");
-	sprite->setAnchorPoint({ 1, 0 });
-	sprite->setName("leftup");
-	sprite->setTag(static_cast<int>(PL_ANC::LEFTUP));
-	this->addChild(sprite);
-
-	// 左下
-	sprite = Sprite::create("image/player/player_leftdown.png");
-	sprite->setAnchorPoint({ 1, 1 });
-	sprite->setName("leftdown");
-	sprite->setTag(static_cast<int>(PL_ANC::LEFTDOWN));
-	this->addChild(sprite);
-
-	// 右上
-	sprite = Sprite::create("image/player/player_rightup.png");
-	sprite->setAnchorPoint({ 0, 0 });
-	sprite->setName("rightup");
-	sprite->setTag(static_cast<int>(PL_ANC::RIGHTUP));
-	this->addChild(sprite);
-
-	// 右下
-	sprite = Sprite::create("image/player/player_rightdown.png");
-	sprite->setAnchorPoint({ 0, 1 });
-	sprite->setName("rightdown");
-	sprite->setTag(static_cast<int>(PL_ANC::RIGHTDOWN));
-	this->addChild(sprite);
-
-	/// プレイヤーの差分用画像の初期化
-	InitTextureInfo();
-
-	/// 表示時間の初期化
-	_dispCnt = -1;
-
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-
-	// 座標を真ん中にセット
-	this->setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
-
-	_vPoint = _vel = Vec2::ZERO;
-	// 消失点の変更
-	/*lpPointWithDepth.SetVanishingPoint(-Vec2(_localPos.x + visibleSize.width,
-											 _localPos.y + visibleSize.height));*/
+	Init(zdepth);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_oprtState.reset(new MouseCtl(this));
@@ -78,55 +30,7 @@ Player::Player(bool isHost, const float& zdepth, int provIsFront)
 	_prePos	  = Vec2::ZERO;
 	_localPos = { 0,0,zdepth };
 
-	// 中央
-	auto sprite = Sprite::create("image/player/player_center.png");
-	sprite->setName("center");
-	sprite->setTag(static_cast<int>(PL_ANC::CENTER));
-	this->addChild(sprite);
-	
-	// 左上
-	sprite = Sprite::create("image/player/player_leftup.png");
-	sprite->setAnchorPoint({ 1, 0 });
-	sprite->setName("leftup");
-	sprite->setTag(static_cast<int>(PL_ANC::LEFTUP));
-	this->addChild(sprite);
-
-	// 左下
-	sprite = Sprite::create("image/player/player_leftdown.png");
-	sprite->setAnchorPoint({ 1, 1 });
-	sprite->setName("leftdown");
-	sprite->setTag(static_cast<int>(PL_ANC::LEFTDOWN));
-	this->addChild(sprite);
-
-	// 右上
-	sprite = Sprite::create("image/player/player_rightup.png");
-	sprite->setAnchorPoint({ 0, 0 });
-	sprite->setName("rightup");
-	sprite->setTag(static_cast<int>(PL_ANC::RIGHTUP));
-	this->addChild(sprite);
-
-	// 右下
-	sprite = Sprite::create("image/player/player_rightdown.png");
-	sprite->setAnchorPoint({ 0, 1 });
-	sprite->setName("rightdown");
-	sprite->setTag(static_cast<int>(PL_ANC::RIGHTDOWN));
-	this->addChild(sprite);
-
-	/// プレイヤーの差分用画像の初期化
-	InitTextureInfo();
-
-	/// 表示時間の初期化
-	_dispCnt = -1;
-
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-
-	// 座標を真ん中にセット
-	this->setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
-
-	_vPoint = _vel = Vec2::ZERO;
-	// 消失点の変更
-	/*lpPointWithDepth.SetVanishingPoint(-Vec2(_localPos.x + visibleSize.width,
-											 _localPos.y + visibleSize.height));*/
+	Init(zdepth);
 
 	if (provIsFront == 0)
 	{
@@ -150,8 +54,63 @@ Player::~Player()
 {
 }
 
+void Player::Init(const float & zdepth)
+{
+	/// 座標の初期化
+	_prePos = Vec2::ZERO;
+
+	_vPoint = _vel = Vec2::ZERO;
+
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
+	// 座標を真ん中にセット
+	this->setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
+
+	// 消失点の変更
+	//lpPointWithDepth.SetVanishingPoint(-Vec2(visibleSize.width, visibleSize.height));
+
+	/// 表示時間の初期化
+	_dispCnt = -1;
+
+	/// プレイヤーの差分用画像の初期化
+	InitTextureInfo();
+}
+
 void Player::InitTextureInfo()
 {
+	// 中央
+	auto sprite = Sprite::create("image/player/player_center.png");
+	sprite->setName("center");
+	sprite->setTag(static_cast<int>(PL_ANC::CENTER));
+	this->addChild(sprite);
+
+	// 左上
+	sprite = Sprite::create("image/player/player_leftup.png");
+	sprite->setAnchorPoint({ 1, 0 });
+	sprite->setName("leftup");
+	sprite->setTag(static_cast<int>(PL_ANC::LEFTUP));
+	this->addChild(sprite);
+
+	// 左下
+	sprite = Sprite::create("image/player/player_leftdown.png");
+	sprite->setAnchorPoint({ 1, 1 });
+	sprite->setName("leftdown");
+	sprite->setTag(static_cast<int>(PL_ANC::LEFTDOWN));
+	this->addChild(sprite);
+
+	// 右上
+	sprite = Sprite::create("image/player/player_rightup.png");
+	sprite->setAnchorPoint({ 0, 0 });
+	sprite->setName("rightup");
+	sprite->setTag(static_cast<int>(PL_ANC::RIGHTUP));
+	this->addChild(sprite);
+
+	// 右下
+	sprite = Sprite::create("image/player/player_rightdown.png");
+	sprite->setAnchorPoint({ 0, 1 });
+	sprite->setName("rightdown");
+	sprite->setTag(static_cast<int>(PL_ANC::RIGHTDOWN));
+	this->addChild(sprite);
 	/// 画像名保存用
 	std::string imageName;
 
@@ -297,7 +256,7 @@ void Player::VanishPointUpdate(const cocos2d::Vec2& pos)
 	_vel = Vec2(Clamp(_vel.x, distance.x * 0.2f), Clamp(_vel.y, distance.y * 0.2f));
 	_vPoint += _vel;
 
-	lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	//lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(visibleSize.width / 2, visibleSize.height / 2));
 }
 
 void Player::ResetTexture()

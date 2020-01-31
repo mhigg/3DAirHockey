@@ -43,6 +43,7 @@ public:
 	/// ボールと当たった時の画像変更用
 	void ChangeImage(const int& num);
 private:
+	void Init(const float& zdepth);
 	void InitTextureInfo();		// 差分画像の初期化
 	void MoveUpdate();			// 移動更新用
 	void VanishPointUpdate(const cocos2d::Vec2& pos);		// 消失点の更新用
