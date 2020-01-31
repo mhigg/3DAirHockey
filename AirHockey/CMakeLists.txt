@@ -33,43 +33,43 @@ include(AndroidNdkModules)
 android_ndk_import_module_cpufeatures()
 
 include_directories(
-        D:/cricket/cricket-1.6.7/inc
+        D:/Android/cricket/cricket-1.6.7/inc
 )
 
 link_directories(
-        D:/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug
+        D:/Android/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug
 )
 
 link_libraries(
-        D:/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug/libck.a
+        D:/Android/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug/libck.a
 )
 
 include_directories(
-        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/
+        vendor/AndroidNdkSdk/
 )
 
 link_directories(
-        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/Common-cpp/lib/common-cpp-prebuilt
+        vendor/AndroidNdkSdk/Common-cpp/lib/common-cpp-prebuilt
 )
 
 link_libraries(
-        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/Common-cpp/lib/common-cpp-prebuilt/libcommon-cpp-static_debug_android_armeabi-v7a_libc++.a
+        libcommon-cpp-static_debug_android_${ANDROID_ABI}_libc++.a
 )
 
 link_directories(
-        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/LoadBalancing-cpp/lib/loadbalancing-cpp-prebuilt
+        vendor/AndroidNdkSdk/LoadBalancing-cpp/lib/loadbalancing-cpp-prebuilt
 )
 
 link_libraries(
-        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/LoadBalancing-cpp/lib/loadbalancing-cpp-prebuilt/libloadbalancing-cpp-static_debug_android_armeabi-v7a_libc++.a
+        libloadbalancing-cpp-static_debug_android_${ANDROID_ABI}_libc++.a
 )
 
 link_directories(
-        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/Photon-cpp/lib/photon-cpp-prebuilt
+        vendor/AndroidNdkSdk/Photon-cpp/lib/photon-cpp-prebuilt
 )
 
 link_libraries(
-        D:/3DAirHockey/AirHockey/vendor/AndroidNdkSdk/Photon-cpp/lib/photon-cpp-prebuilt/libphoton-cpp-static_debug_android_armeabi-v7a_libc++.a
+        libphoton-cpp-static_debug_android_${ANDROID_ABI}_libc++.a
 )
 
 set(COCOS2DX_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cocos2d)
