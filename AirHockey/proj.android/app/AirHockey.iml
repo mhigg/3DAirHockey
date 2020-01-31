@@ -372,6 +372,12 @@
       <excludeFolder url="file://$MODULE_DIR$/.externalNativeBuild" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
+    <content url="file://$MODULE_DIR$/../../vendor/AndroidNdkSdk/LoadBalancing-cpp/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../vendor/AndroidNdkSdk/LoadBalancing-cpp/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../vendor/AndroidNdkSdk/LoadBalancing-cpp/src/Internal">
+      <sourceFolder url="file://$MODULE_DIR$/../../vendor/AndroidNdkSdk/LoadBalancing-cpp/src/Internal" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../../../android-sdk/ndk/21.0.6113669/sources/android/cpufeatures">
       <sourceFolder url="file://$MODULE_DIR$/../../../../android-sdk/ndk/21.0.6113669/sources/android/cpufeatures" isTestSource="false" />
     </content>

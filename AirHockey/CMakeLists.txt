@@ -32,6 +32,7 @@ project(${APP_NAME})
 include(AndroidNdkModules)
 android_ndk_import_module_cpufeatures()
 
+#cricket
 include_directories(
         D:/Android/cricket/cricket-1.6.7/inc
 )
@@ -44,6 +45,7 @@ link_libraries(
         D:/Android/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug/libck.a
 )
 
+#photon
 include_directories(
         vendor/AndroidNdkSdk/
 )
@@ -219,14 +221,18 @@ if(NOT ANDROID)
     add_executable(${APP_NAME} ${all_code_files})
 else()
     add_library(${APP_NAME} SHARED ${all_code_files})
+#add a this sentence
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/AndroidNdkSdk)
     add_subdirectory(${COCOS2DX_ROOT_PATH}/cocos/platform/android ${ENGINE_BINARY_PATH}/cocos/platform)
     target_link_libraries(${APP_NAME} -Wl,--whole-archive cpp_android_spec -Wl,--no-whole-archive)
 endif()
 
 target_link_libraries(${APP_NAME} cocos2d)
+target_link_libraries(${APP_NAME} photon_loadbalancing) #add
 target_include_directories(${APP_NAME}
         PRIVATE Classes
         PRIVATE ${COCOS2DX_ROOT_PATH}/cocos/audio/include/
+        PRIVATE vendor/AndroidNdkSdk/ # add
 )
 
 # mark app resources
