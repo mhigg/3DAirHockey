@@ -1,1 +1,19 @@
-﻿  librecast.vcxproj -> E:\Android\3DAirHockey\AirHockey\proj.win32\Debug.win32\librecast.lib
+﻿  DebugDraw.cpp
+  DetourDebugDraw.cpp
+  DetourCrowd.cpp
+  DetourLocalBoundary.cpp
+  DetourObstacleAvoidance.cpp
+  DetourPathCorridor.cpp
+  DetourPathQueue.cpp
+  DetourProximityGrid.cpp
+  DetourTileCache.cpp
+  DetourTileCacheBuilder.cpp
+  DetourAlloc.cpp
+  DetourCommon.cpp
+d:\android\3dairhockey\airhockey\cocos2d\external\recast\detourcrowd\detourobstacleavoidance.cpp(334): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+  DetourNavMesh.cpp
+  DetourNavMeshBuilder.cpp
+  DetourNavMeshQuery.cpp
+  DetourNode.cpp
+  fastlz.c
+  librecast.vcxproj -> D:\Android\3DAirHockey\AirHockey\proj.win32\Debug.win32\librecast.lib
