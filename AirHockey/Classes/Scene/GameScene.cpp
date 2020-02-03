@@ -144,16 +144,8 @@ bool GameScene::init()
 		//auto stageWall = new StageWall({ 0, 0 }, zdepth[k], wallSize, color);
 		auto stageWall = new StageWall(zdepth[k], k);
 		// ｽﾃｰｼﾞﾚｲﾔｰに追加
-		stageLayer->addChild(stageWall,0,"Wall" +std::to_string(k));
+		stageLayer->addChild(stageWall,0,"Wall" + std::to_string(k));
 	}
-
-
-	/// 現在のシーンを表すテキスト
-	auto label = Label::create("Game", "Arial", 60);
-	label->setPosition(Vec2(label->getContentSize().width / 2,
-							visibleSize.height - label->getContentSize().height / 2));
-	label->setColor(Color3B::BLACK);
-	this->addChild(label);
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
@@ -167,6 +159,32 @@ bool GameScene::init()
 	CCAudioMng::GetInstance().RegistBankSE("ball", "curve", "curve");
 	CCAudioMng::GetInstance().RegistBankSE("ball", "hit", "hit");
 	CCAudioMng::GetInstance().RegistBankSE("ball", "wallHit", "wallHit");
+
+	/// UI用のレイヤーを作成している
+	Layer* UILayer = Layer::create();
+	UILayer->setName("UI");
+
+	/// スコアの画像を生成している
+	Sprite* score[2];
+	Color3B color;
+	Vec2 pos;
+	for (int i = 0; i < sizeof(score) / sizeof(score[0]); ++i)
+	{
+		color = (i == 0 ? Color3B::BLUE : Color3B::RED);
+		pos	  = (i == 0 ? Vec2(visibleSize.width / 3, visibleSize.height / 2)
+						: Vec2(visibleSize.width * 2 / 3, visibleSize.height / 2));
+
+		score[i] = Sprite::create("image/number.png");
+		score[i]->setColor(color);
+		score[i]->setPosition(pos);
+		score[i]->setName("score" + std::to_string(i + 1));
+
+		score[i]->setTextureRect(Rect(0, 0, 100, 100));
+		UILayer->addChild(score[i]);
+	}
+
+	/// UIの登録をしている
+	this->addChild(UILayer, static_cast<int>(LayerNum::FRONT));
 
 	/// シーン名を付けた
 	this->setName("GameScene");
