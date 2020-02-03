@@ -7,6 +7,12 @@ BallAfter::BallAfter() : _invTime(10)
 	Init();
 }
 
+BallAfter::BallAfter(const cocos2d::Vec3 & lPos) : _invTime(10)
+{
+	_localPos = lPos;
+	Init();
+}
+
 BallAfter::~BallAfter()
 {
 }
@@ -48,7 +54,7 @@ void BallAfter::Init()
 		_images[i]	= Sprite::create("image/ball/new_ball/ball_13.png");
 
 		/// 画像サイズの設定
-		_images[i]->setContentSize(_images[i]->getContentSize()/* * rate*/);
+		_images[i]->setContentSize(_images[i]->getContentSize());
 
 		/// 画像透明度の設定
 		_images[i]->setOpacity(140 * rate);

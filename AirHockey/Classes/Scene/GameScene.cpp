@@ -182,9 +182,9 @@ bool GameScene::init()
 	cntDown->setName("cntDown");
 	start->setName("start");
 
-	cntDown->setPosition(visibleSize / 2);
+	cntDown->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 3 / 4));
 	cntDown->setVisible(false);
-	start->setPosition(visibleSize / 2);
+	start->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 3 / 4));
 	start->setVisible(false);
 
 	UILayer->addChild(cntDown);

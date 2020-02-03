@@ -174,9 +174,8 @@ void StageWall::update(float dt)
 		&&_wallNum ==0)
 	{
 		/// ÅŒã‚Ì•Ç‚ğæ“¾
-		auto gameMng = GameManager::createGameMng();
 		auto layer = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
-		auto endWall = (SpriteAffectDepth*)layer->getChildByName("Wall" + std::to_string(gameMng->GetDepths().size() -1));
+		auto endWall = (SpriteAffectDepth*)layer->getChildByName("Wall" + std::to_string(9));
 
 		// q‚Ì—v‘f‘Síœ(DrawLine)
 		removeAllChildrenWithCleanup(true);

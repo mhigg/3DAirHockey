@@ -92,7 +92,6 @@ void GameManager::Init()
 		depth = _maxDepth - depth;
 		_zdepth.emplace_back(depth);
 	}
-	/// 仮の初期化 ◆
 	_zdepth[0] = 0.f;
 
 	/// ボールの生成
@@ -109,9 +108,10 @@ void GameManager::Init()
 		this->addChild(playerShadow);
 	}
 
-	/// 残像の生成
-	auto ballAfter = new BallAfter();
+	/// 残像の生成 (残像の初期位置を修正しておく)　◆
+	auto ballAfter = new BallAfter(ball->GetLocalPos());
 	ballAfter->setName("ballAfter");
+	ballAfter->setVisible(false);
 	this->addChild(ballAfter, static_cast<int>(SpriteNum::BALL));
 
 	// GeneratePlayer(true);
@@ -132,6 +132,7 @@ void GameManager::Stay()
 		if (!CCAudioMng::GetInstance().IsPlaySE("start"))
 		{
 			_updater = &GameManager::Game;
+			this->getChildByName("ballAfter")->setVisible(true);
 			return;
 		}
 		sp = (Sprite*)UI->getChildByName("start");
@@ -173,6 +174,10 @@ void GameManager::Score()
 
 void GameManager::update(float dt)
 {
+	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
+	{
+		return;
+	}
 	/// 関数ポインタの中身の処理を行う
 	(this->*_updater)();
 }
