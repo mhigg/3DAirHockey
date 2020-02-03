@@ -10,6 +10,8 @@ GameManager::GameManager() : _maxDepth(1000.f), _wallMax(10), _moveRange(1024 / 
 {
 	Init();
 	this->setName("GameManager");
+	/// 関数ポインタの中身を初期化している
+	_updater = &GameManager::Stay;
 	this->scheduleUpdate();
 }
 
@@ -61,6 +63,11 @@ void GameManager::GeneratePlayer(bool isHost)
 	}
 }
 
+void GameManager::TransitionScore()
+{
+	_updater = &GameManager::Score;
+}
+
 void GameManager::Init()
 {
 	/// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成
@@ -100,6 +107,21 @@ void GameManager::Init()
 	// GeneratePlayer(true);
 }
 
+void GameManager::Stay()
+{
+	
+}
+
+void GameManager::Game()
+{
+}
+
+void GameManager::Score()
+{
+}
+
 void GameManager::update(float dt)
 {
+	/// 関数ポインタの中身の処理を行う
+	(this->*_updater)();
 }
