@@ -99,7 +99,7 @@ void OPRT_Network::Update(void)
 
 	// ここでﾃﾞｰﾀ受信
 	// GetPointで渡す_pointの値の更新
-		while (!_networkLogic->eventQueue.empty())
+	while (!_networkLogic->eventQueue.empty())
 	{
 		std::array<float, 3>arr = _networkLogic->eventQueue.front();
 		_networkLogic->eventQueue.pop();
