@@ -1,5 +1,6 @@
 ﻿#include "ResultScene.h"
 #include "TitleScene.h"
+#include "../Manager/PointWithDepth.h"
 
 USING_NS_CC;
 

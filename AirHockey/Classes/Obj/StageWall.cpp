@@ -212,27 +212,6 @@ void StageWall::update(float dt)
 			Vec2((endWallPos.x + ((size.width / 2) * endWallScale)), (endWallPos.y - ((size.height / 2) * endWallScale))),
 			radius, lineColor);
 
-		//// 左上
-		//line->drawSegment(
-		//	Vec2(0, size.height),
-		//	Vec2(-(a  - b), size.height -((getPosition().y + (size.height / 2)* getScale())-(nextWallPos.y + (size.height / 2)* nextWallScale))),
-		//	radius, lineColor);
-		//// 左下
-		//line->drawSegment(
-		//	Vec2(0, 0),
-		//	Vec2(nextWallPos.x - (size.width / 2)* nextWallScale, nextWallPos.y - (size.height / 2)* nextWallScale),
-		//	radius, lineColor);
-		//// 右上
-		//line->drawSegment(
-		//	Vec2(size.width, size.height),
-		//	Vec2(nextWallPos.x + (size.width / 2)* nextWallScale, nextWallPos.y + (size.height / 2)* nextWallScale),
-		//	radius, lineColor);
-		//// 右下
-		//line->drawSegment(
-		//	Vec2(size.width, 0),
-		//	Vec2(nextWallPos.x + (size.width / 2)* nextWallScale, nextWallPos.y - (size.height / 2)* nextWallScale),
-		//	radius, lineColor);
-
 		// 親よりも前に表示する
 		line->setGlobalZOrder(this->getGlobalZOrder()+1);
 		addChild(line);

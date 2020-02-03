@@ -27,7 +27,7 @@ PointWithDepth::~PointWithDepth()
 {
 }
 
-cocos2d::Point PointWithDepth::SetWorldPosition(cocos2d::Vec3 localPos)
+cocos2d::Point PointWithDepth::SetWorldPosition(cocos2d::Vec3 localPos, float scale)
 {
 	// ｽﾌﾟﾗｲﾄの大きさの設定
 	GetScale(localPos.z);
@@ -38,8 +38,8 @@ cocos2d::Point PointWithDepth::SetWorldPosition(cocos2d::Vec3 localPos)
 	cocos2d::Point pos;
 
 	// 奥行の式
-	pos.x = _firstVanishingPoint.x + (_scale - 1) * (_nowVanishingPoint.x * _normalizePoint.x);
-	pos.y = _firstVanishingPoint.y + (_scale - 1) * (_nowVanishingPoint.y * _normalizePoint.y);
+	pos.x = _firstVanishingPoint.x + (_scale - scale) * (_nowVanishingPoint.x * _normalizePoint.x);
+	pos.y = _firstVanishingPoint.y + (_scale - scale) * (_nowVanishingPoint.y * _normalizePoint.y);
 
 	// 座標の更新
 	pos.x += (_scale) * (localPos.x);
