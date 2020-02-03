@@ -25,7 +25,7 @@ private:
 	std::tuple<bool, bool, bool> _isReverse;		// 速度反転用のフラグ(0 : X, 1 : Y, 2 : Z)
 	std::vector<float> _wallDepth;					// 壁の奥行
 
-	float _radius;									// 球の半径
+	float _diameter;								// 球の直径
 
 	State _ballState;								// ボールの状態保存用					
 };
