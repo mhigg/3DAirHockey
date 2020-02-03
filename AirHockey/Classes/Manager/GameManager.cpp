@@ -17,6 +17,8 @@ GameManager::GameManager() :
 	_updater = &GameManager::Stay;
 
 	_invCnt = _mimSecond * 4 ;
+	_scores[0] = 0;
+	_scores[1] = 0;
 	this->scheduleUpdate();
 }
 
@@ -73,9 +75,22 @@ bool GameManager::IsGame() const
 	return (_updater == &GameManager::Game);
 }
 
-void GameManager::TransitionScore()
+void GameManager::TransitionScore(bool isPlayer)
 {
-	_updater = &GameManager::Score;
+	_isPlayer	= isPlayer;
+	
+	/// プレイヤーのスコアを加算している
+	if (_isPlayer)
+	{
+		++_scores[0];
+	}
+	else
+	{
+		++_scores[1];
+	}
+	this->getChildByName("ballAfter")->setVisible(false);
+	_invCnt		= _mimSecond * 4 + 1;
+	_updater	= &GameManager::Score;
 }
 
 void GameManager::Init()
@@ -149,7 +164,7 @@ void GameManager::Stay()
 		sp->setTextureRect(rect);
 
 		/// カウントダウンの音を再生する
-		if (_invCnt % 60 == 0 && _invCnt > _mimSecond)
+		if (_invCnt % 60 == 0&& _invCnt > _mimSecond)
 		{
 			CCAudioMng::GetInstance().CkPlaySE("cntDown");
 		}
@@ -170,6 +185,47 @@ void GameManager::Game()
 
 void GameManager::Score()
 {
+	auto UI = Director::getInstance()->getRunningScene()->getChildByName("UI");
+	/// UI画像を全て非表示にしている
+	for (auto sp : UI->getChildren())
+	{
+		sp->setVisible(false);
+	}
+
+	if (_invCnt <= 0)
+	{
+		_updater = &GameManager::Stay;
+		_invCnt = _mimSecond * 4;
+
+		Ball* ball = (Ball*)this->getChildByName("ball");
+		ball->ResetPosition(Vec3(0, 0, _zdepth[4]));
+
+		return;
+	}
+
+	Sprite* sp = Sprite::create();
+	Rect rect;
+	for (int i = 0; i < _scores.size(); ++i)
+	{
+		sp = (Sprite*)UI->getChildByName("score" + std::to_string(i + 1));
+
+		sp->setTextureRect(Rect(100 * _scores[i], 0, 100, 100));
+		sp->setVisible(true);
+	}
+
+	int pNum = (_isPlayer ? 1 : 2);
+	std::string name = "score" + std::to_string(pNum);
+	if (_invCnt % 60 == 0)
+	{
+		CCAudioMng::GetInstance().CkPlaySE("score");
+	}
+
+	if (_invCnt / (_mimSecond / 2) % 2)
+	{
+		UI->getChildByName(name)->setVisible(false);
+	}
+	--_invCnt;
+
 }
 
 void GameManager::update(float dt)
