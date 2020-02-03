@@ -146,8 +146,13 @@ bool TitleScene::init()
 	Player* player = new Player(true, zdepth[1]);
 	stageLayer->addChild(player);
 
+	auto startLogo = Sprite::create("image/tap_to_start.png");
+	startLogo->setPosition(Vec2{ visibleSize.width / 2,visibleSize.height / 4 });
+	startLogo->setGlobalZOrder(1);
+	this->addChild(startLogo);
+
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	_oprtState.reset(new MouseCtl(this));
+	//_oprtState.reset(new MouseCtl(this));
 #else
 	_oprtState.reset(new Oprt_Touch(this));
 #endif
@@ -161,13 +166,13 @@ bool TitleScene::init()
 void TitleScene::update(float dt)
 {
 	/// 画面サイズの取得
-	cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-	cocos2d::Vec2 pos = _oprtState->GetPoint();
+	//cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+	//cocos2d::Vec2 pos = _oprtState->GetPoint();
 
-	// 入力情報の更新
-	_oprtState->Update();
+	//// 入力情報の更新
+	//_oprtState->Update();
 
-	lpPointWithDepth.SetVanishingPoint(pos);
+	//lpPointWithDepth.SetVanishingPoint(pos);
 }
 
 void TitleScene::menuCloseCallback(cocos2d::Ref * pSender)

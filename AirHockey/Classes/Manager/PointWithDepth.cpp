@@ -3,7 +3,7 @@
 std::unique_ptr<PointWithDepth, PointWithDepth::PointWithDepthDeleter> PointWithDepth::s_Instance(new PointWithDepth());	// ｲﾝｽﾀﾝｽ用ﾕﾆｰｸﾎﾟｲﾝﾀｰ
 
 #define Z_START_POINT	(0)			// Z(奥行の始点)
-#define Z_END_POINT		(1200)		// Z(奥行の終点)
+#define Z_END_POINT		(1500)		// Z(奥行の終点)
 #define X_VanishingPoint_MAX (1024)	// X方向に消失点を動かす最大値
 #define Y_VanishingPoint_MAX (576)	// Y方向に消失点を動かす最大値
 
