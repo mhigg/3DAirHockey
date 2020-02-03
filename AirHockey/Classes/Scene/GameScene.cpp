@@ -204,6 +204,9 @@ bool GameScene::init()
 	CCAudioMng::GetInstance().RegistBankSE("UI", "start", "start");
 	CCAudioMng::GetInstance().RegistBankSE("UI", "score", "score");
 
+	// 消失点用
+	_vPoint = _vel = Vec2::ZERO;
+
 	/// シーン名を付けた
 	this->setName("GameScene");
 	
@@ -234,6 +237,21 @@ void GameScene::update(float dt)
 			data.second->update();
 		}
 	}
+
+	/*auto gameMng = getChildByName("GameLayer")->getChildByName("GameManager");
+	auto centerPos = gameMng->getChildByName("player1")->getPosition() + gameMng->getChildByName("player2")->getPosition();
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	auto Clamp = [](const float& vel, const float& speed)
+	{
+		return fmin(3.f, fmax(-3.f, (vel + speed)));
+	};
+
+	/// 現状、仮の消失点の更新をしている
+	auto distance = (centerPos/2 - _vPoint).getNormalized();
+	_vel = Vec2(Clamp(_vel.x, distance.x * 0.2f), Clamp(_vel.y, distance.y * 0.2f));
+	_vPoint += _vel;
+
+	lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(visibleSize.width / 2, visibleSize.height / 2));*/
 }
 
 void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parentTransform, uint32_t parentFlags)

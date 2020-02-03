@@ -46,6 +46,9 @@ public:
 private:
 	void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags);	// Effecseerで使用
 	std::vector<float> zdepth;	// 奥行
+
+	cocos2d::Vec2 _vel;			// 消失点の速度
+	cocos2d::Vec2 _vPoint;		// 消失点の座標
 };
 
 #endif // __GameScene_H__

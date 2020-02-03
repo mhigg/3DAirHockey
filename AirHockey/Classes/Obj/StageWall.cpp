@@ -181,7 +181,7 @@ void StageWall::update(float dt)
 	}
 	else{}
 
-	if (Director::getInstance()->getRunningScene()->getName() != "GameScene"
+	if (Director::getInstance()->getRunningScene()->getName() == "GameScene"
 		&&_wallNum ==0)
 	{
 		/// ÅŒã‚Ì•Ç‚ğæ“¾
