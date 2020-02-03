@@ -71,13 +71,25 @@ StageWall::StageWall(float zDepth, int num, bool lineFlag)
 	setScale(lpPointWithDepth.GetScale(_localPos.z));
 
 	// 色の設定
-	// 初期
-	_normalColor = Color3B(0, 255, 0);
+	// 手前遠く2つのみ黄色に
+	if (num < 2 || 7 < num)
+	{
+		// 初期
+		_normalColor = Color3B::ORANGE;
+		// 変更した際の色
+		_changeColor = _normalColor;
+	}
+	else
+	{
+		// 初期
+		_normalColor = Color3B::GREEN;
+		// 変更した際の色
+		_changeColor = Color3B::BLUE;
+	}
 	setColor(_normalColor);
 	// 現在の色
 	_nowColor = getColor();
-	// 変更した際の色
-	_changeColor = Color3B(0, 0, 255);
+
 	// 色の変更ﾌﾗｸﾞ
 	_colorChangeFlag = false;
 
@@ -147,8 +159,7 @@ void StageWall::SetWallColorChangeFlag(bool flag)
 
 void StageWall::update(float dt)
 {
-	if (Director::getInstance()->getRunningScene()->getName() != "TitleScene"
-		||Director::getInstance()->getRunningScene()->getName() != "GameScene")
+	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
 	{
 		/// ゲームシーン以外の時は処理に入らないようにする
 		return;
