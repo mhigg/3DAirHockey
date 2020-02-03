@@ -92,11 +92,11 @@ bool TitleScene::init()
 	this->addChild(guestMenu, static_cast<int>(LayerNum::FRONT));
 	this->addChild(guestLabel, static_cast<int>(LayerNum::FRONT));
 
-	/// 現在のシーンを表すテキスト
-	auto label = Label::create("Title", "Arial", 60);
-	label->setPosition(Vec2(label->getContentSize().width / 2, 
-							visibleSize.height - label->getContentSize().height / 2));
-	this->addChild(label);
+	///// 現在のシーンを表すテキスト
+	//auto label = Label::create("Title", "Arial", 60);
+	//label->setPosition(Vec2(label->getContentSize().width / 2, 
+	//						visibleSize.height - label->getContentSize().height / 2));
+	//this->addChild(label);
 
 	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
 	auto stageLayer = Layer::create();
