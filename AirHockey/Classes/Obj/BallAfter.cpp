@@ -2,7 +2,7 @@
 
 USING_NS_CC;
 
-BallAfter::BallAfter() : _invTime(8)
+BallAfter::BallAfter() : _invTime(10)
 {
 	Init();
 }
