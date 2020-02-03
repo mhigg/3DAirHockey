@@ -8,6 +8,7 @@ class BallAfter :
 {
 public:
 	BallAfter();
+	BallAfter(const cocos2d::Vec3& lPos);
 	~BallAfter();
 
 	/// 座標更新用(ボールのローカル座標を取得する)
