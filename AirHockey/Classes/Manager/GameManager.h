@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <memory>
+#include <array>
 #include "cocos2d.h"
 
 class Player;
@@ -33,7 +34,7 @@ public:
 	// ゲーム中かの判定取得用
 	bool IsGame() const;
 	// スコア表示の状態に遷移する
-	void TransitionScore();
+	void TransitionScore(bool isPlayer);
 
 private:
 	CREATE_FUNC(GameManager);
@@ -51,8 +52,10 @@ private:
 	void (GameManager::*_updater)();	// ゲーム中の状態管理用
 
 	bool _isHost;
+	bool _isPlayer;			// プレイヤー確認用 true : player1, false : player2
 
-	int _invCnt;	
+	int _invCnt;
+	std::array<int, 2> _scores;		// プレイヤーのスコア管理用
 
 	const int _mimSecond;	// 60秒(固定値)
 	const cocos2d::Vec2 _moveRange;

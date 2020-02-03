@@ -31,6 +31,16 @@ cocos2d::Vec3 Ball::GetLocalPos(void) const
 	return _localPos;
 }
 
+void Ball::ResetPosition(const cocos2d::Vec3 & pos)
+{
+	_localPos = pos;
+
+	// 一点透視図法にした時の座標のｾｯﾄ
+	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
+	// 一点透視図法にした時の画像のｻｲｽﾞ設定
+	setScale(lpPointWithDepth.GetScale(_localPos.z));
+}
+
 std::tuple<bool, bool, bool> Ball::GetIsReverse() const
 {
 	return _isReverse;
@@ -177,13 +187,13 @@ void Ball::ChangeIsReverse()
 	else {}
 
 	/// とりあえず、仮でボール半径のサイズ分を許容した当たり判定を取っている
-	if (_localPos.z > players[1]->GetDepth() - _diameter * 0.1f)
+	if (_localPos.z > players[1]->GetDepth() && !std::get<2>(_isReverse))
 	{
 		/// プレイヤーの当たったアンカーポイントを取得している
 		int ancType = IsHitAnchor(players[1]);
 
 		/// ボールがプレイヤーに当たった時に入る
-		if (ancType >= 0 && !std::get<2>(_isReverse))
+		if (ancType >= 0)
 		{
 			/// ボールと当たった時の画像に変更する
 			players[1]->ChangeImage(ancType);
@@ -197,13 +207,21 @@ void Ball::ChangeIsReverse()
 
 			std::get<2>(_isReverse) = true;
 		}
+		else
+		{
+			if (_localPos.z > players[1]->GetDepth() + _diameter / 2)
+			{
+				/// 1Pにスコアを与える
+				gameMng->TransitionScore(true);
+			}
+		}
 	}
-	else if (_localPos.z  <= players[0]->GetDepth() + _diameter)
+	else if (_localPos.z  <= players[0]->GetDepth() && std::get<2>(_isReverse))
 	{
 		/// プレイヤーの当たったアンカーポイントを取得している
 		int ancType = IsHitAnchor(players[0]);
 
-		if (ancType >= 0 && std::get<2>(_isReverse))
+		if (ancType >= 0)
 		{
 			/// ボールと当たった時の画像に変更する
 			players[0]->ChangeImage(ancType);
@@ -215,6 +233,14 @@ void Ball::ChangeIsReverse()
 			/// プレイヤーを動かしながらボールを当てた時、カーブを行う。
 			ChangeMoving(players[1]);
 			std::get<2>(_isReverse) = false;
+		}
+		else
+		{
+			if (_localPos.z <= players[0]->GetDepth() - _diameter / 2)
+			{
+				/// 2Pにスコアを与える
+				gameMng->TransitionScore(false);
+			}
 		}
 	}
 	else {}

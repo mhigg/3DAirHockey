@@ -13,6 +13,7 @@ public:
 	~Ball();
 
 	cocos2d::Vec3 GetLocalPos(void) const;					// _localPosの取得
+	void ResetPosition(const cocos2d::Vec3& pos);
 	std::tuple<bool, bool, bool> GetIsReverse() const;		// 反転用フラグの取得用
 private:
 	bool Init(void);
