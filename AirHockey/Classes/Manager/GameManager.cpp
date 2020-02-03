@@ -174,6 +174,10 @@ void GameManager::Score()
 
 void GameManager::update(float dt)
 {
+	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
+	{
+		return;
+	}
 	/// 関数ポインタの中身の処理を行う
 	(this->*_updater)();
 }
