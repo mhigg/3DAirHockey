@@ -111,7 +111,7 @@ bool GameScene::init()
 	// 奥行の最大値
 	float maxDepth = gameMng->GetMaxDepth();
 	// 壁の最大数
-	int wallMaxNum = gameMng->GetWallMax();
+	int wallMaxNum = gameMng->GetDepths().size();
 	// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成
 	float magnification = maxDepth / (wallMaxNum * wallMaxNum);
 	// 奥行の作成

@@ -37,11 +37,6 @@ float GameManager::GetMaxDepth(void) const
 	return _maxDepth;
 }
 
-int GameManager::GetWallMax(void) const
-{
-	return _wallMax;
-}
-
 void GameManager::GeneratePlayer(bool isHost)
 {
 	/// 深度値保存用の一次変数(_wallDepth, _zdepthの0番目は値が壊れているので0でいいかもしれない)　◆

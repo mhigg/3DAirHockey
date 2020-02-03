@@ -117,14 +117,14 @@ void Ball::ChangeIsReverse()
 	if (_localPos.x - _radius / 2 < -gameMng->GetMovingRange().x)
 	{
 		_ballState = State::NORMAL;
-		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<0>(_isReverse) = false;
 	}
 	else if (_localPos.x + _radius/ 2 > gameMng->GetMovingRange().x)
 	{
 		_ballState = State::NORMAL;
-		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<0>(_isReverse) = true;
 	}
@@ -133,14 +133,14 @@ void Ball::ChangeIsReverse()
 	if (_localPos.y - _radius / 2 < -gameMng->GetMovingRange().y)
 	{
 		_ballState = State::NORMAL;
-		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<1>(_isReverse) = false;
 	}
 	else if (_localPos.y + _radius / 2 > gameMng->GetMovingRange().y)
 	{
 		_ballState = State::NORMAL;
-		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
 		std::get<1>(_isReverse) = true;
 	}
@@ -203,7 +203,7 @@ void Ball::ChangeMoving(const Node* pl)
 	if (abs(player->GetMoveDistance().x) >= 20 &&
 		abs(player->GetMoveDistance().y) >= 20)
 	{
-		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("curve", rate);
 		_ballState = State::CURVE;
 		_traject->CalBezierPoint(player->GetMoveDistance().getNormalized());
@@ -211,7 +211,7 @@ void Ball::ChangeMoving(const Node* pl)
 	else
 	{
 		_traject->SetVel(player->GetMoveDistance().getNormalized());
-		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetWallMax() - 1]);
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("hit", rate);
 		_ballState = State::NORMAL;
 
