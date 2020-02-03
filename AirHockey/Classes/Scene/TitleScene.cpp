@@ -25,6 +25,9 @@ bool TitleScene::init()
 		return false;
 	}
 
+	// 消失点の初期化
+	lpPointWithDepth.ResetVanishingPoint();
+
 	// 画面解像度の取得
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	// 座標の取得

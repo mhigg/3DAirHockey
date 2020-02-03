@@ -12,7 +12,8 @@ SpriteAffectDepth::SpriteAffectDepth(cocos2d::Vec2 pos, float zDepth, const std:
 
 	// posとｽﾌﾟﾗｲﾄの大きさを一点透視図法に置き換える
 	// 一点透視図法にした時の座標のｾｯﾄ
-	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
+	// 座標の更新
+	setPosition(lpPointWithDepth.SetWorldPosition(_localPos/*, -0.98f*/));
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
 	setScale(lpPointWithDepth.GetScale(_localPos.z));
 
@@ -65,8 +66,18 @@ bool SpriteAffectDepth::Init(void)
 
 void SpriteAffectDepth::update(float dt)
 {
-	// 座標の更新
-	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
+	/// ﾃﾞｨﾚｸﾀｰの取得
+	auto director = cocos2d::Director::getInstance()->getRunningScene();
+	if (director->getName() == "TitleScene")
+	{
+		// 座標の更新
+		setPosition(lpPointWithDepth.SetWorldPosition(_localPos/*,0.9f*/));
+	}
+	else
+	{
+		// 座標の更新
+		setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
+	}
 }
 
 cocos2d::Vec3 SpriteAffectDepth::GetLocalPos(void) const

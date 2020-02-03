@@ -18,7 +18,8 @@ public:
 		return (*s_Instance);				// *で中身(ｸﾗｽの実体)を返す
 	}
 
-	cocos2d::Point SetWorldPosition(cocos2d::Vec3 localPos);	// scaleと座標を1点透視図法で計算する
+	// scaleと座標を1点透視図法で計算する(第二引数は指定したｽｹｰﾙを中心に動かしたいときに使う)
+	cocos2d::Point SetWorldPosition(cocos2d::Vec3 localPos, float scale = 1);
 	float GetScale(float local_z);								// ｽﾌﾟﾗｲﾄ用のscareのｹﾞｯﾀｰ
 
 	cocos2d::Point GetVanishingPoint(void);						// 消失点の座標のｹﾞｯﾀｰ
