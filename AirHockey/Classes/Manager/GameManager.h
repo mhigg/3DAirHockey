@@ -30,6 +30,8 @@ public:
 	// ホストで入ってきたらtrue, ゲストで入ってきたらfalseを渡してプレイヤーを生成
 	void GeneratePlayer(bool isHost);
 
+	// ゲーム中かの判定取得用
+	bool IsGame() const;
 	// スコア表示の状態に遷移する
 	void TransitionScore();
 
@@ -52,6 +54,7 @@ private:
 
 	int _invCnt;	
 
+	const int _mimSecond;	// 60秒(固定値)
 	const cocos2d::Vec2 _moveRange;
 	const float _maxDepth;	// 奥行の最大値
 	const int _wallMax;		// 壁の最大数

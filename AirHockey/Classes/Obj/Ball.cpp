@@ -40,7 +40,7 @@ bool Ball::Init(void)
 {
 	// 初期座標
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-	_localPos = { 0,0,0 };
+	_localPos = { 0,0,_wallDepth[4] };			/// とりあえず仮の位置で設定している　◆
 
 	// 半径(画像の大きさ/2 - 余白)
 	_diameter = 150;
@@ -258,46 +258,47 @@ void Ball::update(float dt)
 		/// ゲームシーン以外の時は処理に入らないようにする
 		return;
 	}
+	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
 
-	/// ボールの移動方向を反転させる処理
-	ChangeIsReverse();
-
-	// 1ﾌﾚｰﾑ前の座標(ｱﾆﾒｰｼｮﾝの向き用)
-	Vec2 oldPos = { _localPos.x,_localPos.y };
-	// 移動の更新
-	_localPos += _traject->GetVel(_ballState);
-	// ｱﾆﾒｰｼｮﾝの向き
-	float angle  = atan2(_localPos.y - oldPos.y, _localPos.x - oldPos.x) * 180 / M_PI;
-	setRotation(90 + angle);
-
-	// 壁の色更新
-	auto director = Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
-	StageWall* wall;
-	for (int k = 0; k < _wallDepth.size(); k++)
+	if (gameMng->IsGame())
 	{
-		wall = (StageWall*)director->getChildByName("Wall" + std::to_string(k));
+		/// ボールの移動方向を反転させる処理
+		ChangeIsReverse();
 
-		if (_localPos.z > _wallDepth[k])
+		// 1ﾌﾚｰﾑ前の座標(ｱﾆﾒｰｼｮﾝの向き用)
+		Vec2 oldPos = { _localPos.x,_localPos.y };
+		// 移動の更新
+		_localPos += _traject->GetVel(_ballState);
+		// ｱﾆﾒｰｼｮﾝの向き
+		float angle = atan2(_localPos.y - oldPos.y, _localPos.x - oldPos.x) * 180 / M_PI;
+		setRotation(90 + angle);
+
+		// 壁の色更新
+		auto director = Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
+		StageWall* wall;
+		for (int k = 0; k < _wallDepth.size(); k++)
 		{
-			// 変更後のｶﾗｰ
-			wall->SetWallColorChangeFlag(true);
+			wall = (StageWall*)director->getChildByName("Wall" + std::to_string(k));
+
+			if (_localPos.z > _wallDepth[k])
+			{
+				// 変更後のｶﾗｰ
+				wall->SetWallColorChangeFlag(true);
+			}
+			else
+			{
+				// 通常時のｶﾗｰ
+				wall->SetWallColorChangeFlag(false);
+			}
 		}
-		else
-		{
-			// 通常時のｶﾗｰ
-			wall->SetWallColorChangeFlag(false);
-		}
+		/// 残像の座標を更新している
+		auto ballAfter = (BallAfter*)gameMng->getChildByName("ballAfter");
+		ballAfter->Update(_localPos);
 	}
 
-	// 座標の更新
-	// posとｽﾌﾟﾗｲﾄの大きさを一点透視図法に置き換える
 	// 一点透視図法にした時の座標のｾｯﾄ
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
 	setScale(lpPointWithDepth.GetScale(_localPos.z));
 
-	/// 残像の座標を更新している
-	auto gameMng	= Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
-	auto ballAfter	= (BallAfter*)gameMng->getChildByName("ballAfter");
-	ballAfter->Update(_localPos);
 }

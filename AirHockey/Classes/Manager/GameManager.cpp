@@ -3,15 +3,20 @@
 #include "../Obj/BallAfter.h"
 #include "../Obj/Shadow.h"
 #include "GameManager.h"
+#include "CCAudioMng.h"
 
 USING_NS_CC;
 
-GameManager::GameManager() : _maxDepth(1000.f), _wallMax(10), _moveRange(1024 / 2, 576 / 2), _playerDepth(1)
+GameManager::GameManager() :
+	_maxDepth(1000.f), _wallMax(10),_mimSecond(60),
+	_moveRange(1024 / 2, 576 / 2), _playerDepth(1)
 {
 	Init();
 	this->setName("GameManager");
 	/// 関数ポインタの中身を初期化している
 	_updater = &GameManager::Stay;
+
+	_invCnt = _mimSecond * 4 ;
 	this->scheduleUpdate();
 }
 
@@ -63,6 +68,11 @@ void GameManager::GeneratePlayer(bool isHost)
 	}
 }
 
+bool GameManager::IsGame() const
+{
+	return (_updater == &GameManager::Game);
+}
+
 void GameManager::TransitionScore()
 {
 	_updater = &GameManager::Score;
@@ -93,7 +103,7 @@ void GameManager::Init()
 	/// ボールの影の生成
 	for (int k = 0; k < 4; k++)
 	{
-		auto ballShadow = new Shadow(k, "ball");
+		auto ballShadow   = new Shadow(k, "ball");
 		auto playerShadow = new Shadow(k, "player", "1");
 		this->addChild(ballShadow);
 		this->addChild(playerShadow);
@@ -109,7 +119,48 @@ void GameManager::Init()
 
 void GameManager::Stay()
 {
+	auto UI = Director::getInstance()->getRunningScene()->getChildByName("UI");
+	/// UI画像を全て非表示にしている
+	for (auto sp : UI->getChildren())
+	{
+		sp->setVisible(false);
+	}
 	
+	Sprite* sp = Sprite::create();
+	if (_invCnt < _mimSecond)
+	{
+		if (!CCAudioMng::GetInstance().IsPlaySE("start"))
+		{
+			_updater = &GameManager::Game;
+			return;
+		}
+		sp = (Sprite*)UI->getChildByName("start");
+		sp->setVisible(true);
+
+	}
+	else
+	{
+		sp = (Sprite*)UI->getChildByName("cntDown");
+		sp->setVisible(true);
+
+		/// Y座標の指定位置は現状動かないので、直値で渡している
+		Rect rect = Rect(100 * (_invCnt / _mimSecond), 0, 100, 100);
+		sp->setTextureRect(rect);
+
+		/// カウントダウンの音を再生する
+		if (_invCnt % 60 == 0 && _invCnt > _mimSecond)
+		{
+			CCAudioMng::GetInstance().CkPlaySE("cntDown");
+		}
+	}
+
+	/// スタートを知らせる音を再生する
+	if (_invCnt == _mimSecond)
+	{
+		CCAudioMng::GetInstance().CkPlaySE("start");
+	}
+
+	--_invCnt;
 }
 
 void GameManager::Game()
