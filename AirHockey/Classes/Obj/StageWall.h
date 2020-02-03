@@ -8,7 +8,7 @@ public:
 	// (座標,奥行,ﾃｸｽﾁｬｰの大きさ,色)
 	StageWall(cocos2d::Vec2 pos, float zDepth,cocos2d::Point size, cocos2d::Color3B color);
 	// (座標,奥行,壁の番号)
-	StageWall(float zDepth, int num);
+	StageWall(float zDepth, int num ,bool lineFlag = true);
 	StageWall();
 	~StageWall();
 

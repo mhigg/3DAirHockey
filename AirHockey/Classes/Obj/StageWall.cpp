@@ -54,7 +54,7 @@ StageWall::StageWall(cocos2d::Vec2 pos, float zDepth, cocos2d::Point size, cocos
 
 }
 
-StageWall::StageWall(float zDepth, int num)
+StageWall::StageWall(float zDepth, int num, bool lineFlag)
 {
 	// ‰æ‘œ
 	setTexture("image/wall.png");
@@ -85,7 +85,7 @@ StageWall::StageWall(float zDepth, int num)
 	_wallNum = num;
 
 	// ü‚Ì•`‰æ
-	if (_wallNum == 0)
+	if (lineFlag&&_wallNum == 0)
 	{
 		/// ÅŒã‚Ì•Ç‚ðŽæ“¾
 		auto gameMng = GameManager::createGameMng();
@@ -147,7 +147,8 @@ void StageWall::SetWallColorChangeFlag(bool flag)
 
 void StageWall::update(float dt)
 {
-	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
+	if (Director::getInstance()->getRunningScene()->getName() != "TitleScene"
+		||Director::getInstance()->getRunningScene()->getName() != "GameScene")
 	{
 		/// ƒQ[ƒ€ƒV[ƒ“ˆÈŠO‚ÌŽž‚Íˆ—‚É“ü‚ç‚È‚¢‚æ‚¤‚É‚·‚é
 		return;
@@ -169,7 +170,8 @@ void StageWall::update(float dt)
 	}
 	else{}
 
-	if (_wallNum ==0)
+	if (Director::getInstance()->getRunningScene()->getName() != "GameScene"
+		&&_wallNum ==0)
 	{
 		/// ÅŒã‚Ì•Ç‚ðŽæ“¾
 		auto layer = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer");
