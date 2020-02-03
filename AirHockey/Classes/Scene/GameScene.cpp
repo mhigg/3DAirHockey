@@ -150,16 +150,6 @@ bool GameScene::init()
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
 
-	/// 仮のBGM再生
-	/*CCAudioMng::GetInstance().RegistStreamBGM("BGM/bgm.cks", "bgm");
-	CCAudioMng::GetInstance().CkPlayBGM("bgm");*/
-
-	/// 仮のSE再生
-	CCAudioMng::GetInstance().RegistBank("SE/ball.ckb", "ball");
-	CCAudioMng::GetInstance().RegistBankSE("ball", "curve", "curve");
-	CCAudioMng::GetInstance().RegistBankSE("ball", "hit", "hit");
-	CCAudioMng::GetInstance().RegistBankSE("ball", "wallHit", "wallHit");
-
 	/// UI用のレイヤーを作成している
 	Layer* UILayer = Layer::create();
 	UILayer->setName("UI");
@@ -170,21 +160,46 @@ bool GameScene::init()
 	Vec2 pos;
 	for (int i = 0; i < sizeof(score) / sizeof(score[0]); ++i)
 	{
-		color = (i == 0 ? Color3B::BLUE : Color3B::RED);
-		pos	  = (i == 0 ? Vec2(visibleSize.width / 3, visibleSize.height / 2)
-						: Vec2(visibleSize.width * 2 / 3, visibleSize.height / 2));
+		color = (i == 0 ? Color3B(135, 175, 250) : Color3B(250, 135, 135));
+		pos = (i == 0 ? Vec2(visibleSize.width / 3, visibleSize.height / 2)
+			: Vec2(visibleSize.width * 2 / 3, visibleSize.height / 2));
 
 		score[i] = Sprite::create("image/number.png");
 		score[i]->setColor(color);
 		score[i]->setPosition(pos);
+		score[i]->setVisible(false);
 		score[i]->setName("score" + std::to_string(i + 1));
 
 		score[i]->setTextureRect(Rect(0, 0, 100, 100));
 		UILayer->addChild(score[i]);
 	}
 
+	Sprite* cntDown = Sprite::create("image/number.png");
+	Sprite* start = Sprite::create("image/start.png");
+	cntDown->setName("cntDown");
+	start->setName("start");
+
+	cntDown->setPosition(visibleSize / 2);
+	cntDown->setVisible(false);
+	start->setPosition(visibleSize / 2);
+	start->setVisible(false);
+
+	UILayer->addChild(cntDown);
+	UILayer->addChild(start);
+
 	/// UIの登録をしている
 	this->addChild(UILayer, static_cast<int>(LayerNum::FRONT));
+
+	/// 仮のSE再生
+	CCAudioMng::GetInstance().RegistBank("SE/ball.ckb", "ball");
+	CCAudioMng::GetInstance().RegistBankSE("ball", "curve", "curve");
+	CCAudioMng::GetInstance().RegistBankSE("ball", "hit", "hit");
+	CCAudioMng::GetInstance().RegistBankSE("ball", "wallHit", "wallHit");
+
+	CCAudioMng::GetInstance().RegistBank("SE/UI.ckb", "UI");
+	CCAudioMng::GetInstance().RegistBankSE("UI", "cntDown", "cntDown");
+	CCAudioMng::GetInstance().RegistBankSE("UI", "start", "start");
+	CCAudioMng::GetInstance().RegistBankSE("UI", "score", "score");
 
 	/// シーン名を付けた
 	this->setName("GameScene");

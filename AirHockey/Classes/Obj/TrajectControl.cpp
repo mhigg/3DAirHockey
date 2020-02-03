@@ -32,7 +32,7 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 	endDepth = (std::get<2>(ball->GetIsReverse()) ? gameMng->GetDepths()[gameMng->GetDepths().size() - 1] : gameMng->GetDepths()[0]);
 
 	start	= Vec3(ball->GetLocalPos().x, ball->GetLocalPos().y, ball->GetLocalPos().z);
-	mid = Vec3(ball->GetLocalPos().x + distance.x, ball->GetLocalPos().y + distance.y, gameMng->GetDepths()[gameMng->GetDepths().size() / 2]);
+	mid		= Vec3(ball->GetLocalPos().x + distance.x, ball->GetLocalPos().y + distance.y, gameMng->GetDepths()[gameMng->GetDepths().size() / 2]);
 	end		= Vec3(ball->GetLocalPos().x - distance.x, ball->GetLocalPos().y - distance.y, endDepth);				/// 仮の設定　◆
 
 	for (int i = 0; i < _points.size(); ++i)

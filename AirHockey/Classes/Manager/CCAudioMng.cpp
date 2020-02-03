@@ -170,6 +170,15 @@ void CCAudioMng::CkPlaySE(const std::string & key, const float & rate)
 	}
 }
 
+bool CCAudioMng::IsPlaySE(const std::string & key)
+{
+	if (_seMap.find(key) != _seMap.end())
+	{
+		return _seMap[key]->isPlaying();
+	}
+	return false;
+}
+
 void CCAudioMng::CkPlayBGM(const std::string& key)
 {
 	/// BGM‚ª“o˜^‚³‚ê‚Ä‚¢‚é‚©‚Ì”»’è

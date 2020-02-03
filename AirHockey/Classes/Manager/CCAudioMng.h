@@ -69,6 +69,7 @@ public:
 	// Œø‰Ê‰¹‚ÌÄ¶
 	void CkPlaySE(const std::string& key);
 	void CkPlaySE(const std::string& key, const float& rate);
+	bool IsPlaySE(const std::string& key);
 
 	// BGM‚ÌÄ¶
 	void CkPlayBGM(const std::string& key);
