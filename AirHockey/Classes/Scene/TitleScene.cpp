@@ -2,6 +2,8 @@
 #include "HostScene.h"
 #include "GuestScene.h"
 #include "../Obj/SpriteAffectDepth.h"
+#include "../Obj/StageWall.h"
+#include "../Obj/Player.h"
 #include "../Controller/MouseCtl.h"
 #include "../Controller/OPRT_Touch.h"
 #include "../Manager/PointWithDepth.h"
@@ -96,6 +98,38 @@ bool TitleScene::init()
 							visibleSize.height - label->getContentSize().height / 2));
 	this->addChild(label);
 
+	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
+	auto stageLayer = Layer::create();
+	stageLayer->setName("StageLayer");
+	this->addChild(stageLayer);
+
+	///// ここの直値を後ほど修正しておく　◆
+	// ｽﾃｰｼﾞの壁作成
+	// 奥行の最大値
+	float maxDepth = 1000.f;
+	// 壁の最大数
+	int wallMaxNum = 10;
+	// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成
+	float magnification = maxDepth / (wallMaxNum * wallMaxNum);
+	std::vector<float>zdepth;
+	// 奥行の作成
+	for (float x = wallMaxNum; x > 0; x--)
+	{
+		float depth = x * x * magnification;
+		depth = maxDepth - depth;
+		zdepth.emplace_back(depth);
+	}
+	/// 仮の初期化 ◆
+	zdepth[0] = 0.f;
+	// ﾌｨｰﾙﾄﾞの基本サイズ
+	Point wallSize = visibleSize;
+	// ﾌｨｰﾙﾄﾞ用ｽﾌﾟﾗｲﾄの作成
+	for (int k = 0; k < zdepth.size(); k++)
+	{
+		auto stageWall = new StageWall(zdepth[k], k, false);
+		// ｽﾃｰｼﾞﾚｲﾔｰに追加
+		stageLayer->addChild(stageWall, 0, "Wall" + std::to_string(k));
+	}
 	// titleLogoLayer
 	auto logoLayer = Layer::create();
 	this->addChild(logoLayer, 5);
@@ -107,6 +141,10 @@ bool TitleScene::init()
 
 	}
 	this->setName("TitleScene");
+
+	// ﾌﾟﾚｲﾔｰ作成
+	Player* player = new Player(true, zdepth[1]);
+	stageLayer->addChild(player);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_oprtState.reset(new MouseCtl(this));

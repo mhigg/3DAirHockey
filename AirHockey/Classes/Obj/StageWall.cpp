@@ -54,7 +54,7 @@ StageWall::StageWall(cocos2d::Vec2 pos, float zDepth, cocos2d::Point size, cocos
 
 }
 
-StageWall::StageWall(float zDepth, int num)
+StageWall::StageWall(float zDepth, int num, bool lineFlag)
 {
 	// 画像
 	setTexture("image/wall.png");
@@ -85,7 +85,7 @@ StageWall::StageWall(float zDepth, int num)
 	_wallNum = num;
 
 	// 線の描画
-	if (_wallNum == 0)
+	if (lineFlag&&_wallNum == 0)
 	{
 		/// 最後の壁を取得
 		auto gameMng = GameManager::createGameMng();
@@ -147,7 +147,8 @@ void StageWall::SetWallColorChangeFlag(bool flag)
 
 void StageWall::update(float dt)
 {
-	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
+	if (Director::getInstance()->getRunningScene()->getName() != "TitleScene"
+		||Director::getInstance()->getRunningScene()->getName() != "GameScene")
 	{
 		/// ゲームシーン以外の時は処理に入らないようにする
 		return;
@@ -169,7 +170,8 @@ void StageWall::update(float dt)
 	}
 	else{}
 
-	if (_wallNum ==0)
+	if (Director::getInstance()->getRunningScene()->getName() != "GameScene"
+		&&_wallNum ==0)
 	{
 		/// 最後の壁を取得
 		auto gameMng = GameManager::createGameMng();
