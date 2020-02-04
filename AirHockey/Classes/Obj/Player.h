@@ -29,6 +29,7 @@ class Player :
 public:
 	Player(bool isHost, const float& zdepth);
 	Player(bool isHost, const float& zdepth, int provIsFront);	// 仮実装中のコンストラクタ
+	Player(bool isHost, const float& zdepth, int provIsFront, bool active);
 	~Player();
 
 	/// 深度値の取得用
@@ -42,6 +43,7 @@ public:
 
 	/// ボールと当たった時の画像変更用
 	void ChangeImage(const int& num);
+	void GyroSet(bool setFlag);
 private:
 	void Init(const float& zdepth);
 	void InitTextureInfo();		// 差分画像の初期化

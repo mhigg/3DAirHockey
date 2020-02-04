@@ -50,6 +50,11 @@ Player::Player(bool isHost, const float& zdepth, int provIsFront)
 	this->scheduleUpdate();
 }
 
+Player::Player(bool isHost, const float & zdepth, int provIsFront, bool active)
+{
+	Player(isHost, zdepth, provIsFront);
+}
+
 Player::~Player()
 {
 }
@@ -176,6 +181,14 @@ void Player::ChangeImage(const int & num)
 
 	/// 画像を表示する時間
 	_dispCnt = 40;
+}
+
+void Player::GyroSet(bool setFlag)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	auto touch = (Oprt_Touch*)_oprtState.get();
+	touch->GyroActive(setFlag);
+#endif
 }
 
 void Player::MoveUpdate()

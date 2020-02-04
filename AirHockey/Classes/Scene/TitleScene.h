@@ -38,13 +38,16 @@ public:
 	virtual bool init();							// 初期化用関数
 	void update(float dt);							// 状態遷移用
 
-	void menuCloseCallback(cocos2d::Ref* pSender);	// ｳｨﾝﾄﾞｳを閉じる為のﾎﾞﾀﾝ	
+	void menuCloseCallback(cocos2d::Ref* pSender);	// ｳｨﾝﾄﾞｳを閉じる為のﾎﾞﾀﾝ
+	void GyroButton(cocos2d::Ref* ref);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(TitleScene);
 
 
 	std::unique_ptr<OPRT_State> _oprtState;	// ﾀｯﾁやｼﾞｬｲﾛの入力取得用
+	bool _isGyro;
+	cocos2d::Label* _androidLabel;
 };
 
 #endif // __TitleScene_H__

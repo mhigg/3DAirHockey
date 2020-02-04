@@ -26,6 +26,7 @@ public:
 	cocos2d::Vec2 GetPoint(void) const;
 	void ResetSensor(void);
 	void Update(void);		// 状態更新
+	void GyroActive(bool setFlag);
 
 private:
 	cocos2d::Vec3 GetSensor(void);
@@ -38,5 +39,5 @@ private:
 	cocos2d::Vec2 _point;
 
 	// Gyroの状態フラグ
-	bool _isGyro;
+	bool _active;
 };

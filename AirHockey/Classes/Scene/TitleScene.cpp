@@ -36,7 +36,7 @@ bool TitleScene::init()
 
 	// 消失点の初期化
 	lpPointWithDepth.ResetVanishingPoint();
-
+	_isGyro = true;
 	// 画面解像度の取得
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	// 座標の取得
@@ -56,6 +56,7 @@ bool TitleScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu);
 
+
 	/// ホストシーンのボタン生成(緑ボタン)
 	auto hostItem = MenuItemImage::create("host.png", "host2.png",[&](Ref* ref)
 	{
@@ -65,7 +66,7 @@ bool TitleScene::init()
 		Director::getInstance()->replaceScene(TransitionFade::create(1.f, GameScene::createScene(), Color3B::WHITE));
 	});
 	hostItem->setPosition(origin.x + visibleSize.width / 3,
-						  origin.y + visibleSize.height / 2 - hostItem->getContentSize().height);
+						  origin.y + visibleSize.height / 2 - hostItem->getContentSize().height * 1.5f);
 	auto hostMenu = Menu::create(hostItem, 0);
 	hostMenu->setName("hostMenu");
 	hostMenu->setPosition(Vec2::ZERO);
@@ -74,7 +75,7 @@ bool TitleScene::init()
 	auto hostLabel = Label::create("Host", "Arial", 50);
 	hostLabel->setColor(Color3B::BLACK);
 	hostLabel->setPosition(origin.x + visibleSize.width / 3,
-						   origin.y + visibleSize.height / 2 - hostItem->getContentSize().height);
+						   origin.y + visibleSize.height / 2 - hostItem->getContentSize().height * 1.5f);
 	this->addChild(hostMenu, static_cast<int>(LayerNum::FRONT));
 	this->addChild(hostLabel, static_cast<int>(LayerNum::FRONT));
 
@@ -87,7 +88,7 @@ bool TitleScene::init()
 		Director::getInstance()->replaceScene(TransitionFade::create(1.f, GameScene::createScene(), Color3B::WHITE));
 	});
 	guestItem->setPosition((origin.x + visibleSize.width / 3) * 2,
-						    origin.y + visibleSize.height / 2 - guestItem->getContentSize().height);
+						    origin.y + visibleSize.height / 2 - guestItem->getContentSize().height * 1.5f);
 	auto guestMenu = Menu::create(guestItem, 0);
 	guestMenu->setName("guestMenu");
 	guestMenu->setPosition(Vec2::ZERO);
@@ -95,11 +96,33 @@ bool TitleScene::init()
 	auto guestLabel = Label::create("Guest", "Arial", 50);
 	guestLabel->setColor(Color3B::BLACK);
 	guestLabel->setPosition((origin.x + visibleSize.width / 3) * 2 ,
-							 origin.y + visibleSize.height / 2 - guestItem->getContentSize().height);
+							 origin.y + visibleSize.height / 2 - guestItem->getContentSize().height * 1.5f);
 
 	/// ボタンの追加
 	this->addChild(guestMenu, static_cast<int>(LayerNum::FRONT));
 	this->addChild(guestLabel, static_cast<int>(LayerNum::FRONT));
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	/// Android操作切り替えボタン生成
+	auto gyroItem = MenuItemImage::create("select.png", "select2.png", [&](Ref* ref)
+	{
+		TitleScene::GyroButton(ref);
+	});
+	gyroItem->setPosition((origin.x + visibleSize.width / 2),
+		origin.y + visibleSize.height / 2 - gyroItem->getContentSize().height / 2);
+	gyroItem->setScale(0.7f);
+	auto gyroMenu = Menu::create(gyroItem, 0);
+	gyroMenu->setName("gyroMenu");
+	gyroMenu->setPosition(Vec2::ZERO);
+	/// ボタンテキストの生成
+	_androidLabel = Label::create("Gyro", "Arial", 40);
+	_androidLabel->setColor(Color3B::BLACK);
+	_androidLabel->setPosition((origin.x + visibleSize.width / 2),
+		origin.y + visibleSize.height / 2 - gyroItem->getContentSize().height / 2);
+
+	/// ボタンの追加
+	this->addChild(gyroMenu, static_cast<int>(LayerNum::FRONT));
+	this->addChild(_androidLabel, static_cast<int>(LayerNum::FRONT));
+#endif
 
 	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
 	auto stageLayer = Layer::create();
@@ -147,18 +170,14 @@ bool TitleScene::init()
 
 	// ﾌﾟﾚｲﾔｰ作成
 	Player* player = new Player(true, zdepth[1]);
+	player->setPosition((origin.x + visibleSize.width),origin.y + visibleSize.height / 2);
+	player->setName("Player");
 	stageLayer->addChild(player);
 
 	/*auto startLogo = Sprite::create("image/tap_to_start.png");
 	startLogo->setPosition(Vec2{ visibleSize.width / 2,visibleSize.height / 4 });
 	startLogo->setGlobalZOrder(1);
 	this->addChild(startLogo);*/
-
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	//_oprtState.reset(new MouseCtl(this));
-#else
-	_oprtState.reset(new Oprt_Touch(this));
-#endif
 
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
@@ -181,4 +200,22 @@ void TitleScene::update(float dt)
 void TitleScene::menuCloseCallback(cocos2d::Ref * pSender)
 {
 	Director::getInstance()->end();
+}
+
+void TitleScene::GyroButton(cocos2d::Ref * ref)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	_isGyro = _isGyro == true ? false : true;
+	if (_isGyro == true)
+	{
+		_androidLabel->setString("Gyro");
+	}
+	else
+	{
+		_androidLabel->setString("Touch");
+	}
+	auto pl = (Player*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer")->getChildByName("Player");
+	pl->GyroSet(_isGyro);
+#endif
+
 }
