@@ -323,6 +323,7 @@ void Ball::update(float dt)
 	}
 	else
 	{
+		_ballState = State::NORMAL;
 		_traject->ResetVel();
 	}
 
