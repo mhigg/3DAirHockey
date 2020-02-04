@@ -194,6 +194,20 @@ bool GameScene::init()
 
 	/// シーン名を付けた
 	this->setName("GameScene");
+
+	/// SEの登録
+	CCAudioMng::GetInstance().RegistBank("SE/ball.ckb", "ball");
+	CCAudioMng::GetInstance().RegistBankSE("ball", "curve", "curve");
+	CCAudioMng::GetInstance().RegistBankSE("ball", "hit", "hit");
+	CCAudioMng::GetInstance().RegistBankSE("ball", "wallHit", "wallHit");
+
+	CCAudioMng::GetInstance().RegistBank("SE/UI.ckb", "UI");
+	CCAudioMng::GetInstance().RegistBankSE("UI", "cntDown", "cntDown");
+	CCAudioMng::GetInstance().RegistBankSE("UI", "start", "start");
+	CCAudioMng::GetInstance().RegistBankSE("UI", "score", "score");
+	CCAudioMng::GetInstance().RegistBankSE("UI", "win", "win");
+	CCAudioMng::GetInstance().RegistBankSE("UI", "lose", "lose");
+	CCAudioMng::GetInstance().RegistBankSE("UI", "decide", "decide");
 	
 	return true;
 }
