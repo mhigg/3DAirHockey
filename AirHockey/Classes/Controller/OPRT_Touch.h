@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "jni.h"
 #include "OPRT_State.h"
+#include "NetworkLogic.h"
+
 
 #ifndef __ANDROID_JNI__
 #define __ANDROID_JNI__
@@ -40,4 +42,12 @@ private:
 
 	// Gyroの状態フラグ
 	bool _active;
+	// ネットワーク
+	void Run(void);	// 通信の接続
+	void addParticle(int playerNr, float x, float y);
+
+	bool _isHost;	// ﾎｽﾄならtrue, ｹﾞｽﾄならfalse
+	bool _swallowsTouches;
+	NetworkLogic* _networkLogic;
+
 };
