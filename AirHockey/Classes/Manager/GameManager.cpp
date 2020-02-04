@@ -124,7 +124,7 @@ void GameManager::Init()
 	}
 
 	/// 残像の生成 (残像の初期位置を修正しておく)　◆
-	auto ballAfter = new BallAfter(ball->GetLocalPos());
+	auto ballAfter = new BallAfter();
 	ballAfter->setName("ballAfter");
 	ballAfter->setVisible(false);
 	this->addChild(ballAfter, static_cast<int>(SpriteNum::BALL));
@@ -198,6 +198,8 @@ void GameManager::Score()
 		_invCnt = _mimSecond * 4;
 
 		Ball* ball = (Ball*)this->getChildByName("ball");
+		BallAfter* ballAfter = (BallAfter*)this->getChildByName("ballAfter");
+		ballAfter->ResetPosition();
 		ball->ResetPosition(Vec3(0, 0, _zdepth[4]));
 
 		return;

@@ -41,6 +41,27 @@ void BallAfter::Update(const cocos2d::Vec3 & lPos)
 	++_cnt;
 }
 
+void BallAfter::ResetPosition()
+{
+	float rate;
+	_localPos = { 0,0,0 };
+	for (int i = 0; i < _images.size(); ++i)
+	{
+		/// 画像サイズの倍率を計算している
+		rate = (float)(_images.size() - i) / (_images.size());
+
+		/// 画像透明度の設定
+		_images[i]->setOpacity(75 * rate);
+		_points[i] = _localPos;
+
+		/// 初期座標の設定
+		setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
+
+		/// 画像スケールの設定
+		setScale(lpPointWithDepth.GetScale(_localPos.z));
+	}
+}
+
 void BallAfter::Init()
 {
 	// 計算した画像の倍率を保存するもの
@@ -51,13 +72,13 @@ void BallAfter::Init()
 		rate	= (float)(_images.size() - i) / (_images.size());
 
 		/// 画像の取得
-		_images[i]	= Sprite::create("image/ball/new_ball/ball_13.png");
+		_images[i]	= Sprite::create("image/ball/ball_15.png");
 
 		/// 画像サイズの設定
 		_images[i]->setContentSize(_images[i]->getContentSize());
 
 		/// 画像透明度の設定
-		_images[i]->setOpacity(140 * rate);
+		_images[i]->setOpacity(75 * rate);
 		
 		/// 初期座標の設定
 		setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
