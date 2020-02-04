@@ -32,7 +32,7 @@ class GameScene : public cocos2d::Scene
 {
 public:
 	~GameScene();
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool setFlag);
 
 	virtual bool init();							// 初期化用関数
 	void update(float dt);							// 状態遷移用
@@ -48,6 +48,7 @@ private:
 
 	cocos2d::Vec2 _vel;			// 消失点の速度
 	cocos2d::Vec2 _vPoint;		// 消失点の座標
+	static bool _active;
 };
 
 #endif // __GameScene_H__
