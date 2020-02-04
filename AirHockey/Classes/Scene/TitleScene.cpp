@@ -149,10 +149,10 @@ bool TitleScene::init()
 	Player* player = new Player(true, zdepth[1]);
 	stageLayer->addChild(player);
 
-	auto startLogo = Sprite::create("image/tap_to_start.png");
+	/*auto startLogo = Sprite::create("image/tap_to_start.png");
 	startLogo->setPosition(Vec2{ visibleSize.width / 2,visibleSize.height / 4 });
 	startLogo->setGlobalZOrder(1);
-	this->addChild(startLogo);
+	this->addChild(startLogo);*/
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	//_oprtState.reset(new MouseCtl(this));
