@@ -7,7 +7,7 @@ USING_NS_CC;
 
 TrajectControl::TrajectControl() : _speed(8.f,8.f,8.f)
 {
-	_vel = _speed;
+	_vel = { 0,0,_speed.z / 2 };
 }
 
 TrajectControl::~TrajectControl()
@@ -22,8 +22,9 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 	auto gameMng	= (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
 	auto ball		= (Ball*)gameMng->getChildByName("ball");
 
+	Vec2 visibleSize = Director::getInstance()->getVisibleSize();
 	/// 画面サイズ / 2 - ボールの半径をカーブできる移動範囲に設定してみるか？　◆
-	Vec2 distance = Vec2(500 * vec.x, 400 * vec.y);
+	Vec2 distance = Vec2((visibleSize.x / 2) * vec.x, (visibleSize.y / 2) * vec.y);
 	/// 一次ベジェの曲線を生成するために必要なもの
 	Vec3 start, mid, end;
 	float a, b, endDepth;
@@ -46,6 +47,11 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 		_points[i].z = (a * a * start.z) + (2 * a * b * mid.z) + (b * b * end.z);
 	}
 	return true;
+}
+
+void TrajectControl::ResetVel()
+{
+	_vel = { 0,0,_speed.z / 2 };
 }
 
 void TrajectControl::SetVel(const cocos2d::Vec2 & vec)

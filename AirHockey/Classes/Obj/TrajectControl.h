@@ -19,6 +19,7 @@ public:
 	TrajectControl();
 	~TrajectControl();
 
+	void ResetVel();
 	void SetVel(const cocos2d::Vec2& vec);
 	cocos2d::Vec3 GetVel(const State& state);		// 速度取得用
 	bool CalBezierPoint(const cocos2d::Vec2& vec);

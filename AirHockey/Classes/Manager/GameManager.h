@@ -46,6 +46,7 @@ private:
 	void Stay();					// 待ち状態
 	void Game();					// ゲーム中	
 	void Score();					// スコアの表示などを行う
+	void Result();
 
 	std::vector<float> _zdepth;			// 深度値を保存するもの
 

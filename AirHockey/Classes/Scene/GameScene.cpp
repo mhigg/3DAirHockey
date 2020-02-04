@@ -83,19 +83,6 @@ bool GameScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, static_cast<int>(LayerNum::FRONT));
 
-	/*/// シーン遷移用のボタンの作成
-	auto sceneItem = MenuItemImage::create(
-		"button.png",
-		"button2.png",
-		CC_CALLBACK_1(GameScene::ChangeScene, this));
-	auto sceneItemVec = Vec2(origin.x + visibleSize.width - sceneItem->getContentSize().width / 2, 
-							 sceneItem->getContentSize().height / 2);
-	sceneItem->setPosition(sceneItemVec);
-	auto sceneMenu = Menu::create(sceneItem, 0);
-	sceneMenu->setName("SceneMenu");
-	sceneMenu->setPosition(Vec2::ZERO);
-	this->addChild(sceneMenu, static_cast<int>(LayerNum::FRONT));
-*/
 	/// ゲーム管理者の生成
 	auto gameLayer = Layer::create();
 	auto gameMng = GameManager::createGameMng();
@@ -109,7 +96,6 @@ bool GameScene::init()
 	stageLayer->setName("StageLayer");
 	this->addChild(stageLayer);
 
-	///// ここの直値を後ほど修正しておく　◆
 	// ｽﾃｰｼﾞの壁作成
 	// 奥行の最大値
 	float maxDepth = gameMng->GetMaxDepth();
@@ -170,7 +156,6 @@ bool GameScene::init()
 		score[i] = Sprite::create("image/number.png");
 		score[i]->setColor(color);
 		score[i]->setPosition(pos);
-		score[i]->setVisible(false);
 		score[i]->setName("score" + std::to_string(i + 1));
 
 		score[i]->setTextureRect(Rect(0, 0, 100, 100));
@@ -178,17 +163,29 @@ bool GameScene::init()
 	}
 
 	Sprite* cntDown = Sprite::create("image/number.png");
-	Sprite* start = Sprite::create("image/start.png");
+	Sprite* start	= Sprite::create("image/start.png");
+	Sprite* win		= Sprite::create("image/win.png");
+	Sprite* lose	= Sprite::create("image/lose.png");
 	cntDown->setName("cntDown");
 	start->setName("start");
+	win->setName("win");
+	lose->setName("lose");
 
 	cntDown->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 3 / 4));
-	cntDown->setVisible(false);
 	start->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 3 / 4));
-	start->setVisible(false);
+	win->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 3 / 4));
+	lose->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 3 / 4));
 
 	UILayer->addChild(cntDown);
 	UILayer->addChild(start);
+	UILayer->addChild(win);
+	UILayer->addChild(lose);
+
+	/// UI関係の画像を全て非表示にしている
+	for (auto sp : UILayer->getChildren())
+	{
+		sp->setVisible(false);
+	}
 
 	/// UIの登録をしている
 	this->addChild(UILayer, static_cast<int>(LayerNum::FRONT));
@@ -201,12 +198,6 @@ bool GameScene::init()
 	
 	return true;
 }
-
-void GameScene::ChangeScene(cocos2d::Ref * ref)
-{
-	Director::getInstance()->replaceScene(TransitionFade::create(1.f, ResultScene::createScene(), Color3B::WHITE));
-}
-
 void GameScene::menuCloseCallback(Ref* pSender)
 {
 //	networkLogic->disconnect();
