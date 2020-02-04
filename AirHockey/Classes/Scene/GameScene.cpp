@@ -23,7 +23,6 @@
  ****************************************************************************/
 
 #include "GameScene.h"
-#include "ResultScene.h"
 #include "SimpleAudioEngine.h"
 #include "../Obj/StageWall.h"
 #include "../Obj/Player.h"
