@@ -13,6 +13,7 @@ public:
 
 	/// 座標更新用(ボールのローカル座標を取得する)
 	void Update(const cocos2d::Vec3& lPos);
+	void ResetPosition();
 private:
 	void Init();
 	void update(float dt);

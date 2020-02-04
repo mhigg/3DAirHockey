@@ -321,6 +321,10 @@ void Ball::update(float dt)
 		auto ballAfter = (BallAfter*)gameMng->getChildByName("ballAfter");
 		ballAfter->Update(_localPos);
 	}
+	else
+	{
+		_traject->ResetVel();
+	}
 
 	// 一点透視図法にした時の座標のｾｯﾄ
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));

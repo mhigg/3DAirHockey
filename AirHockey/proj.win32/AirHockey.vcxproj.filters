@@ -41,15 +41,6 @@
     <ClCompile Include="..\Classes\Scene\GameScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\GuestScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Scene\HostScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Scene\ResultScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Scene\TitleScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -127,15 +118,6 @@
       <Filter>Controller</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Scene\GameScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scene\GuestScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scene\HostScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scene\ResultScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Scene\TitleScene.h">

@@ -3,6 +3,7 @@
 #include "../Obj/BallAfter.h"
 #include "../Obj/Shadow.h"
 #include "GameManager.h"
+#include "../Scene/TitleScene.h"
 #include "CCAudioMng.h"
 
 USING_NS_CC;
@@ -124,7 +125,7 @@ void GameManager::Init()
 	}
 
 	/// 残像の生成 (残像の初期位置を修正しておく)　◆
-	auto ballAfter = new BallAfter(ball->GetLocalPos());
+	auto ballAfter = new BallAfter();
 	ballAfter->setName("ballAfter");
 	ballAfter->setVisible(false);
 	this->addChild(ballAfter, static_cast<int>(SpriteNum::BALL));
@@ -203,12 +204,31 @@ void GameManager::Score()
 
 	if (_invCnt <= 0)
 	{
-		_updater = &GameManager::Stay;
-		_invCnt = _mimSecond * 4;
+		bool isGame = true;
+		for (auto score : _scores)
+		{
+			if (score >= 5)
+			{
+				isGame = false;
+				break;
+			}
+		}
 
-		Ball* ball = (Ball*)this->getChildByName("ball");
-		ball->ResetPosition(Vec3(0, 0, _zdepth[4]));
+		if (isGame)
+		{
+			_updater = &GameManager::Stay;
+			_invCnt = _mimSecond * 4;
 
+			Ball* ball = (Ball*)this->getChildByName("ball");
+			BallAfter* ballAfter = (BallAfter*)this->getChildByName("ballAfter");
+			ballAfter->ResetPosition();
+			ball->ResetPosition(Vec3(0, 0, _zdepth[4]));
+		}
+		else
+		{
+			_updater = &GameManager::Result;
+			CCAudioMng::GetInstance().CkPlaySE("win");
+		}
 		return;
 	}
 
@@ -218,7 +238,7 @@ void GameManager::Score()
 	{
 		sp = (Sprite*)UI->getChildByName("score" + std::to_string(i + 1));
 
-		sp->setTextureRect(Rect(100 * _scores[i], 0, 100, 100));
+		sp->setTextureRect(Rect(100 * (_scores[i] % 5), 100 * (_scores[i] / 5), 100, 100));
 		sp->setVisible(true);
 	}
 
@@ -234,7 +254,24 @@ void GameManager::Score()
 		UI->getChildByName(name)->setVisible(false);
 	}
 	--_invCnt;
+}
 
+void GameManager::Result()
+{
+	auto UI = Director::getInstance()->getRunningScene()->getChildByName("UI");
+	/// UI画像を全て非表示にしている
+	for (auto sp : UI->getChildren())
+	{
+		sp->setVisible(false);
+	}
+
+	UI->getChildByName("win")->setVisible(true);
+
+	if (!CCAudioMng::GetInstance().IsPlaySE("win"))
+	{
+		UI->getChildByName("win")->setVisible(false);
+		Director::getInstance()->replaceScene(TransitionFade::create(1.f, TitleScene::createScene(), Color3B::WHITE));
+	}
 }
 
 void GameManager::update(float dt)
