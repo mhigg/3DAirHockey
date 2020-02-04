@@ -43,6 +43,7 @@ private:
 	void Init();
 
 	/// 関数ポインタを使って管理するもの
+	void Connect();					// 接続待機
 	void Stay();					// 待ち状態
 	void Game();					// ゲーム中	
 	void Score();					// スコアの表示などを行う

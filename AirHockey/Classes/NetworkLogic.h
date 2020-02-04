@@ -10,7 +10,7 @@
 #	include "AuthenticationParameters.h"
 #endif
 
-enum State
+enum LOAD_STATE
 {
 	STATE_INITIALIZED = 0,	// 初期接続
 	STATE_CONNECTING,		// 通信接続中
@@ -37,19 +37,19 @@ class NetworkLogicListener : public ExitGames::Common::ToString
 {
 public:
 	using ExitGames::Common::ToString::toString;
-	virtual void stateUpdate(State newState) = 0;
+	virtual void stateUpdate(LOAD_STATE newState) = 0;
 	virtual ExitGames::Common::JString& toString(ExitGames::Common::JString& retStr, bool withTypes = false) const;
 };
 
 class StateAccessor
 {
 public:
-	State getState(void) const;
-	void setState(State newState);
+	LOAD_STATE getState(void) const;
+	void setState(LOAD_STATE newState);
 	void registerForStateUpdates(NetworkLogicListener* listener);
 
 private:
-	State mState;
+	LOAD_STATE mState;
 	ExitGames::Common::JVector<NetworkLogicListener*> mStateUpdateListeners;
 };
 
@@ -72,9 +72,11 @@ public:
 	void sendEvent(void);
 	void sendEvent(nByte code, ExitGames::Common::Hashtable *eventContent);
 
+	int getConnectingPeers(void) const;
+
 	Input getLastInput(void) const;
 	void setLastInput(Input newInput);
-	State getState(void) const;
+	LOAD_STATE getState(void) const;
 
 	// ルームが存在するか否かを返すメソッド
 	bool isRoomExists(void);
@@ -134,6 +136,7 @@ private:
 	OutputListener* mpOutputListener;
 	bool mAutoJoinRoom;
 	ExitGames::Common::EGTime mLastSendTime;
+	int _nowConnectingPeers;
 #ifdef _EG_XB1_PLATFORM
 	ExitGames::Common::JVector<nByte> mXSTSToken;
 	bool mReauthenticateRequired;
