@@ -36,12 +36,15 @@
 
 USING_NS_CC;
 
+bool GameScene::_active = false;
+
 GameScene::~GameScene()
 {
 }
 
-Scene* GameScene::createScene()
+Scene* GameScene::createScene(bool setFlag)
 {
+	_active = setFlag;
 	// ｼｰﾝの作成
 	return GameScene::create();
 }
@@ -85,7 +88,7 @@ bool GameScene::init()
 	/// ゲーム管理者の生成
 	auto gameLayer = Layer::create();
 	auto gameMng = GameManager::createGameMng();
-	gameMng->GeneratePlayer(lpAppInfo.isHost());
+	gameMng->GeneratePlayer(lpAppInfo.isHost(), _active);
 	gameLayer->setName("GameLayer");
 	gameLayer->addChild(gameMng);
 	this->addChild(gameLayer, static_cast<int>(LayerNum::GAME));
@@ -231,24 +234,22 @@ void GameScene::update(float dt)
 		}
 	}
 
-	//auto gameMng = getChildByName("GameLayer")->getChildByName("GameManager");
-	//auto centerPos = gameMng->getChildByName("player1")->getPosition() + gameMng->getChildByName("player2")->getPosition();
-	//auto visibleSize = Director::getInstance()->getVisibleSize();
-	//auto Clamp = [](const float& vel, const float& speed)
-	//{
-	//	return fmin(0.5f, fmax(-0.5f, (vel + speed)));
-	//};
+	auto gameMng = getChildByName("GameLayer")->getChildByName("GameManager");
+	auto centerPos = gameMng->getChildByName("player1")->getPosition() + gameMng->getChildByName("player2")->getPosition();
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	auto Clamp = []( const float& speed)
+	{
+		return fmin(0.4f, fmax(-0.4f, ( speed)));
+	};
 
-	///// 現状、仮の消失点の更新をしている
-	//auto distance = (centerPos/2 - _vPoint).getNormalized();
-	//_vel = Vec2(Clamp(_vel.x, distance.x/* * 0.2f*/), Clamp(_vel.y, distance.y/* * 0.2f*/));
-	//if (_vel.x < 0.1f&&-0.1 < _vel.x)
-	//{
-	//	_vel.x = 0;
-	//}
-	//_vPoint += _vel;
+	/// 現状、仮の消失点の更新をしている
+	auto distance = (centerPos/2 - _vPoint).getNormalized();
 
-	//lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	_vel = Vec2(Clamp( distance.x* 2), Clamp( distance.y*2));
+
+	_vPoint += _vel;
+
+	lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(visibleSize.width / 2, visibleSize.height / 2));
 }
 
 void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parentTransform, uint32_t parentFlags)

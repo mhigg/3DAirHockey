@@ -29,7 +29,7 @@ public:
 	float GetMaxDepth(void) const;
 
 	// ホストで入ってきたらtrue, ゲストで入ってきたらfalseを渡してプレイヤーを生成
-	void GeneratePlayer(bool isHost);
+	void GeneratePlayer(bool isHost, bool setFlag);
 
 	// ゲーム中かの判定取得用
 	bool IsGame() const;

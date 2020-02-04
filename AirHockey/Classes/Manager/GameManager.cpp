@@ -47,7 +47,7 @@ float GameManager::GetMaxDepth(void) const
 	return _maxDepth;
 }
 
-void GameManager::GeneratePlayer(bool isHost)
+void GameManager::GeneratePlayer(bool isHost, bool setFlag)
 {
 	/// 深度値保存用の一次変数(_wallDepth, _zdepthの0番目は値が壊れているので0でいいかもしれない)　◆
 	float depth;
@@ -60,6 +60,10 @@ void GameManager::GeneratePlayer(bool isHost)
 		depth = (i == 0 ? _zdepth[_playerDepth] : _zdepth[_wallMax - _playerDepth - 1]);
 		layer = (i == 0 ? static_cast<int>(SpriteNum::PLAYER) : static_cast<int>(SpriteNum::SHADOW));
 		player = new Player(isHost, depth, i);
+		if (i == 0)
+		{
+			player->GyroSet(setFlag);
+		}
 		/// プレイヤーの名前を設定している
 		//player->setName(isHost ? "HostPlayer" : "GuestPlayer");
 		player->setName("player" + std::to_string(i + 1));
