@@ -58,7 +58,7 @@ bool TitleScene::init()
 
 
 	/// ホストシーンのボタン生成(緑ボタン)
-	auto hostItem = MenuItemImage::create("host.png", "host2.png",[&](Ref* ref)
+	auto hostItem = MenuItemImage::create("host.png", "",[&](Ref* ref)
 	{
 		/// 1Pの設定をしている。
 		lpAppInfo.isHost(true);
@@ -71,16 +71,11 @@ bool TitleScene::init()
 	hostMenu->setName("hostMenu");
 	hostMenu->setPosition(Vec2::ZERO);
 
-	/// ボタンテキストの生成
-	auto hostLabel = Label::create("Host", "Arial", 50);
-	hostLabel->setColor(Color3B::BLACK);
-	hostLabel->setPosition(origin.x + visibleSize.width / 3,
-						   origin.y + visibleSize.height / 2 - hostItem->getContentSize().height * 1.5f);
-	this->addChild(hostMenu, static_cast<int>(LayerNum::FRONT));
-	this->addChild(hostLabel, static_cast<int>(LayerNum::FRONT));
 
+	this->addChild(hostMenu, static_cast<int>(LayerNum::FRONT));
+	
 	/// ゲストシーンのボタン生成
-	auto guestItem = MenuItemImage::create("guest.png", "guest2.png",[&](Ref* ref)
+	auto guestItem = MenuItemImage::create("guest.png", "",[&](Ref* ref)
 	{
 		///  2Pの設定をしている
 		lpAppInfo.isHost(false);
@@ -92,15 +87,11 @@ bool TitleScene::init()
 	auto guestMenu = Menu::create(guestItem, 0);
 	guestMenu->setName("guestMenu");
 	guestMenu->setPosition(Vec2::ZERO);
-	/// ボタンテキストの生成
-	auto guestLabel = Label::create("Guest", "Arial", 50);
-	guestLabel->setColor(Color3B::BLACK);
-	guestLabel->setPosition((origin.x + visibleSize.width / 3) * 2 ,
-							 origin.y + visibleSize.height / 2 - guestItem->getContentSize().height * 1.5f);
+
 
 	/// ボタンの追加
 	this->addChild(guestMenu, static_cast<int>(LayerNum::FRONT));
-	this->addChild(guestLabel, static_cast<int>(LayerNum::FRONT));
+	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// Android操作切り替えボタン生成
 	auto gyroItem = MenuItemImage::create("select.png", "select2.png", [&](Ref* ref)

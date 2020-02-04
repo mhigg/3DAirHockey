@@ -231,24 +231,24 @@ void GameScene::update(float dt)
 		}
 	}
 
-	auto gameMng = getChildByName("GameLayer")->getChildByName("GameManager");
-	auto centerPos = gameMng->getChildByName("player1")->getPosition() + gameMng->getChildByName("player2")->getPosition();
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto Clamp = [](const float& vel, const float& speed)
-	{
-		return fmin(0.5f, fmax(-0.5f, (vel + speed)));
-	};
+	//auto gameMng = getChildByName("GameLayer")->getChildByName("GameManager");
+	//auto centerPos = gameMng->getChildByName("player1")->getPosition() + gameMng->getChildByName("player2")->getPosition();
+	//auto visibleSize = Director::getInstance()->getVisibleSize();
+	//auto Clamp = [](const float& vel, const float& speed)
+	//{
+	//	return fmin(0.5f, fmax(-0.5f, (vel + speed)));
+	//};
 
-	/// 現状、仮の消失点の更新をしている
-	auto distance = (centerPos/2 - _vPoint).getNormalized();
-	_vel = Vec2(Clamp(_vel.x, distance.x/* * 0.2f*/), Clamp(_vel.y, distance.y/* * 0.2f*/));
-	if (_vel.x < 0.1f&&-0.1 < _vel.x)
-	{
-		_vel.x = 0;
-	}
-	_vPoint += _vel;
+	///// 現状、仮の消失点の更新をしている
+	//auto distance = (centerPos/2 - _vPoint).getNormalized();
+	//_vel = Vec2(Clamp(_vel.x, distance.x/* * 0.2f*/), Clamp(_vel.y, distance.y/* * 0.2f*/));
+	//if (_vel.x < 0.1f&&-0.1 < _vel.x)
+	//{
+	//	_vel.x = 0;
+	//}
+	//_vPoint += _vel;
 
-	lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	//lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(visibleSize.width / 2, visibleSize.height / 2));
 }
 
 void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parentTransform, uint32_t parentFlags)
