@@ -59,8 +59,11 @@ Oprt_Touch::Oprt_Touch()
 
 Oprt_Touch::Oprt_Touch(cocos2d::Node * node)
 {
+	_active = true;
 	_touchPoint = cocos2d::Vec2::ZERO;
-	_point = cocos2d::Vec2::ZERO;
+	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+	_point = cocos2d::Vec2((origin.x + visibleSize.width) / 2, origin.y + visibleSize.height / 2);
 	_sensor = cocos2d::Vec3::ZERO;
 	_ratio = cocos2d::Vec3::ZERO;
 	// 初期化
@@ -96,24 +99,38 @@ cocos2d::Vec2 Oprt_Touch::GetPoint(void) const
 
 void Oprt_Touch::ResetSensor(void)
 {
-	
+	_ratio = cocos2d::Vec3::ZERO;
 }
 
 void Oprt_Touch::Update(void)
 {
-	// Sensorの取得
-	auto sensor = GetSensor() / 50;
-	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
-	if (abs(sensor.x) > 0.0f)
+	// Gyro操作か、タッチ操作
+	if (_active == true)
 	{
-		_ratio.x += sensor.x;
+		// Sensorの取得
+		auto sensor = GetSensor() / 25;
+		auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+		cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+		if (abs(sensor.x) > 0.0f)
+		{
+			_ratio.x += sensor.x;
+		}
+		if (abs(sensor.z) > 0.0f)
+		{
+			_ratio.y += sensor.y;
+		}
+		_point = cocos2d::Vec2(visibleSize.width * _ratio.x, visibleSize.height * _ratio.y);
 	}
-	if (abs(sensor.z) > 0.0f)
+	else
 	{
-		_ratio.y += sensor.y;
+		_point = _touchPoint;
+
 	}
-	_point = cocos2d::Vec2(visibleSize.width * _ratio.x, visibleSize.height * _ratio.y);
+}
+
+void Oprt_Touch::GyroActive(bool setFlag)
+{
+	_active = setFlag;
 }
 
 cocos2d::Vec3 Oprt_Touch::GetSensor(void)

@@ -4,6 +4,10 @@ USING_NS_CC;
 
 MouseCtl::MouseCtl(cocos2d::Node* node)
 {
+	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+	_point = cocos2d::Vec2((origin.x + visibleSize.width) / 2, origin.y + visibleSize.height / 2);
+
 	/// マウス用のリスナーを生成している
 	auto mouseListener = EventListenerMouse::create();
 	mouseListener->onMouseMove = [&](Event* event)
