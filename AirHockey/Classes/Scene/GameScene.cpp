@@ -83,7 +83,7 @@ bool GameScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, static_cast<int>(LayerNum::FRONT));
 
-	/// シーン遷移用のボタンの作成
+	/*/// シーン遷移用のボタンの作成
 	auto sceneItem = MenuItemImage::create(
 		"button.png",
 		"button2.png",
@@ -95,7 +95,7 @@ bool GameScene::init()
 	sceneMenu->setName("SceneMenu");
 	sceneMenu->setPosition(Vec2::ZERO);
 	this->addChild(sceneMenu, static_cast<int>(LayerNum::FRONT));
-
+*/
 	/// ゲーム管理者の生成
 	auto gameLayer = Layer::create();
 	auto gameMng = GameManager::createGameMng();
@@ -192,17 +192,6 @@ bool GameScene::init()
 
 	/// UIの登録をしている
 	this->addChild(UILayer, static_cast<int>(LayerNum::FRONT));
-
-	/// 仮のSE再生
-	CCAudioMng::GetInstance().RegistBank("SE/ball.ckb", "ball");
-	CCAudioMng::GetInstance().RegistBankSE("ball", "curve", "curve");
-	CCAudioMng::GetInstance().RegistBankSE("ball", "hit", "hit");
-	CCAudioMng::GetInstance().RegistBankSE("ball", "wallHit", "wallHit");
-
-	CCAudioMng::GetInstance().RegistBank("SE/UI.ckb", "UI");
-	CCAudioMng::GetInstance().RegistBankSE("UI", "cntDown", "cntDown");
-	CCAudioMng::GetInstance().RegistBankSE("UI", "start", "start");
-	CCAudioMng::GetInstance().RegistBankSE("UI", "score", "score");
 
 	// 消失点用
 	_vPoint = _vel = Vec2::ZERO;
