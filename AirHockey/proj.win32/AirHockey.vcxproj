@@ -180,9 +180,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClCompile Include="..\Classes\Obj\StageWall.cpp" />
     <ClCompile Include="..\Classes\Obj\TrajectControl.cpp" />
     <ClCompile Include="..\Classes\Scene\GameScene.cpp" />
-    <ClCompile Include="..\Classes\Scene\GuestScene.cpp" />
-    <ClCompile Include="..\Classes\Scene\HostScene.cpp" />
-    <ClCompile Include="..\Classes\Scene\ResultScene.cpp" />
     <ClCompile Include="..\Classes\Scene\TitleScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -214,9 +211,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y</Command
     <ClInclude Include="..\Classes\Obj\TrajectControl.h" />
     <ClInclude Include="..\Classes\OutputListener.h" />
     <ClInclude Include="..\Classes\Scene\GameScene.h" />
-    <ClInclude Include="..\Classes\Scene\GuestScene.h" />
-    <ClInclude Include="..\Classes\Scene\HostScene.h" />
-    <ClInclude Include="..\Classes\Scene\ResultScene.h" />
     <ClInclude Include="..\Classes\Scene\TitleScene.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>

@@ -3,6 +3,7 @@
 #include "../Obj/BallAfter.h"
 #include "../Obj/Shadow.h"
 #include "GameManager.h"
+#include "../Scene/TitleScene.h"
 #include "CCAudioMng.h"
 
 USING_NS_CC;
@@ -14,7 +15,7 @@ GameManager::GameManager() :
 	Init();
 	this->setName("GameManager");
 	/// 関数ポインタの中身を初期化している
-	_updater = &GameManager::Stay;
+	_updater = &GameManager::Connect;
 
 	_invCnt = _mimSecond * 4 ;
 	_scores[0] = 0;
@@ -58,7 +59,7 @@ void GameManager::GeneratePlayer(bool isHost)
 		/// プレイヤーの深度値を設定している(手前：奥)
 		depth = (i == 0 ? _zdepth[_playerDepth] : _zdepth[_wallMax - _playerDepth - 1]);
 		layer = (i == 0 ? static_cast<int>(SpriteNum::PLAYER) : static_cast<int>(SpriteNum::SHADOW));
-		player = new Player(isHost, depth);
+		player = new Player(isHost, depth, i);
 		/// プレイヤーの名前を設定している
 		//player->setName(isHost ? "HostPlayer" : "GuestPlayer");
 		player->setName("player" + std::to_string(i + 1));
@@ -132,6 +133,15 @@ void GameManager::Init()
 	// GeneratePlayer(true);
 }
 
+void GameManager::Connect()
+{
+	//if (count == 2)
+	{
+		// 接続が完了したら(接続数が２になったら)Stayに移行
+		_updater = &GameManager::Stay;
+	}
+}
+
 void GameManager::Stay()
 {
 	auto UI = Director::getInstance()->getRunningScene()->getChildByName("UI");
@@ -194,14 +204,31 @@ void GameManager::Score()
 
 	if (_invCnt <= 0)
 	{
-		_updater = &GameManager::Stay;
-		_invCnt = _mimSecond * 4;
+		bool isGame = true;
+		for (auto score : _scores)
+		{
+			if (score >= 5)
+			{
+				isGame = false;
+				break;
+			}
+		}
 
-		Ball* ball = (Ball*)this->getChildByName("ball");
-		BallAfter* ballAfter = (BallAfter*)this->getChildByName("ballAfter");
-		ballAfter->ResetPosition();
-		ball->ResetPosition(Vec3(0, 0, _zdepth[4]));
+		if (isGame)
+		{
+			_updater = &GameManager::Stay;
+			_invCnt = _mimSecond * 4;
 
+			Ball* ball = (Ball*)this->getChildByName("ball");
+			BallAfter* ballAfter = (BallAfter*)this->getChildByName("ballAfter");
+			ballAfter->ResetPosition();
+			ball->ResetPosition(Vec3(0, 0, _zdepth[4]));
+		}
+		else
+		{
+			_updater = &GameManager::Result;
+			CCAudioMng::GetInstance().CkPlaySE("win");
+		}
 		return;
 	}
 
@@ -211,7 +238,7 @@ void GameManager::Score()
 	{
 		sp = (Sprite*)UI->getChildByName("score" + std::to_string(i + 1));
 
-		sp->setTextureRect(Rect(100 * _scores[i], 0, 100, 100));
+		sp->setTextureRect(Rect(100 * (_scores[i] % 5), 100 * (_scores[i] / 5), 100, 100));
 		sp->setVisible(true);
 	}
 
@@ -227,13 +254,31 @@ void GameManager::Score()
 		UI->getChildByName(name)->setVisible(false);
 	}
 	--_invCnt;
+}
 
+void GameManager::Result()
+{
+	auto UI = Director::getInstance()->getRunningScene()->getChildByName("UI");
+	/// UI画像を全て非表示にしている
+	for (auto sp : UI->getChildren())
+	{
+		sp->setVisible(false);
+	}
+
+	UI->getChildByName("win")->setVisible(true);
+
+	if (!CCAudioMng::GetInstance().IsPlaySE("win"))
+	{
+		UI->getChildByName("win")->setVisible(false);
+		Director::getInstance()->replaceScene(TransitionFade::create(1.f, TitleScene::createScene(), Color3B::WHITE));
+	}
 }
 
 void GameManager::update(float dt)
 {
 	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
 	{
+		// トランジション中は処理を通さない
 		return;
 	}
 	/// 関数ポインタの中身の処理を行う

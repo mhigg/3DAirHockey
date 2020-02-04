@@ -37,7 +37,6 @@ public:
 	virtual bool init();							// 初期化用関数
 	void update(float dt);							// 状態遷移用
 
-	void ChangeScene(cocos2d::Ref* ref);
 	void menuCloseCallback(cocos2d::Ref* pSender);	// ｳｨﾝﾄﾞｳを閉じる為のﾎﾞﾀﾝ	
 
 	// implement the "static create()" method manually

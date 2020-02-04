@@ -34,6 +34,7 @@ private:
 
 	bool _isHost;			// ホストならtrue, ゲストならfalse
 	const EG_CHAR* _appID;	// アプリケーションのID
+	NetworkLogic* _networkLogic;
 
 	static std::unique_ptr<AppInfo, AppInfoDeleter> s_Instance;
 };

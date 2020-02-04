@@ -1,12 +1,19 @@
 ﻿#include "TitleScene.h"
-#include "HostScene.h"
-#include "GuestScene.h"
+#include "GameScene.h"
 #include "../Obj/SpriteAffectDepth.h"
 #include "../Obj/StageWall.h"
 #include "../Obj/Player.h"
 #include "../Controller/MouseCtl.h"
 #include "../Controller/OPRT_Touch.h"
 #include "../Manager/PointWithDepth.h"
+
+#include "Manager/AppInfo.h"
+#include "NetworkLogic.h"
+#include "../ConsoleOut.h"
+
+static const EG_CHAR* appID1 = L"91ccb37c-1396-43af-bbbf-46a4124935a5";
+static const EG_CHAR* appID2 = L"b1723cd8-6b7c-4d52-989c-702c2848d8e8";
+static const EG_CHAR* appID3 = L"ac500b19-8cfa-47b5-9781-4d9d438496e4";
 
 USING_NS_CC;
 
@@ -35,10 +42,6 @@ bool TitleScene::init()
 	// 座標の取得
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-
-
-
-
 	// 右上のｼｬｯﾄﾀﾞｳﾝﾎﾞﾀﾝの作成
 	auto closeItem = MenuItemImage::create(
 		"CloseNormal.png",
@@ -56,7 +59,10 @@ bool TitleScene::init()
 	/// ホストシーンのボタン生成(緑ボタン)
 	auto hostItem = MenuItemImage::create("host.png", "host2.png",[&](Ref* ref)
 	{
-		Director::getInstance()->replaceScene(TransitionFade::create(1.f, HostScene::createScene(), Color3B::WHITE));
+		/// 1Pの設定をしている。
+		lpAppInfo.isHost(true);
+		lpAppInfo.appID(appID3);	//←画面で選べるようにする
+		Director::getInstance()->replaceScene(TransitionFade::create(1.f, GameScene::createScene(), Color3B::WHITE));
 	});
 	hostItem->setPosition(origin.x + visibleSize.width / 3,
 						  origin.y + visibleSize.height / 2 - hostItem->getContentSize().height);
@@ -75,28 +81,25 @@ bool TitleScene::init()
 	/// ゲストシーンのボタン生成
 	auto guestItem = MenuItemImage::create("guest.png", "guest2.png",[&](Ref* ref)
 	{
-		Director::getInstance()->replaceScene(TransitionFade::create(1.f, GuestScene::createScene(), Color3B::WHITE));
+		///  2Pの設定をしている
+		lpAppInfo.isHost(false);
+		lpAppInfo.appID(appID3);	//←画面で選べるようにする
+		Director::getInstance()->replaceScene(TransitionFade::create(1.f, GameScene::createScene(), Color3B::WHITE));
 	});
 	guestItem->setPosition((origin.x + visibleSize.width / 3) * 2,
-						   origin.y + visibleSize.height / 2 - guestItem->getContentSize().height);
+						    origin.y + visibleSize.height / 2 - guestItem->getContentSize().height);
 	auto guestMenu = Menu::create(guestItem, 0);
 	guestMenu->setName("guestMenu");
 	guestMenu->setPosition(Vec2::ZERO);
 	/// ボタンテキストの生成
 	auto guestLabel = Label::create("Guest", "Arial", 50);
 	guestLabel->setColor(Color3B::BLACK);
-	guestLabel->setPosition( (origin.x + visibleSize.width / 3) * 2 ,
-							origin.y + visibleSize.height / 2 - guestItem->getContentSize().height);
+	guestLabel->setPosition((origin.x + visibleSize.width / 3) * 2 ,
+							 origin.y + visibleSize.height / 2 - guestItem->getContentSize().height);
 
 	/// ボタンの追加
 	this->addChild(guestMenu, static_cast<int>(LayerNum::FRONT));
 	this->addChild(guestLabel, static_cast<int>(LayerNum::FRONT));
-
-	///// 現在のシーンを表すテキスト
-	//auto label = Label::create("Title", "Arial", 60);
-	//label->setPosition(Vec2(label->getContentSize().width / 2, 
-	//						visibleSize.height - label->getContentSize().height / 2));
-	//this->addChild(label);
 
 	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
 	auto stageLayer = Layer::create();
