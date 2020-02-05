@@ -5,9 +5,9 @@
 
 USING_NS_CC;
 
-TrajectControl::TrajectControl() : _speed(8.f,8.f,8.f)
+TrajectControl::TrajectControl() : _defSpeed(8.f,8.f,8.f)
 {
-	_vel = { 0,0,_speed.z / 2 };
+	_vel = { 0,0,_defSpeed.z / 2 };
 }
 
 TrajectControl::~TrajectControl()
@@ -51,7 +51,15 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 
 void TrajectControl::ResetVel()
 {
-	_vel = { 0,0,_speed.z / 2 };
+	_vel = { 0,0,_defSpeed.z / 2 };
+	_speed = _defSpeed;
+}
+
+void TrajectControl::AccelSpeed()
+{
+	_speed.x += (_speed.x <= _defSpeed.x * 2 ? 0.5f : 0.f);
+	_speed.y += (_speed.y <= _defSpeed.y * 2 ? 0.5f : 0.f);
+	_speed.z += (_speed.z <= _defSpeed.z * 2 ? 0.5f : 0.f);
 }
 
 void TrajectControl::SetVel(const cocos2d::Vec2 & vec)

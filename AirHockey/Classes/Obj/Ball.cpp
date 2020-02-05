@@ -42,6 +42,7 @@ void Ball::ResetPosition(const cocos2d::Vec3 & pos)
 	setScale(lpPointWithDepth.GetScale(_localPos.z));
 }
 
+
 std::tuple<bool, bool, bool> Ball::GetIsReverse() const
 {
 	return _isReverse;
@@ -255,6 +256,9 @@ void Ball::ChangeMoving(const Node* pl)
 
 	/// プレイヤーの情報取得
 	auto player = (Player*)pl;
+
+	/// ボールのスピードを加速させる処理
+	_traject->AccelSpeed();
 
 	/// ボールの跳ね返す方向を切り替えるかの判定
 	if (abs(player->GetMoveDistance().x) >= 20 &&
