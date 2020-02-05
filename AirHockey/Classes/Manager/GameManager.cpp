@@ -61,10 +61,8 @@ void GameManager::GeneratePlayer(bool isHost, bool setFlag)
 		depth = (i == 0 ? _zdepth[_playerDepth] : _zdepth[_wallMax - _playerDepth - 1]);
 		layer = (i == 0 ? static_cast<int>(SpriteNum::PLAYER) : static_cast<int>(SpriteNum::SHADOW));
 		player = new Player(isHost, depth, i);
-		if (i == 0)
-		{
-			player->GyroSet(setFlag);
-		}
+
+		player->GyroSet(setFlag);
 		/// プレイヤーの名前を設定している
 		//player->setName(isHost ? "HostPlayer" : "GuestPlayer");
 		player->setName("player" + std::to_string(i + 1));

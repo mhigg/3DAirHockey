@@ -378,8 +378,8 @@
     <content url="file://$MODULE_DIR$/../../vendor/AndroidNdkSdk/LoadBalancing-cpp/src/Internal">
       <sourceFolder url="file://$MODULE_DIR$/../../vendor/AndroidNdkSdk/LoadBalancing-cpp/src/Internal" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../../../../android-sdk/ndk/21.0.6113669/sources/android/cpufeatures">
-      <sourceFolder url="file://$MODULE_DIR$/../../../../android-sdk/ndk/21.0.6113669/sources/android/cpufeatures" isTestSource="false" />
+    <content url="file://D:/AndroidSDK/Sdk/ndk/20.0.5594570/sources/android/cpufeatures">
+      <sourceFolder url="file://D:/AndroidSDK/Sdk/ndk/20.0.5594570/sources/android/cpufeatures" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
