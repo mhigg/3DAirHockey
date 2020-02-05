@@ -213,9 +213,9 @@ void TitleScene::update(float dt)
 	auto distance = ( pos - lpPointWithDepth.GetVanishingPoint()).getNormalized();
 	_vel = Vec2(static_cast<int>(Clamp(distance.x * 4)), static_cast<int>(Clamp(distance.y * 4)));
 
-	_vPoint -= _vel;
+	_vPoint += _vel;
 
-	lpPointWithDepth.SetVanishingPoint(-_vPoint + visibleSize/ 2);
+	lpPointWithDepth.SetVanishingPoint(_vPoint + visibleSize/ 2);
 }
 
 void TitleScene::menuCloseCallback(cocos2d::Ref * pSender)

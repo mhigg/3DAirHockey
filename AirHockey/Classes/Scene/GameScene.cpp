@@ -243,13 +243,13 @@ void GameScene::update(float dt)
 	};
 
 	/// 現状、仮の消失点の更新をしている
-	auto distance = (centerPos/2 - _vPoint).getNormalized();
+	auto distance = (centerPos/2 - lpPointWithDepth.GetVanishingPoint()).getNormalized();
 
-	_vel = Vec2(Clamp( distance.x* 2), Clamp( distance.y*2));
+	_vel = Vec2(static_cast<int>(Clamp(distance.x * 4)), static_cast<int>(Clamp(distance.y * 4)));
 
 	_vPoint += _vel;
 
-	lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	lpPointWithDepth.SetVanishingPoint(_vPoint + visibleSize / 2);
 }
 
 void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parentTransform, uint32_t parentFlags)
