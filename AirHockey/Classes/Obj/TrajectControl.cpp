@@ -49,17 +49,17 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 	return true;
 }
 
-void TrajectControl::VelAccel()
-{
-	_speed.x += (_speed.x <= _defSpeed.x * 2 ? 0.5f : 0.f);
-	_speed.y += (_speed.y <= _defSpeed.y * 2 ? 0.5f : 0.f);
-	_speed.z += (_speed.z <= _defSpeed.z * 2 ? 0.5f : 0.f);
-}
-
 void TrajectControl::ResetVel()
 {
 	_vel = { 0,0,_defSpeed.z / 2 };
 	_speed = _defSpeed;
+}
+
+void TrajectControl::AccelSpeed()
+{
+	_speed.x += (_speed.x <= _defSpeed.x * 2 ? 0.5f : 0.f);
+	_speed.y += (_speed.y <= _defSpeed.y * 2 ? 0.5f : 0.f);
+	_speed.z += (_speed.z <= _defSpeed.z * 2 ? 0.5f : 0.f);
 }
 
 void TrajectControl::SetVel(const cocos2d::Vec2 & vec)
@@ -133,9 +133,7 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 			{
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
-				/// 壁に反射した時の速度設定
 				_vel = Vec3(abs(_speed.x * vec.x * rate), abs(_speed.y * vec.y * rate), _speed.z);
-
 				return Vec3(_speed.x * vec.x * rate, _speed.y * vec.y * rate, _speed.z * vec.z * rate);
 			}
 		}
@@ -146,9 +144,7 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 			{
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
-				/// 壁に反射した時の速度設定
 				_vel = Vec3(abs(_speed.x * vec.x * rate), abs(_speed.y * vec.y * rate), _speed.z);
-
 				return Vec3(_speed.x * vec.x * rate, _speed.y * vec.y * rate, _speed.z * vec.z * rate);
 			}
 		}
