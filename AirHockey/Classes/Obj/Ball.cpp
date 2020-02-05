@@ -256,6 +256,9 @@ void Ball::ChangeMoving(const Node* pl)
 	/// プレイヤーの情報取得
 	auto player = (Player*)pl;
 
+	/// ボールの加速を行う処理
+	_traject->VelAccel();
+
 	/// ボールの跳ね返す方向を切り替えるかの判定
 	if (abs(player->GetMoveDistance().x) >= 20 &&
 		abs(player->GetMoveDistance().y) >= 20)
