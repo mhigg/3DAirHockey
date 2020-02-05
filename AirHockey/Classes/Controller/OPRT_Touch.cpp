@@ -1,6 +1,9 @@
 ﻿#include "OPRT_Touch.h"
 #include "platform/android/jni/JniHelper.h"
 #include "cocos2d.h"
+#include "../ConsoleOut.h"
+#include "../Manager/AppInfo.h"
+
 
 //NS_CC_BEGIN
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -57,11 +60,17 @@ Oprt_Touch::Oprt_Touch()
 {
 }
 
-Oprt_Touch::Oprt_Touch(cocos2d::Node * node)
+Oprt_Touch::Oprt_Touch(cocos2d::Node * node, bool net, bool isHost = false)
 {
-	_isHost = false;
+	_isHost = isHost;
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+	if (net == true)
+	{
+		// Photonネットワーククラスのインスタンスを作成
+		_networkLogic = new NetworkLogic(&ConsoleOut::get(), lpAppInfo.appID());
+	}
 
 	_active = true;
 	_touchPoint = cocos2d::Vec2((origin.x + visibleSize.width) / 2, origin.y + visibleSize.height / 2);
@@ -138,19 +147,29 @@ void Oprt_Touch::Update(void)
 		{
 			_ratio.y = 0;
 		}
-		_point = cocos2d::Vec2(visibleSize.width * _ratio.x, visibleSize.height * _ratio.y);
+		if(_networkLogic == nullptr)
+        {
+            _point = cocos2d::Vec2(visibleSize.width * _ratio.x, visibleSize.height * _ratio.y);
+        }
+		else
+        {
+            _touchPoint = cocos2d::Vec2(visibleSize.width * _ratio.x, visibleSize.height * _ratio.y);
+        }
 	}
 	else
-	{
-		_point = _touchPoint;
-
+    {
+        if(_networkLogic == nullptr)
+        {
+            _point = _touchPoint;
+        }
 	}
 
 	if (_networkLogic != nullptr)
 	{
+
 		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
-		eventContent->put<int, float>(1, _point.x);
-		eventContent->put<int, float>(2, _point.y);
+		eventContent->put<int, float>(1, _touchPoint.x);
+		eventContent->put<int, float>(2, _touchPoint.y);
 		_networkLogic->sendEvent(1, eventContent);
 
 		Run();

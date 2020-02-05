@@ -105,14 +105,14 @@ bool TitleScene::init()
 	gyroMenu->setName("gyroMenu");
 	gyroMenu->setPosition(Vec2::ZERO);
 	/// ボタンテキストの生成
-	_androidLabel = Label::create("Gyro", "Arial", 40);
-	_androidLabel->setColor(Color3B::BLACK);
-	_androidLabel->setPosition((origin.x + visibleSize.width / 2),
-		origin.y + visibleSize.height / 2 - gyroItem->getContentSize().height / 2);
+	//_androidLabel = Label::create("Gyro", "Arial", 40);
+	//_androidLabel->setColor(Color3B::BLACK);
+	//_androidLabel->setPosition((origin.x + visibleSize.width / 2),
+	//	origin.y + visibleSize.height / 2 - gyroItem->getContentSize().height / 2);
 
 	/// ボタンの追加
 	this->addChild(gyroMenu, static_cast<int>(LayerNum::FRONT));
-	this->addChild(_androidLabel, static_cast<int>(LayerNum::FRONT));
+	//this->addChild(_androidLabel, static_cast<int>(LayerNum::FRONT));
 #endif
 
 	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
@@ -199,11 +199,11 @@ void TitleScene::GyroButton(cocos2d::Ref * ref)
 	_isGyro = _isGyro == true ? false : true;
 	if (_isGyro == true)
 	{
-		_androidLabel->setString("Gyro");
+//		_androidLabel->setString("Gyro");
 	}
 	else
 	{
-		_androidLabel->setString("Touch");
+//		_androidLabel->setString("Touch");
 	}
 	auto pl = (Player*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer")->getChildByName("Player");
 	pl->GyroSet(_isGyro);
