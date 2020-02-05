@@ -64,7 +64,7 @@ Oprt_Touch::Oprt_Touch(cocos2d::Node * node, bool net, bool isHost = false)
 {
 	_isHost = isHost;
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();\
 
 	if (net == true)
 	{
