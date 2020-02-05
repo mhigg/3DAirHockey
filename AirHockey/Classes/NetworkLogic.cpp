@@ -1,4 +1,5 @@
 ﻿#include "NetworkLogic.h"
+#include "Manager/AppInfo.h"
 
 #ifdef _EG_EMSCRIPTEN_PLATFORM
 #	include <emscripten.h>
@@ -130,7 +131,7 @@ NetworkLogic::NetworkLogic(OutputListener* listener, const EG_CHAR* appID)
 	mLogger.setDebugOutputLevel(DEBUG_RELEASE(ExitGames::Common::DebugLevel::INFO, ExitGames::Common::DebugLevel::WARNINGS)); // this class
 	ExitGames::Common::Base::setListener(this);
 	ExitGames::Common::Base::setDebugOutputLevel(DEBUG_RELEASE(ExitGames::Common::DebugLevel::INFO, ExitGames::Common::DebugLevel::WARNINGS)); // all classes that inherit from Base
-	_nowConnectingPeers = 0;
+	_joiningPeer = 0;
 }
 
 void NetworkLogic::registerForStateUpdates(NetworkLogicListener* listener)
@@ -323,11 +324,6 @@ void NetworkLogic::sendEvent(nByte code, ExitGames::Common::Hashtable *eventCont
 	mLoadBalancingClient.opRaiseEvent(sendReliable, eventContent, 1, code);
 }
 
-int NetworkLogic::getConnectingPeers(void) const
-{
-	return _nowConnectingPeers;
-}
-
 void NetworkLogic::sendDirect(int64 count)
 {
 	int localNr = mLoadBalancingClient.getLocalPlayer().getNumber();
@@ -413,7 +409,7 @@ void NetworkLogic::joinRoomEventAction(int playerNr, const ExitGames::Common::JV
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"%ls joined the game", player.getName().cstr());
 	mpOutputListener->writeLine(L"");
 	mpOutputListener->writeLine(ExitGames::Common::JString(L"player ") + playerNr + L" " + player.getName() + L" has joined the game");
-	_nowConnectingPeers++;
+	lpAppInfo.IncreasePeer();
 }
 
 void NetworkLogic::leaveRoomEventAction(int playerNr, bool isInactive)
@@ -421,7 +417,7 @@ void NetworkLogic::leaveRoomEventAction(int playerNr, bool isInactive)
 	EGLOG(ExitGames::Common::DebugLevel::INFO, L"");
 	mpOutputListener->writeLine(L"");
 	mpOutputListener->writeLine(ExitGames::Common::JString(L"player ") + playerNr + L" has left the game");
-	_nowConnectingPeers--;
+	lpAppInfo.DecreasePeer();
 }
 
 void NetworkLogic::customEventAction(int playerNr, nByte eventCode, const ExitGames::Common::Object& eventContent)
@@ -499,7 +495,6 @@ void NetworkLogic::createRoomReturn(int localPlayerNr, const ExitGames::Common::
 
 	// ルーム内で割り当てられたプレイヤー番号を取得する
 	playerNr = localPlayerNr;
-	_nowConnectingPeers++;
 }
 
 void NetworkLogic::joinOrCreateRoomReturn(int localPlayerNr, const ExitGames::Common::Hashtable& /*gameProperties*/, const ExitGames::Common::Hashtable& /*playerProperties*/, int errorCode, const ExitGames::Common::JString& errorString)
@@ -592,7 +587,6 @@ void NetworkLogic::leaveRoomReturn(int errorCode, const ExitGames::Common::JStri
 	}
 	mStateAccessor.setState(STATE_LEFT);
 	mpOutputListener->writeLine(L"room has been successfully left");
-	_nowConnectingPeers--;
 }
 
 void NetworkLogic::joinLobbyReturn(void)

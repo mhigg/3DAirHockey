@@ -5,6 +5,7 @@
 #include "../Manager/GameManager.h"
 #include "../Manager/AnimMng.h"
 
+//#include "../Manager/AppInfo.h"
 #include "../Manager/CCAudioMng.h"
 #include "Collision.h"
 
@@ -294,7 +295,11 @@ void Ball::update(float dt)
 		// 1ﾌﾚｰﾑ前の座標(ｱﾆﾒｰｼｮﾝの向き用)
 		Vec2 oldPos = { _localPos.x,_localPos.y };
 		// 移動の更新
-		_localPos += _traject->GetVel(_ballState);
+//		if (lpAppInfo.isHost())
+			_localPos += _traject->GetVel(_ballState);
+//		else
+//			_localPos -= _traject->GetVel(_ballState);
+		/*_localPos.z = _wallDepth[gameMng->GetDepths().size() - 1] - _localPos.z;*/
 		// ｱﾆﾒｰｼｮﾝの向き
 		float angle = atan2(_localPos.y - oldPos.y, _localPos.x - oldPos.x) * 180 / M_PI;
 		setRotation(90 + angle);

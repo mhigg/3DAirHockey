@@ -3,6 +3,7 @@
 #include "../Obj/BallAfter.h"
 #include "../Obj/Shadow.h"
 #include "GameManager.h"
+#include "AppInfo.h"
 #include "../Scene/TitleScene.h"
 #include "CCAudioMng.h"
 
@@ -139,7 +140,9 @@ void GameManager::Init()
 
 void GameManager::Connect()
 {
-	//if (count == 2)
+	int peers = lpAppInfo.getJoiningPeer();
+	bool isConnection = (lpAppInfo.isHost() ? (peers == 2) : (peers == 1));
+	if (isConnection)
 	{
 		// 接続が完了したら(接続数が２になったら)Stayに移行
 		_updater = &GameManager::Stay;

@@ -62,7 +62,7 @@ bool TitleScene::init()
 	{
 		/// 1Pの設定をしている。
 		lpAppInfo.isHost(true);
-		lpAppInfo.appID(appID3);	//←画面で選べるようにする
+		lpAppInfo.appID(appID1);	//←画面で選べるようにする
 		Director::getInstance()->replaceScene(TransitionFade::create(1.f, GameScene::createScene(_isGyro), Color3B::WHITE));
 	});
 	hostItem->setPosition(origin.x + visibleSize.width / 3,
@@ -79,7 +79,7 @@ bool TitleScene::init()
 	{
 		///  2Pの設定をしている
 		lpAppInfo.isHost(false);
-		lpAppInfo.appID(appID3);	//←画面で選べるようにする
+		lpAppInfo.appID(appID1);	//←画面で選べるようにする
 		Director::getInstance()->replaceScene(TransitionFade::create(1.f, GameScene::createScene(_isGyro), Color3B::WHITE));
 	});
 	guestItem->setPosition((origin.x + visibleSize.width / 3) * 2,
