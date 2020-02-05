@@ -22,7 +22,7 @@ struct Oprt_Touch :
 {
 public:
 	Oprt_Touch();
-	Oprt_Touch(cocos2d::Node* node);
+	Oprt_Touch(cocos2d::Node* node, bool net, bool isHost);
 	~Oprt_Touch();
 
 	cocos2d::Vec2 GetPoint(void) const;

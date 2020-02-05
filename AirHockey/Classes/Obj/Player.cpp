@@ -18,7 +18,8 @@ Player::Player(bool isHost, const float& zdepth)
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_oprtState.reset(new MouseCtl(this));
 #else
-	_oprtState.reset(new Oprt_Touch(this));
+	bool flag = false;
+	_oprtState.reset(new Oprt_Touch(this, flag, isHost));
 #endif
 
 	this->scheduleUpdate();
@@ -38,13 +39,17 @@ Player::Player(bool isHost, const float& zdepth, int provIsFront)
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 		_oprtState.reset(new MouseCtl(this));
 #else
-		_oprtState.reset(new Oprt_Touch(this));
+		_oprtState.reset(new Oprt_Touch(this, false, isHost));
 #endif
 	}
 	else
 	{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 		// 奥側のマレットは通信
-		_oprtState.reset(new OPRT_Network(this, isHost));
+		_oprtState.reset(new Oprt_Touch(this, true, isHost));
+#endif
+
 	}
 
 	this->scheduleUpdate();

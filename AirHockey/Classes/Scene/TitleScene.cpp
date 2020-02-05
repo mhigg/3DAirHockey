@@ -58,7 +58,7 @@ bool TitleScene::init()
 
 
 	/// ホストシーンのボタン生成(緑ボタン)
-	auto hostItem = MenuItemImage::create("host.png", "",[&](Ref* ref)
+	auto hostItem = MenuItemImage::create("image/button/host.png", "image/button/host2.png",[&](Ref* ref)
 	{
 		/// 1Pの設定をしている。
 		lpAppInfo.isHost(true);
@@ -75,7 +75,7 @@ bool TitleScene::init()
 	this->addChild(hostMenu, static_cast<int>(LayerNum::FRONT));
 	
 	/// ゲストシーンのボタン生成
-	auto guestItem = MenuItemImage::create("guest.png", "",[&](Ref* ref)
+	auto guestItem = MenuItemImage::create("image/button/guest.png", "image/button/guest2.png",[&](Ref* ref)
 	{
 		///  2Pの設定をしている
 		lpAppInfo.isHost(false);
@@ -94,7 +94,7 @@ bool TitleScene::init()
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// Android操作切り替えボタン生成
-	auto gyroItem = MenuItemImage::create("select.png", "select2.png", [&](Ref* ref)
+	auto gyroItem = MenuItemImage::create("image/button/gyro.png", "image/button/gyro2.png", [&](Ref* ref)
 	{
 		TitleScene::GyroButton(ref);
 	});
@@ -104,15 +104,28 @@ bool TitleScene::init()
 	auto gyroMenu = Menu::create(gyroItem, 0);
 	gyroMenu->setName("gyroMenu");
 	gyroMenu->setPosition(Vec2::ZERO);
-	/// ボタンテキストの生成
-	_androidLabel = Label::create("Gyro", "Arial", 40);
-	_androidLabel->setColor(Color3B::BLACK);
-	_androidLabel->setPosition((origin.x + visibleSize.width / 2),
+
+	auto touchItem = MenuItemImage::create("image/button/touch.png", "image/button/touch2.png", [&](Ref* ref)
+	{
+		TitleScene::GyroButton(ref);
+	});
+	touchItem->setPosition((origin.x + visibleSize.width / 2),
 		origin.y + visibleSize.height / 2 - gyroItem->getContentSize().height / 2);
+	touchItem->setScale(0.7f);
+	auto touchMenu = Menu::create(touchItem, 0);
+	touchMenu->setName("touchMenu");
+	touchMenu->setPosition(Vec2::ZERO);
+	/// ボタンテキストの生成
+	//_androidLabel = Label::create("Gyro", "Arial", 40);
+	//_androidLabel->setColor(Color3B::BLACK);
+	//_androidLabel->setPosition((origin.x + visibleSize.width / 2),
+	//	origin.y + visibleSize.height / 2 - gyroItem->getContentSize().height / 2);
 
 	/// ボタンの追加
 	this->addChild(gyroMenu, static_cast<int>(LayerNum::FRONT));
-	this->addChild(_androidLabel, static_cast<int>(LayerNum::FRONT));
+	this->addChild(touchMenu, static_cast<int>(LayerNum::FRONT));
+	touchMenu->setVisible(false);
+	//this->addChild(_androidLabel, static_cast<int>(LayerNum::FRONT));
 #endif
 
 	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
@@ -199,11 +212,15 @@ void TitleScene::GyroButton(cocos2d::Ref * ref)
 	_isGyro = _isGyro == true ? false : true;
 	if (_isGyro == true)
 	{
-		_androidLabel->setString("Gyro");
+		this->getChildByName("gyroMenu")->setVisible(true);
+		this->getChildByName("touchMenu")->setVisible(false);
+//		_androidLabel->setString("Gyro");
 	}
 	else
 	{
-		_androidLabel->setString("Touch");
+		this->getChildByName("gyroMenu")->setVisible(false);
+		this->getChildByName("touchMenu")->setVisible(true);
+//		_androidLabel->setString("Touch");
 	}
 	auto pl = (Player*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer")->getChildByName("Player");
 	pl->GyroSet(_isGyro);
