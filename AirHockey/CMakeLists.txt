@@ -34,15 +34,15 @@ android_ndk_import_module_cpufeatures()
 
 #cricket
 include_directories(
-        D:cricket/cricket-1.6.7/inc
+        D:/Android/cricket/cricket-1.6.7/inc
 )
 
 link_directories(
-        D:cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug
+        D:/Android/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug
 )
 
 link_libraries(
-        D:cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug/libck.a
+        D:/Android/cricket/cricket-1.6.7/lib/android/ndk/${ANDROID_ABI}/debug/libck.a
 )
 
 #photon

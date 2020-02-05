@@ -72,8 +72,6 @@ public:
 	void sendEvent(void);
 	void sendEvent(nByte code, ExitGames::Common::Hashtable *eventContent);
 
-	int getConnectingPeers(void) const;
-
 	Input getLastInput(void) const;
 	void setLastInput(Input newInput);
 	LOAD_STATE getState(void) const;
@@ -136,7 +134,7 @@ private:
 	OutputListener* mpOutputListener;
 	bool mAutoJoinRoom;
 	ExitGames::Common::EGTime mLastSendTime;
-	int _nowConnectingPeers;
+	int _joiningPeer;
 #ifdef _EG_XB1_PLATFORM
 	ExitGames::Common::JVector<nByte> mXSTSToken;
 	bool mReauthenticateRequired;

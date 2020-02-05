@@ -18,6 +18,9 @@ public:
 	void isHost(bool isHost);	// ホストかどうかを登録する
 	const EG_CHAR* appID(void);			// アプリケーションIDを返す
 	void appID(const EG_CHAR* appID);	// アプリケーションIDを登録する
+	void IncreasePeer(void);
+	void DecreasePeer(void);
+	int getJoiningPeer(void);
 
 private:
 	AppInfo();
@@ -34,6 +37,7 @@ private:
 
 	bool _isHost;			// ホストならtrue, ゲストならfalse
 	const EG_CHAR* _appID;	// アプリケーションのID
+	int _joiningPeers;
 	NetworkLogic* _networkLogic;
 
 	static std::unique_ptr<AppInfo, AppInfoDeleter> s_Instance;
