@@ -92,7 +92,7 @@ bool TitleScene::init()
 	/// ボタンの追加
 	this->addChild(guestMenu, static_cast<int>(LayerNum::FRONT));
 	
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+//#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// Android操作切り替えボタン生成
 	auto gyroItem = MenuItemImage::create("image/button/gyro.png", "image/button/gyro2.png", [&](Ref* ref)
 	{
@@ -126,7 +126,7 @@ bool TitleScene::init()
 	this->addChild(touchMenu, static_cast<int>(LayerNum::FRONT));
 	touchMenu->setVisible(false);
 	//this->addChild(_androidLabel, static_cast<int>(LayerNum::FRONT));
-#endif
+//#endif
 
 	// ﾌｨｰﾙﾄﾞ用ﾚｲﾔｰ
 	auto stageLayer = Layer::create();
@@ -183,6 +183,9 @@ bool TitleScene::init()
 	startLogo->setGlobalZOrder(1);
 	this->addChild(startLogo);*/
 
+	// 消失点用
+	_vPoint = _vel = Vec2::ZERO;
+
 	// 1ﾌﾚｰﾑごとにupdateを
 	this->scheduleUpdate();
 
@@ -198,7 +201,21 @@ void TitleScene::update(float dt)
 	//// 入力情報の更新
 	//_oprtState->Update();
 
-	//lpPointWithDepth.SetVanishingPoint(pos);
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	auto Clamp = [](const float& speed)
+	{
+		return fmin(1.0f, fmax(-1.0f, (speed)));
+	};
+
+	/// 現状、仮の消失点の更新をしている
+	auto pos = this->getChildByName("StageLayer")->getChildByName("Player")->getPosition();
+	/// 現状、仮の消失点の更新をしている
+	auto distance = ( pos - lpPointWithDepth.GetVanishingPoint()).getNormalized();
+	_vel = Vec2(static_cast<int>(Clamp(distance.x * 4)), static_cast<int>(Clamp(distance.y * 4)));
+
+	_vPoint -= _vel;
+
+	lpPointWithDepth.SetVanishingPoint(-_vPoint + visibleSize/ 2);
 }
 
 void TitleScene::menuCloseCallback(cocos2d::Ref * pSender)
@@ -208,7 +225,7 @@ void TitleScene::menuCloseCallback(cocos2d::Ref * pSender)
 
 void TitleScene::GyroButton(cocos2d::Ref * ref)
 {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+//#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	_isGyro = _isGyro == true ? false : true;
 	if (_isGyro == true)
 	{
@@ -224,6 +241,6 @@ void TitleScene::GyroButton(cocos2d::Ref * ref)
 	}
 	auto pl = (Player*)Director::getInstance()->getRunningScene()->getChildByName("StageLayer")->getChildByName("Player");
 	pl->GyroSet(_isGyro);
-#endif
+//#endif
 
 }

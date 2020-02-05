@@ -48,6 +48,10 @@ public:
 	std::unique_ptr<OPRT_State> _oprtState;	// ﾀｯﾁやｼﾞｬｲﾛの入力取得用
 	bool _isGyro;
 	cocos2d::Label* _androidLabel;
+
+private:
+	cocos2d::Vec2 _vel;			// 消失点の速度
+	cocos2d::Vec2 _vPoint;		// 消失点の座標
 };
 
 #endif // __TitleScene_H__

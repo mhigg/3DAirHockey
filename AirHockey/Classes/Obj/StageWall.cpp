@@ -159,7 +159,9 @@ void StageWall::SetWallColorChangeFlag(bool flag)
 
 void StageWall::update(float dt)
 {
-	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
+	if (Director::getInstance()->getRunningScene()->getName() != "TitleScene"
+		&&Director::getInstance()->getRunningScene()->getName() != "GameScene"
+		)
 	{
 		/// ゲームシーン以外の時は処理に入らないようにする
 		return;
