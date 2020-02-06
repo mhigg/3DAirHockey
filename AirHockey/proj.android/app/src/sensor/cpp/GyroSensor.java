@@ -12,6 +12,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+// AppActivetyと分離中
 
 public class GyroSensor extends Cocos2dxActivity implements SensorEventListener {
     private static SensorManager _sensorManager;
