@@ -37,26 +37,13 @@ bool TitleScene::init()
 	// 消失点の初期化
 	lpPointWithDepth.ResetVanishingPoint();
 
+	// ｼﾞｬｲﾛﾓｰﾄﾞ
 	_isGyro = true;
+
 	// 画面解像度の取得
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	// 座標の取得
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-	// 右上のｼｬｯﾄﾀﾞｳﾝﾎﾞﾀﾝの作成
-	auto closeItem = MenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
-		CC_CALLBACK_1(TitleScene::menuCloseCallback, this));
-	auto closeItemVec =
-		Vec2{ origin.x + visibleSize.width - closeItem->getContentSize().width / 2 ,
-			  origin.y + visibleSize.height - closeItem->getContentSize().height / 2 };
-	closeItem->setPosition(closeItemVec);
-	auto menu = Menu::create(closeItem, NULL);
-	menu->setName("Menu");
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu);
-
 
 	/// ホストシーンのボタン生成(緑ボタン)
 	auto hostItem = MenuItemImage::create("image/button/host.png", "image/button/host2.png",[&](Ref* ref)
@@ -179,10 +166,19 @@ bool TitleScene::init()
 	player->setName("Player");
 	stageLayer->addChild(player);
 
-	/*auto startLogo = Sprite::create("image/tap_to_start.png");
-	startLogo->setPosition(Vec2{ visibleSize.width / 2,visibleSize.height / 4 });
-	startLogo->setGlobalZOrder(1);
-	this->addChild(startLogo);*/
+	// 右上のｼｬｯﾄﾀﾞｳﾝﾎﾞﾀﾝの作成
+	auto closeItem = MenuItemImage::create(
+		"CloseNormal.png",
+		"CloseSelected.png",
+		CC_CALLBACK_1(TitleScene::menuCloseCallback, this));
+	auto closeItemVec =
+		Vec2{ origin.x + visibleSize.width - closeItem->getContentSize().width / 2 ,
+			  origin.y + visibleSize.height - closeItem->getContentSize().height / 2 };
+	closeItem->setPosition(closeItemVec);
+	auto menu = Menu::create(closeItem, NULL);
+	menu->setName("Menu");
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu);
 
 	// 消失点用
 	_vPoint = _vel = Vec2::ZERO;

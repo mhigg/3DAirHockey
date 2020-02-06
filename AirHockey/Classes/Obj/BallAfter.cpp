@@ -72,7 +72,7 @@ void BallAfter::Init()
 		rate	= (float)(_images.size() - i) / (_images.size());
 
 		/// ‰æ‘œ‚ÌŽæ“¾
-		_images[i]	= Sprite::create("image/ball/ball_15.png");
+		_images[i]	= Sprite::create("image/ball/afterImage.png");
 
 		/// ‰æ‘œƒTƒCƒY‚ÌÝ’è
 		_images[i]->setContentSize(_images[i]->getContentSize());
