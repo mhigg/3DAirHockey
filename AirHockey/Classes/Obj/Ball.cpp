@@ -5,7 +5,10 @@
 #include "../Manager/GameManager.h"
 #include "../Manager/AnimMng.h"
 
+/// ネットワーク関係のヘッダー
+#include "../ConsoleOut.h"
 #include "../Manager/AppInfo.h"
+
 #include "../Manager/CCAudioMng.h"
 #include "Collision.h"
 
@@ -16,6 +19,10 @@ Ball::Ball(std::vector<float> depth)
 {
 	_wallDepth = depth;
 	Init();
+
+	/// とりあえず仮 ◆
+	// Photonネットワーククラスのインスタンスを作成
+	_networkLogic = new NetworkLogic(&ConsoleOut::get(), lpAppInfo.appID());
 }
 
 Ball::Ball()
@@ -40,7 +47,30 @@ void Ball::ResetPosition(const cocos2d::Vec3 & pos)
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
 	setScale(lpPointWithDepth.GetScale(_localPos.z));
+
+
+	// ボールの座標を送信している
+	ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
+	eventContent->put<int, float>(0, _localPos.x);
+	eventContent->put<int, float>(1, _localPos.y);
+	eventContent->put<int, float>(2, _localPos.z);
+	_networkLogic->sendEvent(2, eventContent);
+
+	Vec3 vel = _traject->GetVel(_ballState);
+	/// ボールの速度を送信している
+	eventContent = new ExitGames::Common::Hashtable();
+	eventContent->put<int, float>(0, vel.x);
+	eventContent->put<int, float>(1, vel.y);
+	eventContent->put<int, float>(2, vel.y);
+	_networkLogic->sendEvent(3, eventContent);
+
+	eventContent = new ExitGames::Common::Hashtable();
+	eventContent->put<int, bool>(0, (_ballState == State::CURVE ? true : false));
+	eventContent->put<int, bool>(1, true);
+	_networkLogic->sendEvent(4, eventContent);
+
 }
+
 
 std::tuple<bool, bool, bool> Ball::GetIsReverse() const
 {
@@ -55,6 +85,12 @@ bool Ball::Init(void)
 
 	// 半径(画像の大きさ/2 - 余白)
 	_diameter = 150;
+
+	//// ﾎﾞｰﾙのｱﾆﾒｰｼｮﾝ登録
+	//lpAnimMng.AddAnimCache("ball", "ball", 18, 0.03f, true);
+
+	//// 初期ｱﾆﾒｰｼｮﾝ
+	//lpAnimMng.SetAnim(this, "ball", true);
 
 	// 球の描画
 	// 最大角度
@@ -83,6 +119,8 @@ bool Ball::Init(void)
 
 		this->addChild(cirlce);
 	}
+
+	
 
 	// posとｽﾌﾟﾗｲﾄの大きさを一点透視図法に置き換える
 	// 一点透視図法にした時の座標のｾｯﾄ
@@ -182,29 +220,34 @@ void Ball::ChangeIsReverse()
 	/// とりあえず、仮でボール半径のサイズ分を許容した当たり判定を取っている
 	if (_localPos.z > players[1]->GetDepth() && !std::get<2>(_isReverse))
 	{
-		/// プレイヤーの当たったアンカーポイントを取得している
-		int ancType = IsHitAnchor(players[1]);
-
-		/// ボールがプレイヤーに当たった時に入る
-		if (ancType >= 0)
+		while (!_networkLogic->isQueue.empty())
 		{
-			/// ボールと当たった時の画像に変更する
-			players[1]->ChangeImage(ancType);
+			std::array<bool, 2> arr = _networkLogic->isQueue.front();
+			_networkLogic->isQueue.pop();
 
-			/// 残像の描画位置を変更する
-			auto ballAfter = gameMng->getChildByName("ballAfter");
-			ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::SHADOW));
-
-			/// プレイヤーを動かしながらボールを当てた時、カーブを行う。
-			ChangeMoving(players[1]);
-
-			std::get<2>(_isReverse) = true;
-		}
-		else
-		{
-			if (_localPos.z > players[1]->GetDepth() + _diameter / 2)
+			if (arr[2])
 			{
-				/// 1Pにスコアを与える
+				while (!_networkLogic->bPosQueue.empty())
+				{
+					std::array<float, 3> arr = _networkLogic->bPosQueue.front();
+					_networkLogic->bPosQueue.pop();
+
+					_localPos.x = arr[0];
+					_localPos.y = arr[1];
+					_localPos.z = arr[2];
+				}
+
+				while (!_networkLogic->bVelQueue.empty())
+				{
+					std::array<float, 3> arr = _networkLogic->bVelQueue.front();
+					_networkLogic->bPosQueue.pop();
+
+					_traject->SetVel(Vec2(arr[0], arr[2]));
+				}
+			}
+			else
+			{
+				/// 2Pにスコアを与える
 				gameMng->TransitionScore(true);
 			}
 		}
@@ -213,6 +256,9 @@ void Ball::ChangeIsReverse()
 	{
 		/// プレイヤーの当たったアンカーポイントを取得している
 		int ancType = IsHitAnchor(players[0]);
+
+
+		ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
 
 		if (ancType >= 0)
 		{
@@ -226,6 +272,12 @@ void Ball::ChangeIsReverse()
 			/// プレイヤーを動かしながらボールを当てた時、カーブを行う。
 			ChangeMoving(players[1]);
 			std::get<2>(_isReverse) = false;
+
+			eventContent->put<int, bool>(0, (_ballState == State::CURVE ? true : false));
+			eventContent->put<int, bool>(1, true);
+
+
+			_networkLogic->sendEvent(4, eventContent);
 		}
 		else
 		{
@@ -234,6 +286,9 @@ void Ball::ChangeIsReverse()
 				/// 2Pにスコアを与える
 				gameMng->TransitionScore(false);
 			}
+			eventContent->put<int, bool>(1, false);
+
+			_networkLogic->sendEvent(4, eventContent);
 		}
 	}
 	else {}
@@ -248,38 +303,44 @@ void Ball::ChangeMoving(const Node* pl)
 	/// プレイヤーの情報取得
 	auto player = (Player*)pl;
 
-	/// ボールを加速させる処理
-	_traject->AccelSpeed();
-
+	/// ボールのスピードを加速させる処理
+	// _traject->AccelSpeed();
+	Vec3 vel;
 	/// ボールの跳ね返す方向を切り替えるかの判定
 	if (abs(player->GetMoveDistance().x) >= 20 &&
 		abs(player->GetMoveDistance().y) >= 20)
 	{
-		/// カーブの時に入る処理
-		_ballState = State::CURVE;
-
-		/// 奥行きの位置によって、音量を調整している
 		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("curve", rate);
-
+		_ballState = State::CURVE;
 		_traject->CalBezierPoint(player->GetMoveDistance().getNormalized());
+		vel = _traject->GetVel(_ballState);
 	}
 	else
 	{
-		_ballState = State::NORMAL;
-
-		/// 奥行きの位置によって、音量を調整している
+		_traject->SetVel(player->GetMoveDistance().getNormalized());
 		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("hit", rate);
+		_ballState = State::NORMAL;
 
-		/// プレイヤーの動いた方向のベクトルを渡して、ボールの速度を変更している
-		_traject->SetVel(player->GetMoveDistance().getNormalized());
-
-		/// ボールの跳ね返す方向の設定している
-		Vec3 vel = _traject->GetVel(_ballState);
+		vel = _traject->GetVel(_ballState);
 		std::get<0>(_isReverse) = (vel.x >= 0.f ? false : true);
 		std::get<1>(_isReverse) = (vel.y >= 0.f ? false : true);
 	}
+
+	// ボールの座標を送信している
+	ExitGames::Common::Hashtable* eventContent = new ExitGames::Common::Hashtable();
+	eventContent->put<int, float>(0, _localPos.x);
+	eventContent->put<int, float>(1, _localPos.y);
+	eventContent->put<int, float>(2, _localPos.z);
+	_networkLogic->sendEvent(2, eventContent);
+
+	/// ボールの速度を送信している
+	eventContent = new ExitGames::Common::Hashtable();
+	eventContent->put<int, float>(0, vel.x);
+	eventContent->put<int, float>(1, vel.y);
+	eventContent->put<int, float>(2, vel.y);
+	_networkLogic->sendEvent(3, eventContent);
 }
 
 void Ball::update(float dt)
@@ -330,10 +391,20 @@ void Ball::update(float dt)
 	}
 	else
 	{
-		/// 待機中の時、ボールの速度を初期化している
-		/// (現状、ポーズモードが無いことを想定して処理を書いている) ◆
 		_ballState = State::NORMAL;
 		_traject->ResetVel();
+	}
+
+
+	float depth;
+	// 移動の更新
+	if (lpAppInfo.isHost())
+	{
+		depth = _localPos.z;
+	}
+	else
+	{
+		depth = _wallDepth[_wallDepth.size() - 1] - _localPos.z;
 	}
 
 	// 一点透視図法にした時の座標のｾｯﾄ
@@ -341,4 +412,5 @@ void Ball::update(float dt)
 
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
 	setScale(lpPointWithDepth.GetScale(_localPos.z));
+
 }

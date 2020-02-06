@@ -7,8 +7,7 @@ USING_NS_CC;
 
 TrajectControl::TrajectControl() : _defSpeed(8.f,8.f,8.f)
 {
-	_vel	= { 0,0,_defSpeed.z / 2 };
-	_speed	= _defSpeed;
+	_vel = { 0,0,_defSpeed.z / 2 };
 }
 
 TrajectControl::~TrajectControl()
@@ -24,10 +23,8 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 	auto ball		= (Ball*)gameMng->getChildByName("ball");
 
 	Vec2 visibleSize = Director::getInstance()->getVisibleSize();
-	
-	/// カーブの移動幅を計算している
+	/// 画面サイズ / 2 - ボールの半径をカーブできる移動範囲に設定してみるか？　◆
 	Vec2 distance = Vec2((visibleSize.x / 2) * vec.x, (visibleSize.y / 2) * vec.y);
-
 	/// 一次ベジェの曲線を生成するために必要なもの
 	Vec3 start, mid, end;
 	float a, b, endDepth;
@@ -35,7 +32,6 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 	/// 終端の深度値を設定している
 	endDepth = (std::get<2>(ball->GetIsReverse()) ? gameMng->GetDepths()[gameMng->GetDepths().size() - 1] : gameMng->GetDepths()[0]);
 
-	/// ベジェ曲線の制御点を設定している
 	start	= Vec3(ball->GetLocalPos().x, ball->GetLocalPos().y, ball->GetLocalPos().z);
 	mid		= Vec3(ball->GetLocalPos().x + distance.x, ball->GetLocalPos().y + distance.y, gameMng->GetDepths()[gameMng->GetDepths().size() / 2]);
 	end		= Vec3(ball->GetLocalPos().x - distance.x, ball->GetLocalPos().y - distance.y, endDepth);				/// 仮の設定　◆
@@ -55,21 +51,20 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 
 void TrajectControl::AccelSpeed()
 {
-	/// スピードの加算
-	_speed.x += (_speed.x <= _defSpeed.x ? 0.5f : 0.f);
-	_speed.y += (_speed.y <= _defSpeed.y ? 0.5f : 0.f);
-	_speed.z += (_speed.z <= _defSpeed.z ? 0.5f : 0.f);
+	_speed.x += (_speed.x <= _defSpeed.x * 2 ? 0.5f : 0.f);
+	_speed.y += (_speed.y <= _defSpeed.y * 2 ? 0.5f : 0.f);
+	_speed.z += (_speed.z <= _defSpeed.z * 2 ? 0.5f : 0.f);
 }
 
 void TrajectControl::ResetVel()
 {
-	_vel	= { 0,0,_defSpeed.z / 2 };
-	_speed	= _defSpeed;
+	_vel = { 0,0,_defSpeed.z / 2 };
+	_speed = _defSpeed;
 }
 
 void TrajectControl::SetVel(const cocos2d::Vec2 & vec)
 {
-	/// 一定値以上のベクトル取得用
+	/// ベクトルの最低値を設定するためのもの
 	auto Clamp = [](const float& vec)
 	{
 		if (vec >= 0.05f)
@@ -138,7 +133,9 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 			{
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
+				/// 壁に反射した時の速度設定
 				_vel = Vec3(abs(_speed.x * vec.x * rate), abs(_speed.y * vec.y * rate), _speed.z);
+
 				return Vec3(_speed.x * vec.x * rate, _speed.y * vec.y * rate, _speed.z * vec.z * rate);
 			}
 		}
@@ -149,7 +146,9 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 			{
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
+				/// 壁に反射した時の速度設定
 				_vel = Vec3(abs(_speed.x * vec.x * rate), abs(_speed.y * vec.y * rate), _speed.z);
+
 				return Vec3(_speed.x * vec.x * rate, _speed.y * vec.y * rate, _speed.z * vec.z * rate);
 			}
 		}

@@ -4,6 +4,8 @@
 #include "SpriteAffectDepth.h"
 #include "TrajectControl.h"
 
+class NetworkLogic;
+
 class Ball :
 	public SpriteAffectDepth
 {
@@ -28,5 +30,7 @@ private:
 
 	float _diameter;								// 球の直径
 
-	State _ballState;								// ボールの状態保存用					
+	State _ballState;								// ボールの状態保存用	
+
+	NetworkLogic* _networkLogic;					// ネットワーク関係の情報
 };
