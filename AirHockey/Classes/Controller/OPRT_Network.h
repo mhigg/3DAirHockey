@@ -15,7 +15,6 @@ public:
 
 private:
 	void Run(void);	// 通信の接続
-	void addParticle(int playerNr, float x, float y);
 
 	bool _isHost;	// ﾎｽﾄならtrue, ｹﾞｽﾄならfalse
 	bool _swallowsTouches;
