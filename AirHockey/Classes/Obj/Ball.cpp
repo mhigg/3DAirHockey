@@ -56,12 +56,6 @@ bool Ball::Init(void)
 	// 半径(画像の大きさ/2 - 余白)
 	_diameter = 150;
 
-	//// ﾎﾞｰﾙのｱﾆﾒｰｼｮﾝ登録
-	//lpAnimMng.AddAnimCache("ball", "ball", 18, 0.03f, true);
-
-	//// 初期ｱﾆﾒｰｼｮﾝ
-	//lpAnimMng.SetAnim(this, "ball", true);
-
 	// 球の描画
 	// 最大角度
 	int angle = 180;
@@ -89,8 +83,6 @@ bool Ball::Init(void)
 
 		this->addChild(cirlce);
 	}
-
-	
 
 	// posとｽﾌﾟﾗｲﾄの大きさを一点透視図法に置き換える
 	// 一点透視図法にした時の座標のｾｯﾄ
@@ -256,22 +248,34 @@ void Ball::ChangeMoving(const Node* pl)
 	/// プレイヤーの情報取得
 	auto player = (Player*)pl;
 
+	/// ボールを加速させる処理
+	_traject->AccelSpeed();
+
 	/// ボールの跳ね返す方向を切り替えるかの判定
 	if (abs(player->GetMoveDistance().x) >= 20 &&
 		abs(player->GetMoveDistance().y) >= 20)
 	{
+		/// カーブの時に入る処理
+		_ballState = State::CURVE;
+
+		/// 奥行きの位置によって、音量を調整している
 		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("curve", rate);
-		_ballState = State::CURVE;
+
 		_traject->CalBezierPoint(player->GetMoveDistance().getNormalized());
 	}
 	else
 	{
-		_traject->SetVel(player->GetMoveDistance().getNormalized());
-		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
-		CCAudioMng::GetInstance().CkPlaySE("hit", rate);
 		_ballState = State::NORMAL;
 
+		/// 奥行きの位置によって、音量を調整している
+		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
+		CCAudioMng::GetInstance().CkPlaySE("hit", rate);
+
+		/// プレイヤーの動いた方向のベクトルを渡して、ボールの速度を変更している
+		_traject->SetVel(player->GetMoveDistance().getNormalized());
+
+		/// ボールの跳ね返す方向の設定している
 		Vec3 vel = _traject->GetVel(_ballState);
 		std::get<0>(_isReverse) = (vel.x >= 0.f ? false : true);
 		std::get<1>(_isReverse) = (vel.y >= 0.f ? false : true);
@@ -326,6 +330,8 @@ void Ball::update(float dt)
 	}
 	else
 	{
+		/// 待機中の時、ボールの速度を初期化している
+		/// (現状、ポーズモードが無いことを想定して処理を書いている) ◆
 		_ballState = State::NORMAL;
 		_traject->ResetVel();
 	}
@@ -333,17 +339,6 @@ void Ball::update(float dt)
 	// 一点透視図法にした時の座標のｾｯﾄ
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 
-	float depth;
-	// 移動の更新
-	if (lpAppInfo.isHost())
-	{
-		depth = _localPos.z;
-	}
-	else
-	{
-		depth = _wallDepth[_wallDepth.size() - 1] - _localPos.z;
-	}
 	// 一点透視図法にした時の画像のｻｲｽﾞ設定
-	setScale(lpPointWithDepth.GetScale(depth));
-
+	setScale(lpPointWithDepth.GetScale(_localPos.z));
 }

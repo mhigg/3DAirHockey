@@ -63,8 +63,7 @@ void GameManager::GeneratePlayer(bool isHost, bool setFlag)
 		player = new Player(isHost, depth, i);
 
 		player->GyroSet(setFlag);
-		/// プレイヤーの名前を設定している
-		//player->setName(isHost ? "HostPlayer" : "GuestPlayer");
+
 		player->setName("player" + std::to_string(i + 1));
 
 		/// プレイヤーの追加
@@ -133,7 +132,6 @@ void GameManager::Init()
 	ballAfter->setVisible(false);
 	this->addChild(ballAfter, static_cast<int>(SpriteNum::BALL));
 
-	// GeneratePlayer(true);
 }
 
 void GameManager::Connect()
@@ -159,6 +157,7 @@ void GameManager::Stay()
 	Sprite* sp = Sprite::create();
 	if (_invCnt < _mimSecond)
 	{
+		/// SEが鳴り終わると、ゲーム開始する。
 		if (!CCAudioMng::GetInstance().IsPlaySE("start"))
 		{
 			_updater = &GameManager::Game;
@@ -167,19 +166,17 @@ void GameManager::Stay()
 		}
 		sp = (Sprite*)UI->getChildByName("start");
 		sp->setVisible(true);
-
 	}
 	else
 	{
 		sp = (Sprite*)UI->getChildByName("cntDown");
 		sp->setVisible(true);
 
-		/// Y座標の指定位置は現状動かないので、直値で渡している
 		Rect rect = Rect(100 * (_invCnt / _mimSecond), 0, 100, 100);
 		sp->setTextureRect(rect);
 
 		/// カウントダウンの音を再生する
-		if (_invCnt % 60 == 0&& _invCnt > _mimSecond)
+		if (_invCnt % 60 == 0 && _invCnt > _mimSecond)
 		{
 			CCAudioMng::GetInstance().CkPlaySE("cntDown");
 		}
@@ -219,11 +216,14 @@ void GameManager::Score()
 			}
 		}
 
+		/// ゲームを継続するかの判定
 		if (isGame)
 		{
+			/// ゲームを続行する
 			_updater = &GameManager::Stay;
 			_invCnt = _mimSecond * 4;
 
+			/// ボールを初期位置にする
 			Ball* ball = (Ball*)this->getChildByName("ball");
 			BallAfter* ballAfter = (BallAfter*)this->getChildByName("ballAfter");
 			ballAfter->ResetPosition();
@@ -231,12 +231,14 @@ void GameManager::Score()
 		}
 		else
 		{
+			/// ゲームを終了状態にする
 			_updater = &GameManager::Result;
 			CCAudioMng::GetInstance().CkPlaySE("win");
 		}
 		return;
 	}
 
+	/// スコアの表示
 	Sprite* sp = Sprite::create();
 	Rect rect;
 	for (int i = 0; i < _scores.size(); ++i)
@@ -247,13 +249,15 @@ void GameManager::Score()
 		sp->setVisible(true);
 	}
 
-	int pNum = (_isPlayer ? 1 : 2);
-	std::string name = "score" + std::to_string(pNum);
+	/// 効果音の再生
 	if (_invCnt % 60 == 0)
 	{
 		CCAudioMng::GetInstance().CkPlaySE("score");
 	}
 
+	/// 点を入れたプレイヤーのスコアを点滅させている
+	int pNum = (_isPlayer ? 1 : 2);
+	std::string name = "score" + std::to_string(pNum);
 	if (_invCnt / (_mimSecond / 2) % 2)
 	{
 		UI->getChildByName(name)->setVisible(false);
@@ -286,6 +290,7 @@ void GameManager::update(float dt)
 		// トランジション中は処理を通さない
 		return;
 	}
+
 	/// 関数ポインタの中身の処理を行う
 	(this->*_updater)();
 }
