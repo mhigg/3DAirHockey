@@ -83,6 +83,11 @@ public:
 	int playerNr = 0;
 	// イベントキュー
 	std::queue<std::array<float, 3>> eventQueue;
+	std::queue<std::array<float, 3>> bPosQueue;		// ボールの座標保存用
+	std::queue<std::array<float, 3>> bVelQueue;		// ボールの速度保存用
+
+	// 0 : ボールがカーブしたかの判定, 1 : 当たったかの判定
+	std::queue<std::array<bool, 2>> isQueue;		
 
 #ifdef _EG_XB1_PLATFORM
 	void setXSTSToken(const ExitGames::Common::JVector<nByte>& mXSTSToken);
