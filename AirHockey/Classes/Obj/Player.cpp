@@ -48,6 +48,8 @@ Player::Player(bool isHost, const float& zdepth, int provIsFront)
 
 		// 奥側のマレットは通信
 		_oprtState.reset(new Oprt_Touch(this, true, isHost));
+#else
+		_oprtState.reset(new OPRT_Network(this, isHost));
 #endif
 
 	}
@@ -57,7 +59,7 @@ Player::Player(bool isHost, const float& zdepth, int provIsFront)
 
 Player::Player(bool isHost, const float & zdepth, int provIsFront, bool active)
 {
-	Player(isHost, zdepth, provIsFront);
+	//Player(isHost, zdepth, provIsFront);
 }
 
 Player::~Player()

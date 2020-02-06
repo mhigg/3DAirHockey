@@ -109,6 +109,7 @@ void OPRT_Network::Update(void)
 		_point.y = arr[2];
 		CCLOG("%d, %f, %f", playerNr, _point.x, _point.y);
 	}
+
 }
 
 cocos2d::Vec2 OPRT_Network::GetPoint(void) const
@@ -116,26 +117,3 @@ cocos2d::Vec2 OPRT_Network::GetPoint(void) const
 	return _point;
 }
 
-void OPRT_Network::addParticle(int playerNr, float x, float y)
-{
-	ParticleSystem* particle;
-	switch (playerNr)
-	{
-	case 1:
-		particle = ParticleFire::create();
-		break;
-	case 2:
-		particle = ParticleSmoke::create();
-		break;
-	case 3:
-		particle = ParticleFlower::create();
-		break;
-	default:
-		particle = ParticleSun::create();
-		break;
-	}
-	particle->setDuration(0.1);
-	particle->setSpeed(500);
-	particle->setPosition(cocos2d::Point(x, y));
-	this->addChild(particle);
-}
