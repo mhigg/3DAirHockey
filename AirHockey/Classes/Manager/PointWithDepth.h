@@ -13,18 +13,18 @@ class PointWithDepth
 	: public cocos2d::Node
 {
 public:
-	static PointWithDepth& GetInstance()	// ｱﾄﾞﾚｽが欲しいためﾎﾟｲﾝﾀｰか参照で
+	static PointWithDepth& GetInstance()		// ｱﾄﾞﾚｽが欲しいためﾎﾟｲﾝﾀｰか参照で
 	{
-		return (*s_Instance);				// *で中身(ｸﾗｽの実体)を返す
+		return (*s_Instance);					// *で中身(ｸﾗｽの実体)を返す
 	}
 
 	// scaleと座標を1点透視図法で計算する(第二引数は指定したｽｹｰﾙを中心に動かしたいときに使う)
 	cocos2d::Point SetWorldPosition(cocos2d::Vec3 localPos, float scale = 1);
-	float GetScale(float local_z);								// ｽﾌﾟﾗｲﾄ用のscareのｹﾞｯﾀｰ
+	float GetScale(float local_z);					// ｽﾌﾟﾗｲﾄ用のscareのｹﾞｯﾀｰ
 
-	cocos2d::Point GetVanishingPoint(void);						// 消失点の座標のｹﾞｯﾀｰ
-	void SetVanishingPoint(cocos2d::Point pos);					// 消失点を動かしたいときに使うｾｯﾀｰ
-	void ResetVanishingPoint(void);								// 動かした消失点を初期値に戻す
+	cocos2d::Point GetVanishingPoint(void);			// 消失点の座標のｹﾞｯﾀｰ
+	void SetVanishingPoint(cocos2d::Point pos);		// 消失点を動かしたいときに使うｾｯﾀｰ
+	void ResetVanishingPoint(void);					// 消失点を初期値に戻す
 
 private:
 	// 関数ｵﾌﾞｼﾞｪｸﾄ
@@ -41,7 +41,7 @@ private:
 
 	static std::unique_ptr<PointWithDepth, PointWithDepthDeleter> s_Instance;	// ｲﾝｽﾀﾝｽ用ﾕﾆｰｸﾎﾟｲﾝﾀｰ
 
-	void PointNormalize(cocos2d::Point VanishingPoint);					// 
+	void PointNormalize(cocos2d::Point VanishingPoint);
 	Z_DEPTH _zDepth;							// 奥行の始点と終点
 	cocos2d::Point _firstVanishingPoint;		// 初期の消失点のXとYの座標
 	cocos2d::Point _nowVanishingPoint;			// 更新する消失点のXとYの座標

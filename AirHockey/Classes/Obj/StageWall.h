@@ -17,10 +17,10 @@ private:
 	void update(float dt)override;
 	void WallColor(cocos2d::Color3B color);	// 壁の色の変更
 
-	cocos2d::Color3B _nowColor;		// 現在の壁の色
-	cocos2d::Color3B _normalColor;	// 通常の壁の色
-	cocos2d::Color3B _changeColor;	// ﾎﾞｰﾙ通過時に変わる壁の色
-	bool _colorChangeFlag;			// 色を変えるﾌﾗｸﾞ(trueで_changeColor,falseで_normalColor)
+	cocos2d::Color3B _nowColor;				// 現在の壁の色
+	cocos2d::Color3B _normalColor;			// 通常の壁の色
+	cocos2d::Color3B _changeColor;			// ﾎﾞｰﾙ通過時に変わる壁の色
+	bool _colorChangeFlag;					// 色を変えるﾌﾗｸﾞ(trueで_changeColor,falseで_normalColor)
 
-	int _wallNum;					// 壁の番号(手前が0番目で1ずつ増えている)
+	int _wallNum;							// 壁の番号(手前が0番目で1ずつ増えている)
 };

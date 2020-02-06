@@ -26,6 +26,6 @@ private:
 	void update(float dt)override;	// 状態更新
 
 	SHADOW _shadowPlace;			// 上下左右の影のenum保存用
-	std::string _typeName;
-	std::string _id;
+	std::string _typeName;			// ﾌﾟﾚｲﾔｰの影かﾎﾞｰﾙの影などの判別用
+	std::string _id;				//
 };

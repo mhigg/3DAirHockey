@@ -14,9 +14,11 @@ PointWithDepth::PointWithDepth()
 
 	// Á¸“_‚Ìİ’è(‚Æ‚è‚ ‚¦‚¸‚Å‰æ–Ê’†‰›‚Éİ’è)
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+	// ‰ŠúˆÊ’u
 	_firstVanishingPoint = { 1024 / 2, 576 / 2 };
 	_nowVanishingPoint = _firstVanishingPoint;
 
+	// Á¸“_‚ÌˆÚ“®”ÍˆÍ‚Ì‰ºŒÀãŒÀ
 	_moveVanishingPoint = { 0,0,X_VanishingPoint_MAX,Y_VanishingPoint_MAX };
 	// ‘å‚«‚³‚Ì‰Šú‰»
 	_scale = 0;
