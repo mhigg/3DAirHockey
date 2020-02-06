@@ -10,7 +10,7 @@ USING_NS_CC;
 Player::Player(bool isHost, const float& zdepth)
 {
 	/// 座標の初期化
-	_prePos = Vec2::ZERO;
+	_prePos	  = Vec2::ZERO;
 	_localPos = { 0,0,zdepth };
 
 	Init(zdepth);
@@ -18,7 +18,8 @@ Player::Player(bool isHost, const float& zdepth)
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	_oprtState.reset(new MouseCtl(this));
 #else
-	_oprtState.reset(new Oprt_Touch(this));
+	bool flag = false;
+	_oprtState.reset(new Oprt_Touch(this, flag, isHost));
 #endif
 
 	this->scheduleUpdate();
@@ -27,7 +28,7 @@ Player::Player(bool isHost, const float& zdepth)
 Player::Player(bool isHost, const float& zdepth, int provIsFront)
 {
 	/// 座標の初期化
-	_prePos = Vec2::ZERO;
+	_prePos	  = Vec2::ZERO;
 	_localPos = { 0,0,zdepth };
 
 	Init(zdepth);
@@ -38,13 +39,19 @@ Player::Player(bool isHost, const float& zdepth, int provIsFront)
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 		_oprtState.reset(new MouseCtl(this));
 #else
-		_oprtState.reset(new Oprt_Touch(this));
+		_oprtState.reset(new Oprt_Touch(this, false, isHost));
 #endif
 	}
 	else
 	{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 		// 奥側のマレットは通信
+		_oprtState.reset(new Oprt_Touch(this, true, isHost));
+#else
 		_oprtState.reset(new OPRT_Network(this, isHost));
+#endif
+
 	}
 
 	this->scheduleUpdate();
@@ -52,7 +59,7 @@ Player::Player(bool isHost, const float& zdepth, int provIsFront)
 
 Player::Player(bool isHost, const float & zdepth, int provIsFront, bool active)
 {
-	Player(isHost, zdepth, provIsFront);
+	//Player(isHost, zdepth, provIsFront);
 }
 
 Player::~Player()
@@ -196,16 +203,16 @@ void Player::MoveUpdate()
 	/// 画面サイズの取得
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	Vec2 pos = _oprtState->GetPoint() - visibleSize / 2;
-	Vec2 offset = visibleSize / 2;
+	Vec2 pos	 = _oprtState->GetPoint() - visibleSize / 2;
+	Vec2 offset  = visibleSize / 2;
 
 	/// サイズの取得
 	float width, height;
 
-	width = (this->getChildByName("leftup")->getContentSize().width +
-		this->getChildByName("rightup")->getContentSize().width);
+	width  = (this->getChildByName("leftup")->getContentSize().width +
+			  this->getChildByName("rightup")->getContentSize().width);
 	height = (this->getChildByName("leftdown")->getContentSize().height +
-		this->getChildByName("rightdown")->getContentSize().height);
+			  this->getChildByName("rightdown")->getContentSize().height);
 
 	Size size = { width, height };
 
@@ -218,14 +225,14 @@ void Player::MoveUpdate()
 	// 右の範囲外
 	else if (pos.x + offset.x + size.width / 2 > visibleSize.width)
 	{
-		_localPos.x = (visibleSize.width - size.width) / 2;
+		_localPos.x = (visibleSize.width - size.width )/2;
 	}
 	// 左の範囲外
 	else if (pos.x + offset.x - size.width / 2 < 0)
 	{
 		_localPos.x = (-visibleSize.width + size.width) / 2;
 	}
-	else {}
+	else{}
 
 	/// Y軸の移動範囲チェック
 	if ((pos.y + offset.y + size.height / 2 < visibleSize.height) &&
@@ -245,7 +252,7 @@ void Player::MoveUpdate()
 
 	// 奥行きの深さによって、サイズを変更するようにしている
 	setScale(lpPointWithDepth.GetScale(_localPos.z));
-
+	
 	if (this->getName() == "player1")
 	{
 		VanishPointUpdate(pos);
