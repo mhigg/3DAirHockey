@@ -320,7 +320,7 @@ void NetworkLogic::sendEvent(void)
 //@eventContent : organize your payload data in any way you like as long as it is supported by Photons serialization
 void NetworkLogic::sendEvent(nByte code, ExitGames::Common::Hashtable *eventContent)
 {
-	bool sendReliable = true; // send something reliable if it has to arrive everywhere
+ 	bool sendReliable = true; // send something reliable if it has to arrive everywhere
 	mLoadBalancingClient.opRaiseEvent(sendReliable, eventContent, 1, code);
 }
 
@@ -434,12 +434,41 @@ void NetworkLogic::customEventAction(int playerNr, nByte eventCode, const ExitGa
 	
 	ExitGames::Common::Hashtable* event;
 
-	switch (eventCode) {
+	switch (eventCode) 
+	{
+		float x, y, z;
+		bool isState, isHit;
 	case 1:
 		event = ExitGames::Common::ValueObject<ExitGames::Common::Hashtable*>(eventContent).getDataCopy();
-		float x = ExitGames::Common::ValueObject<float>(event->getValue(1)).getDataCopy();
-		float y = ExitGames::Common::ValueObject<float>(event->getValue(2)).getDataCopy();
+		x = ExitGames::Common::ValueObject<float>(event->getValue(1)).getDataCopy();
+		y = ExitGames::Common::ValueObject<float>(event->getValue(2)).getDataCopy();
 		eventQueue.push({ static_cast<float>(playerNr), x, y });
+		break;
+
+	case 2:
+		/// 座標情報を追加する
+		event = ExitGames::Common::ValueObject<ExitGames::Common::Hashtable*>(eventContent).getDataCopy();
+		x = ExitGames::Common::ValueObject<float>(event->getValue(0)).getDataCopy();
+		y = ExitGames::Common::ValueObject<float>(event->getValue(1)).getDataCopy();
+		z = ExitGames::Common::ValueObject<float>(event->getValue(2)).getDataCopy();
+		bPosQueue.push({x, y, z });
+		break;
+	case 3:
+		/// 速度情報を追加する
+		event = ExitGames::Common::ValueObject<ExitGames::Common::Hashtable*>(eventContent).getDataCopy();
+		x = ExitGames::Common::ValueObject<float>(event->getValue(0)).getDataCopy();
+		y = ExitGames::Common::ValueObject<float>(event->getValue(1)).getDataCopy();
+		z = ExitGames::Common::ValueObject<float>(event->getValue(2)).getDataCopy();
+		bVelQueue.push({ x, y, z });
+		break;
+	case 4:
+		/// 判定情報を追加する(修正するかも) ◆
+		event  = ExitGames::Common::ValueObject<ExitGames::Common::Hashtable*>(eventContent).getDataCopy();
+		isState = ExitGames::Common::ValueObject<bool>(event->getValue(0)).getDataCopy();
+		isHit = ExitGames::Common::ValueObject<bool>(event->getValue(1)).getDataCopy();
+		isQueue.push({ isState, isHit });
+		break;
+	default:
 		break;
 	}
 }
