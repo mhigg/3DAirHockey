@@ -22,14 +22,12 @@ enum class PL_ANC
 using texturePair  = std::pair<cocos2d::Texture2D*, cocos2d::Texture2D*>;
 using textureArray = std::array<texturePair, static_cast<int>(PL_ANC::MAX)>;
 
-
 class Player : 
 	public SpriteAffectDepth
 {
 public:
 	Player(bool isHost, const float& zdepth);
 	Player(bool isHost, const float& zdepth, int provIsFront);	// 仮実装中のコンストラクタ
-	Player(bool isHost, const float& zdepth, int provIsFront, bool active);
 	~Player();
 
 	/// 深度値の取得用
@@ -48,15 +46,11 @@ private:
 	void Init(const float& zdepth);
 	void InitTextureInfo();		// 差分画像の初期化
 	void MoveUpdate();			// 移動更新用
-	void VanishPointUpdate(const cocos2d::Vec2& pos);		// 消失点の更新用
 	void ResetTexture();		// 最初に設定した画像に戻す
 	void update(float dt);
 
 	std::unique_ptr<OPRT_State> _oprtState;
 	textureArray _texInfo;		// 画像情報保存用
-
-	cocos2d::Vec2 _vel;			// 消失点の速度
-	cocos2d::Vec2 _vPoint;		// 消失点の座標
 	cocos2d::Vec2 _prePos;		// 移動前の座標
 
 	int _dispCnt;				// 当たった時の画像を表示する時間

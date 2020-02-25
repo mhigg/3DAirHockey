@@ -16,8 +16,10 @@ Player::Player(bool isHost, const float& zdepth)
 	Init(zdepth);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	// windows
 	_oprtState.reset(new MouseCtl(this));
 #else
+	// android
 	bool flag = false;
 	_oprtState.reset(new Oprt_Touch(this, flag, isHost));
 #endif
@@ -33,9 +35,9 @@ Player::Player(bool isHost, const float& zdepth, int provIsFront)
 
 	Init(zdepth);
 
+	// プレイヤーの操作方法設定
 	if (provIsFront == 0)
 	{
-		// 手前のマレットは自操作
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 		_oprtState.reset(new MouseCtl(this));
 #else
@@ -51,14 +53,9 @@ Player::Player(bool isHost, const float& zdepth, int provIsFront)
 #else
 		_oprtState.reset(new OPRT_Network(this, isHost));
 #endif
-
 	}
 
 	this->scheduleUpdate();
-}
-
-Player::Player(bool isHost, const float & zdepth, int provIsFront, bool active)
-{
 }
 
 Player::~Player()
@@ -70,15 +67,10 @@ void Player::Init(const float & zdepth)
 	/// 座標の初期化
 	_prePos = Vec2::ZERO;
 
-	_vPoint = _vel = Vec2::ZERO;
-
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
 	// 座標を真ん中にセット
 	this->setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
-
-	// 消失点の変更
-	//lpPointWithDepth.SetVanishingPoint(-Vec2(visibleSize.width, visibleSize.height));
 
 	/// 表示時間の初期化
 	_dispCnt = -1;
@@ -122,19 +114,20 @@ void Player::InitTextureInfo()
 	sprite->setName("rightdown");
 	sprite->setTag(static_cast<int>(PL_ANC::RIGHTDOWN));
 	this->addChild(sprite);
-	/// 画像名保存用
-	std::string imageName;
+
+	/// 画像のパス保存用
+	std::string imagePath;
 
 	/// 画像情報の登録
 	for (auto anchor : this->getChildren())
 	{
-		/// ボールと当たっていない時の画像登録
-		imageName = "image/player/player_" + anchor->getName() + ".png";
-		_texInfo[anchor->getTag()].first = Director::getInstance()->getTextureCache()->addImage(imageName);
+		/// ボールがヒットしていない時の画像登録
+		imagePath = "image/player/player_" + anchor->getName() + ".png";
+		_texInfo[anchor->getTag()].first = Director::getInstance()->getTextureCache()->addImage(imagePath);
 
-		/// ボールと当たった時の画像登録
-		imageName = "image/player/player_" + anchor->getName() + "_hit" + ".png";
-		_texInfo[anchor->getTag()].second = Director::getInstance()->getTextureCache()->addImage(imageName);
+		/// ボールがヒットした時の画像登録
+		imagePath = "image/player/player_" + anchor->getName() + "_hit" + ".png";
+		_texInfo[anchor->getTag()].second = Director::getInstance()->getTextureCache()->addImage(imagePath);
 	}
 }
 
@@ -148,29 +141,35 @@ cocos2d::Vec2 Player::GetAnchorPos(const std::string& name)
 	/// アンカーポイントに設定してある座標を返している
 	if (name == "center")
 	{
+		/// 真ん中
 		return Vec2(_localPos.x, _localPos.y);
 	}
 	else if (name == "leftup")
 	{
+		/// 左上
 		Size size = this->getChildByName(name)->getContentSize();
 		return Vec2(_localPos.x, _localPos.y) + Vec2(-size.width / 2, size.height / 2);
 	}
 	else if (name == "rightup")
 	{
+		/// 右上
 		Size size = this->getChildByName(name)->getContentSize();
 		return Vec2(_localPos.x, _localPos.y) + Vec2(size.width / 2, size.height / 2);
 	}
 	else if (name == "leftdown")
 	{
+		/// 左下
 		Size size = this->getChildByName(name)->getContentSize();
 		return Vec2(_localPos.x, _localPos.y) + Vec2(-size.width / 2, -size.height / 2);
 	}
 	else if (name == "rightdown")
 	{
+		/// 右下
 		Size size = this->getChildByName(name)->getContentSize();
 		return Vec2(_localPos.x, _localPos.y) + Vec2(size.width / 2, -size.height / 2);
 	}
 	else {}
+
 	return Vec2::ZERO;
 }
 
@@ -199,81 +198,41 @@ void Player::GyroSet(bool setFlag)
 
 void Player::MoveUpdate()
 {
-	/// 画面サイズの取得
+	/// マレットの画像サイズの取得
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-
+	
+	/// プレイヤーの操作ごとに設定された座標の取得
 	Vec2 pos	 = _oprtState->GetPoint() - visibleSize / 2;
+
+	/// ゲーム画面のオフセット
 	Vec2 offset  = visibleSize / 2;
 
-	/// サイズの取得
+	/// マレットの幅と高さの取得
 	float width, height;
-
 	width  = (this->getChildByName("leftup")->getContentSize().width +
 			  this->getChildByName("rightup")->getContentSize().width);
 	height = (this->getChildByName("leftdown")->getContentSize().height +
 			  this->getChildByName("rightdown")->getContentSize().height);
 
-	Size size = { width, height };
-
 	/// X軸の移動範囲チェック
-	if ((pos.x + offset.x + size.width / 2 < visibleSize.width) &&
-		(pos.x + offset.x - size.width / 2 > 0))
+	if ((pos.x + offset.x + width / 2 < visibleSize.width) &&
+		(pos.x + offset.x - width / 2 > 0))
 	{
 		_localPos.x = pos.x;
 	}
-	// 右の範囲外
-	else if (pos.x + offset.x + size.width / 2 > visibleSize.width)
-	{
-		_localPos.x = (visibleSize.width - size.width )/2;
-	}
-	// 左の範囲外
-	else if (pos.x + offset.x - size.width / 2 < 0)
-	{
-		_localPos.x = (-visibleSize.width + size.width) / 2;
-	}
-	else{}
 
 	/// Y軸の移動範囲チェック
-	if ((pos.y + offset.y + size.height / 2 < visibleSize.height) &&
-		(pos.y + offset.y - size.height / 2 > 0))
+	if ((pos.y + offset.y + height / 2 < visibleSize.height) &&
+		(pos.y + offset.y - height / 2 > 0))
 	{
 		_localPos.y = pos.y;
 	}
-	else if (pos.y + offset.y + size.height / 2 > visibleSize.height)
-	{
-		_localPos.y = (visibleSize.height - size.height) / 2;
-	}
-	else if (pos.y + offset.y - size.height / 2 < 0)
-	{
-		_localPos.y = (-visibleSize.height + size.height) / 2;
-	}
 
-
-	// 奥行きの深さによって、サイズを変更するようにしている
+	// 奥行の深さによって、サイズ変更を行っている
 	setScale(lpPointWithDepth.GetScale(_localPos.z));
-	
-	if (this->getName() == "player1")
-	{
-		VanishPointUpdate(pos);
-	}
 
 	/// ワールド座標に変換している
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
-}
-
-void Player::VanishPointUpdate(const cocos2d::Vec2& pos)
-{
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto Clamp = [](const float& vel, const float& speed)
-	{
-		return fmin(3.f, fmax(-3.f, (vel + speed)));
-	};
-
-	/// 現状、仮の消失点の更新をしている
-	auto distance = (pos - _vPoint).getNormalized();
-	_vel = Vec2(Clamp(_vel.x, distance.x * 0.2f), Clamp(_vel.y, distance.y * 0.2f));
-	_vPoint += _vel;
-
 }
 
 void Player::ResetTexture()
@@ -281,6 +240,7 @@ void Player::ResetTexture()
 	Sprite* sp;
 	for (auto anchor : this->getChildren())
 	{
+		/// ボールヒット時に変更した画像を元に戻す
 		sp = (Sprite*)anchor;
 		sp->setTexture(_texInfo[anchor->getTag()].first);
 	}
@@ -294,12 +254,14 @@ void Player::update(float dt)
 
 	MoveUpdate();
 
+	/// 表示時間が0になった時に入る
 	if (_dispCnt == 0)
 	{
 		ResetTexture();
 	}
 	else
 	{
+		/// 表示時間の減算
 		--_dispCnt;
 	}
 }
