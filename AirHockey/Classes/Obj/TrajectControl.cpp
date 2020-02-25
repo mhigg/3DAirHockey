@@ -7,6 +7,7 @@ USING_NS_CC;
 
 TrajectControl::TrajectControl() : _defSpeed(8.f,8.f,8.f)
 {
+	/// 速度の初期化
 	_vel	= { 0,0,_defSpeed.z / 2 };
 	_speed	= _defSpeed;
 }
@@ -22,23 +23,31 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 	auto runScene	= Director::getInstance()->getRunningScene();
 	auto gameMng	= (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
 	auto ball		= (Ball*)gameMng->getChildByName("ball");
-
-	Vec2 visibleSize = Director::getInstance()->getVisibleSize();
 	
 	/// カーブの移動幅を計算している
-	Vec2 distance = Vec2((visibleSize.x / 2) * vec.x, (visibleSize.y / 2) * vec.y);
+	Vec2 distance = Vec2((Director::getInstance()->getVisibleSize().width / 2)  * vec.x, 
+						 (Director::getInstance()->getVisibleSize().height / 2) * vec.y);
 
 	/// 一次ベジェの曲線を生成するために必要なもの
 	Vec3 start, mid, end;
 	float a, b, endDepth;
 
 	/// 終端の深度値を設定している
-	endDepth = (std::get<2>(ball->GetIsReverse()) ? gameMng->GetDepths()[gameMng->GetDepths().size() - 1] : gameMng->GetDepths()[0]);
+	endDepth = (std::get<2>(ball->GetIsReverse()) ? gameMng->GetDepths()[gameMng->GetDepths().size() - 1] 
+												  : gameMng->GetDepths()[0]);
 
 	/// ベジェ曲線の制御点を設定している
-	start	= Vec3(ball->GetLocalPos().x, ball->GetLocalPos().y, ball->GetLocalPos().z);
-	mid		= Vec3(ball->GetLocalPos().x + distance.x, ball->GetLocalPos().y + distance.y, gameMng->GetDepths()[gameMng->GetDepths().size() / 2]);
-	end		= Vec3(ball->GetLocalPos().x - distance.x, ball->GetLocalPos().y - distance.y, endDepth);				
+	start	= Vec3(ball->GetLocalPos().x, 
+				   ball->GetLocalPos().y, 
+				   ball->GetLocalPos().z);
+
+	mid		= Vec3(ball->GetLocalPos().x + distance.x,
+				   ball->GetLocalPos().y + distance.y, 
+				   gameMng->GetDepths()[gameMng->GetDepths().size() / 2]);
+
+	end		= Vec3(ball->GetLocalPos().x - distance.x,
+				   ball->GetLocalPos().y - distance.y, 
+				   endDepth);				
 
 	for (int i = 0; i < _points.size(); ++i)
 	{
@@ -63,6 +72,7 @@ void TrajectControl::AccelSpeed()
 
 void TrajectControl::ResetVel()
 {
+	/// 速度を再設定する
 	_vel	= { 0,0,_defSpeed.z / 2 };
 	_speed	= _defSpeed;
 }
@@ -105,7 +115,7 @@ cocos2d::Vec3 TrajectControl::CalNormalVel()
 	auto gameMng	= (GameManager*)runScene->getChildByName("GameLayer")->getChildByName("GameManager");
 	auto ball		= (Ball*)gameMng->getChildByName("ball");
 
-	/// 速度を反転させるかのフラグを取得している
+	/// 速度を反転させるかの判定の取得
 	auto isReverse	= ball->GetIsReverse();
 	cocos2d::Vec3 vel;
 
@@ -133,29 +143,33 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 	{
 		if (!std::get<2>(ball->GetIsReverse()))
 		{
-			/// 手前→奥のZ軸の取得
+			/// 手前から奥のZ軸の取得
 			if (_points[i].z > ball->GetLocalPos().z)
 			{
+				/// 移動方向ベクトルの取得
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
+
+				/// 速度の設定
 				_vel = Vec3(abs(_speed.x * vec.x * rate), abs(_speed.y * vec.y * rate), _speed.z);
 				return Vec3(_speed.x * vec.x * rate, _speed.y * vec.y * rate, _speed.z * vec.z * rate);
 			}
 		}
 		else
 		{
-			/// 奥→手前のZ軸の取得
+			/// 奥から手前のZ軸の取得
 			if (_points[i].z < ball->GetLocalPos().z)
 			{
 				vec = (_points[i] - ball->GetLocalPos());
 				vec.normalize();
+
 				_vel = Vec3(abs(_speed.x * vec.x * rate), abs(_speed.y * vec.y * rate), _speed.z);
 				return Vec3(_speed.x * vec.x * rate, _speed.y * vec.y * rate, _speed.z * vec.z * rate);
 			}
 		}
 	}
 
-	/// 一定の深度値になった場合、真っ直ぐ飛ばすようにしている
+	/// 一定の深度値を超えた時、直線方向へ飛ばしている
 	float velZ = (!std::get<2>(ball->GetIsReverse()) ? _speed.z : -_speed.z);
 	return cocos2d::Vec3(0, 0, velZ);
 }

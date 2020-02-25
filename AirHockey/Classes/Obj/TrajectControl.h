@@ -19,7 +19,7 @@ public:
 	TrajectControl();
 	~TrajectControl();
 
-	void ResetVel();
+	void ResetVel();								// 速度の再設定用
 	void AccelSpeed();								// スピードの加速用
 	void ChangeVel(const cocos2d::Vec2& vec);		// 速度変更用
 	cocos2d::Vec3 GetVel(const State& state);		// 速度取得用
