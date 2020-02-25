@@ -59,7 +59,6 @@ Player::Player(bool isHost, const float& zdepth, int provIsFront)
 
 Player::Player(bool isHost, const float & zdepth, int provIsFront, bool active)
 {
-	//Player(isHost, zdepth, provIsFront);
 }
 
 Player::~Player()
@@ -258,7 +257,6 @@ void Player::MoveUpdate()
 		VanishPointUpdate(pos);
 	}
 
-	/// ここの座標を使ってみるか
 	/// ワールド座標に変換している
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 }
@@ -276,7 +274,6 @@ void Player::VanishPointUpdate(const cocos2d::Vec2& pos)
 	_vel = Vec2(Clamp(_vel.x, distance.x * 0.2f), Clamp(_vel.y, distance.y * 0.2f));
 	_vPoint += _vel;
 
-	//lpPointWithDepth.SetVanishingPoint(-_vPoint + Vec2(visibleSize.width / 2, visibleSize.height / 2));
 }
 
 void Player::ResetTexture()

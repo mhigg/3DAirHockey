@@ -100,7 +100,8 @@ bool GameScene::init()
 
 	// ｽﾃｰｼﾞの壁作成
 	// 奥行の最大値
-	float maxDepth = gameMng->GetMaxDepth();
+	int depthMax = gameMng->GetDepths().size() - 1;
+	float maxDepth = gameMng->GetDepths()[depthMax];
 	// 壁の最大数
 	int wallMaxNum = gameMng->GetDepths().size();
 	// 2次関数で配置するのでｸﾞﾗﾌの開き具合を作成

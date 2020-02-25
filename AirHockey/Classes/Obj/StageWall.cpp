@@ -109,7 +109,8 @@ StageWall::StageWall(float zDepth, int num, bool lineFlag)
 		// 最後の壁のPos
 		auto endWallPos = size / 2;
 		// 最後の壁の大きさ
-		auto endWallScale = lpPointWithDepth.GetScale(gameMng->GetMaxDepth() - 1);
+		int depthMax = gameMng->GetDepths().size() - 1;		/// 一番奥にある深度地の位置を取得している
+		auto endWallScale = lpPointWithDepth.GetScale(gameMng->GetDepths()[depthMax] - 1);
 		// 線の太さ(cocosは半径になる)
 		float radius = 1.0f;
 		// 色

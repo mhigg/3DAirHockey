@@ -38,7 +38,7 @@ bool TrajectControl::CalBezierPoint(const cocos2d::Vec2& vec)
 	/// ベジェ曲線の制御点を設定している
 	start	= Vec3(ball->GetLocalPos().x, ball->GetLocalPos().y, ball->GetLocalPos().z);
 	mid		= Vec3(ball->GetLocalPos().x + distance.x, ball->GetLocalPos().y + distance.y, gameMng->GetDepths()[gameMng->GetDepths().size() / 2]);
-	end		= Vec3(ball->GetLocalPos().x - distance.x, ball->GetLocalPos().y - distance.y, endDepth);				/// 仮の設定　◆
+	end		= Vec3(ball->GetLocalPos().x - distance.x, ball->GetLocalPos().y - distance.y, endDepth);				
 
 	for (int i = 0; i < _points.size(); ++i)
 	{

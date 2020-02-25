@@ -24,9 +24,11 @@ public:
 
 	static GameManager* createGameMng();
 
+	// 移動範囲の取得用
 	cocos2d::Vec2 GetMovingRange() const;
+
+	// 深度値の取得用
 	std::vector<float> GetDepths() const;
-	float GetMaxDepth(void) const;
 
 	// ホストで入ってきたらtrue, ゲストで入ってきたらfalseを渡してプレイヤーを生成
 	void GeneratePlayer(bool isHost, bool setFlag);
@@ -53,17 +55,18 @@ private:
 
 	void (GameManager::*_updater)();	// ゲーム中の状態管理用
 
+	std::array<int, 2> _scores;			// プレイヤーのスコア管理用
 	bool _isHost;
-	bool _isPlayer;			// プレイヤー確認用 true : player1, false : player2
+	bool _isPlayer;						// プレイヤー確認用 true : player1, false : player2
 
-	int _invCnt;
-	std::array<int, 2> _scores;		// プレイヤーのスコア管理用
+	int _invCnt;						// ゲームのインターバル用
 
-	const int _mimSecond;	// 60秒(固定値)
+
 	const cocos2d::Vec2 _moveRange;
-	const float _maxDepth;	// 奥行の最大値
-	const int _wallMax;		// 壁の最大数
-	const int _playerDepth;
+	const float _maxDepth;				// 奥行の最大値
+	const int	_mimSecond;				// 60秒(固定値)
+	const int	_wallMax;				// 壁の最大数
+	const int	_numSize;				// 数字のサイズ
 	
 };
 
