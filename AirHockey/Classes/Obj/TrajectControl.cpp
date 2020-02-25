@@ -67,7 +67,7 @@ void TrajectControl::ResetVel()
 	_speed	= _defSpeed;
 }
 
-void TrajectControl::SetVel(const cocos2d::Vec2 & vec)
+void TrajectControl::ChangeVel(const cocos2d::Vec2 & vec)
 {
 	/// 一定値以上のベクトル取得用
 	auto Clamp = [](const float& vec)
@@ -110,9 +110,9 @@ cocos2d::Vec3 TrajectControl::CalNormalVel()
 	cocos2d::Vec3 vel;
 
 	/// 速度の設定
-	vel.x = (!std::get<0>(isReverse) ? _vel.x : -_vel.x);
-	vel.y = (!std::get<1>(isReverse) ? _vel.y : -_vel.y);
-	vel.z = (!std::get<2>(isReverse) ? _vel.z : -_vel.z);
+	vel.x = (std::get<0>(isReverse) ? _vel.x : -_vel.x);
+	vel.y = (std::get<1>(isReverse) ? _vel.y : -_vel.y);
+	vel.z = (std::get<2>(isReverse) ? _vel.z : -_vel.z);
 
 	return vel;
 }

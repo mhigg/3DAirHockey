@@ -56,13 +56,6 @@ bool Ball::Init(void)
 	// 半径(画像の大きさ/2 - 余白)
 	_diameter = 150;
 
-	//// ﾎﾞｰﾙのｱﾆﾒｰｼｮﾝ登録
-	//lpAnimMng.AddAnimCache("ball", "ball", 18, 0.03f, true);
-
-	//// 初期ｱﾆﾒｰｼｮﾝ
-	//lpAnimMng.SetAnim(this, "ball", true);
-
-	// 球の描画
 	// 最大角度
 	int angle = 180;
 	// 分割数
@@ -90,8 +83,6 @@ bool Ball::Init(void)
 		this->addChild(cirlce);
 	}
 
-
-
 	// posとｽﾌﾟﾗｲﾄの大きさを一点透視図法に置き換える
 	// 一点透視図法にした時の座標のｾｯﾄ
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
@@ -115,27 +106,29 @@ bool Ball::Init(void)
 
 int Ball::IsHitAnchor(const Node* pl)
 {
-	Player* player = (Player*)pl;
-	int ancType = -1;							// 当たった場所の取得用
-	bool col = false;						// 当たったかの判定
-	Size size = Size(_diameter, _diameter);		// ボールの大きさ
-	Vec2 distance = { 500, 500 };					// 距離(初期値は大きめの値にしている)	
+	Player* player	= (Player*)pl;
+	Size size		= Size(_diameter, _diameter);		// ボールの大きさ
+	Vec2 distance	= { 500, 500 };						// ボールからプレイヤーまでの距離()
+	int ancType		= -1;								// 当たった場所の取得用
+	bool col		= false;							// 当たったかの判定
 
 	for (auto plAnchor : player->getChildren())
 	{
-		/// 当たり判定の取得
+		/// ボールとアンカーポイントが当たった時に入る処理
 		if (lpCollision.HitCollision2D(Vec2(_localPos.x, _localPos.y), size,
 			player->GetAnchorPos(plAnchor->getName()), plAnchor->getContentSize()))
 		{
 			col = true;
-			/// ボールに最も近いプレイヤーのアンカーポイントを求める処理
+			/// ボールからアンカーポイントの距離が、前回求めた距離より近い時に入る
 			if (abs(player->GetAnchorPos(plAnchor->getName()).x - _localPos.x) < distance.x
-				&&  abs(player->GetAnchorPos(plAnchor->getName()).y - _localPos.y) < distance.y)
+			&&  abs(player->GetAnchorPos(plAnchor->getName()).y - _localPos.y) < distance.y)
 			{
+				/// ボールからプレイヤー距離を更新している
 				distance = Vec2(abs(player->GetAnchorPos(plAnchor->getName()).x - _localPos.x),
-					abs(player->GetAnchorPos(plAnchor->getName()).y - _localPos.y));
+								abs(player->GetAnchorPos(plAnchor->getName()).y - _localPos.y));
 
-				ancType = plAnchor->getTag();
+				/// プレイヤーの当たった位置の取得
+				ancType  = plAnchor->getTag();
 			}
 		}
 	}
@@ -147,50 +140,64 @@ void Ball::ChangeIsReverse()
 	/// ゲームマネージャーの取得
 	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
 
-	/// プレイヤーの取得
+	/// プレイヤー情報の取得
 	Player* players[2];
 	for (int i = 0; i < sizeof(players) / sizeof(players[0]); ++i)
 	{
 		players[i] = (Player*)gameMng->getChildByName("player" + std::to_string(i + 1));
 	}
 
-	/// 反転フラグの更新(X)
+	/// 速度の反転用(X)
 	if (_localPos.x - _diameter / 2 < -gameMng->GetMovingRange().x)
 	{
 		_ballState = State::NORMAL;
+
+		/// 奥行の割合を求めている
 		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
-		std::get<0>(_isReverse) = false;
+
+		/// 右方向に反転させる
+		std::get<0>(_isReverse) = true;
 	}
 	else if (_localPos.x + _diameter / 2 > gameMng->GetMovingRange().x)
 	{
 		_ballState = State::NORMAL;
+
 		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
-		std::get<0>(_isReverse) = true;
+
+		/// 左方向に反転させる
+		std::get<0>(_isReverse) = false;
 	}
 	else {}
 
+	/// 速度の反転用(Y)
 	if (_localPos.y - _diameter / 2 < -gameMng->GetMovingRange().y)
 	{
 		_ballState = State::NORMAL;
+
 		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
-		std::get<1>(_isReverse) = false;
+
+		/// 上方向に反転させる
+		std::get<1>(_isReverse) = true;
 	}
 	else if (_localPos.y + _diameter / 2 > gameMng->GetMovingRange().y)
 	{
 		_ballState = State::NORMAL;
+
 		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("wallHit", rate);
-		std::get<1>(_isReverse) = true;
+
+		/// 下方向に反転させる
+		std::get<1>(_isReverse) = false;
 	}
 	else {}
 
-	/// とりあえず、仮でボール半径のサイズ分を許容した当たり判定を取っている
+	/// ボールがゴール地点を超えたかの判定を取っている
 	if (_localPos.z > players[1]->GetDepth() && !std::get<2>(_isReverse))
 	{
-		/// プレイヤーの当たったアンカーポイントを取得している
+		/// 当たったアンカーポイントの取得
 		int ancType = IsHitAnchor(players[1]);
 
 		/// ボールがプレイヤーに当たった時に入る
@@ -206,40 +213,39 @@ void Ball::ChangeIsReverse()
 			/// プレイヤーを動かしながらボールを当てた時、カーブを行う。
 			ChangeMoving(players[1]);
 
-			std::get<2>(_isReverse) = true;
+			/// 手前から奥の方向に反転する
+			std::get<2>(_isReverse) = false;
 		}
 		else
 		{
+			/// ゴール地点を超えていた時に入る
 			if (_localPos.z > players[1]->GetDepth() + _diameter / 2)
 			{
-				/// 1Pにスコアを与える
+				/// 1Pの得点を加算する
 				gameMng->TransitionScore(true);
 			}
 		}
 	}
 	else if (_localPos.z <= players[0]->GetDepth() && std::get<2>(_isReverse))
 	{
-		/// プレイヤーの当たったアンカーポイントを取得している
 		int ancType = IsHitAnchor(players[0]);
 
 		if (ancType >= 0)
 		{
-			/// ボールと当たった時の画像に変更する
 			players[0]->ChangeImage(ancType);
 
-			/// 残像の描画位置を変更する
 			auto ballAfter = gameMng->getChildByName("ballAfter");
 			ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
 
-			/// プレイヤーを動かしながらボールを当てた時、カーブを行う。
 			ChangeMoving(players[1]);
-			std::get<2>(_isReverse) = false;
+
+			/// 奥から手前の方向に反転する
+			std::get<2>(_isReverse) = true;
 		}
 		else
 		{
 			if (_localPos.z <= players[0]->GetDepth() - _diameter / 2)
 			{
-				/// 2Pにスコアを与える
 				gameMng->TransitionScore(false);
 			}
 		}
@@ -250,31 +256,38 @@ void Ball::ChangeIsReverse()
 
 void Ball::ChangeMoving(const Node* pl)
 {
-	/// ゲームマネージャーの取得
+	/// ゲームマネージャーの情報取得
 	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
 
 	/// プレイヤーの情報取得
 	auto player = (Player*)pl;
 
-	/// ボールの跳ね返す方向を切り替えるかの判定
+	/// ボールの状態を変える処理
 	if (abs(player->GetMoveDistance().x) >= 20 &&
 		abs(player->GetMoveDistance().y) >= 20)
 	{
+		/// 奥行の割合を求めている
 		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
 		CCAudioMng::GetInstance().CkPlaySE("curve", rate);
+
+		/// ボールの状態をカーブに変更する
 		_ballState = State::CURVE;
 		_traject->CalBezierPoint(player->GetMoveDistance().getNormalized());
 	}
 	else
 	{
-		_traject->SetVel(player->GetMoveDistance().getNormalized());
+		/// 奥行の割合を求めている
+		_traject->ChangeVel(player->GetMoveDistance().getNormalized());
 		float rate = 1.f - (_localPos.z / _wallDepth[gameMng->GetDepths().size() - 1]);
+
+		/// ボールの状態を通常に変更する
 		CCAudioMng::GetInstance().CkPlaySE("hit", rate);
 		_ballState = State::NORMAL;
 
+		/// 速度の設定をしている
 		Vec3 vel = _traject->GetVel(_ballState);
-		std::get<0>(_isReverse) = (vel.x >= 0.f ? false : true);
-		std::get<1>(_isReverse) = (vel.y >= 0.f ? false : true);
+		std::get<0>(_isReverse) = (vel.x >= 0.f ? true : false);
+		std::get<1>(_isReverse) = (vel.y >= 0.f ? true : false);
 	}
 }
 
@@ -285,8 +298,11 @@ void Ball::update(float dt)
 		/// ゲームシーン以外の時は処理に入らないようにする
 		return;
 	}
+	
+	/// ゲームマネージャーの情報取得
 	auto gameMng = (GameManager*)Director::getInstance()->getRunningScene()->getChildByName("GameLayer")->getChildByName("GameManager");
 
+	/// ゲーム中の時に入る
 	if (gameMng->IsGame())
 	{
 		/// ボールの移動方向を反転させる処理
@@ -326,6 +342,7 @@ void Ball::update(float dt)
 	}
 	else
 	{
+		/// ゲーム中でないとき、ボールの状態をリセットする
 		_ballState = State::NORMAL;
 		_traject->ResetVel();
 	}
@@ -333,8 +350,8 @@ void Ball::update(float dt)
 	// 一点透視図法にした時の座標のｾｯﾄ
 	setPosition(lpPointWithDepth.SetWorldPosition(_localPos));
 
-	float depth;
 	// 移動の更新
+	float depth;
 	if (lpAppInfo.isHost())
 	{
 		depth = _localPos.z;

@@ -14,7 +14,7 @@ public:
 	Ball();
 	~Ball();
 
-	cocos2d::Vec3 GetLocalPos(void) const;					// _localPosの取得
+	cocos2d::Vec3 GetLocalPos(void) const;					// ローカル座標取得用
 	void ResetPosition(const cocos2d::Vec3& pos);
 	std::tuple<bool, bool, bool> GetIsReverse() const;		// 反転用フラグの取得用
 private:
@@ -25,7 +25,7 @@ private:
 	void update(float dt) override;
 
 	std::unique_ptr<TrajectControl> _traject;		// ボールの軌道制御用
-	std::tuple<bool, bool, bool> _isReverse;		// 速度反転用のフラグ(0 : X, 1 : Y, 2 : Z)
+	std::tuple<bool, bool, bool> _isReverse;		// 速度の反転用(0 : X, 1 : Y, 2 : Z)
 	std::vector<float> _wallDepth;					// 壁の奥行
 
 	float _diameter;								// 球の直径
