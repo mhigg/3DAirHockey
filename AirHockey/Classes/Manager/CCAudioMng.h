@@ -13,7 +13,7 @@
 #include "ck/sound.h"
 
 
-/// Android Studioでの初期化(仮コメント)
+/// Android Studioでの初期化
 
 #if CK_PLATFORM_ANDROID
 #pragma execution_character_set("utf-8")
@@ -43,9 +43,9 @@ class CCAudioMng
 public:
 	static CCAudioMng& GetInstance()
 	{
+		/// シングルトン用のメモリが空の場合、生成を行う
 		if (s_Instance == nullptr)
 		{
-			/// メモリが生成されず、スタックオーバーフローが起こる
 			s_Instance.reset(new CCAudioMng);
 		}
 		return *s_Instance;
@@ -68,13 +68,20 @@ public:
 
 	// 効果音の再生
 	void CkPlaySE(const std::string& key);
+
+	// 効果音の再生(音量調整可能)
 	void CkPlaySE(const std::string& key, const float& rate);
+
+	// 効果音が再生されているかの判定用
 	bool IsPlaySE(const std::string& key);
 
 	// BGMの再生
 	void CkPlayBGM(const std::string& key);
+
+	// BGMの再生(音量調整可能)
 	void CkPlayBGM(const std::string& key, const float& rate);
 
+	// BGMの停止
 	void CkStopBGM(const std::string& key);
 private:
 	CCAudioMng();
