@@ -18,11 +18,10 @@ extern "C" {
 		{
 			float sensorX = 0;
 			sensorX = methodInfo.env->CallStaticFloatMethod(methodInfo.classID, methodInfo.methodID);
-
 			methodInfo.env->DeleteLocalRef(methodInfo.classID);
 			return sensorX;
 		}
-		return 1000;
+		return 0;
 	}
 	// Y軸センサー
 	JNIEXPORT float JNICALL getY()
@@ -35,7 +34,7 @@ extern "C" {
 			methodInfo.env->DeleteLocalRef(methodInfo.classID);
 			return sensorY;
 		}
-		return 1000;
+		return 0;
 	}
 	// Z軸センサー
 	JNIEXPORT float JNICALL getZ()
@@ -48,7 +47,7 @@ extern "C" {
 			methodInfo.env->DeleteLocalRef(methodInfo.classID);
 			return sensorZ;
 		}
-		return 1000;
+		return 0;
 	}
 #ifdef __cplusplus
 }
@@ -75,7 +74,9 @@ Oprt_Touch::Oprt_Touch(cocos2d::Node * node, bool net, bool isHost = false)
 	_active = true;
 	_touchPoint = cocos2d::Vec2((origin.x + visibleSize.width) / 2, origin.y + visibleSize.height / 2);
 	_point = cocos2d::Vec2((origin.x + visibleSize.width) / 2, origin.y + visibleSize.height / 2);
+	// センサーの値の初期化
 	_sensor = cocos2d::Vec3::ZERO;
+	// センサーの値の比率の初期化
 	_ratio = cocos2d::Vec3(0.5f, 0.5f, 0.5f);
 	// 初期化
 	auto listener = cocos2d::EventListenerTouchOneByOne::create();
@@ -119,6 +120,7 @@ void Oprt_Touch::Update(void)
 	// Gyro操作か、タッチ操作
 	if (_active == true)
 	{
+
 		// Sensorの取得
 		auto sensor = GetSensor() / 25;
 		auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
@@ -131,6 +133,7 @@ void Oprt_Touch::Update(void)
 		{
 			_ratio.y += sensor.y;
 		}
+
 		if (_ratio.x > 1)
 		{
 			_ratio.x = 1;
