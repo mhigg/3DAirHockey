@@ -148,7 +148,7 @@ void Ball::ChangeIsReverse()
 	}
 
 	/// 速度の反転用(X)
-	if (_localPos.x - _diameter / 2 < -gameMng->GetMovingRange().x)
+	if (_localPos.x - _diameter / 2 < -gameMng->GetMovingRange().x && !std::get<0>(_isReverse))
 	{
 		_ballState = State::NORMAL;
 
@@ -159,7 +159,7 @@ void Ball::ChangeIsReverse()
 		/// 右方向に反転させる
 		std::get<0>(_isReverse) = true;
 	}
-	else if (_localPos.x + _diameter / 2 > gameMng->GetMovingRange().x)
+	else if (_localPos.x + _diameter / 2 > gameMng->GetMovingRange().x && std::get<0>(_isReverse))
 	{
 		_ballState = State::NORMAL;
 
@@ -172,7 +172,7 @@ void Ball::ChangeIsReverse()
 	else {}
 
 	/// 速度の反転用(Y)
-	if (_localPos.y - _diameter / 2 < -gameMng->GetMovingRange().y)
+	if (_localPos.y - _diameter / 2 < -gameMng->GetMovingRange().y && !std::get<1>(_isReverse))
 	{
 		_ballState = State::NORMAL;
 
@@ -182,7 +182,7 @@ void Ball::ChangeIsReverse()
 		/// 上方向に反転させる
 		std::get<1>(_isReverse) = true;
 	}
-	else if (_localPos.y + _diameter / 2 > gameMng->GetMovingRange().y)
+	else if (_localPos.y + _diameter / 2 > gameMng->GetMovingRange().y && std::get<1>(_isReverse))
 	{
 		_ballState = State::NORMAL;
 
@@ -195,7 +195,7 @@ void Ball::ChangeIsReverse()
 	else {}
 
 	/// ボールがゴール地点を超えたかの判定を取っている
-	if (_localPos.z > players[1]->GetDepth() && !std::get<2>(_isReverse))
+	if (_localPos.z > players[1]->GetDepth() && std::get<2>(_isReverse))
 	{
 		/// 当たったアンカーポイントの取得
 		int ancType = IsHitAnchor(players[1]);
@@ -226,7 +226,7 @@ void Ball::ChangeIsReverse()
 			}
 		}
 	}
-	else if (_localPos.z <= players[0]->GetDepth() && std::get<2>(_isReverse))
+	else if (_localPos.z <= players[0]->GetDepth() && !std::get<2>(_isReverse))
 	{
 		int ancType = IsHitAnchor(players[0]);
 
@@ -237,7 +237,7 @@ void Ball::ChangeIsReverse()
 			auto ballAfter = gameMng->getChildByName("ballAfter");
 			ballAfter->setLocalZOrder(static_cast<int>(SpriteNum::BALL));
 
-			ChangeMoving(players[1]);
+			ChangeMoving(players[0]);
 
 			/// 奥から手前の方向に反転する
 			std::get<2>(_isReverse) = true;
