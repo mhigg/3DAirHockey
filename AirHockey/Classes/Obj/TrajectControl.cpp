@@ -170,6 +170,6 @@ cocos2d::Vec3 TrajectControl::CalCurveVel()
 	}
 
 	/// 一定の深度値を超えた時、直線方向へ飛ばしている
-	float velZ = (!std::get<2>(ball->GetIsReverse()) ? _speed.z : -_speed.z);
+	float velZ = (std::get<2>(ball->GetIsReverse()) ? _speed.z : -_speed.z);
 	return cocos2d::Vec3(0, 0, velZ);
 }

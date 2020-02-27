@@ -32,7 +32,7 @@ void BallAfter::Update(const cocos2d::Vec3 & lPos)
 		/// 更新した座標を使って、残像の位置とサイズを更新する
 		for (int i = 0; i < _images.size(); ++i)
 		{
-			///// 位置調整のために、画面サイズの半分を減算している(直値なので、修正を必ず行う) ◆
+			///// 位置調整のために、画面サイズの半分を減算している
 			_images[i]->setPosition(lpPointWithDepth.SetWorldPosition(_points[i]) - cocos2d::Vec2(1024 / 2, 576 / 2));
 			_images[i]->setScale(lpPointWithDepth.GetScale(_points[i].z));
 		}
