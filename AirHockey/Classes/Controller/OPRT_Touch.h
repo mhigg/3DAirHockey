@@ -28,9 +28,11 @@ public:
 	cocos2d::Vec2 GetPoint(void) const;
 	void ResetSensor(void);
 	void Update(void);		// 状態更新
+	// Android用、Gyroの有効設定関数
 	void GyroActive(bool setFlag);
 
 private:
+	// センサーを取得する
 	cocos2d::Vec3 GetSensor(void);
 	// タッチ座標
 	cocos2d::Vec2 _touchPoint;
@@ -38,9 +40,8 @@ private:
 	cocos2d::Vec3 _sensor;
 	// センサーの割合
 	cocos2d::Vec3 _ratio;
-	cocos2d::Vec2 _point;
 
-	// Gyroの状態フラグ
+	// Gyroの状態フラグ(true:有効, false:無効)
 	bool _active;
 	// ネットワーク
 	void Run(void);	// 通信の接続

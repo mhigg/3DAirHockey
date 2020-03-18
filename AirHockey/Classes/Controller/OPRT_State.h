@@ -57,5 +57,5 @@ private:
 	
 protected:
 	KeyMap state;	// ｷｰと入力状態を入れるMAP
-	cocos2d::Vec2 _point;
+	cocos2d::Vec2 _point;	// マレットの座標
 };
